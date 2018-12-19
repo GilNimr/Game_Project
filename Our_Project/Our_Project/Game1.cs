@@ -113,14 +113,25 @@ namespace Our_Project
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             pawn.Update();
+
+
             base.Update(gameTime);
         }
+
+        bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
+        {
+            return ((mouseX >= (positionOfNeighbor.X) && (mouseX <= (positionOfNeighbor.X + t.Rec.Width))) &&
+                        ((mouseY >= positionOfNeighbor.Y) && (mouseY <= positionOfNeighbor.Y + t.Rec.Height))); 
+        }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -136,6 +147,7 @@ namespace Our_Project
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
                     tile_matrix[i][j].Draw(spriteBatch, Color.White);
+                    
                 }
             }
 
