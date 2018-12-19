@@ -18,14 +18,14 @@ namespace Our_Project
 
         private Pawn pawn;
 
-       public int gridSize = 14;
-       public int tileSize = 40;
+        public int gridSize = 14;
+        public int tileSize = 40;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
         }
@@ -60,7 +60,7 @@ namespace Our_Project
 
             //creating a jagged 2d array to store tiles
             tile_matrix = new Tile[gridSize][];
-            for(int i = 0; i < gridSize; i++)
+            for (int i = 0; i < gridSize; i++)
             {
                 tile_matrix[i] = new Tile[gridSize];
             }
@@ -70,27 +70,28 @@ namespace Our_Project
                 for (int j = 0; j < gridSize; ++j)
                 {
                     Rectangle rec = new Rectangle(120 + i * tileSize, 20 + j * tileSize, tileSize, tileSize);
-                    tile_matrix[i][j] = new Tile(Tile_texture,rec);
+                    tile_matrix[i][j] = new Tile(Tile_texture, rec);
                 }
             }
-
+            
             //initializing Tiles neighbors.
             for (int i = 0; i < tile_matrix.Length; ++i)
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
+                    
                     //right
                     if (i < tile_matrix.Length - 1)
-                        tile_matrix[i][j].right = tile_matrix[i+1][j]; // x axis grow up
+                        tile_matrix[i][j].right = tile_matrix[i + 1][j]; // x axis grow up
                     //left
                     if (i >= 1)
-                        tile_matrix[i][j].left = tile_matrix[i-1][j]; // x axis go down
+                        tile_matrix[i][j].left = tile_matrix[i - 1][j]; // x axis go down
                     //down
                     if (j < tile_matrix[i].Length - 1)
-                        tile_matrix[i][j].down = tile_matrix[i][j+1]; // y axis grow up
+                        tile_matrix[i][j].down = tile_matrix[i][j + 1]; // y axis grow up
                     //up
                     if (j >= 1)
-                        tile_matrix[i][j].up = tile_matrix[i][j-1]; // y axis go down
+                        tile_matrix[i][j].up = tile_matrix[i][j - 1]; // y axis go down
                 }
             }
 
@@ -117,8 +118,7 @@ namespace Our_Project
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            
-
+            pawn.Update();
             base.Update(gameTime);
         }
 
@@ -135,7 +135,7 @@ namespace Our_Project
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
-                    tile_matrix[i][j].Draw(spriteBatch,Color.White);
+                    tile_matrix[i][j].Draw(spriteBatch, Color.White);
                 }
             }
 
