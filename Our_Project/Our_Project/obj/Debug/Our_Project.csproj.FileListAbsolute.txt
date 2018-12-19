@@ -19,3 +19,24 @@ C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.cspro
 C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.exe
 C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.pdb
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Pawns\death.xnb
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x64\soft_oal.dll
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x86\libSDL2-2.0.so.0
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x64\libSDL2-2.0.so.0
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x86\libopenal.so.1
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x64\libopenal.so.1
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Tiles\Gray_Tile.xnb
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Pawns\death.xnb
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Our_Project.exe
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Our_Project.pdb
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\obj\Debug\Our_Project.csprojAssemblyReference.cache
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\obj\Debug\Our_Project.csproj.CoreCompileInputs.cache
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\obj\Debug\Our_Project.csproj.CopyComplete
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\obj\Debug\Our_Project.exe
+C:\Users\shach\OneDrive - Sapir College\פיתוח משחקי וידאו\פרויקט\Game_Project\Our_Project\Our_Project\obj\Debug\Our_Project.pdb

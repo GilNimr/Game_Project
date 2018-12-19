@@ -80,17 +80,17 @@ namespace Our_Project
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
                     //right
-                    if (j< tile_matrix[i].Length-1)
-                        tile_matrix[i][j].right = tile_matrix[i][j + 1];
+                    if (i < tile_matrix.Length - 1)
+                        tile_matrix[i][j].right = tile_matrix[i+1][j]; // x axis grow up
                     //left
-                    if (j>=1)
-                        tile_matrix[i][j].left = tile_matrix[i][j - 1];
+                    if (i >= 1)
+                        tile_matrix[i][j].left = tile_matrix[i-1][j]; // x axis go down
                     //down
-                    if (i<tile_matrix.Length-1)
-                        tile_matrix[i][j].down = tile_matrix[i+1][j];
+                    if (j < tile_matrix[i].Length - 1)
+                        tile_matrix[i][j].down = tile_matrix[i][j+1]; // y axis grow up
                     //up
-                    if (i>=1)
-                        tile_matrix[i][j].up = tile_matrix[i-1][j];
+                    if (j >= 1)
+                        tile_matrix[i][j].up = tile_matrix[i][j-1]; // y axis go down
                 }
             }
 

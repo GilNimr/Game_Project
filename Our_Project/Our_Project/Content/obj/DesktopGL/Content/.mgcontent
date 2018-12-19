@@ -4,8 +4,8 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Pawns/death.png</File>
-    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Tiles/Gray_Tile.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/פרויקט/Game_Project/Our_Project/Our_Project/Content/Pawns/death.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/פרויקט/Game_Project/Our_Project/Our_Project/Content/Tiles/Gray_Tile.png</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

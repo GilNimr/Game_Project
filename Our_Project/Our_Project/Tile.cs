@@ -16,6 +16,7 @@ namespace Our_Project
         public Tile right;
         public Tile down;
         public Tile up;
+
         enum occupied
         {
             no,yes_by_me,yes_by_enemy
