@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XELibrary;
 
 namespace Our_Project
 {
@@ -10,16 +11,25 @@ namespace Our_Project
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
-        private Texture2D Tile_texture;
-        private Texture2D Pawn_texture;
-        private Tile[][] tile_matrix;
+        CelAnimationManager celAnimationManager;
+       // ScrollingBackgroundManager scrollingBackgroundManager;
+        InputHandler inputHandler;
+        SoundManager soundManager;
+        GameStateManager stateManager;
 
-        private Pawn pawn;
+        public ITitleIntroState TitleIntroState;
+        public IStartMenuState StartMenuState;
+        public IPlayingState PlayingState;
+        
+        public IPausedState PausedState;
+        public IOptionsMenuState OptionsMenuState;
 
-       public int gridSize = 14;
-       public int tileSize = 40;
+        public bool EnableSoundFx { get; set; }
+        public bool EnableMusic { get; set; }
+
+        
 
         public Game1()
         {
@@ -28,6 +38,34 @@ namespace Our_Project
 
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
+
+            inputHandler = new InputHandler(this);
+            Components.Add(inputHandler);
+
+            celAnimationManager = new CelAnimationManager(this, "Textures\\");
+            Components.Add(celAnimationManager);
+
+            soundManager = new SoundManager(this);
+            Components.Add(soundManager);
+
+            stateManager = new GameStateManager(this);
+            Components.Add(stateManager);
+
+            TitleIntroState = new TitleIntroState(this);
+            StartMenuState = new StartMenuState(this);
+            PlayingState = new PlayingState(this);
+            PausedState = new PausedState(this);
+            OptionsMenuState = new OptionsMenuState(this);
+
+            EnableSoundFx = true;
+            EnableMusic = true;
+        }
+
+        protected override void BeginRun()
+        {
+            stateManager.ChangeState(TitleIntroState.Value);
+
+            base.BeginRun();
         }
 
         /// <summary>
@@ -52,49 +90,13 @@ namespace Our_Project
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //Gray tile texture.
-            Tile_texture = Content.Load<Texture2D>(@"Tiles\Gray_Tile");
+            // Load sounds
+            string musicPath = @"Sounds\Music";
+            string fxPath = @"Sounds\SoundFX\";
 
-            //pawn texture.
-            Pawn_texture = Content.Load<Texture2D>(@"Pawns\death");
+            soundManager.LoadContent(musicPath, fxPath);
 
-            //creating a jagged 2d array to store tiles
-            tile_matrix = new Tile[gridSize][];
-            for(int i = 0; i < gridSize; i++)
-            {
-                tile_matrix[i] = new Tile[gridSize];
-            }
-
-            for (int i = 0; i < gridSize; ++i)
-            {
-                for (int j = 0; j < gridSize; ++j)
-                {
-                    Rectangle rec = new Rectangle(120 + i * tileSize, 20 + j * tileSize, tileSize, tileSize);
-                    tile_matrix[i][j] = new Tile(Tile_texture,rec);
-                }
-            }
-
-            //initializing Tiles neighbors.
-            for (int i = 0; i < tile_matrix.Length; ++i)
-            {
-                for (int j = 0; j < tile_matrix[i].Length; ++j)
-                {
-                    //right
-                    if (j< tile_matrix[i].Length-1)
-                        tile_matrix[i][j].right = tile_matrix[i][j + 1];
-                    //left
-                    if (j>=1)
-                        tile_matrix[i][j].left = tile_matrix[i][j - 1];
-                    //down
-                    if (i<tile_matrix.Length-1)
-                        tile_matrix[i][j].down = tile_matrix[i+1][j];
-                    //up
-                    if (i>=1)
-                        tile_matrix[i][j].up = tile_matrix[i-1][j];
-                }
-            }
-
-            pawn = new Pawn(Pawn_texture, tile_matrix[7][7]);
+          
 
         }
 
@@ -131,18 +133,12 @@ namespace Our_Project
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            for (int i = 0; i < tile_matrix.Length; ++i)
-            {
-                for (int j = 0; j < tile_matrix[i].Length; ++j)
-                {
-                    tile_matrix[i][j].Draw(spriteBatch,Color.White);
-                }
-            }
+            base.Draw(gameTime);
 
-            pawn.Draw(spriteBatch);
+           
             spriteBatch.End();
 
-            base.Draw(gameTime);
+            
         }
     }
 }
