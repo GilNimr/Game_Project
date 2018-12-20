@@ -16,12 +16,13 @@ namespace Our_Project
         public Tile right;
         public Tile down;
         public Tile up;
+
         enum occupied
         {
-            no,yes_by_me,yes_by_enemy
+            no, yes_by_me, yes_by_enemy
         }
 
-       public Tile(Texture2D _texture, Rectangle rec)
+        public Tile(Texture2D _texture, Rectangle rec)
         {
             texture = _texture;
             Rec = rec;

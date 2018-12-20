@@ -26,16 +26,18 @@ namespace Our_Project
         public IPausedState PausedState;
         public IOptionsMenuState OptionsMenuState;
 
+
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
 
         
 
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
+            this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
 
@@ -90,6 +92,7 @@ namespace Our_Project
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
             // Load sounds
             string musicPath = @"Sounds\Music";
             string fxPath = @"Sounds\SoundFX\";
@@ -97,6 +100,7 @@ namespace Our_Project
             soundManager.LoadContent(musicPath, fxPath);
 
           
+
 
         }
 
@@ -114,15 +118,21 @@ namespace Our_Project
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
         protected override void Update(GameTime gameTime)
         {
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             
 
+
             base.Update(gameTime);
         }
+
+       
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -134,6 +144,7 @@ namespace Our_Project
             spriteBatch.Begin();
 
             base.Draw(gameTime);
+
 
            
             spriteBatch.End();

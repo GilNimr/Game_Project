@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Pawns/death.png</SourceFile>
-  <SourceTime>2018-11-16T15:03:36.9639276+02:00</SourceTime>
-  <DestFile>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/bin/DesktopGL/Content/Pawns/death.xnb</DestFile>
-  <DestTime>2018-12-15T01:25:21.5744954+02:00</DestTime>
+  <SourceFile>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/פרויקט/Game_Project/Our_Project/Our_Project/Content/Pawns/death.png</SourceFile>
+  <SourceTime>2018-12-19T10:20:33.1753913+02:00</SourceTime>
+  <DestFile>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/פרויקט/Game_Project/Our_Project/Our_Project/Content/bin/DesktopGL/Content/Pawns/death.xnb</DestFile>
+  <DestTime>2018-12-19T10:25:43.7628438+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2018-09-24T00:55:52+03:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -28,10 +28,10 @@ namespace Our_Project
         protected override void LoadContent()
         {
             //Gray tile texture.
-            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
+            Tile_texture = Content.Load<Texture2D>(@"Tiles\Gray_Tile");
 
             //pawn texture.
-            Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
+            Pawn_texture = Content.Load<Texture2D>(@"Pawns\death");
 
             //creating a jagged 2d array to store tiles
             tile_matrix = new Tile[gridSize][];
@@ -54,24 +54,35 @@ namespace Our_Project
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
+
                     //right
-                    if (j < tile_matrix[i].Length - 1)
-                        tile_matrix[i][j].right = tile_matrix[i][j + 1];
-                    //left
-                    if (j >= 1)
-                        tile_matrix[i][j].left = tile_matrix[i][j - 1];
-                    //down
                     if (i < tile_matrix.Length - 1)
-                        tile_matrix[i][j].down = tile_matrix[i + 1][j];
-                    //up
+                        tile_matrix[i][j].right = tile_matrix[i + 1][j]; // x axis grow up
+                    //left
                     if (i >= 1)
-                        tile_matrix[i][j].up = tile_matrix[i - 1][j];
+                        tile_matrix[i][j].left = tile_matrix[i - 1][j]; // x axis go down
+                    //down
+                    if (j < tile_matrix[i].Length - 1)
+                        tile_matrix[i][j].down = tile_matrix[i][j + 1]; // y axis grow up
+                    //up
+                    if (j >= 1)
+                        tile_matrix[i][j].up = tile_matrix[i][j - 1]; // y axis go down
                 }
             }
 
             pawn = new Pawn(Pawn_texture, tile_matrix[7][7]);
         }
 
+        bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
+        {
+            return ((mouseX >= (positionOfNeighbor.X) && (mouseX <= (positionOfNeighbor.X + t.Rec.Width))) &&
+                        ((mouseY >= positionOfNeighbor.Y) && (mouseY <= positionOfNeighbor.Y + t.Rec.Height)));
+        }
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+            pawn.Update();
+        }
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
