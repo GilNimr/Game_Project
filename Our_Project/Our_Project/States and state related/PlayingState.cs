@@ -44,7 +44,7 @@ namespace Our_Project
             {
                 for (int j = 0; j < gridSize; ++j)
                 {
-                    Rectangle rec = new Rectangle(120 + i * tileSize, 20 + j * tileSize, tileSize, tileSize);
+                    Rectangle rec = new Rectangle(i * tileSize-j*tileSize, (j*tileSize+i*tileSize)/2, tileSize, tileSize);
                     tile_matrix[i][j] = new Tile(Tile_texture, rec);
                 }
             }

@@ -11,6 +11,8 @@ namespace Our_Project
         
         private SpriteFont font;
         private int selected;
+
+        public Button Host_Button;
         private string[] entries = 
         {
             "Host",
@@ -22,7 +24,7 @@ namespace Our_Project
         public StartMenuState(Game game)
             : base(game)
         {
-            game.Services.AddService(typeof(IStartMenuState), this);
+            //game.Services.AddService(typeof(IStartMenuState), this);
 
         }
 
@@ -36,43 +38,44 @@ namespace Our_Project
                 StateManager.ChangeState(OurGame.TitleIntroState.Value);
             }
 
-            if (Input.KeyboardHandler.WasKeyPressed(Keys.Up))
-                selected--;
-            if (Input.KeyboardHandler.WasKeyPressed(Keys.Down))
-                selected++;
 
-            if (selected < 0)
-                selected = entries.Length - 1;
-            if (selected > entries.Length - 1)
-                selected = 0;
-
-            if (Input.KeyboardHandler.WasKeyPressed(Keys.Enter))
-            {
-                switch (selected)
-                {
-                    case 0:
-                        // Got back here from playing the game. So just pop myself off the stack
-                        if (StateManager.ContainsState(OurGame.PlayingState.Value))
-                            StateManager.PopState();
-                        else // Starting a new game.
-                            StateManager.ChangeState(OurGame.PlayingState.Value);
-                        break;
-                    case 1:
-                        StateManager.PushState(OurGame.OptionsMenuState.Value);
-                        break;
-                    case 2:
-                        StateManager.ChangeState(OurGame.TitleIntroState.Value);
-                        break;
-                }
-            }
+            //Host_Button.Update(gameTime);
+           
 
             base.Update(gameTime);
+        }
+
+        private void HostButtonClick(object sender, System.EventArgs e)
+        {
+            
+               /* case 0:
+                    // Got back here from playing the game. So just pop myself off the stack
+                    if (StateManager.ContainsState(OurGame.PlayingState.Value))
+                        StateManager.PopState();
+                    else // Starting a new game. */
+                        StateManager.ChangeState(OurGame.PlayingState.Value);
+                /*    break;
+                case 1:
+                    StateManager.PushState(OurGame.OptionsMenuState.Value);
+                    break;
+                case 2:
+                    StateManager.ChangeState(OurGame.TitleIntroState.Value);
+                    break;*/
+            
         }
 
         protected override void LoadContent()
         {
             texture = Content.Load<Texture2D>(@"Textures\startMenu");
             font = Content.Load<SpriteFont>(@"Fonts\Arial");
+
+            Host_Button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(350, 200),
+                Text = "Random",
+            };
+            Host_Button.Click += HostButtonClick;
+            Game.Components.Add(Host_Button);
         }
 
         public override void Draw(GameTime gameTime)
@@ -84,34 +87,9 @@ namespace Our_Project
             Vector2 currPos = new Vector2(100, pos.Y / 2);
             
             OurGame.spriteBatch.Draw(texture, pos, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0.0f, origin, new Vector2(1.0f, 1.0f), SpriteEffects.None, 0.0f);
-            for (int i = 0; i < entries.Length; i++)
             {
-                Color color;
-                float scale;
 
-                if (i == selected)
-                {
-                    double time = gameTime.TotalGameTime.TotalSeconds;
-                    float pulsate = (float)Math.Sin(time * 12) + 1;
-                    color = Color.White;
-                    scale = 1 + pulsate * 0.05f;
-                }
-                else
-                {
-                    color = Color.Blue;
-                    scale = 1;
-                }
-
-                Vector2 fontOrigin = new Vector2(0, font.LineSpacing / 2);
-                Vector2 shadowPos = new Vector2(currPos.X - 2, currPos.Y - 2);
-
-                // Draw Shadow
-                OurGame.spriteBatch.DrawString(font, entries[i], shadowPos, Color.Black, 0.0f, fontOrigin, scale, SpriteEffects.None, 0);
-
-                // Draw Text
-                OurGame.spriteBatch.DrawString(font, entries[i], currPos, color, 0.0f, fontOrigin, scale, SpriteEffects.None, 0);
-
-                currPos.Y += font.LineSpacing;
+                Host_Button.Draw(gameTime,OurGame.spriteBatch);
             }
 
 

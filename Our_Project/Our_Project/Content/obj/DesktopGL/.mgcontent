@@ -10,6 +10,7 @@
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Sounds/Music/titleSound.wav</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Sounds/SoundFX/Jump.wav</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/cave_walk.png</File>
+    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/Controls/Button.png</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/optionsMenu.png</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/pause.png</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/Pawns/death.png</File>
@@ -20,6 +21,7 @@
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
