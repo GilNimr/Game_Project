@@ -36,10 +36,13 @@ namespace Our_Project
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+           
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 600;
             graphics.PreferredBackBufferWidth = 800;
+
+           // graphics.IsFullScreen = true;
 
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);
@@ -79,7 +82,7 @@ namespace Our_Project
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            
             base.Initialize();
         }
 
@@ -150,6 +153,38 @@ namespace Our_Project
             spriteBatch.End();
 
             
+        }
+
+        //translates 2d world coordinates to isometric screen coordinates.
+        public static Vector2 TwoD2isometrix(int x, int y)
+        {
+            int tmpx = x - y;
+            int tmpy = (x + y) / 2;
+            return new Vector2(tmpx, tmpy);
+        }
+
+        //translates 2d world coordinates to isometric screen coordinates.
+        public static Point TwoD2isometrix(Point xy)
+        {
+            int tmpx = xy.X - xy.Y;
+            int tmpy = (xy.X + xy.Y) / 2;
+            return new Point(tmpx, tmpy);
+        }
+
+        //translates isometric screen coordiantes to 2d world coordinates
+        public static Vector2 Isometrix2twoD(int x, int y)
+        {
+            int tmpx = (2*y+x)/2;
+            int tmpy = (2 * y - x) / 2;
+            return new Vector2(tmpx, tmpy);
+        }
+
+        //translates isometric screen coordiantes to 2d world coordinates
+        public static Point Isometrix2twoD(Point xy)
+        {
+            int tmpx = (2 * xy.Y + xy.X) / 2;
+            int tmpy = (2 * xy.Y - xy.X) / 2;
+            return new Point(tmpx, tmpy);
         }
     }
 }

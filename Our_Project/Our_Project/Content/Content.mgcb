@@ -27,12 +27,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/ArialSmall.spritefont
 
-#begin Sounds/Music/Buoyant Iceberg.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/Music/Buoyant Iceberg.mp3
-
 #begin Sounds/Music/titleSound.wav
 /importer:WavImporter
 /processor:SongProcessor
@@ -141,7 +135,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/startMenu.png
 
-#begin Textures/Tiles/Gray_Tile.png
+#begin Textures/Tiles/Gray_Tile - Copy.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -151,7 +145,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Tiles/Gray_Tile.png
+/build:Textures/Tiles/Gray_Tile - Copy.png
+
+#begin Textures/Tiles/Gray_Tile(2).png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/Gray_Tile(2).png
 
 #begin Textures/titleIntro.jpg
 /importer:TextureImporter

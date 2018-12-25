@@ -12,13 +12,14 @@ namespace Our_Project
     public sealed class PlayingState : BaseGameState, IPlayingState
     {
         private Texture2D Tile_texture;
+        private Texture2D cartasian_texture;
         private Texture2D Pawn_texture;
         private Tile[][] tile_matrix;
 
         private Pawn pawn;
 
         public int gridSize = 14;
-        public int tileSize = 40;
+        public static int tileSize = 30;
 
         public PlayingState(Game game)
            : base(game)
@@ -28,10 +29,11 @@ namespace Our_Project
         protected override void LoadContent()
         {
             //Gray tile texture.
-            Tile_texture = Content.Load<Texture2D>(@"Tiles\Gray_Tile");
+            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
+           cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
 
             //pawn texture.
-            Pawn_texture = Content.Load<Texture2D>(@"Pawns\death");
+            Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
 
             //creating a jagged 2d array to store tiles
             tile_matrix = new Tile[gridSize][];
@@ -44,8 +46,13 @@ namespace Our_Project
             {
                 for (int j = 0; j < gridSize; ++j)
                 {
-                    Rectangle rec = new Rectangle(i * tileSize-j*tileSize, (j*tileSize+i*tileSize)/2, tileSize, tileSize);
-                    tile_matrix[i][j] = new Tile(Tile_texture, rec);
+                    int x = i * tileSize;
+                    int y = j * tileSize;
+
+                    
+
+                    Rectangle rec = new Rectangle(100+x, y, tileSize , tileSize);
+                    tile_matrix[i][j] = new Tile(Tile_texture,cartasian_texture, rec);
                 }
             }
 
@@ -72,6 +79,8 @@ namespace Our_Project
 
             pawn = new Pawn(Pawn_texture, tile_matrix[7][7]);
         }
+
+       
 
         bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
         {

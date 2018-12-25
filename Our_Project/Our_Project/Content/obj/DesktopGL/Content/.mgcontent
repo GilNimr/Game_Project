@@ -6,7 +6,6 @@
   <SourceFiles>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Fonts/Arial.spritefont</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Fonts/ArialSmall.spritefont</File>
-    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Sounds/Music/Buoyant Iceberg.mp3</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Sounds/Music/titleSound.wav</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Sounds/SoundFX/Jump.wav</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/cave_walk.png</File>
@@ -17,7 +16,8 @@
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/snow_bg.png</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/sonic.png</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/startMenu.png</File>
-    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile.png</File>
+    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile - Copy.png</File>
+    <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile(2).png</File>
     <File>C:/Users/slonim/source/repos/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>

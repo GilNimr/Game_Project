@@ -37,8 +37,23 @@ C:\Final_Project\Our_Project\Our_Project\obj\Debug\Our_Project.csproj.CoreCompil
 C:\Final_Project\Our_Project\Our_Project\obj\Debug\Our_Project.csproj.CopyComplete
 C:\Final_Project\Our_Project\Our_Project\obj\Debug\Our_Project.exe
 C:\Final_Project\Our_Project\Our_Project\obj\Debug\Our_Project.pdb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Pawns\death.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Controls\Button.xnb
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Tiles\Gray_Tile.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\SoundFX\Jump.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\cave_walk.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\optionsMenu.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\pause.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\snow_bg.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\sonic.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\startMenu.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\titleIntro.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\Music\titleSound.ogg
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\Music\titleSound.xnb
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Pawns\death.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Fonts\Arial.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Fonts\ArialSmall.xnb
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x86\SDL2.dll
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x64\SDL2.dll
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x86\soft_oal.dll
@@ -49,23 +64,6 @@ C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\x64\libopenal.so.1
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\libSDL2-2.0.0.dylib
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\libopenal.1.dylib
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll.config
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Tiles\Gray_Tile.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Pawns\death.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\cave_walk.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\optionsMenu.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\pause.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\snow_bg.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\sonic.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\startMenu.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\titleIntro.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\SoundFX\Jump.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\Music\Buoyant Iceberg.ogg
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\Music\Buoyant Iceberg.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\Music\titleSound.ogg
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Sounds\Music\titleSound.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Fonts\Arial.xnb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Fonts\ArialSmall.xnb
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Our_Project.exe
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Our_Project.pdb
 C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\MonoGame.Framework.dll
@@ -76,4 +74,5 @@ C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.cspro
 C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.csproj.CopyComplete
 C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.exe
 C:\Users\slonim\source\repos\Our_Project\Our_Project\obj\Debug\Our_Project.pdb
-C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Controls\Button.xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Tiles\Gray_Tile(2).xnb
+C:\Users\slonim\source\repos\Our_Project\Our_Project\bin\DesktopGL\AnyCPU\Debug\Content\Textures\Tiles\Gray_Tile - Copy.xnb
