@@ -11,14 +11,14 @@ namespace Our_Project
 {
     class Pawn
     {
-        public Tile current_tile;
-        private Texture2D texture;
-        public bool isMouseClicked;
+        public Tile current_tile;  // the square that now the pawn in it
+        private Tile move;          // if we will move this will get the details of new tile
+        private Texture2D texture;  // pawn texture
+        public bool isMouseClicked; // if mouse clicked on pawn 
+        private bool isMove;           // if pawn need to move
         public MouseState oldState; // mouse input old position 
-        public Vector2 position;
-        private bool isMove;
-        private Tile move;
-
+        public Vector2 position;    
+        
         public enum team
         {
             my_team, enemy_team
@@ -27,29 +27,28 @@ namespace Our_Project
         public Pawn(Texture2D _texture, Tile _tile)
         {
             texture = _texture;
-            
-
             current_tile = _tile;
             isMouseClicked = false;
-            position = new Vector2(_tile.Rec.X, _tile.Rec.Y);
             isMove = false;
+            position = new Vector2(_tile.Rec.X, _tile.Rec.Y);
         }
 
         public void Update()
         {
             MouseState mouseState = Mouse.GetState(); // previous mouse position
             MouseState newState = Mouse.GetState();     // current mouse position  
-            Rectangle mouseRec = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
+            Rectangle mouseRec = new Rectangle(mouseState.X, mouseState.Y, 1, 1); //rectangle of mouse
+                // position of mouse:
             int mouseX = mouseState.X;
             int mouseY = mouseState.Y;      
 
+                    // if previous left button of mouse was unclicked, and now clicked on current pawn:
             if ( (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released) &&
-                        (mouseRec.Intersects(current_tile.Rec)))
-                                                                   
+                        (mouseRec.Intersects(current_tile.Rec)))                                                          
             {
-                if (!isMouseClicked)
+                if (!isMouseClicked) // if we want to move
                     isMouseClicked = true;
-                else
+                else                 // if we want cancel moving
                     isMouseClicked = false;
             }
 
@@ -57,14 +56,15 @@ namespace Our_Project
 
             if (isMouseClicked)
             {
-                //MouseState ms = Mouse.GetState();
+                // if we clicked, we will get the newe details of mouse position
                 newState = Mouse.GetState();
                 mouseRec.X = mouseState.X;
                 mouseRec.Y = mouseState.Y;
 
+                        // if there is another click, that means we want to move
                 if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Pressed)
                 {
-
+                    // checking the move direction:
                     if   ((current_tile.left != null) && (mouseRec.Intersects(current_tile.left.Rec))) 
                     {
                          isMove = true;
@@ -86,7 +86,7 @@ namespace Our_Project
                         isMove = true;
                         move = current_tile.down;
                     }
-                    if (isMove)
+                    if (isMove) // get new oldState
                     {
                         oldState = newState;
                     }

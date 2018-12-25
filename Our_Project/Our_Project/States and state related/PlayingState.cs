@@ -11,11 +11,11 @@ namespace Our_Project
 
     public sealed class PlayingState : BaseGameState, IPlayingState
     {
-        private Texture2D Tile_texture;
-        private Texture2D Pawn_texture;
-        private Tile[][] tile_matrix;
+        private Texture2D Tile_texture; // the square
+        private Texture2D Pawn_texture; // the character of user team
+        private Tile[][] tile_matrix;   // the board of the game
 
-        private Pawn pawn;
+        private Pawn pawn;              // the sprite of a soldier in the user team
 
         public int gridSize = 14;
         public int tileSize = 40;
@@ -44,7 +44,7 @@ namespace Our_Project
             {
                 for (int j = 0; j < gridSize; ++j)
                 {
-                    Rectangle rec = new Rectangle(i * tileSize-j*tileSize, (j*tileSize+i*tileSize)/2, tileSize, tileSize);
+                    Rectangle rec = new Rectangle(i * tileSize+120, j*tileSize+20, tileSize, tileSize);
                     tile_matrix[i][j] = new Tile(Tile_texture, rec);
                 }
             }

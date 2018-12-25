@@ -35,7 +35,7 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(texture, Rec,null, color,MathHelper.ToRadians(45f),new Vector2(0),SpriteEffects.None,0f);
+            spriteBatch.Draw(texture, Rec,null, color,MathHelper.ToRadians(0f),new Vector2(0),SpriteEffects.None,0f);
         }
 
 
