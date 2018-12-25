@@ -14,8 +14,7 @@ namespace Our_Project
         private Texture2D Tile_texture; // the square
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
-
-        private Pawn pawn;              // the sprite of a soldier in the user team
+        private Pawn[] pawns;           // the pawns
 
         public int gridSize = 14;
         public int tileSize = 40;
@@ -25,6 +24,7 @@ namespace Our_Project
         {
             game.Services.AddService(typeof(IPlayingState), this);
         }
+
         protected override void LoadContent()
         {
             //Gray tile texture.
@@ -33,8 +33,11 @@ namespace Our_Project
             //pawn texture.
             Pawn_texture = Content.Load<Texture2D>(@"Pawns\death");
 
-            //creating a jagged 2d array to store tiles
+            //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
+            pawns = new Pawn[gridSize * 3];
+            int pawnsIndex = 0;
+
             for (int i = 0; i < gridSize; i++)
             {
                 tile_matrix[i] = new Tile[gridSize];
@@ -44,8 +47,19 @@ namespace Our_Project
             {
                 for (int j = 0; j < gridSize; ++j)
                 {
-                    Rectangle rec = new Rectangle(i * tileSize+120, j*tileSize+20, tileSize, tileSize);
+                    // the matrix:
+                    Rectangle rec = new Rectangle(i * tileSize + 120, j * tileSize + 20, tileSize, tileSize);
                     tile_matrix[i][j] = new Tile(Tile_texture, rec);
+                    
+
+                    // the user army:
+                    if (j > gridSize - 4)
+                    {
+                        tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
+                        pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                        pawnsIndex++;
+                    }
+
                 }
             }
 
@@ -70,23 +84,25 @@ namespace Our_Project
                 }
             }
 
-            pawn = new Pawn(Pawn_texture, tile_matrix[7][7]);
+            
         }
-
+        /*
         bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
         {
             return ((mouseX >= (positionOfNeighbor.X) && (mouseX <= (positionOfNeighbor.X + t.Rec.Width))) &&
                         ((mouseY >= positionOfNeighbor.Y) && (mouseY <= positionOfNeighbor.Y + t.Rec.Height)));
-        }
+        }*/
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            pawn.Update();
+
+            for (int i=0; i<pawns.Length; i++)
+                pawns[i].Update();
         }
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
 
             base.Draw(gameTime);
 
@@ -98,8 +114,8 @@ namespace Our_Project
                 }
             }
 
-            pawn.Draw(OurGame.spriteBatch);
-
+            for (int i=0; i<pawns.Length; i++)
+                pawns[i].Draw(OurGame.spriteBatch);
         }
 
 

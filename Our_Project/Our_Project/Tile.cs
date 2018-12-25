@@ -16,8 +16,9 @@ namespace Our_Project
         public Tile right;
         public Tile down;
         public Tile up;
+        public Occupied occupied;
 
-        enum occupied
+        public enum Occupied
         {
             no, yes_by_me, yes_by_enemy
         }
@@ -26,6 +27,7 @@ namespace Our_Project
         {
             texture = _texture;
             Rec = rec;
+            occupied = Occupied.no;
         }
 
         protected void Update()
@@ -35,7 +37,7 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            spriteBatch.Draw(texture, Rec,null, color,MathHelper.ToRadians(0f),new Vector2(0),SpriteEffects.None,0f);
+            spriteBatch.Draw(texture, Rec, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
         }
 
 
