@@ -26,8 +26,6 @@ namespace Our_Project
 
         protected IInputHandler Input;
 
-
-
         public event EventHandler Click;
 
         public bool Clicked { get; private set; }

@@ -21,8 +21,9 @@ namespace Our_Project
         public Tile right;
         public Tile down;
         public Tile up;
+        public Occupied occupied;
 
-        enum occupied
+        public enum Occupied
         {
             no, yes_by_me, yes_by_enemy
         }
@@ -33,6 +34,7 @@ namespace Our_Project
             texture = _texture;
             cartasian_texture = _cartasian_texture;
             Rec = rec;
+            occupied = Occupied.no;
         }
 
         
@@ -43,6 +45,7 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
+
             //dubug draw of the cartasian 2d-real world tiles.
            // spriteBatch.Draw(cartasian_texture, Rec, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
 
@@ -51,6 +54,7 @@ namespace Our_Project
             isoprojection_rectangle = new Rectangle((int)iso_location.X-tilesize, (int)iso_location.Y, Rec.Width*2, Rec.Height);
 
             spriteBatch.Draw(texture, isoprojection_rectangle, null, color,MathHelper.ToRadians(0f),new Vector2(0),SpriteEffects.None,0f);
+
 
 
         }
