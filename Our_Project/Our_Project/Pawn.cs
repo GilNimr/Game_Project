@@ -46,6 +46,8 @@ namespace Our_Project
             if ((newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released) &&
                         (mouseRec.Intersects(current_tile.Rec)))
             {
+                
+
                 if (!isMouseClicked) // if we want to move
                     isMouseClicked = true;
                 else                 // if we want cancel moving
@@ -65,23 +67,27 @@ namespace Our_Project
                 if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Pressed)
                 {
                     // checking the move direction:
-                    if ((current_tile.left.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.left.Rec)))
+                    if ((current_tile.left != null) &&
+                        (current_tile.left.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.left.Rec)))
                     {
                         isMove = true;
                         move = current_tile.left;
                     }
 
-                    else if ((current_tile.right.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.right.Rec)))
+                    else if ((current_tile.right != null) && 
+                        (current_tile.right.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.right.Rec)))
                     {
                         isMove = true;
                         move = current_tile.right;
                     }
-                    else if ((current_tile.up.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.up.Rec)))
+                    else if ((current_tile.up != null) &&
+                        (current_tile.up.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.up.Rec)))
                     {
                         isMove = true;
                         move = current_tile.up;
                     }
-                    else if ((current_tile.down.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.down.Rec)))
+                    else if ((current_tile.down != null) && 
+                        (current_tile.down.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.down.Rec)))
                     {
                         isMove = true;
                         move = current_tile.down;
@@ -103,13 +109,16 @@ namespace Our_Project
             //drawing adjecant tiles if clicked
             if (isMouseClicked)
             {
-                if (current_tile.left.occupied == Tile.Occupied.no)
+                if ((current_tile.left != null) && (current_tile.left.occupied == Tile.Occupied.no))
                     current_tile.left.Draw(spriteBatch, Color.Red);
-                if (current_tile.right.occupied == Tile.Occupied.no)
+
+                if ((current_tile.right != null) && (current_tile.right.occupied == Tile.Occupied.no))
                     current_tile.right.Draw(spriteBatch, Color.Red);
-                if (current_tile.up.occupied == Tile.Occupied.no)
+
+                if ((current_tile.up != null) && (current_tile.up.occupied == Tile.Occupied.no))
                     current_tile.up.Draw(spriteBatch, Color.Red);
-                if (current_tile.down.occupied == Tile.Occupied.no)
+
+                if ((current_tile.down != null) && (current_tile.down.occupied == Tile.Occupied.no))
                     current_tile.down.Draw(spriteBatch, Color.Red);
 
 
@@ -119,13 +128,16 @@ namespace Our_Project
             {// draw to white again
 
 
-                if (current_tile.left.occupied == Tile.Occupied.no)
+                if ((current_tile.left != null) && (current_tile.left.occupied == Tile.Occupied.no))
                     current_tile.left.Draw(spriteBatch, Color.White);
-                if (current_tile.right.occupied == Tile.Occupied.no)
+
+                if ((current_tile.right != null) && (current_tile.right.occupied == Tile.Occupied.no))
                     current_tile.right.Draw(spriteBatch, Color.White);
-                if (current_tile.up.occupied == Tile.Occupied.no)
+
+                if ((current_tile.up != null) && (current_tile.up.occupied == Tile.Occupied.no))
                     current_tile.up.Draw(spriteBatch, Color.White);
-                if (current_tile.down.occupied == Tile.Occupied.no)
+
+                if ((current_tile.down != null) && (current_tile.down.occupied == Tile.Occupied.no))
                     current_tile.down.Draw(spriteBatch, Color.White);
 
                 // move the pawn

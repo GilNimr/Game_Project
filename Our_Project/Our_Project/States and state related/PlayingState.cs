@@ -15,6 +15,7 @@ namespace Our_Project
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
         private Pawn[] pawns;           // the pawns
+        private bool pawnTryToMove;
 
         public int gridSize = 14;
         public int tileSize = 40;
@@ -23,10 +24,12 @@ namespace Our_Project
            : base(game)
         {
             game.Services.AddService(typeof(IPlayingState), this);
+            pawnTryToMove = false;
         }
 
         protected override void LoadContent()
         {
+
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Tiles\Gray_Tile");
 
@@ -50,7 +53,7 @@ namespace Our_Project
                     // the matrix:
                     Rectangle rec = new Rectangle(i * tileSize + 120, j * tileSize + 20, tileSize, tileSize);
                     tile_matrix[i][j] = new Tile(Tile_texture, rec);
-                    
+
 
                     // the user army:
                     if (j > gridSize - 4)
@@ -84,7 +87,7 @@ namespace Our_Project
                 }
             }
 
-            
+
         }
         /*
         bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
@@ -97,8 +100,23 @@ namespace Our_Project
         {
             base.Update(gameTime);
 
-            for (int i=0; i<pawns.Length; i++)
+
+
+            
+            for (int i = 0; i < pawns.Length; i++)
+            {
                 pawns[i].Update();
+
+                if (pawns[i].isMouseClicked) // if this pawn was clicked before
+                {
+                    for (int j = 0; j < pawns.Length; j++)
+                    {
+                        if (i!=j) // so the other will canceled
+                            pawns[j].isMouseClicked=false;
+                    }
+                }
+            }
+
         }
         public override void Draw(GameTime gameTime)
         {
@@ -114,7 +132,7 @@ namespace Our_Project
                 }
             }
 
-            for (int i=0; i<pawns.Length; i++)
+            for (int i = 0; i < pawns.Length; i++)
                 pawns[i].Draw(OurGame.spriteBatch);
         }
 
