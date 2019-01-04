@@ -43,6 +43,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="NodeOFHidenTiles.cs" />
+    <Compile Include="Shape.cs" />
     <Compile Include="States and state related\BaseGameState.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="States and state related\GameStateInterfaces.cs" />

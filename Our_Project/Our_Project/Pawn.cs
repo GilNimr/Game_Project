@@ -31,11 +31,8 @@ namespace Our_Project
         public Pawn(Texture2D _texture, Tile _tile)
         {
             texture = _texture;
-
             current_tile = _tile;
-            
             isMouseClicked = false;
-
             isMove = false;
             position = new Vector2(_tile.Rec.X, _tile.Rec.Y);
         }
@@ -44,8 +41,7 @@ namespace Our_Project
         {
             MouseState mouseState = Mouse.GetState(); // previous mouse position
             MouseState newState = Mouse.GetState();     // current mouse position  
-
-
+            
             //the location of the world mouse.
             Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
 
@@ -55,15 +51,10 @@ namespace Our_Project
             //rectangle of the screen mouse.
             // mouseRec = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
-
             // if previous left button of mouse was unclicked, and now clicked on current pawn:
             if ((newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released) &&
                         (mouseRec.Intersects(current_tile.Rec)))
-
-
             {
-                
-
                 if (!isMouseClicked) // if we want to move
                     isMouseClicked = true;
                 else                 // if we want cancel moving
@@ -74,19 +65,11 @@ namespace Our_Project
 
             if (isMouseClicked)
             {
-
                 // if we clicked, we will get the newe details of mouse position
-
                 newState = Mouse.GetState();
-
-
-
                 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
                 mouseRec.X =(int) CartasianMouseLocation.X;
                 mouseRec.Y =(int) CartasianMouseLocation.Y;
-
-            
-               
 
                 // if there is another click, that means we want to move
                 if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Pressed)

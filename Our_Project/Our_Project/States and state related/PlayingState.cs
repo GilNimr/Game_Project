@@ -18,8 +18,9 @@ namespace Our_Project
         private Tile[][] tile_matrix;   // the board of the game
         private Pawn[] pawns;           // the pawns
         private bool pawnTryToMove;
-
-
+        NodeOFHidenTiles[] hidenTiles;
+        Shape[] shapes;
+        
         public int gridSize = 14;
         public static int tileSize = 30;
 
@@ -50,52 +51,109 @@ namespace Our_Project
                 tile_matrix[i] = new Tile[gridSize];
             }
 
-            for (int i = 0; i < gridSize; ++i)
+
+            hidenTiles = new NodeOFHidenTiles[2];
+            hidenTiles[0] = new NodeOFHidenTiles(0, 1);
+            hidenTiles[1] = new NodeOFHidenTiles (4,2);
+
+            shapes = new Shape[2];
+            shapes[0] = new Shape(hidenTiles, 5, 5, Tile_texture, cartasian_texture, 0, 0);
+
+            hidenTiles[0].i = 2;
+            hidenTiles[0].j = 3; // (2,3) -> (7,7)
+            hidenTiles[1].i = 3;
+            hidenTiles[1].j = 3;    // (3,3) -> (8, 8)
+
+
+
+            shapes[1] = new Shape(hidenTiles, 9, 9, Tile_texture, cartasian_texture, 0,
+                shapes[0].endY+tileSize);
+            bool skip;
+            for (int indexOfShape = 0; indexOfShape < shapes.Length; indexOfShape++)
             {
-                for (int j = 0; j < gridSize; ++j)
+                skip = false;
+
+                for (int i = 0; i < gridSize; ++i)
                 {
-
-                    int x = i * tileSize;
-                    int y = j * tileSize;
-
-
-
-                    Rectangle rec = new Rectangle(350 + x, y, tileSize, tileSize);
-                    tile_matrix[i][j] = new Tile(Tile_texture, cartasian_texture, rec);
-
-
-
-
-                    // the user army:
-                    if (j > gridSize - 4)
+                    if (i == 0 && indexOfShape ==1)
                     {
-                        tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                        pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
-                        pawnsIndex++;
+                        bool stop=true;
                     }
+                    
+                    if (i >= shapes[indexOfShape].width)
+                        skip = true;
 
+                    for (int j = 0; j < gridSize; ++j)
+                    {
+
+                        if (j >= shapes[indexOfShape].height)
+                            skip = true;
+
+                        if (!skip)
+                        {
+                            if (i < shapes[indexOfShape].shapeBoard.Length &&
+                                j < shapes[indexOfShape].shapeBoard[i].Length &&
+                                    (shapes[indexOfShape].shapeBoard[i][j] != null))
+                            {
+                                if (indexOfShape == 0)
+                                    tile_matrix[i][j] = shapes[indexOfShape].shapeBoard[i][j];
+                                else
+                                {
+                                    int _i = i + shapes[indexOfShape - 1].width;
+                                    int _j = j + shapes[indexOfShape - 1].height;
+
+                                    if (_i >= tile_matrix.Length || _j >= tile_matrix.Length)
+                                        break;
+
+                                    tile_matrix[_i][_j] = shapes[indexOfShape].shapeBoard[i][j];
+                                }
+                            }
+                        }
+
+
+                        // the user army:
+
+                        if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
+                        {
+
+                            tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
+                            pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                            pawnsIndex++;
+                        }
+
+
+                    }
+                    skip = false;
 
                 }
             }
-
             //initializing Tiles neighbors.
             for (int i = 0; i < tile_matrix.Length; ++i)
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
+                    if (j == 6)
+                    {
+                        bool stop = true;
+                    }
+                    if (tile_matrix[i][j] != null)
+                    {
+                        //right
+                        if (i < tile_matrix.Length - 1)
+                            tile_matrix[i][j].right = tile_matrix[i + 1][j]; // x axis grow up
 
-                    //right
-                    if (i < tile_matrix.Length - 1)
-                        tile_matrix[i][j].right = tile_matrix[i + 1][j]; // x axis grow up
-                    //left
-                    if (i >= 1)
-                        tile_matrix[i][j].left = tile_matrix[i - 1][j]; // x axis go down
-                    //down
-                    if (j < tile_matrix[i].Length - 1)
-                        tile_matrix[i][j].down = tile_matrix[i][j + 1]; // y axis grow up
-                    //up
-                    if (j >= 1)
-                        tile_matrix[i][j].up = tile_matrix[i][j - 1]; // y axis go down
+                       //left
+                        if (i >= 1)
+                            tile_matrix[i][j].left = tile_matrix[i - 1][j]; // x axis go down
+
+                        //down
+                        if (j < tile_matrix[i].Length - 1)
+                            tile_matrix[i][j].down = tile_matrix[i][j + 1]; // y axis grow up
+                         //up
+                        if ( (j >= 1) && (tile_matrix[i][j - 1] != null))
+                            tile_matrix[i][j].up = tile_matrix[i][j - 1]; // y axis go down
+                    }
+                    
                 }
             }
 
@@ -118,14 +176,17 @@ namespace Our_Project
             
             for (int i = 0; i < pawns.Length; i++)
             {
-                pawns[i].Update();
-
-                if (pawns[i].isMouseClicked) // if this pawn was clicked before
+                if (pawns[i] != null)
                 {
-                    for (int j = 0; j < pawns.Length; j++)
+                    pawns[i].Update();
+
+                    if (pawns[i].isMouseClicked) // if this pawn was clicked before
                     {
-                        if (i!=j) // so the other will canceled
-                            pawns[j].isMouseClicked=false;
+                        for (int j = 0; j < pawns.Length; j++)
+                        {
+                            if (pawns[j] != null &&  i!=j) // so the other will canceled
+                                pawns[j].isMouseClicked=false;
+                        }
                     }
                 }
             }
@@ -141,12 +202,14 @@ namespace Our_Project
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
-                    tile_matrix[i][j].Draw(OurGame.spriteBatch, Color.White);
+                    if (tile_matrix[i][j] != null)
+                        tile_matrix[i][j].Draw(OurGame.spriteBatch, Color.White);
                 }
             }
 
             for (int i = 0; i < pawns.Length; i++)
-                pawns[i].Draw(OurGame.spriteBatch);
+                if (pawns[i] != null)
+                    pawns[i].Draw(OurGame.spriteBatch);
         }
 
 
