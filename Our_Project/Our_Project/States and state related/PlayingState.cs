@@ -17,19 +17,17 @@ namespace Our_Project
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
         private Pawn[] pawns;           // the pawns
-        private bool pawnTryToMove;
-        NodeOFHidenTiles[] hidenTiles;
-        Shape[] shapes;
-        Pawn pawnExample;
+        NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
+        Shape[] shapes;                 // all the shapes we going to use
+      
         
-        public int gridSize = 4;
+        public int gridSize = 4;        // size of the whole board
         public static int tileSize = 30;
 
         public PlayingState(Game game)
            : base(game)
         {
             game.Services.AddService(typeof(IPlayingState), this);
-            pawnTryToMove = false;
         }
 
         protected override void LoadContent()
@@ -44,7 +42,7 @@ namespace Our_Project
 
             //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
-            pawns = new Pawn[gridSize * 3];
+            pawns = new Pawn[gridSize * 3];     // need to change the size - pawns array
             int pawnsIndex = 0;
 
             for (int i = 0; i < gridSize; i++)
@@ -52,45 +50,32 @@ namespace Our_Project
                 tile_matrix[i] = new Tile[gridSize];
             }
 
-
+            // build manual the shapes:
             hidenTiles = new NodeOFHidenTiles[1];
             hidenTiles[0] = new NodeOFHidenTiles(0, 1);
-            //hidenTiles[1] = new NodeOFHidenTiles (4,2);
 
-            shapes = new Shape[2];
+            shapes = new Shape[2];              
             shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0);
 
             hidenTiles[0].i = 2;
             hidenTiles[0].j = 1; // (2,3)
-          //  hidenTiles[1].i = 3;
-            //hidenTiles[1].j = 3;    // (3,3) -> (8, 8)
-
-
-
+            
             shapes[1] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0,
-                shapes[0].endY+tileSize);
+                                        shapes[0].endY+tileSize);
 
             bool skip;
             
                 for (int indexOfShape = 0; indexOfShape < shapes.Length; indexOfShape++)
                 {
-
-                if (indexOfShape == 1)
-                {
-                    bool stop = true;
-                }
-
                 skip = false;
 
                     for (int i = 0; i < gridSize; ++i)
                     {
-                    
                         if (i >= shapes[indexOfShape].width)
                             skip = true;
 
                         for (int j = 0; j < gridSize; ++j)
                         {
-
                             if (j >= shapes[indexOfShape].height)
                                 skip = true;
 
@@ -118,20 +103,17 @@ namespace Our_Project
                             // the user army:
 
                             //if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
-                            if (indexOfShape==1 &&(j==3)&&(i==0))
+                            if (indexOfShape==1 &&(j==3)&&(i==0))  // put manual the pawns
                             {
 
                                 tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
                                 pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
                                 pawnsIndex++;
                             }
-
                         skip = false;
+                        }
                     }
-                        
-
-                    }
-            }
+                }
                 
 
             //initializing Tiles neighbors.
