@@ -20,8 +20,9 @@ namespace Our_Project
         private bool pawnTryToMove;
         NodeOFHidenTiles[] hidenTiles;
         Shape[] shapes;
+        Pawn pawnExample;
         
-        public int gridSize = 14;
+        public int gridSize = 4;
         public static int tileSize = 30;
 
         public PlayingState(Game game)
@@ -52,90 +53,92 @@ namespace Our_Project
             }
 
 
-            hidenTiles = new NodeOFHidenTiles[2];
+            hidenTiles = new NodeOFHidenTiles[1];
             hidenTiles[0] = new NodeOFHidenTiles(0, 1);
-            hidenTiles[1] = new NodeOFHidenTiles (4,2);
+            //hidenTiles[1] = new NodeOFHidenTiles (4,2);
 
             shapes = new Shape[2];
-            shapes[0] = new Shape(hidenTiles, 5, 5, Tile_texture, cartasian_texture, 0, 0);
+            shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0);
 
             hidenTiles[0].i = 2;
-            hidenTiles[0].j = 3; // (2,3) -> (7,7)
-            hidenTiles[1].i = 3;
-            hidenTiles[1].j = 3;    // (3,3) -> (8, 8)
+            hidenTiles[0].j = 1; // (2,3)
+          //  hidenTiles[1].i = 3;
+            //hidenTiles[1].j = 3;    // (3,3) -> (8, 8)
 
 
 
-            shapes[1] = new Shape(hidenTiles, 9, 9, Tile_texture, cartasian_texture, 0,
+            shapes[1] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0,
                 shapes[0].endY+tileSize);
+
             bool skip;
-            for (int indexOfShape = 0; indexOfShape < shapes.Length; indexOfShape++)
-            {
+            
+                for (int indexOfShape = 0; indexOfShape < shapes.Length; indexOfShape++)
+                {
+
+                if (indexOfShape == 1)
+                {
+                    bool stop = true;
+                }
+
                 skip = false;
 
-                for (int i = 0; i < gridSize; ++i)
-                {
-                    if (i == 0 && indexOfShape ==1)
+                    for (int i = 0; i < gridSize; ++i)
                     {
-                        bool stop=true;
-                    }
                     
-                    if (i >= shapes[indexOfShape].width)
-                        skip = true;
-
-                    for (int j = 0; j < gridSize; ++j)
-                    {
-
-                        if (j >= shapes[indexOfShape].height)
+                        if (i >= shapes[indexOfShape].width)
                             skip = true;
 
-                        if (!skip)
+                        for (int j = 0; j < gridSize; ++j)
                         {
-                            if (i < shapes[indexOfShape].shapeBoard.Length &&
-                                j < shapes[indexOfShape].shapeBoard[i].Length &&
-                                    (shapes[indexOfShape].shapeBoard[i][j] != null))
+
+                            if (j >= shapes[indexOfShape].height)
+                                skip = true;
+
+                            if (!skip)
                             {
-                                if (indexOfShape == 0)
-                                    tile_matrix[i][j] = shapes[indexOfShape].shapeBoard[i][j];
-                                else
+                                if (shapes[indexOfShape].shapeBoard[i][j] != null)
                                 {
-                                    int _i = i + shapes[indexOfShape - 1].width;
-                                    int _j = j + shapes[indexOfShape - 1].height;
+                                    if (indexOfShape == 0)
+                                        tile_matrix[i][j] = shapes[indexOfShape].shapeBoard[i][j];
+                                    else
+                                    {
+                                        //int _i = i + shapes[indexOfShape - 1].width;
+                                        int _j = j + shapes[indexOfShape - 1].height;
 
-                                    if (_i >= tile_matrix.Length || _j >= tile_matrix.Length)
-                                        break;
+                                        if (i >= tile_matrix.Length || _j >= tile_matrix.Length)
+                                            break;
 
-                                    tile_matrix[_i][_j] = shapes[indexOfShape].shapeBoard[i][j];
+                                        tile_matrix[i][_j] = shapes[indexOfShape].shapeBoard[i][j];
+                                    }
                                 }
                             }
-                        }
 
 
-                        // the user army:
 
-                        if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
-                        {
+                            // the user army:
 
-                            tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                            pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
-                            pawnsIndex++;
-                        }
+                            //if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
+                            if (indexOfShape==1 &&(j==3)&&(i==0))
+                            {
 
+                                tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
+                                pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                                pawnsIndex++;
+                            }
+
+                        skip = false;
+                    }
+                        
 
                     }
-                    skip = false;
-
-                }
             }
+                
+
             //initializing Tiles neighbors.
             for (int i = 0; i < tile_matrix.Length; ++i)
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
-                    if (j == 6)
-                    {
-                        bool stop = true;
-                    }
                     if (tile_matrix[i][j] != null)
                     {
                         //right
@@ -150,7 +153,7 @@ namespace Our_Project
                         if (j < tile_matrix[i].Length - 1)
                             tile_matrix[i][j].down = tile_matrix[i][j + 1]; // y axis grow up
                          //up
-                        if ( (j >= 1) && (tile_matrix[i][j - 1] != null))
+                        if (j >= 1)
                             tile_matrix[i][j].up = tile_matrix[i][j - 1]; // y axis go down
                     }
                     
