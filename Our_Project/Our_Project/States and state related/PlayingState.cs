@@ -21,7 +21,7 @@ namespace Our_Project
         Shape[] shapes;                 // all the shapes we going to use
       
         
-        public int gridSize = 4;        // size of the whole board
+        public int gridSize = 10;        // size of the whole board
         public static int tileSize = 30;
 
         public PlayingState(Game game)
@@ -54,14 +54,21 @@ namespace Our_Project
             hidenTiles = new NodeOFHidenTiles[1];
             hidenTiles[0] = new NodeOFHidenTiles(0, 1);
 
+            /*
+             *  for draw you board to the left, you need to put "true" at the boolean variable, and
+             *  to fill the currect position to the endY and endX
+             * 
+             */
+
+
             shapes = new Shape[2];              
-            shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0);
+            shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0, false);
 
             hidenTiles[0].i = 2;
             hidenTiles[0].j = 1; // (2,3)
             
-            shapes[1] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0,
-                                        shapes[0].endY+tileSize);
+            shapes[1] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
+                                        0, true);
 
             bool skip;
             
@@ -71,11 +78,17 @@ namespace Our_Project
 
                     for (int i = 0; i < gridSize; ++i)
                     {
+                    if (i == 4)
+                    {
+                        bool s = true;
+                    }
                         if (i >= shapes[indexOfShape].width)
                             skip = true;
 
                         for (int j = 0; j < gridSize; ++j)
                         {
+                        if (skip)
+                            break;
                             if (j >= shapes[indexOfShape].height)
                                 skip = true;
 
@@ -87,13 +100,22 @@ namespace Our_Project
                                         tile_matrix[i][j] = shapes[indexOfShape].shapeBoard[i][j];
                                     else
                                     {
-                                        //int _i = i + shapes[indexOfShape - 1].width;
-                                        int _j = j + shapes[indexOfShape - 1].height;
+                                        if (!shapes[indexOfShape].addToLeft)
+                                        {
+                                            //int _i = i + shapes[indexOfShape - 1].width;
+                                            int _j = j + shapes[indexOfShape - 1].height;
 
-                                        if (i >= tile_matrix.Length || _j >= tile_matrix.Length)
-                                            break;
+                                            /*if (i >= tile_matrix.Length || _j >= tile_matrix.Length)
+                                                break;*/
 
-                                        tile_matrix[i][_j] = shapes[indexOfShape].shapeBoard[i][j];
+                                            tile_matrix[i][_j] = shapes[indexOfShape].shapeBoard[i][j];
+                                        }
+                                        else
+                                        {
+                                            int _i = i + shapes[indexOfShape - 1].width;
+                                            tile_matrix[_i][j] = shapes[indexOfShape].shapeBoard[i][j];
+                                        }
+                                        
                                     }
                                 }
                             }
@@ -103,7 +125,7 @@ namespace Our_Project
                             // the user army:
 
                             //if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
-                            if (indexOfShape==1 &&(j==3)&&(i==0))  // put manual the pawns
+                            if (indexOfShape==1 &&(j==0)&&(i==0))  // put manual the pawns
                             {
 
                                 tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
