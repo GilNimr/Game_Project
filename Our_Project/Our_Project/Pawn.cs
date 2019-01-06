@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace Our_Project
 {
-    class Pawn
+   public class Pawn
     {
 
         public Tile current_tile;  // the square that now the pawn in it
         private Tile move;          // if we will move this will get the details of new tile
         private Texture2D texture;  // pawn texture
+        public bool moved;
         public bool isMouseClicked; // if mouse clicked on pawn 
         private bool isMove;           // if pawn need to move
 
@@ -165,6 +166,7 @@ namespace Our_Project
                 current_tile.occupied = Tile.Occupied.no;
                 current_tile = move;
                 current_tile.occupied = Tile.Occupied.yes_by_me;
+                moved = true;
 
                
 
@@ -175,7 +177,7 @@ namespace Our_Project
             }
 
             //drawing the world mouse for debug purposes.
-            //spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
+          //  spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
         }
     }
 }

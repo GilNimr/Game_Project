@@ -12,12 +12,14 @@ namespace Our_Project
     {
         public Tile[][] shapeBoard;   // the board of the game
                                       //NodeOFHidenTiles[] hidenTiles;
-        public int endX, endY, height, width;   // where x and y axis are ending, and height/width of shape
+                     
+        public int endX, endY, height, width,id;   // where x and y axis are ending, and height/width of shape
         public bool addToLeft = false;
         // build the shape:
         public Shape(NodeOFHidenTiles[] _hidenTiles, int _width, int _height, Texture2D Tile_texture, 
-            Texture2D cartasian_texture, int starterX, int starterY , bool _addToLeft)
+            Texture2D cartasian_texture, int starterX, int starterY , bool _addToLeft,int _id)
         {   // starter x and yo we buid from endX and endY from the other shapes
+            id = _id;
             height = _height;
             width = _width;
             addToLeft = _addToLeft;
@@ -49,8 +51,8 @@ namespace Our_Project
 
                     // build tiles at the shape
                     Rectangle rec = new Rectangle(350 + x, y, tileSize, tileSize);
-                    shapeBoard[i][j] = new Tile(Tile_texture, cartasian_texture, rec);
-
+                    shapeBoard[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
+                    id++;
                     if (i == _width-1 && j == _height - 1)
                     {
                         endX = x;

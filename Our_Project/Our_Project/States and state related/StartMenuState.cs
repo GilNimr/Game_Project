@@ -24,7 +24,7 @@ namespace Our_Project
         public StartMenuState(Game game)
             : base(game)
         {
-            //game.Services.AddService(typeof(IStartMenuState), this);
+            game.Services.AddService(typeof(IStartMenuState), this);
 
         }
 

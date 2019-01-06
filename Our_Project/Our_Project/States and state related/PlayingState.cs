@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,7 +17,8 @@ namespace Our_Project
         private Texture2D cartasian_texture;
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
-        private Pawn[] pawns;           // the pawns
+
+       // private Pawn[] pawns;           // the pawns
         NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
         Shape[] shapes;                 // all the shapes we going to use
       
@@ -24,14 +26,41 @@ namespace Our_Project
         public int gridSize = 10;        // size of the whole board
         public static int tileSize = 30;
 
+
+        public static Dictionary<int, Tile> tileDictionary;
+
+        // public Pawn[] pawns;           // the pawns
+        private bool pawnTryToMove;
+        public Player player;
+        public Player enemy;
+        public Connection connection;
+
+        public static bool i_am_second_player=false;
+
+        
+        
+
+
         public PlayingState(Game game)
            : base(game)
         {
             game.Services.AddService(typeof(IPlayingState), this);
+
+            pawnTryToMove = false;
+
+            player = new Player();
+            player.myTurn = true;
+            enemy = new Player();
+            connection = new Connection(player, enemy);
+            tileDictionary = new Dictionary<int, Tile>();
+
+
         }
 
         protected override void LoadContent()
         {
+            
+            
 
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
@@ -42,8 +71,18 @@ namespace Our_Project
 
             //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
-            pawns = new Pawn[gridSize * 3];     // need to change the size - pawns array
+
+        //   pawns = new Pawn[gridSize * 3];     // need to change the size - pawns array
+
+            player.pawns = new Pawn[gridSize * 3];
+            enemy.pawns = new Pawn[gridSize * 3];
+
+          
+
+
             int pawnsIndex = 0;
+            int enemypawnsIndex = 0;
+            int id = 100;
 
             for (int i = 0; i < gridSize; i++)
             {
@@ -54,6 +93,7 @@ namespace Our_Project
             hidenTiles = new NodeOFHidenTiles[1];
             hidenTiles[0] = new NodeOFHidenTiles(0, 1);
 
+
             /*
              *  for draw you board to the left, you need to put "true" at the boolean variable, and
              *  to fill the currect position to the endY and endX
@@ -62,13 +102,19 @@ namespace Our_Project
 
 
             shapes = new Shape[2];              
-            shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0, false);
+            shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0, false,100);
 
             hidenTiles[0].i = 2;
             hidenTiles[0].j = 1; // (2,3)
             
             shapes[1] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
-                                        0, true);
+                                        0, true,200);
+
+        /*            Rectangle rec = new Rectangle((250) + x, y-(218/4), tileSize, tileSize);
+                    tile_matrix[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
+                    tileDictionary.Add(id, tile_matrix[i][j]);
+                    id++;
+>>>>>>> master*/
 
             bool skip;
             
@@ -78,10 +124,7 @@ namespace Our_Project
 
                     for (int i = 0; i < gridSize; ++i)
                     {
-                    if (i == 4)
-                    {
-                        bool s = true;
-                    }
+     
                         if (i >= shapes[indexOfShape].width)
                             skip = true;
 
@@ -129,14 +172,44 @@ namespace Our_Project
                             {
 
                                 tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                                pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                                player.pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
                                 pawnsIndex++;
                             }
+
+                        // the enemy army:
+                        if (indexOfShape == 1 && (j == 2) && (i == 0))  // put manual the pawns
+                        {
+                            tile_matrix[i][j].occupied = Tile.Occupied.yes_by_enemy;
+                            enemy.pawns[enemypawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                            enemypawnsIndex++;
+                        }
                         skip = false;
                         }
                     }
                 }
                 
+
+                   /*     tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
+                       player. pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                        pawnsIndex++;
+                    }*/
+
+                 
+                   
+
+                
+
+               
+            
+            connection.update();
+            if (i_am_second_player)
+            {
+                Pawn[] swap_pawns = new Pawn[gridSize * 3];
+                swap_pawns = player.pawns;
+                player.pawns = enemy.pawns;
+                enemy.pawns = swap_pawns;
+            }
+
 
             //initializing Tiles neighbors.
             for (int i = 0; i < tile_matrix.Length; ++i)
@@ -166,24 +239,21 @@ namespace Our_Project
 
         }
 
-        /*
-
-        bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
-        {
-            return ((mouseX >= (positionOfNeighbor.X) && (mouseX <= (positionOfNeighbor.X + t.Rec.Width))) &&
-                        ((mouseY >= positionOfNeighbor.Y) && (mouseY <= positionOfNeighbor.Y + t.Rec.Height)));
-        }*/
+      
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-
+            
+            connection.update();
+          
 
             
-            for (int i = 0; i < pawns.Length; i++)
+            for (int i = 0; i < player.pawns.Length; i++)
             {
-                if (pawns[i] != null)
+
+   /*             if (pawns[i] != null)
                 {
                     pawns[i].Update();
 
@@ -193,7 +263,17 @@ namespace Our_Project
                         {
                             if (pawns[j] != null &&  i!=j) // so the other will canceled
                                 pawns[j].isMouseClicked=false;
-                        }
+                        }*/
+
+               player. pawns[i].Update();
+
+                if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
+                {
+                    for (int j = 0; j < player.pawns.Length; j++)
+                    {
+                        if (i!=j) // so the other will canceled
+                            player.pawns[j].isMouseClicked=false;
+
                     }
                 }
             }
@@ -214,9 +294,13 @@ namespace Our_Project
                 }
             }
 
-            for (int i = 0; i < pawns.Length; i++)
-                if (pawns[i] != null)
-                    pawns[i].Draw(OurGame.spriteBatch);
+
+            for (int i = 0; i < player.pawns.Length; i++)
+                player.pawns[i].Draw(OurGame.spriteBatch);
+
+            for (int i = 0; i < enemy.pawns.Length; i++)
+                enemy.pawns[i].Draw(OurGame.spriteBatch);
+
         }
 
 

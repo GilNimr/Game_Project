@@ -8,12 +8,13 @@ using System.Threading.Tasks;
 
 namespace Our_Project
 {
-    class Tile
+   public class Tile
     {
         private Texture2D texture;              //the isometric tile texture
         private Texture2D cartasian_texture;    //the 2D tile for debugging.
         public int tilesize;
         public Rectangle Rec;
+        public int id;
 
         Rectangle isoprojection_rectangle; //the rectangle in which we draw the isometric projection
 
@@ -28,8 +29,9 @@ namespace Our_Project
             no, yes_by_me, yes_by_enemy
         }
 
-        public Tile(Texture2D _texture, Texture2D _cartasian_texture, Rectangle rec)
+        public Tile(Texture2D _texture, Texture2D _cartasian_texture, Rectangle rec, int _id)
         {
+            id = _id;
             tilesize = rec.Width;
             texture = _texture;
             cartasian_texture = _cartasian_texture;

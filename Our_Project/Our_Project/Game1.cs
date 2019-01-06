@@ -40,7 +40,7 @@ namespace Our_Project
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferWidth = 600;
 
            // graphics.IsFullScreen = true;
 
