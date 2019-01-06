@@ -74,8 +74,8 @@ namespace Our_Project
 
         //   pawns = new Pawn[gridSize * 3];     // need to change the size - pawns array
 
-            player.pawns = new Pawn[gridSize * 3];
-            enemy.pawns = new Pawn[gridSize * 3];
+            player.pawns = new Pawn[1];
+            enemy.pawns = new Pawn[1];
 
           
 
@@ -177,7 +177,7 @@ namespace Our_Project
                             }
 
                         // the enemy army:
-                        if (indexOfShape == 1 && (j == 2) && (i == 0))  // put manual the pawns
+                        if (indexOfShape == 0 && (j == 0) && (i == 0))  // put manual the pawns
                         {
                             tile_matrix[i][j].occupied = Tile.Occupied.yes_by_enemy;
                             enemy.pawns[enemypawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
