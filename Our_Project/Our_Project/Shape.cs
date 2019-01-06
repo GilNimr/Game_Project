@@ -52,6 +52,7 @@ namespace Our_Project
                     // build tiles at the shape
                     Rectangle rec = new Rectangle(350 + x, y, tileSize, tileSize);
                     shapeBoard[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
+                   PlayingState. tileDictionary.Add(id, shapeBoard[i][j]);
                     id++;
                     if (i == _width-1 && j == _height - 1)
                     {

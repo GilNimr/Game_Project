@@ -82,7 +82,7 @@ namespace Our_Project
 
             int pawnsIndex = 0;
             int enemypawnsIndex = 0;
-            int id = 100;
+           // int id = 100;
 
             for (int i = 0; i < gridSize; i++)
             {
