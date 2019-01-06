@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Our_Project", "Our_Project\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XELibrary", "XELibrary\XELibrary.csproj", "{623010CD-3E24-4F0E-9EAE-922DAD230975}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameServer", "GameServer\GameServer.csproj", "{9B76B3A6-68FC-41FD-B9FB-A3E24096B0E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{623010CD-3E24-4F0E-9EAE-922DAD230975}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623010CD-3E24-4F0E-9EAE-922DAD230975}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623010CD-3E24-4F0E-9EAE-922DAD230975}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B76B3A6-68FC-41FD-B9FB-A3E24096B0E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B76B3A6-68FC-41FD-B9FB-A3E24096B0E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B76B3A6-68FC-41FD-B9FB-A3E24096B0E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B76B3A6-68FC-41FD-B9FB-A3E24096B0E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

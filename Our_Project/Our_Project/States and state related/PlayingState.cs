@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,22 +17,38 @@ namespace Our_Project
         private Texture2D cartasian_texture;
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
-        private Pawn[] pawns;           // the pawns
+
+        public static Dictionary<int, Tile> tileDictionary;
+
+        // public Pawn[] pawns;           // the pawns
         private bool pawnTryToMove;
+        public Player player;
+        public Player enemy;
+        public Connection connection;
 
+        public static bool i_am_second_player=false;
 
-        public int gridSize = 14;
-        public static int tileSize = 30;
+        public int gridSize = 8;
+        public static int tileSize = 20;
 
         public PlayingState(Game game)
            : base(game)
         {
             game.Services.AddService(typeof(IPlayingState), this);
             pawnTryToMove = false;
+
+            player = new Player();
+            player.myTurn = true;
+            enemy = new Player();
+            connection = new Connection(player, enemy);
+            tileDictionary = new Dictionary<int, Tile>();
+
         }
 
         protected override void LoadContent()
         {
+            
+            
 
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
@@ -42,8 +59,14 @@ namespace Our_Project
 
             //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
-            pawns = new Pawn[gridSize * 3];
+            player.pawns = new Pawn[gridSize * 3];
+            enemy.pawns = new Pawn[gridSize * 3];
+
+          
+
             int pawnsIndex = 0;
+            int enemypawnsIndex = 0;
+            int id = 100;
 
             for (int i = 0; i < gridSize; i++)
             {
@@ -58,24 +81,40 @@ namespace Our_Project
                     int x = i * tileSize;
                     int y = j * tileSize;
 
-
-
-                    Rectangle rec = new Rectangle(350 + x, y, tileSize, tileSize);
-                    tile_matrix[i][j] = new Tile(Tile_texture, cartasian_texture, rec);
-
-
+                    Rectangle rec = new Rectangle((250) + x, y-(218/4), tileSize, tileSize);
+                    tile_matrix[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
+                    tileDictionary.Add(id, tile_matrix[i][j]);
+                    id++;
 
 
                     // the user army:
                     if (j > gridSize - 4)
                     {
                         tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                        pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                       player. pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
                         pawnsIndex++;
                     }
 
+                    // the enemy army:
+                    if (j < 3)
+                    {
+                        tile_matrix[i][j].occupied = Tile.Occupied.yes_by_enemy;
+                        enemy.pawns[enemypawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                        enemypawnsIndex++;
+                    }
+                   
 
                 }
+
+               
+            }
+            connection.update();
+            if (i_am_second_player)
+            {
+                Pawn[] swap_pawns = new Pawn[gridSize * 3];
+                swap_pawns = player.pawns;
+                player.pawns = enemy.pawns;
+                enemy.pawns = swap_pawns;
             }
 
             //initializing Tiles neighbors.
@@ -101,31 +140,27 @@ namespace Our_Project
 
         }
 
-        /*
-
-        bool checkNeighbor(int mouseX, int mouseY, Vector2 positionOfNeighbor, Tile t)
-        {
-            return ((mouseX >= (positionOfNeighbor.X) && (mouseX <= (positionOfNeighbor.X + t.Rec.Width))) &&
-                        ((mouseY >= positionOfNeighbor.Y) && (mouseY <= positionOfNeighbor.Y + t.Rec.Height)));
-        }*/
+      
 
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
-
+            
+            connection.update();
+          
 
             
-            for (int i = 0; i < pawns.Length; i++)
+            for (int i = 0; i < player.pawns.Length; i++)
             {
-                pawns[i].Update();
+               player. pawns[i].Update();
 
-                if (pawns[i].isMouseClicked) // if this pawn was clicked before
+                if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
                 {
-                    for (int j = 0; j < pawns.Length; j++)
+                    for (int j = 0; j < player.pawns.Length; j++)
                     {
                         if (i!=j) // so the other will canceled
-                            pawns[j].isMouseClicked=false;
+                            player.pawns[j].isMouseClicked=false;
                     }
                 }
             }
@@ -145,8 +180,11 @@ namespace Our_Project
                 }
             }
 
-            for (int i = 0; i < pawns.Length; i++)
-                pawns[i].Draw(OurGame.spriteBatch);
+            for (int i = 0; i < player.pawns.Length; i++)
+                player.pawns[i].Draw(OurGame.spriteBatch);
+
+            for (int i = 0; i < enemy.pawns.Length; i++)
+                enemy.pawns[i].Draw(OurGame.spriteBatch);
         }
 
 

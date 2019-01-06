@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Lidgren.Network">
+      <HintPath>..\..\MyNetGame1\Lidgren.Network\bin\Debug\Lidgren.Network.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
