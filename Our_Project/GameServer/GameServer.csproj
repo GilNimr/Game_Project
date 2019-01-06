@@ -7,7 +7,10 @@
 
   <ItemGroup>
     <Reference Include="Lidgren.Network">
-      <HintPath>..\..\MyNetGame1\Lidgren.Network\bin\Debug\Lidgren.Network.dll</HintPath>
+      <HintPath>..\DLL's\Lidgren.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\Users\slonim\Desktop\LidgrenSimpleMovement\DLLs\WindowsDX\MonoGame.Framework.dll</HintPath>
     </Reference>
   </ItemGroup>
 
