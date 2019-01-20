@@ -27,10 +27,13 @@ namespace Our_Project
             client = new NetClient(config);
             client.Start();
 
-            
-            client.DiscoverKnownPeer("127.0.0.1", 14242);
 
-           // client.DiscoverLocalPeers(14242);
+           // client.DiscoverKnownPeer("172.27.38.32", 14242); //sapir
+            client.DiscoverKnownPeer("192.168.1.11", 14242); //home
+
+
+
+            // client.DiscoverLocalPeers(14242);
         }
 
         public void update()
@@ -40,14 +43,14 @@ namespace Our_Project
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < player.pawns.Length; i++)
                 {
-                    if (player.pawns[i].moved)
+                    if (player.pawns[i].send_update)
                     {
                         om.Write(player.pawns[i].current_tile.id);
                         om.Write(i);
-                         // very inefficient to send a full Int32 (4 bytes) but we'll use this for simplicity
+                         
                         
                         client.SendMessage(om,NetDeliveryMethod.ReliableOrdered);
-                        player.pawns[i].moved = false;
+                        player.pawns[i].send_update = false;
                     }
 
                 }
@@ -59,7 +62,7 @@ namespace Our_Project
                 switch (msg.MessageType)
                 {
                     case NetIncomingMessageType.DiscoveryResponse:
-                        // just connect to first server discovered
+                        
                       server=  client.Connect(msg.SenderEndPoint);
                         int num_of_players= msg.ReadInt32();
                         if (num_of_players == 1)
@@ -67,12 +70,16 @@ namespace Our_Project
 
                         
                         break;
+
                     case NetIncomingMessageType.Data:
                         // server sent a position update
                         int id = msg.ReadInt32();
                         int i= msg.ReadInt32();
-                       
+
+                        enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
                         enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
+                        PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
+                        PlayingState.tileDictionary[id].current_pawn = enemy.pawns[i];
 
                         player.myTurn = true;
                         break;

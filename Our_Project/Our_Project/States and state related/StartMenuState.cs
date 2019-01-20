@@ -67,7 +67,7 @@ namespace Our_Project
         protected override void LoadContent()
         {
             texture = Content.Load<Texture2D>(@"Textures\startMenu");
-            font = Content.Load<SpriteFont>(@"Fonts\Arial");
+            font = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
 
             Host_Button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {

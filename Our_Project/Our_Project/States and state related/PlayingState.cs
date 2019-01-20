@@ -23,9 +23,11 @@ namespace Our_Project
         Shape[] shapes;                 // all the shapes we going to use
       
         
-        public int gridSize = 10;        // size of the whole board
-        public static int tileSize = 30;
+        public int gridSize = 50;        // size of the whole board
 
+
+        public static int tileSize = Game1.screen_height / 80;
+        
 
         public static Dictionary<int, Tile> tileDictionary;
 
@@ -39,8 +41,6 @@ namespace Our_Project
 
         
         
-
-
         public PlayingState(Game game)
            : base(game)
         {
@@ -61,7 +61,6 @@ namespace Our_Project
         {
             
             
-
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
@@ -74,24 +73,17 @@ namespace Our_Project
 
         //   pawns = new Pawn[gridSize * 3];     // need to change the size - pawns array
 
-            player.pawns = new Pawn[1];
-            enemy.pawns = new Pawn[1];
+            
 
-          
-
-
-            int pawnsIndex = 0;
-            int enemypawnsIndex = 0;
-           // int id = 100;
 
             for (int i = 0; i < gridSize; i++)
             {
                 tile_matrix[i] = new Tile[gridSize];
             }
 
-            // build manual the shapes:
+            // manualy build the shapes:
             hidenTiles = new NodeOFHidenTiles[1];
-            hidenTiles[0] = new NodeOFHidenTiles(0, 1);
+           hidenTiles[0] = new NodeOFHidenTiles(22, 22);
 
 
             /*
@@ -102,13 +94,13 @@ namespace Our_Project
 
 
             shapes = new Shape[2];              
-            shapes[0] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0, 0, false,100);
+            shapes[0] = new Shape(hidenTiles, 25, 25, Tile_texture, cartasian_texture, 0, 0, false,0);
 
-            hidenTiles[0].i = 2;
-            hidenTiles[0].j = 1; // (2,3)
+            hidenTiles[0].i = 11;
+            hidenTiles[0].j = 11; // (2,3)
             
-            shapes[1] = new Shape(hidenTiles, 4, 2, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
-                                        0, true,200);
+            shapes[1] = new Shape(hidenTiles, 25, 25, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
+                                        0, true,5000);
 
         /*            Rectangle rec = new Rectangle((250) + x, y-(218/4), tileSize, tileSize);
                     tile_matrix[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
@@ -165,50 +157,49 @@ namespace Our_Project
 
 
 
-                            // the user army:
+                         /*   // the user army:
 
                             //if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
-                            if (indexOfShape==1 &&(j==0)&&(i==0))  // put manual the pawns
+                            if (indexOfShape==1 &&(j<4)&&(i==0))  // manually putting the pawns
                             {
 
-                                tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                                player.pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
-                                pawnsIndex++;
+                              tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
+                            
+                                player.pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j],j,Pawn.Team.my_team);
+                               tile_matrix[i][j].current_pawn = player.pawns[pawnsIndex];
+                               pawnsIndex++;
+                          
                             }
 
                         // the enemy army:
-                        if (indexOfShape == 0 && (j == 0) && (i == 0))  // put manual the pawns
+                        if (indexOfShape == 0 && (j <4 ) && (i == 5))  // put manual the pawns
                         {
-                            tile_matrix[i][j].occupied = Tile.Occupied.yes_by_enemy;
-                            enemy.pawns[enemypawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
+                           tile_matrix[i][j].occupied = Tile.Occupied.yes_by_enemy;
+                            enemy.pawns[enemypawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j],j,Pawn.Team.enemy_team);
+                            tile_matrix[i][j].current_pawn = enemy.pawns[enemypawnsIndex];
                             enemypawnsIndex++;
-                        }
+                            
+                        }*/
                         skip = false;
                         }
                     }
                 }
-                
 
-                   /*     tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                       player. pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j]);
-                        pawnsIndex++;
-                    }*/
+            player.pawns = new Pawn[player.army_size];
+            enemy.pawns = new Pawn[player.army_size];
+            //manually putting pawns for now.
+            player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team);
+            player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team);
+            player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team);
+            player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team);
 
-                 
-                   
-
-                
-
-               
+            //manually putting pawns for now.
+            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.my_team);
+            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.my_team);
+            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.my_team);
+            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.my_team);
             
-            connection.update();
-            if (i_am_second_player)
-            {
-                Pawn[] swap_pawns = new Pawn[gridSize * 3];
-                swap_pawns = player.pawns;
-                player.pawns = enemy.pawns;
-                enemy.pawns = swap_pawns;
-            }
+
 
 
             //initializing Tiles neighbors.
@@ -237,6 +228,16 @@ namespace Our_Project
                 }
             }
 
+            connection.update();
+            if (i_am_second_player)
+            {
+                changeTilematrix();
+                Pawn[] swap_pawns = new Pawn[player.army_size];
+                swap_pawns = player.pawns;
+                player.pawns = enemy.pawns;
+                enemy.pawns = swap_pawns;
+            }
+
         }
 
       
@@ -253,27 +254,29 @@ namespace Our_Project
             for (int i = 0; i < player.pawns.Length; i++)
             {
 
-   /*             if (pawns[i] != null)
-                {
-                    pawns[i].Update();
+                /*             if (pawns[i] != null)
+                             {
+                                 pawns[i].Update();
 
-                    if (pawns[i].isMouseClicked) // if this pawn was clicked before
+                                 if (pawns[i].isMouseClicked) // if this pawn was clicked before
+                                 {
+                                     for (int j = 0; j < pawns.Length; j++)
+                                     {
+                                         if (pawns[j] != null &&  i!=j) // so the other will canceled
+                                             pawns[j].isMouseClicked=false;
+                                     }*/
+                if (player.pawns[i] != null)
+                {
+                    player.pawns[i].Update();
+
+                    if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
                     {
-                        for (int j = 0; j < pawns.Length; j++)
+                        for (int j = 0; j < player.pawns.Length; j++)
                         {
-                            if (pawns[j] != null &&  i!=j) // so the other will canceled
-                                pawns[j].isMouseClicked=false;
-                        }*/
+                            if (i != j) // so the other will canceled
+                                player.pawns[j].isMouseClicked = false;
 
-               player. pawns[i].Update();
-
-                if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
-                {
-                    for (int j = 0; j < player.pawns.Length; j++)
-                    {
-                        if (i!=j) // so the other will canceled
-                            player.pawns[j].isMouseClicked=false;
-
+                        }
                     }
                 }
             }
@@ -303,7 +306,36 @@ namespace Our_Project
 
         }
 
+        public void changeTilematrix()
+        {
+            for (int i = 0; i < gridSize; i++)
+            {
+                for (int j = 0; j < gridSize; j++)
+                {
+                    Tile tmp = tile_matrix[i][j];
+                    tile_matrix[i][j] = tile_matrix[gridSize - 1 - i][gridSize - 1 - j];
+                    tile_matrix[gridSize - 1 - i][gridSize - 1 - j] = tmp;
 
+
+                   /* Rectangle tmpRec = new Rectangle();
+                    if(tile_matrix[i][j]!=null)
+                    tmpRec = tile_matrix[i][j].Rec;
+
+                    Rectangle tmpRec2 = new Rectangle();
+                    if (tile_matrix[gridSize - 1 - i][gridSize - 1 - j] != null)
+                        tmpRec2 = tile_matrix[gridSize - 1 - i][gridSize - 1 - j].Rec;
+
+
+                   
+                    if(tile_matrix[i][j]!=null && tmpRec!=null)
+                    tile_matrix[i][j].Rec = tmpRec2 ;
+
+                  
+                    if(tile_matrix[gridSize - 1 - i][gridSize - 1 - j]!=null && tmpRec2!=null)
+                    tile_matrix[gridSize - 1 - i][gridSize - 1 - j].Rec = tmpRec;*/
+                }
+            }
+        }
 
 
 

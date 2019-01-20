@@ -30,6 +30,8 @@ namespace Our_Project
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
 
+       public static int screen_width;
+       public static int screen_height;
         
 
 
@@ -39,8 +41,10 @@ namespace Our_Project
            
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            graphics.PreferredBackBufferHeight = 600;
-            graphics.PreferredBackBufferWidth = 600;
+            graphics.PreferredBackBufferHeight = 2400;
+            screen_height = graphics.PreferredBackBufferHeight;
+            graphics.PreferredBackBufferWidth = 2400;
+            screen_width = graphics.PreferredBackBufferWidth;
 
            // graphics.IsFullScreen = true;
 

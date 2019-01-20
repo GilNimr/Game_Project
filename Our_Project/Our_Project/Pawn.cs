@@ -15,27 +15,39 @@ namespace Our_Project
         public Tile current_tile;  // the square that now the pawn in it
         private Tile move;          // if we will move this will get the details of new tile
         private Texture2D texture;  // pawn texture
-        public bool moved;
+        private int strength;
+        public bool send_update;
         public bool isMouseClicked; // if mouse clicked on pawn 
-        private bool isMove;           // if pawn need to move
+        private bool isMove;           // if pawn needs to move
+        private bool hasDied = false;
 
         public MouseState oldState; // mouse input old position 
         public Vector2 position;
 
         Rectangle mouseRec;
-
-        public enum team
+        public Team team;
+        public enum Team
         {
             my_team, enemy_team
         }
 
-        public Pawn(Texture2D _texture, Tile _tile)
+        public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team)
         {
-            texture = _texture;
             current_tile = _tile;
+            _tile.current_pawn = this;
+
+            team = _team;
+            
+           _tile.occupied = Tile.Occupied.yes_by_me;
+          
+            strength = _strength;
+            texture = _texture;
+           
             isMouseClicked = false;
             isMove = false;
             position = new Vector2(_tile.Rec.X, _tile.Rec.Y);
+
+            send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
         }
 
         public void Update()
@@ -64,7 +76,7 @@ namespace Our_Project
 
             oldState = newState; // get the current mpuse position as old position
 
-            if (isMouseClicked)
+            if (isMouseClicked && !hasDied)
             {
                 // if we clicked, we will get the newe details of mouse position
                 newState = Mouse.GetState();
@@ -77,36 +89,32 @@ namespace Our_Project
                 {
                     // checking the move direction:
                     if ((current_tile.left != null) &&
-                        (current_tile.left.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.left.Rec)))
+                        (current_tile.left.occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.left.Rec)))
 
                     {
-                        isMove = true;
-                        move = current_tile.left;
+                        moveORattack(current_tile.left);
                     }
 
 
                     else if ((current_tile.right != null) && 
-                        (current_tile.right.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.right.Rec)))
+                        (current_tile.right.occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.right.Rec)))
 
                     {
-                        isMove = true;
-                        move = current_tile.right;
+                        moveORattack(current_tile.right);
                     }
 
                     else if ((current_tile.up != null) &&
-                        (current_tile.up.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.up.Rec)))
+                        (current_tile.up.occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.up.Rec)))
 
                     {
-                        isMove = true;
-                        move = current_tile.up;
+                        moveORattack(current_tile.up);
                     }
 
                     else if ((current_tile.down != null) && 
-                        (current_tile.down.occupied == Tile.Occupied.no) && (mouseRec.Intersects(current_tile.down.Rec)))
+                        (current_tile.down.occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.down.Rec)))
 
                     {
-                        isMove = true;
-                        move = current_tile.down;
+                        moveORattack(current_tile.down);
                     }
                     if (isMove) // get new oldState
                     {
@@ -119,9 +127,19 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //drawing the pawn in the middle of the tile screen location.
-            Rectangle Rec = new Rectangle(Game1.TwoD2isometrix( current_tile.Rec.Center)-new Point(current_tile.tilesize/4), new Point(current_tile.tilesize / 2));
-            spriteBatch.Draw(texture, Rec, Color.White);
+           
+            if (!hasDied)
+            {
+                Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(current_tile.tilesize / 4), new Point(current_tile.tilesize / 2));
+                spriteBatch.Draw(texture, Rec, Color.White);
+            }
+            else
+            {
+                if(team==Team.my_team)
+                spriteBatch.Draw(texture, new Rectangle(30*strength,20, current_tile.tilesize / 2, current_tile.tilesize / 2), Color.White);
+                else
+                spriteBatch.Draw(texture, new Rectangle(320+30 * strength, 20, current_tile.tilesize / 2, current_tile.tilesize / 2), Color.White);
+            }
 
             //drawing adjecant tiles if clicked
             if (isMouseClicked)
@@ -159,25 +177,58 @@ namespace Our_Project
                 if ((current_tile.down != null) && (current_tile.down.occupied == Tile.Occupied.no))
                     current_tile.down.Draw(spriteBatch, Color.White);
 
-                // move the pawn
+                if (hasDied)
+                {
+                    current_tile.occupied = Tile.Occupied.no;
+                    current_tile.current_pawn = null;
+                    send_update = true;
+                }
 
-                position.X = move.Rec.X;
-                position.Y = move.Rec.Y + current_tile.Rec.Height;
+                else
+                { 
+                // move the pawn
                 current_tile.occupied = Tile.Occupied.no;
+                current_tile.current_pawn = null;
                 current_tile = move;
                 current_tile.occupied = Tile.Occupied.yes_by_me;
-                moved = true;
-
+                current_tile.current_pawn = this;
+                send_update = true;
+                } 
                
-
-
                 isMouseClicked = false;
                 isMove = false;
                 move = null;
             }
 
             //drawing the world mouse for debug purposes.
-          //  spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
+            //spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
         }
+
+       public void moveORattack(Tile direction)
+        {
+            isMove = true;
+            move = direction;
+
+            if (direction.occupied == Tile.Occupied.yes_by_enemy)
+            {
+                //if we lost the encounter with enemy
+                if (direction.current_pawn.strength > strength)
+                {
+                    hasDied = true;
+                }
+                //if we won an encounter with the enemy
+                else if (direction.current_pawn.strength < strength)
+                {
+                    direction.current_pawn.hasDied = true;
+                }
+                else
+                {
+                    hasDied = true;
+                    direction.current_pawn.hasDied = true;
+                }
+            }
+        }
+
+
     }
 }

@@ -28,7 +28,7 @@ namespace Our_Project
             for (int i = 0; i < _width; i++)
                 shapeBoard[i] = new Tile[_height];
 
-            int tileSize = 30; // const
+            int tileSize = Game1.screen_height / 80;  // const
             int hidenIndex = 0; // where is the indexes we want to hide (hiden tiles)
 
             

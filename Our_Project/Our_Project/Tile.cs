@@ -17,7 +17,7 @@ namespace Our_Project
         public int id;
 
         Rectangle isoprojection_rectangle; //the rectangle in which we draw the isometric projection
-
+        public Pawn current_pawn;
         public Tile left;
         public Tile right;
         public Tile down;

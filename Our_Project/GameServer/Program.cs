@@ -12,18 +12,23 @@ namespace GameServer
                 NetPeerConfiguration config = new NetPeerConfiguration("Flags");
                 config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
                 config.Port = 14242;
-
-                // create and start server
-                NetServer server = new NetServer(config);
+           //     config.EnableUPnP = true;
+            
+            // create and start server
+            NetServer server = new NetServer(config);
                 server.Start();
+            
+         //   server.UPnP.ForwardPort(14242, "Flags game for school project",14242);
+          //  server.UPnP.ForwardPort(14242, "Flags game for school project");
 
-                // schedule initial sending of position updates
-                double nextSendUpdates = NetTime.Now;
+            // schedule initial sending of position updates
+            double nextSendUpdates = NetTime.Now;
 
                 // run until escape is pressed
                 while (!Console.KeyAvailable || Console.ReadKey().Key != ConsoleKey.Escape)
                 {
-                    NetIncomingMessage msg;
+                
+                NetIncomingMessage msg;
                     while ((msg = server.ReadMessage()) != null)
                     {
                         switch (msg.MessageType)
@@ -42,6 +47,8 @@ namespace GameServer
 
                             server.SendDiscoveryResponse(msg_num_of_players, msg.SenderEndPoint);
                                 break;
+
+
                             case NetIncomingMessageType.VerboseDebugMessage:
                             case NetIncomingMessageType.DebugMessage:
                             case NetIncomingMessageType.WarningMessage:
@@ -61,7 +68,7 @@ namespace GameServer
                                     //
                                     Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " connected!");
 
-                                // randomize his position and store in connection tag
+                                
                                 msg.SenderConnection.Tag = new int[2] {
                                 -10,-10
                                 };
@@ -78,7 +85,7 @@ namespace GameServer
 
                                 int[] pos = msg.SenderConnection.Tag as int[];
 
-                            // fancy movement logic goes here; we just append input to position
+                            
                             
                             pos[0] = id;
                             pos[1] = indexinput;
