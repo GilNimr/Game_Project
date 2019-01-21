@@ -11,14 +11,19 @@ namespace Our_Project
 {
    public class Pawn
     {
+        public int id;
 
         public Tile current_tile;  // the square that now the pawn in it
-        private Tile move;          // if we will move this will get the details of new tile
+        private Tile direction;          // if we will move this will get the details of new tile
+
         private Texture2D texture;  // pawn texture
-        private int strength;
+        public int strength;
         public bool send_update;
         public bool isMouseClicked; // if mouse clicked on pawn 
         private bool isMove;           // if pawn needs to move
+
+        public bool attacked=false;
+        public Pawn attacker;
         private bool hasDied = false;
 
         public MouseState oldState; // mouse input old position 
@@ -31,8 +36,9 @@ namespace Our_Project
             my_team, enemy_team
         }
 
-        public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team)
+        public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team, int _id)
         {
+            id = _id;
             current_tile = _tile;
             _tile.current_pawn = this;
 
@@ -76,7 +82,19 @@ namespace Our_Project
 
             oldState = newState; // get the current mpuse position as old position
 
-            if (isMouseClicked && !hasDied)
+            if (attacked)
+            {
+                    //if we lost the encounter with enemy
+                    if (attacker.strength >= strength)
+                    {
+                        
+                        hasDied = true;
+                    send_update = true;
+                    }
+                attacked = false;
+            }
+
+            if (isMouseClicked && !hasDied )
             {
                 // if we clicked, we will get the newe details of mouse position
                 newState = Mouse.GetState();
@@ -116,11 +134,40 @@ namespace Our_Project
                     {
                         moveORattack(current_tile.down);
                     }
-                    if (isMove) // get new oldState
+                    if (isMove && !hasDied) // get new oldState
                     {
                         oldState = newState;
+
+                       
+                        {
+                            // move the pawn
+                            current_tile.occupied = Tile.Occupied.no;
+                            current_tile.current_pawn = null;
+                            current_tile = direction;
+                            current_tile.occupied = Tile.Occupied.yes_by_me;
+                            current_tile.current_pawn = this;
+                            send_update = true;
+                        }
                     }
+                    else if (hasDied)
+                        {
+
+                            current_tile.occupied = Tile.Occupied.no;
+                            current_tile.current_pawn = null;
+                            isMouseClicked = false;
+                          //  current_tile = null;
+
+                        }
                 }
+
+            }
+            else if (hasDied)
+            {
+
+                current_tile.occupied = Tile.Occupied.no;
+                current_tile.current_pawn = null;
+                isMouseClicked = false;
+                //  current_tile = null;
 
             }
         }
@@ -130,15 +177,15 @@ namespace Our_Project
            
             if (!hasDied)
             {
-                Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(current_tile.tilesize / 4), new Point(current_tile.tilesize / 2));
+                Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(Tile.tilesize / 4), new Point(Tile.tilesize / 2));
                 spriteBatch.Draw(texture, Rec, Color.White);
             }
             else
             {
                 if(team==Team.my_team)
-                spriteBatch.Draw(texture, new Rectangle(30*strength,20, current_tile.tilesize / 2, current_tile.tilesize / 2), Color.White);
+                spriteBatch.Draw(texture, new Rectangle(30*strength,20, Tile.tilesize / 2, Tile.tilesize / 2), Color.White);
                 else
-                spriteBatch.Draw(texture, new Rectangle(320+30 * strength, 20, current_tile.tilesize / 2, current_tile.tilesize / 2), Color.White);
+                spriteBatch.Draw(texture, new Rectangle(320+30 * strength, 20, Tile.tilesize / 2, Tile.tilesize / 2), Color.White);
             }
 
             //drawing adjecant tiles if clicked
@@ -177,56 +224,45 @@ namespace Our_Project
                 if ((current_tile.down != null) && (current_tile.down.occupied == Tile.Occupied.no))
                     current_tile.down.Draw(spriteBatch, Color.White);
 
-                if (hasDied)
-                {
-                    current_tile.occupied = Tile.Occupied.no;
-                    current_tile.current_pawn = null;
-                    send_update = true;
-                }
-
-                else
-                { 
-                // move the pawn
-                current_tile.occupied = Tile.Occupied.no;
-                current_tile.current_pawn = null;
-                current_tile = move;
-                current_tile.occupied = Tile.Occupied.yes_by_me;
-                current_tile.current_pawn = this;
-                send_update = true;
-                } 
+               
                
                 isMouseClicked = false;
                 isMove = false;
-                move = null;
+                direction = null;
             }
 
             //drawing the world mouse for debug purposes.
             //spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
         }
 
-       public void moveORattack(Tile direction)
+       public void moveORattack(Tile _direction)
         {
             isMove = true;
-            move = direction;
 
+            direction = _direction;
             if (direction.occupied == Tile.Occupied.yes_by_enemy)
             {
+                direction.current_pawn.attacked = true;
+                direction.current_pawn.attacker = this;
+
                 //if we lost the encounter with enemy
                 if (direction.current_pawn.strength > strength)
                 {
                     hasDied = true;
                 }
-                //if we won an encounter with the enemy
-                else if (direction.current_pawn.strength < strength)
-                {
-                    direction.current_pawn.hasDied = true;
-                }
-                else
+                else //if we draw the encounter with enemy
+                if (direction.current_pawn.strength == strength)
                 {
                     hasDied = true;
                     direction.current_pawn.hasDied = true;
                 }
+                else //if we won the encounter with enemy
+                {
+                    direction.current_pawn.hasDied = true;
+                }
+
             }
+            send_update = true;
         }
 
 

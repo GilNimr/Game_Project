@@ -28,7 +28,7 @@ namespace Our_Project
             client.Start();
 
 
-           // client.DiscoverKnownPeer("172.27.38.32", 14242); //sapir
+           // client.DiscoverKnownPeer("172.27.38.8", 14242); //sapir
             client.DiscoverKnownPeer("192.168.1.11", 14242); //home
 
 
@@ -38,13 +38,14 @@ namespace Our_Project
 
         public void update()
         {
-            if (player.pawns != null && player.myTurn)
+            if (player.pawns != null)
             {
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < player.pawns.Length; i++)
                 {
                     if (player.pawns[i].send_update)
                     {
+                        om.Write("move");
                         om.Write(player.pawns[i].current_tile.id);
                         om.Write(i);
                          
@@ -54,7 +55,25 @@ namespace Our_Project
                     }
 
                 }
-              //  player.myTurn = false;
+            }
+            if(enemy.pawns!=null)
+            {
+                NetOutgoingMessage om = client.CreateMessage();
+                for (int i = 0; i < enemy.pawns.Length; i++)
+                {
+                    if (enemy.pawns[i].attacked)
+                    {
+                        om.Write("attacked");
+                        om.Write(enemy.pawns[i].attacker.id);
+                        om.Write(i);
+
+
+                        client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                        enemy.pawns[i].attacked = false;
+                    }
+
+                }
+
             }
             NetIncomingMessage msg;
             while ((msg = client.ReadMessage()) != null)
@@ -62,26 +81,46 @@ namespace Our_Project
                 switch (msg.MessageType)
                 {
                     case NetIncomingMessageType.DiscoveryResponse:
-                        
-                      server=  client.Connect(msg.SenderEndPoint);
-                        int num_of_players= msg.ReadInt32();
+
+                        server = client.Connect(msg.SenderEndPoint);
+                        int num_of_players = msg.ReadInt32();
                         if (num_of_players == 1)
                             PlayingState.i_am_second_player = true;
 
-                        
+
                         break;
 
                     case NetIncomingMessageType.Data:
-                        // server sent a position update
-                        int id = msg.ReadInt32();
-                        int i= msg.ReadInt32();
 
-                        enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
-                        enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
-                        PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
-                        PlayingState.tileDictionary[id].current_pawn = enemy.pawns[i];
+                        string data_string = msg.ReadString();
 
-                        player.myTurn = true;
+                        switch (data_string)
+                        {
+                            case "move":
+                                {
+                                    // server sent a position update
+                                    int id = msg.ReadInt32();
+                                    int i = msg.ReadInt32();
+
+                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
+                                    enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
+                                    PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
+                                    PlayingState.tileDictionary[id].current_pawn = enemy.pawns[i];
+
+                                    player.myTurn = true;
+                                    break;
+                                }
+                            case "attacked":
+                                {
+                                    int id = msg.ReadInt32();
+                                    int i = msg.ReadInt32();
+
+                                    player.pawns[i].attacked = true;
+                                    player.pawns[i].attacker = enemy.pawns[id];
+
+                                    break;
+                                }
+                        }
                         break;
                 }
             }

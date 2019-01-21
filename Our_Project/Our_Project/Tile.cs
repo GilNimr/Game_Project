@@ -12,7 +12,7 @@ namespace Our_Project
     {
         private Texture2D texture;              //the isometric tile texture
         private Texture2D cartasian_texture;    //the 2D tile for debugging.
-        public int tilesize;
+        public static int tilesize;
         public Rectangle Rec;
         public int id;
 

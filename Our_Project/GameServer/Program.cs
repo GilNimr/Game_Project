@@ -69,26 +69,37 @@ namespace GameServer
                                     Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " connected!");
 
                                 
-                                msg.SenderConnection.Tag = new int[2] {
-                                -10,-10
+                                msg.SenderConnection.Tag = new int[5] {
+                                -10,-10,-10,-10,-10
                                 };
                                 }
 
                                 break;
                             case NetIncomingMessageType.Data:
-                            //
-                            // The client sent input to the server
-                            //
-                            int id = msg.ReadInt32();
-                            int indexinput=msg.ReadInt32();
-                                
+                            string data_string=msg.ReadString();
+                            switch (data_string)
+                            {
+                                case "move":
+                                    {
+                                        int id = msg.ReadInt32();
+                                        int indexinput = msg.ReadInt32();
+                                        int[] pos = msg.SenderConnection.Tag as int[];
+                                        pos[0] = id;
+                                        pos[1] = indexinput;
+                                        break;
+                                    }
 
-                                int[] pos = msg.SenderConnection.Tag as int[];
-
+                                case "attacked":
+                                    {
+                                        int id = msg.ReadInt32();
+                                        int indexinput = msg.ReadInt32();
+                                        int[] pos = msg.SenderConnection.Tag as int[];
+                                        pos[2] = id;
+                                        pos[3] = indexinput;
+                                        break;
+                                    }
+                            }
                             
-                            
-                            pos[0] = id;
-                            pos[1] = indexinput;
 
                             break;
                         }
@@ -116,15 +127,29 @@ namespace GameServer
                                     //  om.Write(otherPlayer.RemoteUniqueIdentifier);
 
                                     if (otherPlayer.Tag == null)
-                                        otherPlayer.Tag = new int[2];
+                                        otherPlayer.Tag = new int[5];
 
                                     int[] pos = otherPlayer.Tag as int[];
                                     if (pos[0] != -10 && pos[1] != -10)
                                     {
+                                        om.Write("move");
                                         om.Write(pos[0]);
                                         om.Write(pos[1]);
                                         // send message
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[0] = -10;
+                                        pos[1] = -10;
+                                    }
+
+                                    if (pos[2] != -10 && pos[3] != -10)
+                                    {
+                                        om.Write("attacked");
+                                        om.Write(pos[2]);
+                                        om.Write(pos[3]);
+                                        // send message
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[2] = -10;
+                                        pos[3] = -10;
                                     }
                                 }
                                 

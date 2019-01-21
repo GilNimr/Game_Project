@@ -188,16 +188,16 @@ namespace Our_Project
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
             //manually putting pawns for now.
-            player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team);
-            player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team);
-            player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team);
-            player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team);
+            player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team,0);
+            player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1);
+            player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team,2);
+            player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team,3);
 
             //manually putting pawns for now.
-            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.my_team);
-            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.my_team);
-            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.my_team);
-            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.my_team);
+            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.my_team,0);
+            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.my_team,1);
+            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.my_team,2);
+            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.my_team,3);
             
 
 
