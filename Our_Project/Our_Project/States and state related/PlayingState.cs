@@ -25,6 +25,7 @@ namespace Our_Project
         
         public int gridSize = 50;        // size of the whole board
 
+        SpriteFont font_small;
 
         public static int tileSize = Game1.screen_height / 80;
         
@@ -51,7 +52,7 @@ namespace Our_Project
             player = new Player();
             player.myTurn = true;
             enemy = new Player();
-            connection = new Connection(player, enemy);
+            connection = new Connection(ref player, ref enemy);
             tileDictionary = new Dictionary<int, Tile>();
 
 
@@ -59,8 +60,11 @@ namespace Our_Project
 
         protected override void LoadContent()
         {
-            
-            
+
+            //Loading fonts.
+            font_small = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
+
+
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
@@ -188,16 +192,16 @@ namespace Our_Project
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
             //manually putting pawns for now.
-            player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team,0);
-            player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1);
-            player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team,2);
-            player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team,3);
+            player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team,0,font_small);
+            player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1,font_small);
+            player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team,2,font_small);
+            player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team,3,font_small);
 
             //manually putting pawns for now.
-            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.my_team,0);
-            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.my_team,1);
-            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.my_team,2);
-            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.my_team,3);
+            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.my_team,0,font_small);
+            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.my_team,1,font_small);
+            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.my_team,2,font_small);
+            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.my_team,3,font_small);
             
 
 
@@ -236,6 +240,7 @@ namespace Our_Project
                 swap_pawns = player.pawns;
                 player.pawns = enemy.pawns;
                 enemy.pawns = swap_pawns;
+                player.myTurn = false;
             }
 
         }
@@ -248,8 +253,8 @@ namespace Our_Project
 
             
             connection.update();
-          
 
+            
             
             for (int i = 0; i < player.pawns.Length; i++)
             {
@@ -267,17 +272,25 @@ namespace Our_Project
                                      }*/
                 if (player.pawns[i] != null)
                 {
-                    player.pawns[i].Update();
-
-                    if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
+                    if (player.myTurn)
                     {
-                        for (int j = 0; j < player.pawns.Length; j++)
-                        {
-                            if (i != j) // so the other will canceled
-                                player.pawns[j].isMouseClicked = false;
+                        player.pawns[i].Update();
 
+                        if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
+                        {
+                            for (int j = 0; j < player.pawns.Length; j++)
+                            {
+                                if (i != j) // so the other will canceled
+                                    player.pawns[j].isMouseClicked = false;
+
+                            }
                         }
                     }
+                    else if (player.pawns[i].attacked)
+                    {
+                        player.pawns[i].GettingAttacked();
+                    }
+                        
                 }
             }
 
@@ -303,6 +316,14 @@ namespace Our_Project
 
             for (int i = 0; i < enemy.pawns.Length; i++)
                 enemy.pawns[i].Draw(OurGame.spriteBatch);
+
+            if (player.myTurn)
+            {
+                OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
+            }
+            else
+                OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
+
 
         }
 

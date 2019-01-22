@@ -17,7 +17,7 @@ namespace Our_Project
 
         public static NetOutgoingMessage outmsg;
 
-        public Connection(Player _player, Player _enemy)
+        public Connection(ref Player _player,ref Player _enemy)
         {
             enemy = _enemy;
             player = _player;
@@ -52,6 +52,8 @@ namespace Our_Project
                         
                         client.SendMessage(om,NetDeliveryMethod.ReliableOrdered);
                         player.pawns[i].send_update = false;
+                        player.myTurn = false;
+ 
                     }
 
                 }
@@ -87,7 +89,6 @@ namespace Our_Project
                         if (num_of_players == 1)
                             PlayingState.i_am_second_player = true;
 
-
                         break;
 
                     case NetIncomingMessageType.Data:
@@ -98,7 +99,7 @@ namespace Our_Project
                         {
                             case "move":
                                 {
-                                    // server sent a position update
+                                    
                                     int id = msg.ReadInt32();
                                     int i = msg.ReadInt32();
 
@@ -106,8 +107,10 @@ namespace Our_Project
                                     enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
                                     PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
                                     PlayingState.tileDictionary[id].current_pawn = enemy.pawns[i];
-
+                                    enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     player.myTurn = true;
+
+                                   
                                     break;
                                 }
                             case "attacked":

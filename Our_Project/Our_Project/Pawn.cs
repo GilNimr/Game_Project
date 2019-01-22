@@ -16,6 +16,8 @@ namespace Our_Project
         public Tile current_tile;  // the square that now the pawn in it
         private Tile direction;          // if we will move this will get the details of new tile
 
+        
+
         private Texture2D texture;  // pawn texture
         public int strength;
         public bool send_update;
@@ -29,6 +31,8 @@ namespace Our_Project
         public MouseState oldState; // mouse input old position 
         public Vector2 position;
 
+        private SpriteFont strength_font;
+
         Rectangle mouseRec;
         public Team team;
         public enum Team
@@ -36,13 +40,19 @@ namespace Our_Project
             my_team, enemy_team
         }
 
-        public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team, int _id)
+        public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
+            
+
             id = _id;
+
             current_tile = _tile;
+
             _tile.current_pawn = this;
 
             team = _team;
+
+            strength_font = _strength_font;
             
            _tile.occupied = Tile.Occupied.yes_by_me;
           
@@ -53,7 +63,7 @@ namespace Our_Project
             isMove = false;
             position = new Vector2(_tile.Rec.X, _tile.Rec.Y);
 
-            send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
+          //  send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
         }
 
         public void Update()
@@ -84,30 +94,10 @@ namespace Our_Project
 
             if (attacked)
             {
-                    //if we lost the encounter with enemy
-                    if (attacker.strength > strength)
-                    {
-                        
-                        hasDied = true;
-                    send_update = true;
-                    }
-                    else if (attacker.strength < strength)
-                {
-
-                    attacker.hasDied = true;
-                    
-                }
-                else if (attacker.strength == strength)
-                {
-                    hasDied = true;
-                    attacker.hasDied = true;
-                    send_update = true;
-
-                }
-                attacked = false;
+                GettingAttacked();
             }
 
-            if (isMouseClicked && !hasDied )
+            if (isMouseClicked && !hasDied)
             {
                 // if we clicked, we will get the newe details of mouse position
                 newState = Mouse.GetState();
@@ -168,7 +158,6 @@ namespace Our_Project
                             current_tile.occupied = Tile.Occupied.no;
                             current_tile.current_pawn = null;
                             isMouseClicked = false;
-                          //  current_tile = null;
 
                         }
                 }
@@ -185,6 +174,31 @@ namespace Our_Project
             }
         }
 
+        public void GettingAttacked()
+        {
+            //if we lost the encounter with enemy
+            if (attacker.strength > strength)
+            {
+
+                hasDied = true;
+
+            }
+            else if (attacker.strength < strength)
+            {
+
+                attacker.hasDied = true;
+
+            }
+            else if (attacker.strength == strength)
+            {
+                hasDied = true;
+                attacker.hasDied = true;
+
+
+            }
+            attacked = false;
+        }
+
         public void Draw(SpriteBatch spriteBatch)
         {
            
@@ -192,6 +206,11 @@ namespace Our_Project
             {
                 Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(Tile.tilesize / 4), new Point(Tile.tilesize / 2));
                 spriteBatch.Draw(texture, Rec, Color.White);
+
+                if (team == Team.my_team)
+                {
+                    spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.Rec.Center.X, current_tile.Rec.Center.Y), Color.White);
+                }
             }
             else
             {
@@ -216,8 +235,6 @@ namespace Our_Project
 
                 if ((current_tile.down != null) && (current_tile.down.occupied == Tile.Occupied.no))
                     current_tile.down.Draw(spriteBatch, Color.Red);
-
-
 
             }
 

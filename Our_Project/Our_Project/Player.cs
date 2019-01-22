@@ -10,7 +10,7 @@ namespace Our_Project
     {
         public int army_size;
         public Pawn[] pawns;
-        internal bool myTurn=false;
+        public bool myTurn=false;
 
         public Player()
         {
