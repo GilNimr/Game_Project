@@ -85,12 +85,25 @@ namespace Our_Project
             if (attacked)
             {
                     //if we lost the encounter with enemy
-                    if (attacker.strength >= strength)
+                    if (attacker.strength > strength)
                     {
                         
                         hasDied = true;
                     send_update = true;
                     }
+                    else if (attacker.strength < strength)
+                {
+
+                    attacker.hasDied = true;
+                    
+                }
+                else if (attacker.strength == strength)
+                {
+                    hasDied = true;
+                    attacker.hasDied = true;
+                    send_update = true;
+
+                }
                 attacked = false;
             }
 
