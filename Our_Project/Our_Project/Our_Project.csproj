@@ -43,13 +43,14 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Board.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="NodeOFHidenTiles.cs" />
-    <Compile Include="Shape.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="States and state related\BaseGameState.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="States and state related\BuildingBoardState.cs" />
     <Compile Include="States and state related\GameStateInterfaces.cs" />
     <Compile Include="States and state related\OptionsMenuState.cs" />
     <Compile Include="States and state related\PausedState.cs" />

@@ -27,6 +27,9 @@ namespace Our_Project
         public IOptionsMenuState OptionsMenuState;
 
 
+        ///---!!!!
+        public IBuildingBoardState BuildingBoardState;
+
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
 
