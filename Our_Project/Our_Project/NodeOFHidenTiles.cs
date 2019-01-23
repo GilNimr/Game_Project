@@ -6,14 +6,24 @@ using System.Threading.Tasks;
 
 namespace Our_Project
 {
-    class NodeOFHidenTiles
+    public class NodeOFHidenTiles
     {
-        public int i, j;
+        int i, j;
 
         public NodeOFHidenTiles(int _i, int _j)
         {
             i = _i;
             j = _j;
+        }
+
+        public int getI()
+        {
+            return i;
+        }
+
+        public int getJ()
+        {
+            return j;
         }
     }
 }
