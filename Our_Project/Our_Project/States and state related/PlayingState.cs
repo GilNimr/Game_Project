@@ -12,17 +12,20 @@ namespace Our_Project
 
     public sealed class PlayingState : BaseGameState, IPlayingState
     {
-
+        public static bool win = false;
+        public static bool lose = false;
         private Texture2D Tile_texture; // the square
         private Texture2D cartasian_texture;
+        private Texture2D teleport_texture;
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
 
        // private Pawn[] pawns;           // the pawns
         NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
         Shape[] shapes;                 // all the shapes we going to use
-      
-        
+
+        public static Tile[] teleports; // array of all the teleports tiles.
+
         public int gridSize = 50;        // size of the whole board
 
         SpriteFont font_small;
@@ -33,7 +36,7 @@ namespace Our_Project
         public static Dictionary<int, Tile> tileDictionary;
 
         // public Pawn[] pawns;           // the pawns
-        private bool pawnTryToMove;
+       
         public Player player;
         public Player enemy;
         public Connection connection;
@@ -47,7 +50,7 @@ namespace Our_Project
         {
             game.Services.AddService(typeof(IPlayingState), this);
 
-            pawnTryToMove = false;
+            teleports = new Tile[2];
 
             player = new Player();
             player.myTurn = true;
@@ -68,6 +71,7 @@ namespace Our_Project
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
+            teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
             //pawn texture.
             Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
@@ -189,6 +193,14 @@ namespace Our_Project
                     }
                 }
 
+                //manually putting teleports for now
+            tileDictionary[100].teleport_tile = true;
+            tileDictionary[100].texture = teleport_texture;
+            teleports[0] = tileDictionary[100];
+            tileDictionary[106].teleport_tile = true;
+            tileDictionary[106].texture = teleport_texture;
+            teleports[1] = tileDictionary[106];
+
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
             //manually putting pawns for now.
@@ -196,13 +208,15 @@ namespace Our_Project
             player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1,font_small);
             player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team,2,font_small);
             player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team,3,font_small);
+            player.pawns[4] = new Pawn(Pawn_texture, tileDictionary[6], 21, Pawn.Team.my_team, 3, font_small);
 
             //manually putting pawns for now.
-            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.my_team,0,font_small);
-            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.my_team,1,font_small);
-            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.my_team,2,font_small);
-            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.my_team,3,font_small);
-            
+            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.enemy_team,0,font_small);
+            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.enemy_team,1,font_small);
+            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.enemy_team,2,font_small);
+            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.enemy_team,3,font_small);
+            enemy.pawns[4] = new Pawn(Pawn_texture, tileDictionary[57], 21, Pawn.Team.enemy_team,3, font_small);
+
 
 
 
@@ -235,13 +249,20 @@ namespace Our_Project
             connection.update();
             if (i_am_second_player)
             {
-                changeTilematrix();
+            //    changeTilematrix();
                 Pawn[] swap_pawns = new Pawn[player.army_size];
                 swap_pawns = player.pawns;
                 player.pawns = enemy.pawns;
                 enemy.pawns = swap_pawns;
                 player.myTurn = false;
+
+                for (int i = 0; i < player.pawns.Length; i++)
+                {
+                    player.pawns[i].team = Pawn.Team.my_team;
+                    enemy.pawns[i].team = Pawn.Team.enemy_team;
+                }
             }
+            
 
         }
 
@@ -324,7 +345,10 @@ namespace Our_Project
             else
                 OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
 
-
+            if(win)
+                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 60), Color.White);
+            if(lose)
+                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 60), Color.White);
         }
 
         public void changeTilematrix()

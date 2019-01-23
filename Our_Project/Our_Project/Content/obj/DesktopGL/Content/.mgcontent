@@ -18,9 +18,11 @@
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/startMenu.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile - Copy.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile(2).png</File>
+    <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/teleport.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

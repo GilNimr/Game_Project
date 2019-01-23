@@ -10,7 +10,7 @@ namespace Our_Project
 {
    public class Tile
     {
-        private Texture2D texture;              //the isometric tile texture
+        public Texture2D texture;              //the isometric tile texture
         private Texture2D cartasian_texture;    //the 2D tile for debugging.
         public static int tilesize;
         public Rectangle Rec;
@@ -29,8 +29,11 @@ namespace Our_Project
             no, yes_by_me, yes_by_enemy
         }
 
+        public bool teleport_tile;
+
         public Tile(Texture2D _texture, Texture2D _cartasian_texture, Rectangle rec, int _id)
         {
+            teleport_tile = false ;
             id = _id;
             tilesize = rec.Width;
             texture = _texture;
@@ -59,6 +62,19 @@ namespace Our_Project
 
 
 
+        }
+
+        public Tile Teleport_to_rand()
+        {
+            Random rand = new Random();
+            int rand_number = rand.Next(0, 1);
+            while (PlayingState.teleports[rand_number] == this)
+            {
+                rand_number = rand.Next(0, 2);
+            }
+            return PlayingState.teleports[rand_number];
+            
+            
         }
 
 

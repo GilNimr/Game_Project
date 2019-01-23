@@ -16,7 +16,7 @@ namespace Our_Project
         public Tile current_tile;  // the square that now the pawn in it
         private Tile direction;          // if we will move this will get the details of new tile
 
-        
+        public bool the_flag;
 
         private Texture2D texture;  // pawn texture
         public int strength;
@@ -42,7 +42,8 @@ namespace Our_Project
 
         public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
-            
+            if (_strength == 21)  
+                the_flag = true;
 
             id = _id;
 
@@ -97,7 +98,7 @@ namespace Our_Project
                 GettingAttacked();
             }
 
-            if (isMouseClicked && !hasDied)
+            if (isMouseClicked && !hasDied && !the_flag)
             {
                 // if we clicked, we will get the newe details of mouse position
                 newState = Mouse.GetState();
@@ -176,6 +177,10 @@ namespace Our_Project
 
         public void GettingAttacked()
         {
+            if (the_flag)
+            {
+                PlayingState.lose = true;
+            }
             //if we lost the encounter with enemy
             if (attacker.strength > strength)
             {
@@ -209,6 +214,9 @@ namespace Our_Project
 
                 if (team == Team.my_team)
                 {
+                    if(the_flag)
+                        spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.Rec.Center.X, current_tile.Rec.Center.Y), Color.White);
+                    else
                     spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.Rec.Center.X, current_tile.Rec.Center.Y), Color.White);
                 }
             }
@@ -265,18 +273,23 @@ namespace Our_Project
             //spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
         }
 
-       public void moveORattack(Tile _direction)
+       private void moveORattack(Tile _direction)
         {
             isMove = true;
 
             direction = _direction;
+
             if (direction.occupied == Tile.Occupied.yes_by_enemy)
             {
                 direction.current_pawn.attacked = true;
                 direction.current_pawn.attacker = this;
 
-                //if we lost the encounter with enemy
-                if (direction.current_pawn.strength > strength)
+                if (direction.current_pawn.the_flag == true)
+                {
+                    PlayingState.win = true;
+                }
+                    //if we lost the encounter with enemy
+                else if (direction.current_pawn.strength > strength)
                 {
                     hasDied = true;
                 }
@@ -292,6 +305,11 @@ namespace Our_Project
                 }
 
             }
+
+            //checking to see if encounterd a teleport.
+            if (direction.teleport_tile)
+                direction = direction.Teleport_to_rand();
+
             send_update = true;
         }
 

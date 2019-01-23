@@ -48,19 +48,9 @@ namespace Our_Project
         private void HostButtonClick(object sender, System.EventArgs e)
         {
             
-               /* case 0:
-                    // Got back here from playing the game. So just pop myself off the stack
-                    if (StateManager.ContainsState(OurGame.PlayingState.Value))
-                        StateManager.PopState();
-                    else // Starting a new game. */
+              
                         StateManager.ChangeState(OurGame.PlayingState.Value);
-                /*    break;
-                case 1:
-                    StateManager.PushState(OurGame.OptionsMenuState.Value);
-                    break;
-                case 2:
-                    StateManager.ChangeState(OurGame.TitleIntroState.Value);
-                    break;*/
+              
             
         }
 
