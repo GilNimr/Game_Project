@@ -12,11 +12,11 @@ namespace Our_Project
     {
         private Texture2D realTile;              //the isometric tile texture
         private Texture2D oldTile;              //the 2D tile for debugging.
-        private readonly int tileSize;                   // the tile size
+        private  static  int tileSize;                   // the tile size
         private Rectangle oldRectangle;
         private int id;                         // ID of tile
         private Rectangle isoprojection_rectangle; //the rectangle in which we draw the isometric projection
-        //private Pawn current_pawn;                  // current pawn on tile
+        private Pawn current_pawn;                  // current pawn on tile
         private Tile left, right, down, up;        //   Tile neighbors
 
         public Occupied occupied;
@@ -60,7 +60,7 @@ namespace Our_Project
             return id;
         }
 
-        public int getTileSize()
+        public static int getTileSize()
         {
             return tileSize;
         }
@@ -132,6 +132,16 @@ namespace Our_Project
         {
             oldRectangle.X = x;
             oldRectangle.Y = y;
+        }
+
+        public Pawn getCurrentPawn()
+        {
+            return current_pawn;
+        }
+
+        public void setCurrentPawn (Pawn p)
+        {
+            current_pawn = p;
         }
 
 
