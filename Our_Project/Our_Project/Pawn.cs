@@ -222,10 +222,17 @@ namespace Our_Project
             }
             else
             {
-                if(team==Team.my_team)
-                spriteBatch.Draw(texture, new Rectangle(30*strength,20, Tile.tilesize / 2, Tile.tilesize / 2), Color.White);
+                if (team == Team.my_team)
+                {
+                    spriteBatch.Draw(texture, new Rectangle(30 * strength, 20, Tile.tilesize / 2, Tile.tilesize / 2), Color.White);
+                    spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(30 * strength, 20), Color.White);
+                }
                 else
-                spriteBatch.Draw(texture, new Rectangle(320+30 * strength, 20, Tile.tilesize / 2, Tile.tilesize / 2), Color.White);
+                {
+                    spriteBatch.Draw(texture, new Rectangle(320 + 30 * strength, 20, Tile.tilesize / 2, Tile.tilesize / 2), Color.White);
+                    spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(320+30 * strength, 20), Color.White);
+                }
+                
             }
 
             //drawing adjecant tiles if clicked

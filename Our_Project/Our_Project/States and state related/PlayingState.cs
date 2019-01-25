@@ -58,7 +58,7 @@ namespace Our_Project
             connection = new Connection(ref player, ref enemy);
             tileDictionary = new Dictionary<int, Tile>();
 
-
+            
         }
 
         protected override void LoadContent()
@@ -212,10 +212,15 @@ namespace Our_Project
 
             //manually putting pawns for now.
             enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.enemy_team,0,font_small);
+            enemy.pawns[0].current_tile.occupied = Tile.Occupied.yes_by_enemy;
             enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.enemy_team,1,font_small);
+            enemy.pawns[1].current_tile.occupied = Tile.Occupied.yes_by_enemy;
             enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.enemy_team,2,font_small);
+            enemy.pawns[2].current_tile.occupied = Tile.Occupied.yes_by_enemy;
             enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.enemy_team,3,font_small);
+            enemy.pawns[3].current_tile.occupied = Tile.Occupied.yes_by_enemy;
             enemy.pawns[4] = new Pawn(Pawn_texture, tileDictionary[57], 21, Pawn.Team.enemy_team,3, font_small);
+            enemy.pawns[4].current_tile.occupied = Tile.Occupied.yes_by_enemy;
 
 
 
@@ -259,7 +264,9 @@ namespace Our_Project
                 for (int i = 0; i < player.pawns.Length; i++)
                 {
                     player.pawns[i].team = Pawn.Team.my_team;
+                    player.pawns[i].current_tile.occupied = Tile.Occupied.yes_by_me;
                     enemy.pawns[i].team = Pawn.Team.enemy_team;
+                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.yes_by_enemy;
                 }
             }
             
@@ -346,9 +353,9 @@ namespace Our_Project
                 OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
 
             if(win)
-                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 60), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 20), Color.White);
             if(lose)
-                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 60), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 20), Color.White);
         }
 
         public void changeTilematrix()

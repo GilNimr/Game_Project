@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using Lidgren.Network;
 
@@ -17,7 +18,8 @@ namespace GameServer
             // create and start server
             NetServer server = new NetServer(config);
                 server.Start();
-            
+
+            List<NetConnection[]> gamerooms = new List<NetConnection[]>();
          //   server.UPnP.ForwardPort(14242, "Flags game for school project",14242);
           //  server.UPnP.ForwardPort(14242, "Flags game for school project");
 
@@ -41,9 +43,13 @@ namespace GameServer
                             if (server.ConnectionsCount % 2 != 0)
                             {
                                 msg_num_of_players.Write(1);
+                                
                             }
                             else
+                            {
                                 msg_num_of_players.Write(0);
+                                
+                            }
 
                             server.SendDiscoveryResponse(msg_num_of_players, msg.SenderEndPoint);
                                 break;
@@ -120,6 +126,7 @@ namespace GameServer
                                 {
                                 if (player != otherPlayer)
                                 {
+                                    
                                     // send position update about 'otherPlayer' to 'player'
                                     NetOutgoingMessage om = server.CreateMessage();
 
