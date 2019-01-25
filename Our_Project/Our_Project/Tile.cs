@@ -52,7 +52,8 @@ namespace Our_Project
             Vector2 iso_location = Game1.TwoD2isometrix(oldRectangle.X, oldRectangle.Y);
             isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, oldRectangle.Width * 2, oldRectangle.Height);
 
-            spriteBatch.Draw(realTile, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
+            if (realTile!= null && isoprojection_rectangle != null)
+                spriteBatch.Draw(realTile, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
         }
 
         public int getId()

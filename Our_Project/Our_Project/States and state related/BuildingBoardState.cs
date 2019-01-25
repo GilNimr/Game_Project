@@ -11,9 +11,13 @@ namespace Our_Project.States_and_state_related
     public sealed class BuildingBoardState : BaseGameState, IBuildingBoardState
     {
         //GraphicsDeviceManager graphics;
-       // SpriteBatch spriteBatch;
+        // SpriteBatch spriteBatch;
         Board bigEmptyBoard;
         List<Board> shapes;
+        Texture2D g2d;
+        Texture2D gIs;
+        Texture2D emptyTile2d;
+        Texture2D emptyTileIso;
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -22,27 +26,26 @@ namespace Our_Project.States_and_state_related
             //graphics = new GraphicsDeviceManager(this);
             //Content.RootDirectory = "Content";
             //IsMouseVisible = true;
- /*
-            OurGame.graphics.PreferredBackBufferHeight = 2400;
-            Game1.screen_height = OurGame.graphics.PreferredBackBufferHeight;
-            OurGame.graphics.PreferredBackBufferWidth = 2400;
-            Game1.screen_width = OurGame.graphics.PreferredBackBufferWidth;
-   */         
-            buildEmptyBoard();
-
-            createShapes();
+            /*
+                       OurGame.graphics.PreferredBackBufferHeight = 2400;
+                       Game1.screen_height = OurGame.graphics.PreferredBackBufferHeight;
+                       OurGame.graphics.PreferredBackBufferWidth = 2400;
+                       Game1.screen_width = OurGame.graphics.PreferredBackBufferWidth;
+              */
+            
 
         }
 
         private void createShapes()
         {
-            Texture2D g2d = Content.Load<Texture2D>("Gray_2d_Tile");
-            Texture2D gIs = Content.Load<Texture2D>("Gray_Isometric_Tile");
+            
 
             List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
 
             setShapesBoards(g2d, gIs, allHidenPoints);
         }
+
+
 
         private void setShapesBoards(Texture2D g2d, Texture2D gIs, List<List<NodeOFHidenTiles>> allHidenPoints)
         {
@@ -88,10 +91,6 @@ namespace Our_Project.States_and_state_related
         
         private void buildEmptyBoard()
         {
-
-           Texture2D emptyTile2d =  Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
-            Texture2D emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
-
             bigEmptyBoard = new Board(20, emptyTileIso, emptyTile2d);
         }
 
@@ -101,10 +100,15 @@ namespace Our_Project.States_and_state_related
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            g2d = OurGame.Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
+            gIs = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
+            emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
+            emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
+
+            buildEmptyBoard();
+            createShapes();
+          
         }
 
         /// <summary>
@@ -178,7 +182,7 @@ namespace Our_Project.States_and_state_related
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            OurGame.spriteBatch.Begin();
+            //OurGame.spriteBatch.Begin();
 
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
 
@@ -218,7 +222,7 @@ namespace Our_Project.States_and_state_related
 
             base.Draw(gameTime);
 
-            OurGame.spriteBatch.End();
+          //  OurGame.spriteBatch.End();
         }
 
         //translates 2d world coordinates to isometric screen coordinates.

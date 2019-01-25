@@ -33,7 +33,7 @@ namespace Our_Project
         int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
 
 
-        private SpriteFont font;
+        //private SpriteFont font;
         string printDebug = "just for debug";
 
 
@@ -57,10 +57,6 @@ namespace Our_Project
             setGeneralTypesOfBoard(ti, t2d, _height, _width);
 
         }
-
-
-
-
 
 
         public void Update()
@@ -176,7 +172,7 @@ namespace Our_Project
 
         private void setShapeTypes(List<NodeOFHidenTiles> _hidenTiles, int starterX, int starterY, ContentManager content)
         {
-            font = content.Load<SpriteFont>("font");
+            //font = content.Load<SpriteFont>("font");
             move = false;
             setPositionOfShape(starterX, starterY);
             setHidenTiles(_hidenTiles);
@@ -202,9 +198,9 @@ namespace Our_Project
 
         private void setEmptyTilesImg(ContentManager content)
         {
-            empty2dImg = content.Load<Texture2D>("White_2d_Tile");
+           /* empty2dImg = content.Load<Texture2D>("White_2d_Tile");
             emtyIsoImg = content.Load<Texture2D>("White_Isometric_Tile");
-        }
+        */}
 
         void setBoard()
         {
@@ -375,9 +371,9 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            if (isShape())
+           /* if (isShape())
                 spriteBatch.DrawString(font, printDebug, new Vector2(100, 100), Color.Black);
-
+                */
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
