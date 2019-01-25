@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,6 @@ namespace Our_Project.States_and_state_related
 {
     public sealed class BuildingBoardState : BaseGameState, IBuildingBoardState
     {
-        //GraphicsDeviceManager graphics;
-        // SpriteBatch spriteBatch;
         Board bigEmptyBoard;
         List<Board> shapes;
         Texture2D g2d;
@@ -22,18 +21,7 @@ namespace Our_Project.States_and_state_related
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
-
-            //graphics = new GraphicsDeviceManager(this);
-            //Content.RootDirectory = "Content";
-            //IsMouseVisible = true;
-            /*
-                       OurGame.graphics.PreferredBackBufferHeight = 2400;
-                       Game1.screen_height = OurGame.graphics.PreferredBackBufferHeight;
-                       OurGame.graphics.PreferredBackBufferWidth = 2400;
-                       Game1.screen_width = OurGame.graphics.PreferredBackBufferWidth;
-              */
             
-
         }
 
         private void createShapes()
@@ -43,6 +31,7 @@ namespace Our_Project.States_and_state_related
             List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
 
             setShapesBoards(g2d, gIs, allHidenPoints);
+
         }
 
 
@@ -50,12 +39,11 @@ namespace Our_Project.States_and_state_related
         private void setShapesBoards(Texture2D g2d, Texture2D gIs, List<List<NodeOFHidenTiles>> allHidenPoints)
         {
             shapes = new List<Board>();
-
-            int space_between_shapes = 50;
-
+            
             shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, gIs, g2d, false, this.Content));
-
-            shapes.Add(new Board(allHidenPoints[1], 1, 4, shapes[0].getEndOfXaxisOfLastTile() +
+            
+            // int space_between_shapes = 50;
+            /*shapes.Add(new Board(allHidenPoints[1], 1, 4, shapes[0].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[0].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));
 
@@ -65,7 +53,7 @@ namespace Our_Project.States_and_state_related
 
             shapes.Add(new Board(allHidenPoints[3], 3, 2, shapes[2].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[2].getEndOfYaxisOfLastTile() + space_between_shapes,
-                gIs, g2d, false, this.Content));
+                gIs, g2d, false, this.Content));*/
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -91,7 +79,7 @@ namespace Our_Project.States_and_state_related
         
         private void buildEmptyBoard()
         {
-            bigEmptyBoard = new Board(20, emptyTileIso, emptyTile2d);
+            bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
         }
 
         /// <summary>

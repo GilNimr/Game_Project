@@ -20,7 +20,7 @@ namespace Our_Project
         Texture2D tile2dImg;                                // the 2d image of tile
         Texture2D emtyIsoImg;                               // the empty isometric tile
         Texture2D empty2dImg;                               // the empty 2d tile
-        readonly int tileSize = Game1.screen_height / 80;   // size of tile
+        readonly int tileSize = Game1.screen_height / 30;   // size of tile
         int id;                                             // id to tile at this board
         int height, width;                            // if full board, sizeOfBoard = height = width
         int starterX, starterY;                             // where begin shape
@@ -30,8 +30,9 @@ namespace Our_Project
         int hidenIndex;
         // hidenTiles[] index for fill the shape
         bool move; // for knowing if move some shape
+        static bool lockMove = false;
         int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
-
+        
 
         //private SpriteFont font;
         string printDebug = "just for debug";
@@ -61,9 +62,8 @@ namespace Our_Project
 
         public void Update()
         {
-            checkAndMoveShape();
-
-
+            
+           checkAndMoveShape();
         }
 
 
@@ -297,7 +297,8 @@ namespace Our_Project
         private void setTileOfFullBoard(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle,
             int hidenIndex)
         {
-            Rectangle rec = new Rectangle(700 + axisXofNewTileRectangle, -300 + axisYofNewTileRectangle, tileSize, tileSize);
+            Rectangle rec = new Rectangle(Game1.screen_width/3+ axisXofNewTileRectangle,
+                  -Game1.screen_height/3 + axisYofNewTileRectangle, tileSize, tileSize);
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
         }
 

@@ -73,7 +73,7 @@ namespace Our_Project
             Host_Button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(350, 200),
-                Text = "Random",
+                Text = "Click for begin",
             };
             Host_Button.Click += HostButtonClick;
             Game.Components.Add(Host_Button);
