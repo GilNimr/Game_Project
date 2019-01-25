@@ -18,9 +18,13 @@
     <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/startMenu.png</File>
     <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile - Copy.png</File>
     <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile(2).png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/White_2d_Tile.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/White_Isometric_Tile.png</File>
     <File>C:/Users/shach/OneDrive - Sapir College/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

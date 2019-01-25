@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Our_Project.States_and_state_related;
 using XELibrary;
 
 namespace Our_Project
@@ -10,7 +11,7 @@ namespace Our_Project
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
 
         CelAnimationManager celAnimationManager;
@@ -41,7 +42,7 @@ namespace Our_Project
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-           
+
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             graphics.PreferredBackBufferHeight = 2400;
@@ -68,6 +69,8 @@ namespace Our_Project
             PlayingState = new PlayingState(this);
             PausedState = new PausedState(this);
             OptionsMenuState = new OptionsMenuState(this);
+
+            BuildingBoardState = new BuildingBoardState(this);
 
             EnableSoundFx = true;
             EnableMusic = true;
