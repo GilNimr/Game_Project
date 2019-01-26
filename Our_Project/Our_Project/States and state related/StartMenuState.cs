@@ -10,6 +10,7 @@ namespace Our_Project
         private Texture2D texture;
         
         private SpriteFont font;
+        private Texture2D button_texture;
         private int selected;
 
         public Button Host_Button;
@@ -58,11 +59,12 @@ namespace Our_Project
         {
             texture = Content.Load<Texture2D>(@"Textures\startMenu");
             font = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
+            button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
 
-            Host_Button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            Host_Button = new Button(Game, button_texture , font)
             {
-                Position = new Vector2(350, 200),
-                Text = "Random",
+                Position = new Vector2(Game1.screen_width/2 -  button_texture.Width/2, Game1.screen_height / 2 - button_texture.Height/2),
+                Text = "play",
             };
             Host_Button.Click += HostButtonClick;
             Game.Components.Add(Host_Button);
@@ -76,7 +78,7 @@ namespace Our_Project
                                          texture.Height / 2);
             Vector2 currPos = new Vector2(100, pos.Y / 2);
             
-            OurGame.spriteBatch.Draw(texture, pos, new Rectangle(0, 0, texture.Width, texture.Height), Color.White, 0.0f, origin, new Vector2(1.0f, 1.0f), SpriteEffects.None, 0.0f);
+            OurGame.spriteBatch.Draw(texture, pos, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White, 0.0f, origin, new Vector2(5.0f, 5.0f), SpriteEffects.None, 0.0f);
             {
 
                 Host_Button.Draw(gameTime,OurGame.spriteBatch);

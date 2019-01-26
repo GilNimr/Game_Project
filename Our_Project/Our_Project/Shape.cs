@@ -28,7 +28,7 @@ namespace Our_Project
             for (int i = 0; i < _width; i++)
                 shapeBoard[i] = new Tile[_height];
 
-            int tileSize = Game1.screen_height / 80;  // const
+            int tileSize = Game1.screen_height / 30;  // const
             int hidenIndex = 0; // where is the indexes we want to hide (hiden tiles)
 
             
@@ -50,7 +50,7 @@ namespace Our_Project
                     }
 
                     // build tiles at the shape
-                    Rectangle rec = new Rectangle(350 + x, y, tileSize, tileSize);
+                    Rectangle rec = new Rectangle(Game1.screen_width/3 + x, y, tileSize, tileSize);
                     shapeBoard[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
                    PlayingState. tileDictionary.Add(id, shapeBoard[i][j]);
                     id++;

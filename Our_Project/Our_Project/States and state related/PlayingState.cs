@@ -26,11 +26,11 @@ namespace Our_Project
 
         public static Tile[] teleports; // array of all the teleports tiles.
 
-        public int gridSize = 50;        // size of the whole board
+        public int gridSize = 200;        // size of the whole board
 
         SpriteFont font_small;
 
-        public static int tileSize = Game1.screen_height / 80;
+        public static int tileSize = Game1.screen_height / 30;
         
 
         public static Dictionary<int, Tile> tileDictionary;
@@ -91,7 +91,7 @@ namespace Our_Project
 
             // manualy build the shapes:
             hidenTiles = new NodeOFHidenTiles[1];
-           hidenTiles[0] = new NodeOFHidenTiles(22, 22);
+           hidenTiles[0] = new NodeOFHidenTiles(20, 20);
 
 
             /*
@@ -102,12 +102,12 @@ namespace Our_Project
 
 
             shapes = new Shape[2];              
-            shapes[0] = new Shape(hidenTiles, 25, 25, Tile_texture, cartasian_texture, 0, 0, false,0);
+            shapes[0] = new Shape(hidenTiles, 10, 10, Tile_texture, cartasian_texture, 0, 0, false,0);
 
-            hidenTiles[0].i = 11;
-            hidenTiles[0].j = 11; // (2,3)
+            hidenTiles[0].i = 70;
+            hidenTiles[0].j = 70; // (2,3)
             
-            shapes[1] = new Shape(hidenTiles, 25, 25, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
+            shapes[1] = new Shape(hidenTiles, 10, 10, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
                                         0, true,5000);
 
         /*            Rectangle rec = new Rectangle((250) + x, y-(218/4), tileSize, tileSize);
@@ -194,12 +194,12 @@ namespace Our_Project
                 }
 
                 //manually putting teleports for now
-            tileDictionary[100].teleport_tile = true;
-            tileDictionary[100].texture = teleport_texture;
-            teleports[0] = tileDictionary[100];
-            tileDictionary[106].teleport_tile = true;
-            tileDictionary[106].texture = teleport_texture;
-            teleports[1] = tileDictionary[106];
+            tileDictionary[75].teleport_tile = true;
+            tileDictionary[75].texture = teleport_texture;
+            teleports[0] = tileDictionary[75];
+            tileDictionary[5025].teleport_tile = true;
+            tileDictionary[5025].texture = teleport_texture;
+            teleports[1] = tileDictionary[5025];
 
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
@@ -208,19 +208,65 @@ namespace Our_Project
             player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1,font_small);
             player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team,2,font_small);
             player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team,3,font_small);
-            player.pawns[4] = new Pawn(Pawn_texture, tileDictionary[6], 21, Pawn.Team.my_team, 3, font_small);
+            player.pawns[4] = new Pawn(Pawn_texture, tileDictionary[4], 21, Pawn.Team.my_team, 4, font_small);
+            player.pawns[5] = new Pawn(Pawn_texture, tileDictionary[5], 4, Pawn.Team.my_team, 5, font_small);
+            player.pawns[6] = new Pawn(Pawn_texture, tileDictionary[6], 5, Pawn.Team.my_team, 6, font_small);
+            player.pawns[7] = new Pawn(Pawn_texture, tileDictionary[7], 6, Pawn.Team.my_team, 7, font_small);
+            player.pawns[8] = new Pawn(Pawn_texture, tileDictionary[8], 7, Pawn.Team.my_team, 8, font_small);
+            player.pawns[9] = new Pawn(Pawn_texture, tileDictionary[9], 8, Pawn.Team.my_team, 9, font_small);
+            player.pawns[10] = new Pawn(Pawn_texture, tileDictionary[10], 9, Pawn.Team.my_team, 10, font_small);
+            player.pawns[11] = new Pawn(Pawn_texture, tileDictionary[11], 10, Pawn.Team.my_team, 11, font_small);
+            player.pawns[12] = new Pawn(Pawn_texture, tileDictionary[12], 11, Pawn.Team.my_team, 12, font_small);
+            player.pawns[13] = new Pawn(Pawn_texture, tileDictionary[13], 12, Pawn.Team.my_team, 13, font_small);
+            player.pawns[14] = new Pawn(Pawn_texture, tileDictionary[14], 13, Pawn.Team.my_team, 14, font_small);
+            player.pawns[15] = new Pawn(Pawn_texture, tileDictionary[15], 14, Pawn.Team.my_team, 15, font_small);
+            player.pawns[16] = new Pawn(Pawn_texture, tileDictionary[16], 15, Pawn.Team.my_team, 16, font_small);
+            player.pawns[17] = new Pawn(Pawn_texture, tileDictionary[17], 16, Pawn.Team.my_team, 17, font_small);
+            player.pawns[18] = new Pawn(Pawn_texture, tileDictionary[18], 17, Pawn.Team.my_team, 18, font_small);
+            player.pawns[19] = new Pawn(Pawn_texture, tileDictionary[19], 18, Pawn.Team.my_team, 19, font_small);
+           
 
             //manually putting pawns for now.
-            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[51], 0, Pawn.Team.enemy_team,0,font_small);
+            enemy.pawns[0] = new Pawn(Pawn_texture, tileDictionary[5090], 0, Pawn.Team.enemy_team,0,font_small);
             enemy.pawns[0].current_tile.occupied = Tile.Occupied.yes_by_enemy;
-            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[52], 1, Pawn.Team.enemy_team,1,font_small);
+            enemy.pawns[1] = new Pawn(Pawn_texture, tileDictionary[5091], 1, Pawn.Team.enemy_team,1,font_small);
             enemy.pawns[1].current_tile.occupied = Tile.Occupied.yes_by_enemy;
-            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[53], 2, Pawn.Team.enemy_team,2,font_small);
+            enemy.pawns[2] = new Pawn(Pawn_texture, tileDictionary[5092], 2, Pawn.Team.enemy_team,2,font_small);
             enemy.pawns[2].current_tile.occupied = Tile.Occupied.yes_by_enemy;
-            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[54], 3, Pawn.Team.enemy_team,3,font_small);
+            enemy.pawns[3] = new Pawn(Pawn_texture, tileDictionary[5093], 3, Pawn.Team.enemy_team,3,font_small);
             enemy.pawns[3].current_tile.occupied = Tile.Occupied.yes_by_enemy;
-            enemy.pawns[4] = new Pawn(Pawn_texture, tileDictionary[57], 21, Pawn.Team.enemy_team,3, font_small);
+            enemy.pawns[4] = new Pawn(Pawn_texture, tileDictionary[5094], 21, Pawn.Team.enemy_team,4, font_small);
             enemy.pawns[4].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[5] = new Pawn(Pawn_texture, tileDictionary[5095], 4, Pawn.Team.enemy_team, 5, font_small);
+            enemy.pawns[5].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[6] = new Pawn(Pawn_texture, tileDictionary[5096], 5, Pawn.Team.enemy_team, 6, font_small);
+            enemy.pawns[6].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[7] = new Pawn(Pawn_texture, tileDictionary[5097], 6, Pawn.Team.enemy_team, 7, font_small);
+            enemy.pawns[7].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[8] = new Pawn(Pawn_texture, tileDictionary[5098], 7, Pawn.Team.enemy_team, 8, font_small);
+            enemy.pawns[8].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[9] = new Pawn(Pawn_texture, tileDictionary[5099], 8, Pawn.Team.enemy_team, 9, font_small);
+            enemy.pawns[9].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[10] = new Pawn(Pawn_texture, tileDictionary[5080], 9, Pawn.Team.enemy_team, 10, font_small);
+            enemy.pawns[10].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[11] = new Pawn(Pawn_texture, tileDictionary[5081], 10, Pawn.Team.enemy_team, 11, font_small);
+            enemy.pawns[11].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[12] = new Pawn(Pawn_texture, tileDictionary[5082], 11, Pawn.Team.enemy_team, 12, font_small);
+            enemy.pawns[12].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[13] = new Pawn(Pawn_texture, tileDictionary[5083], 12, Pawn.Team.enemy_team, 13, font_small);
+            enemy.pawns[13].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[14] = new Pawn(Pawn_texture, tileDictionary[5084], 13, Pawn.Team.enemy_team, 14, font_small);
+            enemy.pawns[14].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[15] = new Pawn(Pawn_texture, tileDictionary[5085], 14, Pawn.Team.enemy_team, 15, font_small);
+            enemy.pawns[15].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[16] = new Pawn(Pawn_texture, tileDictionary[5086], 15, Pawn.Team.enemy_team, 16, font_small);
+            enemy.pawns[16].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[17] = new Pawn(Pawn_texture, tileDictionary[5087], 16, Pawn.Team.enemy_team, 17, font_small);
+            enemy.pawns[17].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[18] = new Pawn(Pawn_texture, tileDictionary[5088], 17, Pawn.Team.enemy_team, 18, font_small);
+            enemy.pawns[18].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+            enemy.pawns[19] = new Pawn(Pawn_texture, tileDictionary[5089], 18, Pawn.Team.enemy_team, 19, font_small);
+            enemy.pawns[19].current_tile.occupied = Tile.Occupied.yes_by_enemy;
 
 
 

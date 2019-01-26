@@ -14,7 +14,7 @@ namespace Our_Project
 
         public Player()
         {
-            army_size = 5;
+            army_size = 20;
         }
     }
 }

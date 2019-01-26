@@ -38,15 +38,13 @@ namespace Our_Project
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-           
+            
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            graphics.PreferredBackBufferHeight = 2400;
-            screen_height = graphics.PreferredBackBufferHeight;
-            graphics.PreferredBackBufferWidth = 2400;
-            screen_width = graphics.PreferredBackBufferWidth;
-
-           // graphics.IsFullScreen = true;
+             graphics.PreferredBackBufferHeight = 2160;
+             screen_height = graphics.PreferredBackBufferHeight;
+             graphics.PreferredBackBufferWidth = 3840;
+             screen_width = graphics.PreferredBackBufferWidth;
 
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);
@@ -68,6 +66,8 @@ namespace Our_Project
 
             EnableSoundFx = true;
             EnableMusic = true;
+
+           
         }
 
         protected override void BeginRun()
@@ -133,7 +133,7 @@ namespace Our_Project
                 Exit();
 
             
-
+            
 
             base.Update(gameTime);
         }
