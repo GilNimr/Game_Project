@@ -38,13 +38,18 @@ namespace Our_Project
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            
+
+          
+
+
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-             graphics.PreferredBackBufferHeight = 2160;
-             screen_height = graphics.PreferredBackBufferHeight;
-             graphics.PreferredBackBufferWidth = 3840;
-             screen_width = graphics.PreferredBackBufferWidth;
+       //  graphics.PreferredBackBufferHeight = 2160;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            screen_height = graphics.PreferredBackBufferHeight;
+       //      graphics.PreferredBackBufferWidth = 3840;
+           graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            screen_width = graphics.PreferredBackBufferWidth;
 
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);
