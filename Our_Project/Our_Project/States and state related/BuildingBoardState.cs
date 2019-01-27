@@ -21,12 +21,12 @@ namespace Our_Project.States_and_state_related
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
-            
+
         }
 
         private void createShapes()
         {
-            
+
 
             List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
 
@@ -39,18 +39,16 @@ namespace Our_Project.States_and_state_related
         private void setShapesBoards(Texture2D g2d, Texture2D gIs, List<List<NodeOFHidenTiles>> allHidenPoints)
         {
             shapes = new List<Board>();
-            
+
             shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, gIs, g2d, false, this.Content));
-            
+
             // int space_between_shapes = 50;
             /*shapes.Add(new Board(allHidenPoints[1], 1, 4, shapes[0].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[0].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));
-
             shapes.Add(new Board(allHidenPoints[2], 4, 2, shapes[1].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[1].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));
-
             shapes.Add(new Board(allHidenPoints[3], 3, 2, shapes[2].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[2].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));*/
@@ -76,7 +74,7 @@ namespace Our_Project.States_and_state_related
 
             return allHidenPoints;
         }
-        
+
         private void buildEmptyBoard()
         {
             bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
@@ -96,7 +94,7 @@ namespace Our_Project.States_and_state_related
 
             buildEmptyBoard();
             createShapes();
-          
+
         }
 
         /// <summary>
@@ -132,15 +130,29 @@ namespace Our_Project.States_and_state_related
 
         private void putShapeAtNewPosition()
         {
-            foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
+
+
+
+            foreach (Board shape in shapes)
             {
-                foreach (Tile emptyTile in emptyTilesLine)
+                int how_much_tiles_in_shape = shape.getHeight() + shape.getWidth();
+                List<bool> eachShapeHasEmptyTile = new List<bool>();
+
+                for(int i=0; i<how_much_tiles_in_shape; i++)
                 {
-                    foreach (Board shape in shapes)
+                    eachShapeHasEmptyTile.Add(false);
+                }
+
+                List<Tile> shapeTilesToMove = new List<Tile>();
+                List<Tile> emptyTilesToMove = new List<Tile>();
+
+                foreach  (Tile[] shapeTilesLine in shape.getBoard())
+                {
+                    foreach  (Tile shapeTile in shapeTilesLine)
                     {
-                        foreach (Tile[] shapeTilesLine in shape.getBoard())
+                        foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
                         {
-                            foreach (Tile shapeTile in shapeTilesLine)
+                            foreach (Tile emptyTile in emptyTilesLine)
                             {
                                 if (shapeTile.getOldRectangle().Intersects(emptyTile.getOldRectangle())
                                     && (!shape.getMove()))
@@ -151,15 +163,39 @@ namespace Our_Project.States_and_state_related
                                         emptyTile.getOldRectangle().Center.Y)
                                         )
                                     {
-                                        shapeTile.setToOldRectangle(emptyTile.getOldRectangle().X,
-                                            emptyTile.getOldRectangle().Y);
+                                        eachShapeHasEmptyTile.Add(true);
+                                        emptyTilesToMove.Add(emptyTile);
+                                        shapeTilesToMove.Add(shapeTile);
                                     }
                                 }
                             }
                         }
                     }
                 }
+
+                
+                bool putShapeAtNewPlace = false;
+                for (int i = 0; i < how_much_tiles_in_shape; i++)
+                {
+                    if (!eachShapeHasEmptyTile[i])
+                    {
+                        putShapeAtNewPlace = false;
+                        break;
+                    }
+                    putShapeAtNewPlace = true;
+                }
+                if (putShapeAtNewPlace)
+                {
+                    for (int i = 0; i < how_much_tiles_in_shape; i++)
+                    {
+
+                        shapeTilesToMove[i].setToOldRectangle(emptyTilesToMove[i].getOldRectangle().X,
+                            emptyTilesToMove[i].getOldRectangle().Y);
+                        
+                    }
+                }
             }
+
         }
 
         /// <summary>
@@ -210,7 +246,7 @@ namespace Our_Project.States_and_state_related
 
             base.Draw(gameTime);
 
-          //  OurGame.spriteBatch.End();
+            //  OurGame.spriteBatch.End();
         }
 
         //translates 2d world coordinates to isometric screen coordinates.

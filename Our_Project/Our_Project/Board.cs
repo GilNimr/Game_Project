@@ -44,8 +44,6 @@ namespace Our_Project
             typeOfBord = TypeOfBord.fullBoard;
 
             setGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size);
-
-
         }
 
 
@@ -92,8 +90,8 @@ namespace Our_Project
                     if (move)
                     {
                         difference = setDifference(iIndexOfTileToMove, jIndexOfTileToMove, ref mouseState);
-
-                        moveTheShape(difference);
+                        
+                            moveTheShape(difference);
                     }
 
                     if (mouseState.LeftButton == ButtonState.Released)
