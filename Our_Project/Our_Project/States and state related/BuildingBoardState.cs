@@ -20,19 +20,23 @@ namespace Our_Project.States_and_state_related
         private SpriteFont font;
         private Button button;
         bool hideShape = true;
+        List<List<NodeOFHidenTiles>> allHidenPoints;
 
 
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
-            
+
+            allHidenPoints = setHidenTiles();
+            shapes = new List<Board>();
+
         }
 
         private void createShapes()
         {
-            List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
+           // List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
 
-            setShapesBoards(g2d, gIs, allHidenPoints);
+            //setShapesBoards(g2d, gIs, allHidenPoints);
 
         }
 
@@ -113,10 +117,21 @@ namespace Our_Project.States_and_state_related
 
         private void clickFirstShape(object sender, System.EventArgs e)
         {
+            
+
             if (hideShape)
+            {
+                shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, gIs, g2d, false, this.Content));
                 hideShape = false;
+            }
+
             else
+            {
+                shapes.Remove(shapes[0]);
+//                shapes[0] = null;
                 hideShape = true;
+            }
+                
             
         }
 
@@ -148,6 +163,7 @@ namespace Our_Project.States_and_state_related
         {
             foreach (Board shape in shapes)
             {
+                if (shape != null)
                 shape.Update();
             }
         }
@@ -159,68 +175,68 @@ namespace Our_Project.States_and_state_related
 
             foreach (Board shape in shapes)
             {
-                int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
-                List<bool> eachShapeHasEmptyTile = new List<bool>();
-
-                for (int i = 0; i < how_much_tiles_in_shape; i++)
+                if (shape != null)
                 {
-                    eachShapeHasEmptyTile.Add(false);
-                }
-                int a = 0;
-                List<Tile> shapeTilesToMove = new List<Tile>();
-                List<Tile> emptyTilesToMove = new List<Tile>();
+                    int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
+                    List<bool> eachShapeHasEmptyTile = new List<bool>();
 
-                foreach (Tile[] shapeTilesLine in shape.getBoard())
-                {
-                    foreach (Tile shapeTile in shapeTilesLine)
+                    for (int i = 0; i < how_much_tiles_in_shape; i++)
                     {
-                        foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
+                        eachShapeHasEmptyTile.Add(false);
+                    }
+                    int a = 0;
+                    List<Tile> shapeTilesToMove = new List<Tile>();
+                    List<Tile> emptyTilesToMove = new List<Tile>();
+
+                    foreach (Tile[] shapeTilesLine in shape.getBoard())
+                    {
+                        foreach (Tile shapeTile in shapeTilesLine)
                         {
-                            foreach (Tile emptyTile in emptyTilesLine)
+                            foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
                             {
-                                if (shapeTile.getOldRectangle().Intersects(emptyTile.getOldRectangle())
-                                    && (!shape.getMove()))
+                                foreach (Tile emptyTile in emptyTilesLine)
                                 {
-                                    if ((shapeTile.getOldRectangle().Center.X >
-                                        emptyTile.getOldRectangle().Center.X) &&
-                                        (shapeTile.getOldRectangle().Center.Y >
-                                        emptyTile.getOldRectangle().Center.Y)
-                                        )
+                                    if (shapeTile.getOldRectangle().Intersects(emptyTile.getOldRectangle())
+                                        && (!shape.getMove()))
                                     {
-                                        eachShapeHasEmptyTile[a] = true;
-                                        emptyTilesToMove.Add(emptyTile);
-                                        shapeTilesToMove.Add(shapeTile);
-                                        a++;
+                                        if ((shapeTile.getOldRectangle().Center.X >
+                                            emptyTile.getOldRectangle().Center.X) &&
+                                            (shapeTile.getOldRectangle().Center.Y >
+                                            emptyTile.getOldRectangle().Center.Y)
+                                            )
+                                        {
+                                            eachShapeHasEmptyTile[a] = true;
+                                            emptyTilesToMove.Add(emptyTile);
+                                            shapeTilesToMove.Add(shapeTile);
+                                            a++;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
 
 
-                bool putShapeAtNewPlace = false;
-                for (int i = 0; i < how_much_tiles_in_shape; i++)
-                {
-                    if (!eachShapeHasEmptyTile[i])
-                    {
-                        putShapeAtNewPlace = false;
-                        break;
-                    }
-                    putShapeAtNewPlace = true;
-                }
-                if (putShapeAtNewPlace)
-                {
+                    bool putShapeAtNewPlace = false;
                     for (int i = 0; i < how_much_tiles_in_shape; i++)
                     {
-
-                        shapeTilesToMove[i].setToOldRectangle(emptyTilesToMove[i].getOldRectangle().X,
-                            emptyTilesToMove[i].getOldRectangle().Y);
-
+                        if (!eachShapeHasEmptyTile[i])
+                        {
+                            putShapeAtNewPlace = false;
+                            break;
+                        }
+                        putShapeAtNewPlace = true;
+                    }
+                    if (putShapeAtNewPlace)
+                    {
+                        for (int i = 0; i < how_much_tiles_in_shape; i++)
+                        {
+                            shapeTilesToMove[i].setToOldRectangle(emptyTilesToMove[i].getOldRectangle().X,
+                                emptyTilesToMove[i].getOldRectangle().Y);
+                        }
                     }
                 }
             }
-
         }
 
 
@@ -243,28 +259,33 @@ namespace Our_Project.States_and_state_related
                 {
                     foreach (Board shape in shapes)
                     {
-                        foreach (Tile[] shapeTilesLine in shape.getBoard())
+                        if (shape != null)
                         {
-                            foreach (Tile shapeTile in shapeTilesLine)
+                            foreach (Tile[] shapeTilesLine in shape.getBoard())
                             {
-                                if (shapeTile.getOldRectangle().Intersects(emptyTile.getOldRectangle()))
+                                foreach (Tile shapeTile in shapeTilesLine)
                                 {
-                                    if ((shapeTile.getOldRectangle().Center.X >
-                                        emptyTile.getOldRectangle().Center.X) &&
-                                        (shapeTile.getOldRectangle().Center.Y >
-                                        emptyTile.getOldRectangle().Center.Y))
+                                    if (shapeTile.getOldRectangle().Intersects(emptyTile.getOldRectangle()))
                                     {
-                                        emptyTile.Draw(OurGame.spriteBatch, Color.Green);
+                                        if ((shapeTile.getOldRectangle().Center.X >
+                                            emptyTile.getOldRectangle().Center.X) &&
+                                            (shapeTile.getOldRectangle().Center.Y >
+                                            emptyTile.getOldRectangle().Center.Y))
+                                        {
+                                            emptyTile.Draw(OurGame.spriteBatch, Color.Green);
+                                        }
                                     }
                                 }
                             }
                         }
+
+                       
                     }
                 }
             }
             foreach (Board shape in shapes)
             {
-                if (!hideShape)
+                if (shape != null)
                     shape.Draw(OurGame.spriteBatch, Color.White);
             }
 
