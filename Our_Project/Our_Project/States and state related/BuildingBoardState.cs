@@ -17,17 +17,19 @@ namespace Our_Project.States_and_state_related
         Texture2D gIs;
         Texture2D emptyTile2d;
         Texture2D emptyTileIso;
+        private SpriteFont font;
+        private Button button;
+        bool hideShape = true;
+
 
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
-
+            
         }
 
         private void createShapes()
         {
-
-
             List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
 
             setShapesBoards(g2d, gIs, allHidenPoints);
@@ -39,16 +41,18 @@ namespace Our_Project.States_and_state_related
         private void setShapesBoards(Texture2D g2d, Texture2D gIs, List<List<NodeOFHidenTiles>> allHidenPoints)
         {
             shapes = new List<Board>();
-
+            
             shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, gIs, g2d, false, this.Content));
-
+            
             // int space_between_shapes = 50;
             /*shapes.Add(new Board(allHidenPoints[1], 1, 4, shapes[0].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[0].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));
+
             shapes.Add(new Board(allHidenPoints[2], 4, 2, shapes[1].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[1].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));
+
             shapes.Add(new Board(allHidenPoints[3], 3, 2, shapes[2].getEndOfXaxisOfLastTile() +
                 space_between_shapes, shapes[2].getEndOfYaxisOfLastTile() + space_between_shapes,
                 gIs, g2d, false, this.Content));*/
@@ -74,7 +78,7 @@ namespace Our_Project.States_and_state_related
 
             return allHidenPoints;
         }
-
+        
         private void buildEmptyBoard()
         {
             bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
@@ -91,11 +95,31 @@ namespace Our_Project.States_and_state_related
             gIs = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
+            font = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
+
+            button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(350, 200),
+                Text = "First Shape",
+            };
+
+            button.Click += clickFirstShape;
+            Game.Components.Add(button);
 
             buildEmptyBoard();
             createShapes();
-
+          
         }
+
+        private void clickFirstShape(object sender, System.EventArgs e)
+        {
+            if (hideShape)
+                hideShape = false;
+            else
+                hideShape = true;
+            
+        }
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -127,7 +151,7 @@ namespace Our_Project.States_and_state_related
                 shape.Update();
             }
         }
-
+        
         private void putShapeAtNewPosition()
         {
 
@@ -135,7 +159,7 @@ namespace Our_Project.States_and_state_related
 
             foreach (Board shape in shapes)
             {
-                int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth() ;
+                int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
                 List<bool> eachShapeHasEmptyTile = new List<bool>();
 
                 for (int i = 0; i < how_much_tiles_in_shape; i++)
@@ -163,7 +187,7 @@ namespace Our_Project.States_and_state_related
                                         emptyTile.getOldRectangle().Center.Y)
                                         )
                                     {
-                                        eachShapeHasEmptyTile[a]=true;
+                                        eachShapeHasEmptyTile[a] = true;
                                         emptyTilesToMove.Add(emptyTile);
                                         shapeTilesToMove.Add(shapeTile);
                                         a++;
@@ -198,6 +222,7 @@ namespace Our_Project.States_and_state_related
             }
 
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -239,15 +264,16 @@ namespace Our_Project.States_and_state_related
             }
             foreach (Board shape in shapes)
             {
-                shape.Draw(OurGame.spriteBatch, Color.White);
+                if (!hideShape)
+                    shape.Draw(OurGame.spriteBatch, Color.White);
             }
 
 
-
+            button.Draw(gameTime, OurGame.spriteBatch);
 
             base.Draw(gameTime);
 
-            //  OurGame.spriteBatch.End();
+          //  OurGame.spriteBatch.End();
         }
 
         //translates 2d world coordinates to isometric screen coordinates.
