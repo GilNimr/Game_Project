@@ -135,20 +135,20 @@ namespace Our_Project.States_and_state_related
 
             foreach (Board shape in shapes)
             {
-                int how_much_tiles_in_shape = shape.getHeight() + shape.getWidth();
+                int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth() ;
                 List<bool> eachShapeHasEmptyTile = new List<bool>();
 
-                for(int i=0; i<how_much_tiles_in_shape; i++)
+                for (int i = 0; i < how_much_tiles_in_shape; i++)
                 {
                     eachShapeHasEmptyTile.Add(false);
                 }
-
+                int a = 0;
                 List<Tile> shapeTilesToMove = new List<Tile>();
                 List<Tile> emptyTilesToMove = new List<Tile>();
 
-                foreach  (Tile[] shapeTilesLine in shape.getBoard())
+                foreach (Tile[] shapeTilesLine in shape.getBoard())
                 {
-                    foreach  (Tile shapeTile in shapeTilesLine)
+                    foreach (Tile shapeTile in shapeTilesLine)
                     {
                         foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
                         {
@@ -163,9 +163,10 @@ namespace Our_Project.States_and_state_related
                                         emptyTile.getOldRectangle().Center.Y)
                                         )
                                     {
-                                        eachShapeHasEmptyTile.Add(true);
+                                        eachShapeHasEmptyTile[a]=true;
                                         emptyTilesToMove.Add(emptyTile);
                                         shapeTilesToMove.Add(shapeTile);
+                                        a++;
                                     }
                                 }
                             }
@@ -173,7 +174,7 @@ namespace Our_Project.States_and_state_related
                     }
                 }
 
-                
+
                 bool putShapeAtNewPlace = false;
                 for (int i = 0; i < how_much_tiles_in_shape; i++)
                 {
@@ -191,7 +192,7 @@ namespace Our_Project.States_and_state_related
 
                         shapeTilesToMove[i].setToOldRectangle(emptyTilesToMove[i].getOldRectangle().X,
                             emptyTilesToMove[i].getOldRectangle().Y);
-                        
+
                     }
                 }
             }
