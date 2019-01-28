@@ -28,9 +28,12 @@ namespace Our_Project
             client.Start();
 
 
-           // client.DiscoverKnownPeer("172.27.38.8", 14242); //sapir
+            // client.DiscoverKnownPeer(" 172.27.38.20", 14242) ; //sapir
+           // client.DiscoverKnownPeer("62.219.99.130", 14242); //sapir external
+            client.DiscoverLocalPeers(14242);
+            
         //    client.DiscoverKnownPeer("192.168.1.11", 14242); //home
-            client.DiscoverKnownPeer("192.168.43.199", 14242); //home amit
+          //  client.DiscoverKnownPeer("192.168.43.199", 14242); //home amit
 
 
 

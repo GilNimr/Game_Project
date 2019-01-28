@@ -46,8 +46,7 @@ namespace XELibrary
             int celWidth = (int)(textures[textureName].Width / celCount.NumberOfColumns);
             int celHeight = (int)(textures[textureName].Height / celCount.NumberOfRows);
             int numberOfCels = celCount.NumberOfColumns * celCount.NumberOfRows;
-            
-            AddAnimation(animationKey, textureName, new CelRange(1, 1, celCount.NumberOfColumns, celCount.NumberOfRows), celWidth, celHeight, numberOfCels, framesPerSecond);
+            AddAnimation(animationKey, textureName, new CelRange(1, 1, celCount.NumberOfColumns, celCount.NumberOfRows), celWidth, celHeight,125 /*numberOfCels*/, framesPerSecond);
         }
 
         public void AddAnimation(string animationKey, string textureName, CelRange celRange, int celWidth, int celHeight, int numberOfCels, int framesPerSecond)
@@ -146,6 +145,43 @@ namespace XELibrary
             int y = (yincrease + ca.CelRange.FirstCelY - 1) * ca.CelHeight;
             Rectangle cel = new Rectangle(x, y, ca.CelWidth, ca.CelHeight);
             batch.Draw(textures[ca.TextureName], position, cel, color, 0.0f, Vector2.Zero, 1.0f, effects, 0.0f);
+        }
+
+        //our implementation of the draw method
+        public void Draw(GameTime gameTime, string animationKey,
+       SpriteBatch batch, Rectangle position, SpriteEffects effects)
+        {
+            Draw(gameTime, animationKey, batch,
+            position, Color.White, effects);
+        }
+
+        public void Draw(GameTime gameTime, string animationKey,
+        SpriteBatch batch, Rectangle position, Color color, SpriteEffects effects)
+        {
+            if (!animations.ContainsKey(animationKey))
+                return;
+            CelAnimation ca = animations[animationKey];
+            //first get our x increase amount
+            //(add our offset-1 to our current frame)
+            int xincrease = (ca.Frame + ca.CelRange.FirstCelX - 1);
+
+            //now we need to wrap the value so it will loop to the next row
+            int xwrapped = xincrease % ca.CelsPerRow;
+
+            //finally we need to take the product of our wrapped value
+            //and a cel’s width
+            int x = xwrapped * ca.CelWidth;
+
+            //to determine how much we should increase y, we need to look
+            //at how much we increased x and do an integer divide
+            int yincrease = xincrease / ca.CelsPerRow;
+
+            //now we can take this increase and add it to
+            //our Y offset-1 and multiply the sum by our cel height
+            int y = (yincrease + ca.CelRange.FirstCelY - 1) * ca.CelHeight;
+            Rectangle cel = new Rectangle(x, y, ca.CelWidth, ca.CelHeight);
+           
+            batch.Draw(textures[ca.TextureName], position, cel, color, 0.0f, Vector2.Zero, effects, 0.0f);
         }
     }
 }

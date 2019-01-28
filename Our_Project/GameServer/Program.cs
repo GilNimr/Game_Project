@@ -13,15 +13,16 @@ namespace GameServer
                 NetPeerConfiguration config = new NetPeerConfiguration("Flags");
                 config.EnableMessageType(NetIncomingMessageType.DiscoveryRequest);
                 config.Port = 14242;
-           //     config.EnableUPnP = true;
+               // config.EnableUPnP = true;
             
             // create and start server
             NetServer server = new NetServer(config);
                 server.Start();
 
             List<NetConnection[]> gamerooms = new List<NetConnection[]>();
-         //   server.UPnP.ForwardPort(14242, "Flags game for school project",14242);
+            
           //  server.UPnP.ForwardPort(14242, "Flags game for school project");
+            
 
             // schedule initial sending of position updates
             double nextSendUpdates = NetTime.Now;

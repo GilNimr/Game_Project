@@ -67,7 +67,7 @@ namespace Our_Project
         public Tile Teleport_to_rand()
         {
             Random rand = new Random();
-            int rand_number = rand.Next(0, 1);
+            int rand_number = rand.Next(0, 2);
             while (PlayingState.teleports[rand_number] == this)
             {
                 rand_number = rand.Next(0, 2);

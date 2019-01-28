@@ -19,6 +19,7 @@ namespace Our_Project
         SoundManager soundManager;
         GameStateManager stateManager;
 
+
         public ITitleIntroState TitleIntroState;
         public IStartMenuState StartMenuState;
         public IPlayingState PlayingState;
@@ -54,8 +55,10 @@ namespace Our_Project
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);
 
-            celAnimationManager = new CelAnimationManager(this, "Textures\\");
+            celAnimationManager = new CelAnimationManager(this, "Textures\\Animations");
             Components.Add(celAnimationManager);
+
+            
 
             soundManager = new SoundManager(this);
             Components.Add(soundManager);

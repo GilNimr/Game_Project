@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XELibrary;
 
 namespace Our_Project
 {
@@ -39,9 +40,12 @@ namespace Our_Project
         {
             my_team, enemy_team
         }
+        ICelAnimationManager celAnimationManager;
 
-        public Pawn(Texture2D _texture, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
+        public Pawn(Game game,Texture2D _texture, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
+            celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
+
             if (_strength == 21)  
                 the_flag = true;
 
@@ -64,7 +68,15 @@ namespace Our_Project
             isMove = false;
             position = new Vector2(_tile.Rec.X, _tile.Rec.Y);
 
-          //  send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
+            CelCount celCount = new CelCount(30, 5);
+            celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 10);
+            celAnimationManager.ResumeAnimation("israel");
+
+             celCount = new CelCount(30, 5);
+            celAnimationManager.AddAnimation("jamaica", "sprite sheet jamaica", celCount, 20);
+            celAnimationManager.ResumeAnimation("jamaica");
+
+            //  send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
         }
 
         public void Update()
@@ -204,22 +216,31 @@ namespace Our_Project
             attacked = false;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
            
             if (!hasDied)
             {
-                Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(Tile.tilesize / 4), new Point(Tile.tilesize / 2));
-                spriteBatch.Draw(texture, Rec, Color.White);
+                
+                //   spriteBatch.Draw(texture, Rec, Color.White);
 
                 if (team == Team.my_team)
                 {
-                    if(the_flag)
+                    Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(Tile.tilesize / 2), new Point(Tile.tilesize));
+                    celAnimationManager.Draw(gameTime, "jamaica", spriteBatch, Rec, SpriteEffects.None);
+
+                    if (the_flag)
                         spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.Rec.Center.X, current_tile.Rec.Center.Y), Color.White);
                     else
                     spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.Rec.Center.X, current_tile.Rec.Center.Y), Color.White);
                 }
+                else
+                {
+                    Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.Rec.Center) - new Point(Tile.tilesize / 2), new Point(Tile.tilesize));
+                    celAnimationManager.Draw(gameTime, "israel", spriteBatch, Rec, SpriteEffects.None);
+                }
             }
+            //if you have died.
             else
             {
                 if (team == Team.my_team)
@@ -278,6 +299,8 @@ namespace Our_Project
 
             //drawing the world mouse for debug purposes.
             //spriteBatch.Draw(texture,new Rectangle(mouseRec.Location,new Point(10)) , Color.Goldenrod);
+
+            
         }
 
        private void moveORattack(Tile _direction)

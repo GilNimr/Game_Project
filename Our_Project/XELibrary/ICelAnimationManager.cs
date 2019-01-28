@@ -70,5 +70,20 @@ namespace XELibrary
         /// <param name="animationKey">The key by which the animation is stored</param>
         /// <param name="color">An added tint to the frame</param>
         void Draw(GameTime gameTime, string animationKey, SpriteBatch batch, Vector2 position, Color color, SpriteEffects effects);
+
+        //our implementation of draw method not part of xelibrary
+
+        /// <summary>
+        /// Draws the animation while progressing the frames according to the speed of the animation.
+        /// </summary>
+        /// <param name="animationKey">The key by which the animation is stored</param>
+        void Draw(GameTime gameTime, string animationKey, SpriteBatch batch, Rectangle position, SpriteEffects effects);
+
+        /// <summary>
+        /// Draws the animation while progressing the frames according to the speed of the animation.
+        /// </summary>
+        /// <param name="animationKey">The key by which the animation is stored</param>
+        /// <param name="color">An added tint to the frame</param>
+        void Draw(GameTime gameTime, string animationKey, SpriteBatch batch, Rectangle position, Color color, SpriteEffects effects);
     }
 }
