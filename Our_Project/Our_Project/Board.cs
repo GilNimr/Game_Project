@@ -28,9 +28,7 @@ namespace Our_Project
         static Dictionary<int, Tile> boardDictionaryById;   // get tile by id
         List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
         int hidenIndex;
-        // hidenTiles[] index for fill the shape
         bool move; // for knowing if move some shape
-        static bool lockMove = false;
         int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
 
 

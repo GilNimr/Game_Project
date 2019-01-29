@@ -11,18 +11,14 @@ namespace Our_Project.States_and_state_related
 {
     public sealed class BuildingBoardState : BaseGameState, IBuildingBoardState
     {
-        Board bigEmptyBoard;
-        List<Board> shapes;
-        Texture2D fullTile2d;
-        Texture2D fullTileIso;
-        Texture2D emptyTile2d;
-        Texture2D emptyTileIso;
-        private SpriteFont font;
-        private List <Button> buttons;
+        private Texture2D fullTile2d , fullTileIso , emptyTile2d , emptyTileIso;
+        private SpriteFont font;   
+        private bool hideShape = true;
+        private Board bigEmptyBoard;
+        private List<Board> shapes;
+        private List<List<NodeOFHidenTiles>> allHidenPoints;
+        private List<Button> buttons;
         private Button save_and_start_game;
-        bool hideShape = true;
-        List<List<NodeOFHidenTiles>> allHidenPoints;
-
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -32,21 +28,9 @@ namespace Our_Project.States_and_state_related
             shapes = new List<Board>();
 
         }
-
-        private void createShapes()
-        {
-            // List<List<NodeOFHidenTiles>> allHidenPoints = setHidenTiles();
-
-            //setShapesBoards(fullTile2d, fullTileIso, allHidenPoints);
-
-        }
-
-
-
+        
         private void setShapesBoards(Texture2D fullTile2d, Texture2D fullTileIso, List<List<NodeOFHidenTiles>> allHidenPoints)
         {
-            shapes = new List<Board>();
-
             shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, fullTileIso, fullTile2d, false, this.Content));
 
             // int space_between_shapes = 50;
@@ -93,15 +77,25 @@ namespace Our_Project.States_and_state_related
         /// </summary>
         protected override void LoadContent()
         {
-            buttons = new List<Button>();
+            setAllContent();
+            setAllButtons();
+            buildEmptyBoard();
+        }
 
+        private void setAllContent()
+        {
             fullTile2d = OurGame.Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
             fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
             font = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
+        }
 
-            buttons.Add( new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+        private void setAllButtons()
+        {
+            buttons = new List<Button>();
+
+            buttons.Add(new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(200, 20),
                 Text = "First Shape",
@@ -115,16 +109,12 @@ namespace Our_Project.States_and_state_related
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(Game1.screen_width-250, 20),
+                Position = new Vector2(Game1.screen_width - 250, 20),
                 Text = "Save and start game",
             };
 
             save_and_start_game.Click += saveAndStartGame;
             Game.Components.Add(save_and_start_game);
-
-            buildEmptyBoard();
-            createShapes();
-
         }
 
         private void saveAndStartGame(object sender, EventArgs e)
@@ -134,8 +124,6 @@ namespace Our_Project.States_and_state_related
 
         private void clickFirstShape(object sender, System.EventArgs e)
         {
-
-
             if (hideShape)
             {
                 shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, fullTileIso, fullTile2d, false, this.Content));
