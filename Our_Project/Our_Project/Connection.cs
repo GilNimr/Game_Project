@@ -37,7 +37,7 @@ namespace Our_Project
         }
 
         public void update()
-        {
+        {/*
             if (player.pawns != null)
             {
                 NetOutgoingMessage om = client.CreateMessage();
@@ -103,7 +103,7 @@ namespace Our_Project
                                     int id = msg.ReadInt32();
                                     int i = msg.ReadInt32();
                                     
-                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
+                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;   */
                                     /* -----!!!!!!!
                                     enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
                                     PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
@@ -111,7 +111,7 @@ namespace Our_Project
                                     enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     player.myTurn = true;
                                     */
-                                   
+                                   /*
                                     break;
                                 }
                             case "attacked":
@@ -127,7 +127,7 @@ namespace Our_Project
                         }
                         break;
                 }
-            }
+            */}
         }
     }
-}
+//}

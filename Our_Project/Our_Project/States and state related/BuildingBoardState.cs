@@ -19,6 +19,7 @@ namespace Our_Project.States_and_state_related
         Texture2D emptyTileIso;
         private SpriteFont font;
         private List <Button> buttons;
+        private Button save_and_start_game;
         bool hideShape = true;
         List<List<NodeOFHidenTiles>> allHidenPoints;
 
@@ -102,7 +103,7 @@ namespace Our_Project.States_and_state_related
 
             buttons.Add( new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(350, 200),
+                Position = new Vector2(200, 20),
                 Text = "First Shape",
             });
 
@@ -112,10 +113,23 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Add(button);
             }
 
+            save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(Game1.screen_width-250, 20),
+                Text = "Save and start game",
+            };
+
+            save_and_start_game.Click += saveAndStartGame;
+            Game.Components.Add(save_and_start_game);
 
             buildEmptyBoard();
             createShapes();
 
+        }
+
+        private void saveAndStartGame(object sender, EventArgs e)
+        {
+            StateManager.ChangeState(OurGame.PlayingState.Value);
         }
 
         private void clickFirstShape(object sender, System.EventArgs e)
@@ -294,6 +308,7 @@ namespace Our_Project.States_and_state_related
 
             foreach (Button button in buttons)
                 button.Draw(gameTime, OurGame.spriteBatch);
+            save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
 
             base.Draw(gameTime);
 

@@ -21,7 +21,7 @@ namespace Our_Project
 
         SpriteFont font_small;
 
-        // public Pawn[] pawns;           // the pawns
+         public Pawn[] pawns;           // the pawns
 
         private bool pawnTryToMove;
         public Player player;
@@ -67,8 +67,8 @@ namespace Our_Project
 
             /// -------------------------------------------------!!!!!!!!!!!!!!!!!!!!!
 
-
-                                                               /*         player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team,0,font_small);
+            /*
+                                                                        player.pawns[0] = new Pawn(Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team,0,font_small);
                                                                         player.pawns[1] = new Pawn(Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1,font_small);
                                                                         player.pawns[2] = new Pawn(Pawn_texture, tileDictionary[2], 2, Pawn.Team.my_team,2,font_small);
                                                                         player.pawns[3] = new Pawn(Pawn_texture, tileDictionary[3], 3, Pawn.Team.my_team,3,font_small);
@@ -151,13 +151,13 @@ namespace Our_Project
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
-            
+            /*
             for (int i = 0; i < player.pawns.Length; i++)
                 player.pawns[i].Draw(OurGame.spriteBatch);
-
+                
             for (int i = 0; i < enemy.pawns.Length; i++)
                 enemy.pawns[i].Draw(OurGame.spriteBatch);
-
+                */
             if (player.myTurn)
             {
                 OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
