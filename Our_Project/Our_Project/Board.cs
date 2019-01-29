@@ -32,7 +32,7 @@ namespace Our_Project
         bool move; // for knowing if move some shape
         static bool lockMove = false;
         int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
-        
+
 
         //private SpriteFont font;
         string printDebug = "just for debug";
@@ -60,8 +60,8 @@ namespace Our_Project
 
         public void Update()
         {
-            
-           checkAndMoveShape();
+
+            checkAndMoveShape();
         }
 
 
@@ -90,8 +90,8 @@ namespace Our_Project
                     if (move)
                     {
                         difference = setDifference(iIndexOfTileToMove, jIndexOfTileToMove, ref mouseState);
-                        
-                            moveTheShape(difference);
+
+                        moveTheShape(difference);
                     }
 
                     if (mouseState.LeftButton == ButtonState.Released)
@@ -196,9 +196,10 @@ namespace Our_Project
 
         private void setEmptyTilesImg(ContentManager content)
         {
-           /* empty2dImg = content.Load<Texture2D>("White_2d_Tile");
-            emtyIsoImg = content.Load<Texture2D>("White_Isometric_Tile");
-        */}
+            /* empty2dImg = content.Load<Texture2D>("White_2d_Tile");
+             emtyIsoImg = content.Load<Texture2D>("White_Isometric_Tile");
+         */
+        }
 
         void setBoard()
         {
@@ -295,8 +296,8 @@ namespace Our_Project
         private void setTileOfFullBoard(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle,
             int hidenIndex)
         {
-            Rectangle rec = new Rectangle(Game1.screen_width/3+ axisXofNewTileRectangle,
-                  -Game1.screen_height/3 + axisYofNewTileRectangle, tileSize, tileSize);
+            Rectangle rec = new Rectangle(Game1.screen_width / 3 + axisXofNewTileRectangle,
+                  -Game1.screen_height / 3 + axisYofNewTileRectangle, tileSize, tileSize);
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
         }
 
@@ -370,9 +371,6 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-           /* if (isShape())
-                spriteBatch.DrawString(font, printDebug, new Vector2(100, 100), Color.Black);
-                */
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
