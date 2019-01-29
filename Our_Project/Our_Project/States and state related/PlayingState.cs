@@ -66,8 +66,8 @@ namespace Our_Project
         protected override void LoadContent()
         {
             scrollingBackgroundManager.AddBackground("space", "backgroundSpace", new Vector2(0, 0), new Rectangle(0, 0, 1024, 1024), 70, 0.5f, Color.White);
-            scrollingBackgroundManager.AddBackground("space2", "backgroundSpace", new Vector2(0, 1024), new Rectangle(0, 0, 1024, 1024), 70, 0.5f, Color.White);
-
+            scrollingBackgroundManager.AddBackground("space2", "backgroundSpace", new Vector2(0, 1023), new Rectangle(0, 0, 1024, 1024), 70, 0.5f, Color.White);
+            scrollingBackgroundManager.AddBackground("space3", "backgroundSpace", new Vector2(0, 2047), new Rectangle(0, 0, 1024, 1024), 70, 0.5f, Color.White);
             //Loading fonts.
             font_small = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
 
@@ -84,10 +84,7 @@ namespace Our_Project
             //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
 
-        //   pawns = new Pawn[gridSize * 3];     // need to change the size - pawns array
-
-            
-
+       
 
             for (int i = 0; i < gridSize; i++)
             {
@@ -170,29 +167,6 @@ namespace Our_Project
 
 
 
-                         /*   // the user army:
-
-                            //if ((j > gridSize - 4) && (tile_matrix[i][j] != null))
-                            if (indexOfShape==1 &&(j<4)&&(i==0))  // manually putting the pawns
-                            {
-
-                              tile_matrix[i][j].occupied = Tile.Occupied.yes_by_me;
-                            
-                                player.pawns[pawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j],j,Pawn.Team.my_team);
-                               tile_matrix[i][j].current_pawn = player.pawns[pawnsIndex];
-                               pawnsIndex++;
-                          
-                            }
-
-                        // the enemy army:
-                        if (indexOfShape == 0 && (j <4 ) && (i == 5))  // put manual the pawns
-                        {
-                           tile_matrix[i][j].occupied = Tile.Occupied.yes_by_enemy;
-                            enemy.pawns[enemypawnsIndex] = new Pawn(Pawn_texture, tile_matrix[i][j],j,Pawn.Team.enemy_team);
-                            tile_matrix[i][j].current_pawn = enemy.pawns[enemypawnsIndex];
-                            enemypawnsIndex++;
-                            
-                        }*/
                         skip = false;
                         }
                     }
@@ -330,7 +304,7 @@ namespace Our_Project
         {
             base.Update(gameTime);
 
-            scrollingBackgroundManager.ScrollRate = -0.02f;
+            scrollingBackgroundManager.ScrollRate = -1f;
 
             connection.update();
 
@@ -383,6 +357,7 @@ namespace Our_Project
 
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
             for (int i = 0; i < tile_matrix.Length; ++i)
             {
