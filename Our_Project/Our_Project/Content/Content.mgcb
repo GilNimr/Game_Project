@@ -33,12 +33,6 @@
 /processorParam:Quality=Best
 /build:Sounds/Music/titleSound.wav
 
-#begin Sounds/SoundFX/Jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/Jump.wav
-
 #begin Textures/Animations/sprite sheet israel.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -75,18 +69,6 @@
 /processorParam:TextureFormat=Color
 /build:Textures/backgroundSpace.png
 
-#begin Textures/cave_walk.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/cave_walk.png
-
 #begin Textures/Controls/Button.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -111,18 +93,6 @@
 /processorParam:TextureFormat=Color
 /build:Textures/optionsMenu.png
 
-#begin Textures/pause.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/pause.png
-
 #begin Textures/Pawns/death.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -134,30 +104,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Pawns/death.png
-
-#begin Textures/snow_bg.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/snow_bg.png
-
-#begin Textures/sonic.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/sonic.png
 
 #begin Textures/startMenu.png
 /importer:TextureImporter
@@ -171,7 +117,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/startMenu.png
 
-#begin Textures/Tiles/Gray_Tile - Copy.png
+#begin Textures/Tiles/Gray_Tile.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -181,9 +127,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Tiles/Gray_Tile - Copy.png
+/build:Textures/Tiles/Gray_Tile.png
 
-#begin Textures/Tiles/Gray_Tile(2).png
+#begin Textures/Tiles/Gray_Tile_iso.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -193,7 +139,19 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Tiles/Gray_Tile(2).png
+/build:Textures/Tiles/Gray_Tile_iso.png
+
+#begin Textures/Tiles/Gray_Tile_just_for_test.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/Gray_Tile_just_for_test.png
 
 #begin Textures/Tiles/teleport.png
 /importer:TextureImporter
@@ -206,6 +164,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Tiles/teleport.png
+
+#begin Textures/Tiles/White_2d_Tile.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/White_2d_Tile.png
+
+#begin Textures/Tiles/White_Isometric_Tile.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/White_Isometric_Tile.png
 
 #begin Textures/titleIntro.jpg
 /importer:TextureImporter

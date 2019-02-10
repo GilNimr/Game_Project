@@ -12,4 +12,5 @@ namespace Our_Project
     public interface IPlaying_Client_State : IGameState { }
     public interface IPausedState : IGameState { }
     public interface IOptionsMenuState : IGameState { }
+    public interface IBuildingBoardState : IGameState { }
 }

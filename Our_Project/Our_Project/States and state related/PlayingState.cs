@@ -20,7 +20,8 @@ namespace Our_Project
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
 
-       // private Pawn[] pawns;           // the pawns
+        // private Pawn[] pawns;           // the pawns
+
         NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
         Shape[] shapes;                 // all the shapes we going to use
 
@@ -28,16 +29,18 @@ namespace Our_Project
 
         public int gridSize = 200;        // size of the whole board
 
+
         SpriteFont font_small;
      //   private Texture2D israel_spritesheet;
         public static int tileSize = Game1.screen_height / 30;
+
 
         ScrollingBackgroundManager scrollingBackgroundManager;
 
         public static Dictionary<int, Tile> tileDictionary;
 
-        // public Pawn[] pawns;           // the pawns
-       
+
+
         public Player player;
         public Player enemy;
         public Connection connection;
@@ -58,9 +61,8 @@ namespace Our_Project
             player.myTurn = true;
             enemy = new Player();
             connection = new Connection(ref player, ref enemy);
-            tileDictionary = new Dictionary<int, Tile>();
 
-            
+            tileDictionary = new Dictionary<int, Tile>();
         }
 
         protected override void LoadContent()
@@ -71,12 +73,14 @@ namespace Our_Project
             //Loading fonts.
             font_small = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
 
+
             
 
             //Gray tile texture.
-            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile(2)");
-            cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile - Copy");
+            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
+            cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
+
 
             //pawn texture.
             Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
@@ -84,7 +88,7 @@ namespace Our_Project
             //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
 
-       
+
 
             for (int i = 0; i < gridSize; i++)
             {
@@ -106,17 +110,12 @@ namespace Our_Project
             shapes = new Shape[2];              
             shapes[0] = new Shape(hidenTiles, 10, 10, Tile_texture, cartasian_texture, 0, 0, false,0);
 
-            hidenTiles[0].i = 70;
-            hidenTiles[0].j = 70; // (2,3)
+           
             
             shapes[1] = new Shape(hidenTiles, 10, 10, Tile_texture, cartasian_texture, 0+shapes[0].endX+tileSize,
                                         0, true,5000);
 
-        /*            Rectangle rec = new Rectangle((250) + x, y-(218/4), tileSize, tileSize);
-                    tile_matrix[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
-                    tileDictionary.Add(id, tile_matrix[i][j]);
-                    id++;
->>>>>>> master*/
+
 
             bool skip;
             
@@ -259,27 +258,30 @@ namespace Our_Project
                     {
                         //right
                         if (i < tile_matrix.Length - 1)
-                            tile_matrix[i][j].right = tile_matrix[i + 1][j]; // x axis grow up
+                            tile_matrix[i][j].setRight(tile_matrix[i + 1][j]); // x axis grow up
 
-                       //left
+                        //left
                         if (i >= 1)
-                            tile_matrix[i][j].left = tile_matrix[i - 1][j]; // x axis go down
+                            tile_matrix[i][j].setLeft(tile_matrix[i - 1][j]); // x axis go down
 
                         //down
                         if (j < tile_matrix[i].Length - 1)
-                            tile_matrix[i][j].down = tile_matrix[i][j + 1]; // y axis grow up
+                            tile_matrix[i][j].setDown(tile_matrix[i][j + 1]); // y axis grow up
                          //up
                         if (j >= 1)
-                            tile_matrix[i][j].up = tile_matrix[i][j - 1]; // y axis go down
+                            tile_matrix[i][j].setUp(tile_matrix[i][j - 1]); // y axis go down
                     }
                     
                 }
             }
 
+
             connection.update();
             if (i_am_second_player)
             {
+
             //    changeTilematrix();
+
                 Pawn[] swap_pawns = new Pawn[player.army_size];
                 swap_pawns = player.pawns;
                 player.pawns = enemy.pawns;
@@ -355,6 +357,7 @@ namespace Our_Project
 
             base.Draw(gameTime);
 
+
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
@@ -375,6 +378,7 @@ namespace Our_Project
             for (int i = 0; i < enemy.pawns.Length; i++)
                 enemy.pawns[i].Draw(OurGame.spriteBatch,gameTime);
 
+
             if (player.myTurn)
             {
                 OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
@@ -387,39 +391,6 @@ namespace Our_Project
             if(lose)
                 OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 20), Color.White);
         }
-
-        public void changeTilematrix()
-        {
-            for (int i = 0; i < gridSize; i++)
-            {
-                for (int j = 0; j < gridSize; j++)
-                {
-                    Tile tmp = tile_matrix[i][j];
-                    tile_matrix[i][j] = tile_matrix[gridSize - 1 - i][gridSize - 1 - j];
-                    tile_matrix[gridSize - 1 - i][gridSize - 1 - j] = tmp;
-
-
-                   /* Rectangle tmpRec = new Rectangle();
-                    if(tile_matrix[i][j]!=null)
-                    tmpRec = tile_matrix[i][j].Rec;
-
-                    Rectangle tmpRec2 = new Rectangle();
-                    if (tile_matrix[gridSize - 1 - i][gridSize - 1 - j] != null)
-                        tmpRec2 = tile_matrix[gridSize - 1 - i][gridSize - 1 - j].Rec;
-
-
-                   
-                    if(tile_matrix[i][j]!=null && tmpRec!=null)
-                    tile_matrix[i][j].Rec = tmpRec2 ;
-
-                  
-                    if(tile_matrix[gridSize - 1 - i][gridSize - 1 - j]!=null && tmpRec2!=null)
-                    tile_matrix[gridSize - 1 - i][gridSize - 1 - j].Rec = tmpRec;*/
-                }
-            }
-        }
-
-
-
+        
     }
 }

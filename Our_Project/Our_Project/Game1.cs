@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Our_Project.States_and_state_related;
 using XELibrary;
 
 namespace Our_Project
@@ -10,7 +11,7 @@ namespace Our_Project
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
 
         CelAnimationManager celAnimationManager;
@@ -28,6 +29,9 @@ namespace Our_Project
         public IOptionsMenuState OptionsMenuState;
 
 
+        ///---!!!!
+        public IBuildingBoardState BuildingBoardState;
+
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
 
@@ -40,6 +44,7 @@ namespace Our_Project
         {
             graphics = new GraphicsDeviceManager(this);
 
+
           
 
 
@@ -50,6 +55,7 @@ namespace Our_Project
             screen_height = graphics.PreferredBackBufferHeight;
        //      graphics.PreferredBackBufferWidth = 3840;
            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
             screen_width = graphics.PreferredBackBufferWidth;
 
             inputHandler = new InputHandler(this);
@@ -71,6 +77,8 @@ namespace Our_Project
             PlayingState = new PlayingState(this);
             PausedState = new PausedState(this);
             OptionsMenuState = new OptionsMenuState(this);
+
+            BuildingBoardState = new BuildingBoardState(this);
 
             EnableSoundFx = true;
             EnableMusic = true;

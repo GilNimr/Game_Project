@@ -39,7 +39,7 @@ namespace Our_Project
                  int x = starterX + i * tileSize;
                  int y = starterY + j * tileSize;
                     
-                    if (hidenIndex>-1  && i == _hidenTiles[hidenIndex].i && j == _hidenTiles[hidenIndex].j  )
+                    if (hidenIndex>-1  && i == _hidenTiles[hidenIndex].getI() && j == _hidenTiles[hidenIndex].getJ()  )
                     {   // skip hiden tile
                         hidenIndex++;
 

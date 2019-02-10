@@ -50,7 +50,7 @@ namespace Our_Project
                     if (player.pawns[i].send_update)
                     {
                         om.Write("move");
-                        om.Write(player.pawns[i].current_tile.id);
+                        om.Write(player.pawns[i].current_tile.getId());
                         om.Write(i);
                          
                         
@@ -106,14 +106,15 @@ namespace Our_Project
                                     
                                     int id = msg.ReadInt32();
                                     int i = msg.ReadInt32();
-
-                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
+                                    
+                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;   
+                                  
                                     enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
                                     PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
-                                    PlayingState.tileDictionary[id].current_pawn = enemy.pawns[i];
+                                    PlayingState.tileDictionary[id].setCurrentPawn(enemy.pawns[i]);
                                     enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     player.myTurn = true;
-
+                                    
                                    
                                     break;
                                 }
