@@ -27,6 +27,13 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/ArialSmall.spritefont
 
+#begin Fonts/KaushanScript.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/KaushanScript.spritefont
+
 #begin Sounds/Music/titleSound.wav
 /importer:WavImporter
 /processor:SongProcessor

@@ -50,7 +50,7 @@ namespace Our_Project
                     }
 
                     // build tiles at the shape
-                    Rectangle rec = new Rectangle(Game1.screen_width/3 + x, y, tileSize, tileSize);
+                    Rectangle rec = new Rectangle(Game1.screen_width/2 - Game1.screen_width / 8 + x, y, tileSize, tileSize);
                     shapeBoard[i][j] = new Tile(Tile_texture, cartasian_texture, rec,id);
                    PlayingState. tileDictionary.Add(id, shapeBoard[i][j]);
                     id++;

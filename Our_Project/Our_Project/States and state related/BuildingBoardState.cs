@@ -88,7 +88,7 @@ namespace Our_Project.States_and_state_related
             fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
-            font = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
+            font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
         }
 
         private void setAllButtons()
@@ -109,7 +109,7 @@ namespace Our_Project.States_and_state_related
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(Game1.screen_width - 250, 20),
+                Position = new Vector2(Game1.screen_width - 500, 20),
                 Text = "Save and start game",
             };
 
