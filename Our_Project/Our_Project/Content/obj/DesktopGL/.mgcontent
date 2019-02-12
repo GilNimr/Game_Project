@@ -7,7 +7,6 @@
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Fonts/Arial.spritefont</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Fonts/ArialSmall.spritefont</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/titleSound.wav</File>
-    <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/Jump.wav</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/sprite sheet israel.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/sprite sheet jamaica.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundSpace.png</File>
@@ -15,6 +14,9 @@
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/optionsMenu.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Pawns/death.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/startMenu.png</File>
+    <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso.png</File>
+    <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso2.png</File>
+    <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso3.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile_iso.png</File>
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile_just_for_test.png</File>
@@ -24,6 +26,8 @@
     <File>C:/Users/User/Desktop/Flags/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

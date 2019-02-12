@@ -58,7 +58,7 @@ namespace Our_Project
 
             //creating the isometric-screen rectangle where we will draw our tile.
             Vector2 iso_location = Game1.TwoD2isometrix(cartasianRectangle.X, cartasianRectangle.Y);
-            isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, cartasianRectangle.Width * 2, cartasianRectangle.Height);
+            isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, cartasianRectangle.Width *2, cartasianRectangle.Height*2);
 
             if (texture!= null && isoprojection_rectangle != null)
                 spriteBatch.Draw(texture, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);

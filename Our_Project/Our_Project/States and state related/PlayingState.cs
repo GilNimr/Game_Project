@@ -77,7 +77,7 @@ namespace Our_Project
             
 
             //Gray tile texture.
-            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
+            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso3");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
