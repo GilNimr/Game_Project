@@ -71,13 +71,13 @@ namespace Our_Project
             scrollingBackgroundManager.AddBackground("space2", "backgroundSpace", new Vector2(0, 1023), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
             scrollingBackgroundManager.AddBackground("space3", "backgroundSpace", new Vector2(0, 2047), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
             //Loading fonts.
-            font_small = Content.Load<SpriteFont>(@"Fonts\ArialSmall");
+            font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
 
 
             
 
             //Gray tile texture.
-            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso3");
+            Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso5");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
@@ -367,7 +367,11 @@ namespace Our_Project
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
                     if (tile_matrix[i][j] != null)
-                        tile_matrix[i][j].Draw(OurGame.spriteBatch, Color.White);
+                    {
+                       
+                        tile_matrix[i][j].Draw(OurGame.spriteBatch);
+                        tile_matrix[i][j].setColor(Color.White); //returning to default color in case it was changed.
+                    }
                 }
             }
 
@@ -387,9 +391,9 @@ namespace Our_Project
                 OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
 
             if(win)
-                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 20), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White);
             if(lose)
-                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 20), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White);
         }
         
     }

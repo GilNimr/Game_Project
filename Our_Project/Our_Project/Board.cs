@@ -373,7 +373,8 @@ namespace Our_Project
             {
                 for (int j = 0; j < height; j++)
                 {
-                    board[i][j].Draw(spriteBatch, color);
+                    board[i][j].Draw(spriteBatch);
+                    board[i][j].setColor(Color.White); //returning to default color in case it was changed.
                 }
             }
         }

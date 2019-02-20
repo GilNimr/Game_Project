@@ -264,17 +264,17 @@ namespace Our_Project
             if (isMouseClicked)
             {
                 if ((current_tile.getLeft() != null) && (current_tile.getLeft().occupied == Tile.Occupied.no))
-                    current_tile.getLeft().Draw(spriteBatch, Color.Red);
+                    current_tile.getLeft().setColor(Color.Red);
 
 
                 if ((current_tile.getRight() != null) && (current_tile.getRight().occupied == Tile.Occupied.no))
-                    current_tile.getRight().Draw(spriteBatch, Color.Red);
+                    current_tile.getRight().setColor(Color.Red);
 
                 if ((current_tile.getUp() != null) && (current_tile.getUp().occupied == Tile.Occupied.no))
-                    current_tile.getUp().Draw(spriteBatch, Color.Red);
+                    current_tile.getUp().setColor(Color.Red);
 
                 if ((current_tile.getDown() != null) && (current_tile.getDown().occupied == Tile.Occupied.no))
-                    current_tile.getDown().Draw(spriteBatch, Color.Red);
+                    current_tile.getDown().setColor(Color.Red);
 
             }
 
@@ -283,19 +283,19 @@ namespace Our_Project
 
 
                 if ((current_tile.getLeft() != null) && (current_tile.getLeft().occupied == Tile.Occupied.no))
-                    current_tile.getLeft().Draw(spriteBatch, Color.White);
+                    current_tile.getLeft().setColor(Color.White);
 
                 if ((current_tile.getRight() != null) && (current_tile.getRight().occupied == Tile.Occupied.no))
-                    current_tile.getRight().Draw(spriteBatch, Color.White);
+                    current_tile.getRight().setColor(Color.White);
 
                 if ((current_tile.getUp() != null) && (current_tile.getUp().occupied == Tile.Occupied.no))
-                    current_tile.getUp().Draw(spriteBatch, Color.White);
+                    current_tile.getUp().setColor(Color.White);
 
                 if ((current_tile.getDown() != null) && (current_tile.getDown().occupied == Tile.Occupied.no))
-                    current_tile.getDown().Draw(spriteBatch, Color.White);
+                    current_tile.getDown().setColor(Color.White);
 
-               
-               
+
+
                 isMouseClicked = false;
                 isMove = false;
                 direction = null;

@@ -84,7 +84,7 @@ namespace Our_Project.States_and_state_related
 
         private void setAllContent()
         {
-            fullTile2d = OurGame.Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_just_for_test");
+            fullTile2d = OurGame.Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
             fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
@@ -277,7 +277,8 @@ namespace Our_Project.States_and_state_related
                                             (shapeTile.getCartasianRectangle().Center.Y >
                                             emptyTile.getCartasianRectangle().Center.Y))
                                         {
-                                            emptyTile.Draw(OurGame.spriteBatch, Color.Green);
+                                           // emptyTile.Draw(OurGame.spriteBatch, Color.Green);
+                                            emptyTile.setColor(Color.Green);
                                         }
                                     }
                                 }

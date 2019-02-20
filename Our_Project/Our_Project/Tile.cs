@@ -19,7 +19,7 @@ namespace Our_Project
         private Rectangle isoprojection_rectangle; //the rectangle in which we draw the isometric projection
         private Pawn current_pawn;                  // current pawn on tile
         private Tile left, right, down, up;        //   Tile neighbors
-
+        private Color color;
 
         public Occupied occupied;
 
@@ -42,6 +42,7 @@ namespace Our_Project
             cartasian_texture = _cartasian_texture;
             cartasianRectangle = _cartasianRectangle;
             occupied = Occupied.no;
+            color = Color.White;
         }
 
 
@@ -50,9 +51,9 @@ namespace Our_Project
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color color)
+        public void Draw(SpriteBatch spriteBatch)
         {
-
+            
             //dubug draw of the cartasian 2d-real world tiles.
             //spriteBatch.Draw(oldTile, oldRectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
 
@@ -140,6 +141,10 @@ namespace Our_Project
             cartasianRectangle.Y = y;
         }
 
+        public void setColor(Color _color)
+        {
+            color = _color;
+        }
     
 
 

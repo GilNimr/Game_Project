@@ -160,6 +160,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Tiles/grass_tile_iso3.png
 
+#begin Textures/Tiles/grass_tile_iso5.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Tiles/grass_tile_iso5.png
+
 #begin Textures/Tiles/Gray_Tile.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -183,18 +195,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Tiles/Gray_Tile_iso.png
-
-#begin Textures/Tiles/Gray_Tile_just_for_test.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Tiles/Gray_Tile_just_for_test.png
 
 #begin Textures/Tiles/teleport.png
 /importer:TextureImporter
