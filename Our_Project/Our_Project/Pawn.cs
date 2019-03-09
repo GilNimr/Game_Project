@@ -23,7 +23,7 @@ namespace Our_Project
         public int strength;
         public bool send_update;
         public bool isMouseClicked; // if mouse clicked on pawn 
-        private bool isMove;           // if pawn needs to move
+        private bool hasMoved;           // if pawn needs to move
 
         public bool attacked=false;
         public Pawn attacker;
@@ -33,6 +33,11 @@ namespace Our_Project
         public Vector2 position;
 
         private SpriteFont strength_font;
+
+        private double timer_atk_num_display=0;
+        private bool draw_atk_font = false;
+
+        private double timer_has_died = 0;
 
         Rectangle mouseRec;
         public Team team;
@@ -65,7 +70,7 @@ namespace Our_Project
             texture = _texture;
            
             isMouseClicked = false;
-            isMove = false;
+            hasMoved = false;
             position = new Vector2(_tile.getCartasianRectangle().X, _tile.getCartasianRectangle().Y);
 
             CelCount celCount = new CelCount(30, 5);
@@ -79,8 +84,9 @@ namespace Our_Project
             //  send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
         }
 
-        public void Update()
+        public void Update(GameTime gametime)
         {
+           
             MouseState mouseState = Mouse.GetState(); // previous mouse position
             MouseState newState = Mouse.GetState();     // current mouse position  
             
@@ -107,7 +113,7 @@ namespace Our_Project
 
             if (attacked)
             {
-                GettingAttacked();
+                GettingAttacked(gametime);
             }
 
             if (isMouseClicked && !hasDied && !the_flag)
@@ -126,7 +132,7 @@ namespace Our_Project
                         (current_tile.getLeft().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getLeft().getCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.getLeft());
+                        moveORattack(current_tile.getLeft(), gametime);
                     }
 
 
@@ -134,23 +140,23 @@ namespace Our_Project
                         (current_tile.getRight().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getRight().getCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.getRight());
+                        moveORattack(current_tile.getRight(), gametime);
                     }
 
                     else if ((current_tile.getUp() != null) &&
                         (current_tile.getUp().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getUp().getCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.getUp());
+                        moveORattack(current_tile.getUp() , gametime);
                     }
 
                     else if ((current_tile.getDown() != null) && 
                         (current_tile.getDown().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getDown().getCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.getDown());
+                        moveORattack(current_tile.getDown() , gametime);
                     }
-                    if (isMove && !hasDied) // get new oldState
+                    if (hasMoved && !hasDied) // get new oldState
                     {
                         oldState = newState;
 
@@ -187,8 +193,12 @@ namespace Our_Project
             }
         }
 
-        public void GettingAttacked()
+        public void GettingAttacked(GameTime gametime)
         {
+            timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds;
+            draw_atk_font = true;
+            attacker.draw_atk_font = true;
+
             if (the_flag)
             {
                 PlayingState.lose = true;
@@ -218,7 +228,15 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, GameTime gameTime)
         {
-           
+            //timers
+            if(draw_atk_font)
+            timer_atk_num_display += gameTime.ElapsedGameTime.TotalSeconds;
+
+            if (timer_has_died > 0 && !hasDied)
+                timer_has_died += gameTime.ElapsedGameTime.TotalSeconds;
+            if (timer_has_died > 3.0)
+                hasDied = true;
+
             if (!hasDied)
             {
 
@@ -235,11 +253,30 @@ namespace Our_Project
                     else
                     spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.getCartasianRectangle().Center.X, current_tile.getCartasianRectangle().Center.Y), Color.White);
 
+                    //timer
+                    if (timer_atk_num_display<2.0 && draw_atk_font)
+                    
+                        
+                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X,(int)position.Y)+new Vector2(-Game1.screen_width/10,-Game1.screen_height/10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, 5f, SpriteEffects.None, 0);
+                    
+                    else
+                    {
+                        draw_atk_font = false;
+                        timer_atk_num_display = 0;
+                    }
                 }
-                else
+                else //pawn of enemy team
                 {
                     Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.getCartasianRectangle().Center) - new Point(Tile.getTileSize() / 2), new Point(Tile.getTileSize()));
                     celAnimationManager.Draw(gameTime, "israel", spriteBatch, Rec, SpriteEffects.None);
+
+                    if (timer_atk_num_display < 2.0 && draw_atk_font)
+                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, 5f, SpriteEffects.None, 0);
+                    else
+                    {
+                        draw_atk_font = false;
+                        timer_atk_num_display = 0;
+                    }
                 }
             }
             //if you have died.
@@ -278,7 +315,7 @@ namespace Our_Project
 
             }
 
-            if (isMove)
+            if (hasMoved)
             {// draw to white again
 
 
@@ -297,7 +334,7 @@ namespace Our_Project
 
 
                 isMouseClicked = false;
-                isMove = false;
+                hasMoved = false;
                 direction = null;
             }
 
@@ -307,9 +344,9 @@ namespace Our_Project
             
         }
 
-       private void moveORattack(Tile _direction)
+       private void moveORattack(Tile _direction, GameTime gameTime)
         {
-            isMove = true;
+            hasMoved = true;
 
             direction = _direction;
 
@@ -318,6 +355,9 @@ namespace Our_Project
                 direction.getCurrentPawn().attacked = true;
                 direction.getCurrentPawn().attacker = this;
 
+                
+                draw_atk_font = true;
+                direction.getCurrentPawn().draw_atk_font = true;
 
                 if (direction.getCurrentPawn().the_flag == true)
                 {
@@ -327,17 +367,21 @@ namespace Our_Project
                 else if (direction.getCurrentPawn().strength > strength)
 
                 {
-                    hasDied = true;
+                    timer_has_died = gameTime.ElapsedGameTime.TotalSeconds;
+                    //hasDied = true;
                 }
                 else //if we draw the encounter with enemy
                 if (direction.getCurrentPawn().strength == strength)
                 {
-                    hasDied = true;
-                    direction.getCurrentPawn().hasDied = true;
+                    timer_has_died = gameTime.ElapsedGameTime.TotalSeconds;
+                   // hasDied = true;
+                   // direction.getCurrentPawn().hasDied = true;
+                    direction.getCurrentPawn().timer_has_died = gameTime.ElapsedGameTime.TotalSeconds;
                 }
                 else //if we won the encounter with enemy
                 {
-                    direction.getCurrentPawn().hasDied = true;
+                    // direction.getCurrentPawn().hasDied = true;
+                    direction.getCurrentPawn().timer_has_died = gameTime.ElapsedGameTime.TotalSeconds;
                 }
 
             }

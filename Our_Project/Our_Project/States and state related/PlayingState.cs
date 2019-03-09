@@ -202,7 +202,9 @@ namespace Our_Project
             player.pawns[17] = new Pawn(OurGame, Pawn_texture, tileDictionary[17], 16, Pawn.Team.my_team, 17, font_small);
             player.pawns[18] = new Pawn(OurGame, Pawn_texture, tileDictionary[18], 17, Pawn.Team.my_team, 18, font_small);
             player.pawns[19] = new Pawn(OurGame, Pawn_texture, tileDictionary[19], 18, Pawn.Team.my_team, 19, font_small);
-           
+
+            enemy.pawns[19] = new Pawn(OurGame, Pawn_texture, tileDictionary[25], 0, Pawn.Team.enemy_team, 0, font_small);
+            enemy.pawns[19].current_tile.occupied = Tile.Occupied.yes_by_enemy;
 
             //manually putting pawns for now.
             enemy.pawns[0] = new Pawn(OurGame, Pawn_texture, tileDictionary[5090], 0, Pawn.Team.enemy_team,0,font_small);
@@ -243,8 +245,8 @@ namespace Our_Project
             enemy.pawns[17].current_tile.occupied = Tile.Occupied.yes_by_enemy;
             enemy.pawns[18] = new Pawn(OurGame, Pawn_texture, tileDictionary[5088], 17, Pawn.Team.enemy_team, 18, font_small);
             enemy.pawns[18].current_tile.occupied = Tile.Occupied.yes_by_enemy;
-            enemy.pawns[19] = new Pawn(OurGame, Pawn_texture, tileDictionary[5089], 18, Pawn.Team.enemy_team, 19, font_small);
-            enemy.pawns[19].current_tile.occupied = Tile.Occupied.yes_by_enemy;
+          /*  enemy.pawns[19] = new Pawn(OurGame, Pawn_texture, tileDictionary[5089], 18, Pawn.Team.enemy_team, 19, font_small);
+            enemy.pawns[19].current_tile.occupied = Tile.Occupied.yes_by_enemy;*/
 
 
 
@@ -330,7 +332,7 @@ namespace Our_Project
                 {
                     if (player.myTurn)
                     {
-                        player.pawns[i].Update();
+                        player.pawns[i].Update(gameTime);
 
                         if (player.pawns[i].isMouseClicked) // if this pawn was clicked before
                         {
@@ -344,7 +346,7 @@ namespace Our_Project
                     }
                     else if (player.pawns[i].attacked)
                     {
-                        player.pawns[i].GettingAttacked();
+                        player.pawns[i].GettingAttacked(gameTime);
                     }
                         
                 }
