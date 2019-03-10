@@ -75,15 +75,16 @@ namespace Our_Project.States_and_state_related
             empty.Add(new NodeOFHidenTiles(-1, -1));
 
             addShapeToEmptyBoard(new Board(empty, 2, 12, bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().X,
-                bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content));
+                bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content),
+                11, 12, 0, 24);
         }
 
-        private void addShapeToEmptyBoard(Board s)
+        private void addShapeToEmptyBoard(Board s, int firstI, int endI, int firstJ, int endJ)
         {
             Texture2D fullTexture = s.getBoard()[0][0].texture;
-            for (int i=11; i<=12; i++)
+            for (int i=firstI; i<=endI; i++)
             {
-                for (int j=0; j<bigEmptyBoard.getBoard()[i].Length; j++)
+                for (int j=firstJ; j<endJ; j++)
                 {
                     bigEmptyBoard.getBoard()[i][j].texture = fullTexture;
                 }
