@@ -28,8 +28,12 @@ namespace Our_Project
             client.Start();
 
 
-           // client.DiscoverKnownPeer("172.27.38.8", 14242); //sapir
-            client.DiscoverKnownPeer("192.168.1.11", 14242); //home
+            // client.DiscoverKnownPeer(" 172.27.38.20", 14242) ; //sapir
+           // client.DiscoverKnownPeer("62.219.99.130", 14242); //sapir external
+            client.DiscoverLocalPeers(14242);
+            
+        //    client.DiscoverKnownPeer("192.168.1.11", 14242); //home
+          //  client.DiscoverKnownPeer("192.168.43.199", 14242); //home amit
 
 
 
@@ -46,7 +50,7 @@ namespace Our_Project
                     if (player.pawns[i].send_update)
                     {
                         om.Write("move");
-                        om.Write(player.pawns[i].current_tile.id);
+                        om.Write(player.pawns[i].current_tile.getId());
                         om.Write(i);
                          
                         
@@ -102,14 +106,15 @@ namespace Our_Project
                                     
                                     int id = msg.ReadInt32();
                                     int i = msg.ReadInt32();
-
-                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
+                                    
+                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;   
+                                  
                                     enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
                                     PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
-                                    PlayingState.tileDictionary[id].current_pawn = enemy.pawns[i];
+                                    PlayingState.tileDictionary[id].setCurrentPawn(enemy.pawns[i]);
                                     enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     player.myTurn = true;
-
+                                    
                                    
                                     break;
                                 }

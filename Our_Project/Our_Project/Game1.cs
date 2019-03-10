@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Our_Project.States_and_state_related;
 using XELibrary;
 
 namespace Our_Project
@@ -10,7 +11,7 @@ namespace Our_Project
     /// </summary>
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
 
         CelAnimationManager celAnimationManager;
@@ -19,13 +20,13 @@ namespace Our_Project
         SoundManager soundManager;
         GameStateManager stateManager;
 
-        public ITitleIntroState TitleIntroState;
-        public IStartMenuState StartMenuState;
-        public IPlayingState PlayingState;
-        
-        public IPausedState PausedState;
-        public IOptionsMenuState OptionsMenuState;
 
+        public ITitleIntroState TitleIntroState;    // the first state user see
+        public IStartMenuState StartMenuState;      // the state with 'play'
+        public IPlayingState PlayingState;          // the game
+        public IPausedState PausedState;            // not implemented
+        public IOptionsMenuState OptionsMenuState;  // not implemented
+        public IBuildingBoardState BuildingBoardState; 
 
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
@@ -38,22 +39,21 @@ namespace Our_Project
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-           
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            graphics.PreferredBackBufferHeight = 2400;
-            screen_height = graphics.PreferredBackBufferHeight;
-            graphics.PreferredBackBufferWidth = 2400;
-            screen_width = graphics.PreferredBackBufferWidth;
 
-           // graphics.IsFullScreen = true;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
+            screen_height = graphics.PreferredBackBufferHeight;
+            screen_width = graphics.PreferredBackBufferWidth;
 
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);
 
-            celAnimationManager = new CelAnimationManager(this, "Textures\\");
+            celAnimationManager = new CelAnimationManager(this, "Textures\\Animations");
             Components.Add(celAnimationManager);
-
+            
             soundManager = new SoundManager(this);
             Components.Add(soundManager);
 
@@ -65,6 +65,7 @@ namespace Our_Project
             PlayingState = new PlayingState(this);
             PausedState = new PausedState(this);
             OptionsMenuState = new OptionsMenuState(this);
+            BuildingBoardState = new BuildingBoardState(this);
 
             EnableSoundFx = true;
             EnableMusic = true;
@@ -85,8 +86,6 @@ namespace Our_Project
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            
             base.Initialize();
         }
 
@@ -98,17 +97,11 @@ namespace Our_Project
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
+            
             // Load sounds
             string musicPath = @"Sounds\Music";
             string fxPath = @"Sounds\SoundFX\";
-
             soundManager.LoadContent(musicPath, fxPath);
-
-          
-
-
         }
 
         /// <summary>
@@ -131,16 +124,10 @@ namespace Our_Project
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             
-
-
             base.Update(gameTime);
         }
-
-       
-
-
+        
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
@@ -149,14 +136,8 @@ namespace Our_Project
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-
             base.Draw(gameTime);
-
-
-           
             spriteBatch.End();
-
-            
         }
 
         //translates 2d world coordinates to isometric screen coordinates.

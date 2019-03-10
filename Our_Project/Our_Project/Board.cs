@@ -20,7 +20,7 @@ namespace Our_Project
         Texture2D tile2dImg;                                // the 2d image of tile
         Texture2D emtyIsoImg;                               // the empty isometric tile
         Texture2D empty2dImg;                               // the empty 2d tile
-        readonly int tileSize = Game1.screen_height / 80;   // size of tile
+        readonly int tileSize = Game1.screen_height / 30;   // size of tile
         int id;                                             // id to tile at this board
         int height, width;                            // if full board, sizeOfBoard = height = width
         int starterX, starterY;                             // where begin shape
@@ -28,12 +28,11 @@ namespace Our_Project
         static Dictionary<int, Tile> boardDictionaryById;   // get tile by id
         List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
         int hidenIndex;
-        // hidenTiles[] index for fill the shape
         bool move; // for knowing if move some shape
         int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
 
 
-        private SpriteFont font;
+        //private SpriteFont font;
         string printDebug = "just for debug";
 
 
@@ -43,8 +42,6 @@ namespace Our_Project
             typeOfBord = TypeOfBord.fullBoard;
 
             setGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size);
-
-
         }
 
 
@@ -59,15 +56,10 @@ namespace Our_Project
         }
 
 
-
-
-
-
         public void Update()
         {
+
             checkAndMoveShape();
-
-
         }
 
 
@@ -114,16 +106,23 @@ namespace Our_Project
             {
                 foreach (Tile tile in tilesLine)
                 {
-                    tile.addToOldRectangle((int)difference.X, (int)difference.Y);
+                    tile.addToCartasianRectangle((int)difference.X, (int)difference.Y);
                 }
             }
+        }
+
+        private void setNewShpae(Board shapeToDrow)
+        {
+            Texture isometricTextureOfTile = shapeToDrow.tileIsoImg;
+
+            
         }
 
         private Vector2 setDifference(int iIndexOfTileToMove, int jIndexOfTileToMove, ref MouseState mouseState)
         {
             Vector2 getRectangleIsometric = Game1.TwoD2isometrix(
-                board[iIndexOfTileToMove][jIndexOfTileToMove].getOldRectangle().X,
-                board[iIndexOfTileToMove][jIndexOfTileToMove].getOldRectangle().Y);
+                board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().X,
+                board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().Y);
 
 
             Vector2 ret = new Vector2((mouseState.X - getRectangleIsometric.X), (mouseState.Y -
@@ -135,7 +134,7 @@ namespace Our_Project
         private bool clickedShapeAndMove(ref MouseState mouseState, ref Rectangle mouseRectangle, int i, int j)
         {
             return (mouseState.LeftButton == ButtonState.Pressed) &&
-                                        (mouseRectangle.Intersects(board[i][j].getOldRectangle()));
+                                        (mouseRectangle.Intersects(board[i][j].getCartasianRectangle()));
         }
 
         private static void setIndexesOfTilesWeMoves(out int iIndexOfTileToMove, out int jIndexOfTileToMove, int i, int j)
@@ -176,7 +175,7 @@ namespace Our_Project
 
         private void setShapeTypes(List<NodeOFHidenTiles> _hidenTiles, int starterX, int starterY, ContentManager content)
         {
-            font = content.Load<SpriteFont>("font");
+            //font = content.Load<SpriteFont>("font");
             move = false;
             setPositionOfShape(starterX, starterY);
             setHidenTiles(_hidenTiles);
@@ -193,17 +192,18 @@ namespace Our_Project
 
         private void setHidenTiles(List<NodeOFHidenTiles> _hidenTiles)
         {
-            hidenTiles = new List<NodeOFHidenTiles>();
-            for (int i = 0; i < _hidenTiles.Count; i++)
-            {
-                hidenTiles.Add(_hidenTiles[i]);
-            }
+                hidenTiles = new List<NodeOFHidenTiles>();
+                for (int i = 0; i < _hidenTiles.Count; i++)
+                {
+                    hidenTiles.Add(_hidenTiles[i]);
+                }
         }
 
         private void setEmptyTilesImg(ContentManager content)
         {
-            empty2dImg = content.Load<Texture2D>("White_2d_Tile");
-            emtyIsoImg = content.Load<Texture2D>("White_Isometric_Tile");
+            /* empty2dImg = content.Load<Texture2D>("White_2d_Tile");
+             emtyIsoImg = content.Load<Texture2D>("White_Isometric_Tile");
+         */
         }
 
         void setBoard()
@@ -301,7 +301,8 @@ namespace Our_Project
         private void setTileOfFullBoard(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle,
             int hidenIndex)
         {
-            Rectangle rec = new Rectangle(700 + axisXofNewTileRectangle, -300 + axisYofNewTileRectangle, tileSize, tileSize);
+            Rectangle rec = new Rectangle(Game1.screen_width / 3 + axisXofNewTileRectangle,
+                  -Game1.screen_height / 3 + axisYofNewTileRectangle, tileSize, tileSize);
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
         }
 
@@ -375,14 +376,12 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            if (isShape())
-                spriteBatch.DrawString(font, printDebug, new Vector2(100, 100), Color.Black);
-
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
-                    board[i][j].Draw(spriteBatch, color);
+                    board[i][j].Draw(spriteBatch);
+                    board[i][j].setColor(Color.White); //returning to default color in case it was changed.
                 }
             }
         }

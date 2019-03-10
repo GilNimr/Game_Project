@@ -10,14 +10,12 @@ namespace Our_Project
     public sealed class TitleIntroState : BaseGameState, ITitleIntroState
     {
         private Texture2D texture;
-
         ISoundManager soundManager;
 
         public TitleIntroState(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(ITitleIntroState), this);
-
             soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
         }
 
@@ -60,7 +58,7 @@ namespace Our_Project
             base.Draw(gameTime);
         }
 
-        protected override void StateChanged(object sender, EventArgs e)
+        protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
         {
             base.StateChanged(sender, e);
 
@@ -68,8 +66,6 @@ namespace Our_Project
                 soundManager.Play("titleSound");
             else
                 soundManager.StopSong();
-
         }
-
     }
 }

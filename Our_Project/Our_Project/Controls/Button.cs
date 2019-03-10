@@ -38,7 +38,8 @@ namespace Our_Project
         {
             get
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+             //   return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, Game1.screen_width/10, Game1.screen_height/40);
             }
         }
 
@@ -68,13 +69,15 @@ namespace Our_Project
                 colour = Color.Gray;
 
             spriteBatch.Draw(_texture, Rectangle, colour);
+            
 
             if (!string.IsNullOrEmpty(Text))
             {
-                var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2);
-                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2);
+                var x = (Rectangle.X + (Rectangle.Width / 2)) - (_font.MeasureString(Text).X / 2 );
+                var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2 );
 
                 spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour);
+            //    spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour,0f,Vector2.Zero,new Vector2(Rectangle.Width/_font.MeasureString(Text).X, Rectangle.Height/_font.MeasureString(Text).Y ), SpriteEffects.None,0);
             }
         }
 

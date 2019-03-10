@@ -10,14 +10,16 @@ namespace Our_Project
 {
    public class Tile
     {
-        private Texture2D realTile;              //the isometric tile texture
-        private Texture2D oldTile;              //the 2D tile for debugging.
-        private readonly int tileSize;                   // the tile size
-        private Rectangle oldRectangle;
+
+        public Texture2D texture;              //the isometric tile texture
+        private Texture2D cartasian_texture;              //the 2D tile for debugging.
+        private  static  int tileSize;                   // the tile size
+        private Rectangle cartasianRectangle;
         private int id;                         // ID of tile
         private Rectangle isoprojection_rectangle; //the rectangle in which we draw the isometric projection
-        //private Pawn current_pawn;                  // current pawn on tile
+        private Pawn current_pawn;                  // current pawn on tile
         private Tile left, right, down, up;        //   Tile neighbors
+        private Color color;
 
         public Occupied occupied;
 
@@ -26,14 +28,21 @@ namespace Our_Project
             no, yes_by_me, yes_by_enemy
         }
 
-        public Tile(Texture2D _realTile, Texture2D _oldTile, Rectangle _oldRectangle, int _id)
+
+        public bool teleport_tile;
+
+
+        public Tile(Texture2D _texture, Texture2D _cartasian_texture, Rectangle _cartasianRectangle, int _id)
+
         {
+            teleport_tile = false ;
             id = _id;
-            tileSize = _oldRectangle.Width;
-            realTile = _realTile;
-            oldTile = _oldTile;
-            oldRectangle = _oldRectangle;
+            tileSize = _cartasianRectangle.Width;
+            texture = _texture;
+            cartasian_texture = _cartasian_texture;
+            cartasianRectangle = _cartasianRectangle;
             occupied = Occupied.no;
+            color = Color.White;
         }
 
 
@@ -42,17 +51,18 @@ namespace Our_Project
 
         }
 
-        public void Draw(SpriteBatch spriteBatch, Color color)
+        public void Draw(SpriteBatch spriteBatch)
         {
-
+            
             //dubug draw of the cartasian 2d-real world tiles.
             //spriteBatch.Draw(oldTile, oldRectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
 
             //creating the isometric-screen rectangle where we will draw our tile.
-            Vector2 iso_location = Game1.TwoD2isometrix(oldRectangle.X, oldRectangle.Y);
-            isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, oldRectangle.Width * 2, oldRectangle.Height);
+            Vector2 iso_location = Game1.TwoD2isometrix(cartasianRectangle.X, cartasianRectangle.Y);
+            isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, cartasianRectangle.Width *2, cartasianRectangle.Height*2);
 
-            spriteBatch.Draw(realTile, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
+            if (texture!= null && isoprojection_rectangle != null)
+                spriteBatch.Draw(texture, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
         }
 
         public int getId()
@@ -60,21 +70,21 @@ namespace Our_Project
             return id;
         }
 
-        public int getTileSize()
+        public static int getTileSize()
         {
             return tileSize;
         }
 
-        public Rectangle getOldRectangle()
+        public Rectangle getCartasianRectangle()
         {
-            return oldRectangle;
+            return cartasianRectangle;
         }
 
-        /*
+       
         public Pawn getCurrentPawn()
         {
             return current_pawn;
-        }*/
+        }
 
         public Tile getRight()
         {
@@ -96,11 +106,8 @@ namespace Our_Project
             return down;
         }
 
-        /*
-        public void setCurrentPawn(Pawn p)
-        {
-            current_pawn = p;
-        }*/
+        
+       
 
         public void setRight(Tile r)
         {
@@ -122,17 +129,46 @@ namespace Our_Project
             down = d;
         }
 
-        public void addToOldRectangle(int x, int y)
+        public void addToCartasianRectangle(int x, int y)
         {
-            oldRectangle.X += x;
-            oldRectangle.Y += y;
+            cartasianRectangle.X += x;
+            cartasianRectangle.Y += y;
         }
 
-        public void setToOldRectangle(int x, int y)
+        public void setToCartasianRectangle(int x, int y)
         {
-            oldRectangle.X = x;
-            oldRectangle.Y = y;
+            cartasianRectangle.X = x;
+            cartasianRectangle.Y = y;
         }
+
+        public void setColor(Color _color)
+        {
+            color = _color;
+        }
+    
+
+
+        public Tile Teleport_to_rand()
+        {
+            Random rand = new Random();
+            int rand_number = rand.Next(0, 2);
+            while (PlayingState.teleports[rand_number] == this)
+            {
+                rand_number = rand.Next(0, 2);
+            }
+            return PlayingState.teleports[rand_number];
+            
+            
+        }
+
+
+        public void setCurrentPawn (Pawn p)
+        {
+            current_pawn = p;
+        }
+
+        
+
 
 
 
