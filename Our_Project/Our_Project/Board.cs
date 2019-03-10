@@ -25,7 +25,7 @@ namespace Our_Project
         int height, width;                            // if full board, sizeOfBoard = height = width
         int starterX, starterY;                             // where begin shape
         int endOfXaxisOfLastTile, endOfYaxisOfLastTile;  // where each shape are end. (the next will begin)
-        static Dictionary<int, Tile> boardDictionaryById;   // get tile by id
+        public static Dictionary<int, Tile> boardDictionaryById;   // get tile by id
         List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
         int hidenIndex;
         bool move; // for knowing if move some shape
@@ -328,6 +328,7 @@ namespace Our_Project
         private void setNewHidenTile(int i, int j, Rectangle rec)
         {
             board[i][j] = new Tile(emtyIsoImg, empty2dImg, rec, id);
+            board[i][j].setIsHidden(true);
             setHidenIndex();
         }
 

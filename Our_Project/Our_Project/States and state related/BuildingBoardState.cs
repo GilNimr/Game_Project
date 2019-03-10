@@ -20,6 +20,8 @@ namespace Our_Project.States_and_state_related
         private List<Button> buttons;
         private Button save_and_start_game;
 
+
+
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
@@ -67,28 +69,61 @@ namespace Our_Project.States_and_state_related
 
         private void buildEmptyBoard()
         {
+            // set the board
             bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
 
-
+            // adding a 2/24 shape wich will be the middle of the board
             List<NodeOFHidenTiles> empty = new List<NodeOFHidenTiles>();
             empty.Add(new NodeOFHidenTiles(-1, -1));
             empty.Add(new NodeOFHidenTiles(-1, -1));
 
-            addShapeToEmptyBoard(new Board(empty, 2, 12, bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().X,
-                bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content),
-                11, 12, 0, 24);
+            setMiddleLine(new Board(empty, 2, 12, bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().X,
+                bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content));
         }
 
-        private void addShapeToEmptyBoard(Board s, int firstI, int endI, int firstJ, int endJ)
+        private void setMiddleLine(Board line)
         {
-            Texture2D fullTexture = s.getBoard()[0][0].texture;
+            Texture2D fullTexture = line.getBoard()[0][0].texture;
+
+            for (int i=11; i<=12; i++)
+            {
+                for (int j=0; j<bigEmptyBoard.getBoard()[i].Length; j++)
+                {
+                    bigEmptyBoard.getBoard()[i][j].texture = fullTexture;
+                }
+            }
+
+        }
+
+        private void addShapeToEmptyBoard(Board s, List<Tile> tilesFromShpae, List<Tile> tilesFromEmpty /*int firstI, int endI, int firstJ, int endJ*/)
+        {   // set new shape in emptyBoard
+            //Texture2D fullTexture = s.getBoard()[0][0].texture;
+            int i = 0;
+            foreach (Tile tFromEmpty in tilesFromEmpty)
+            {
+                if (!tilesFromShpae[i].getIsHidden())
+                {
+                    tFromEmpty.texture = tilesFromShpae[i].texture;
+                }
+                i++;
+            }
+                
+                
+                
+                /*.setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
+                    emptyTilesToMove[i].getCartasianRectangle().Y);
+                currentShapeToPutAtNewPlace.Add(shapeTilesToMove[i]);*/
+
+
+
+            /*
             for (int i=firstI; i<=endI; i++)
             {
                 for (int j=firstJ; j<endJ; j++)
                 {
                     bigEmptyBoard.getBoard()[i][j].texture = fullTexture;
                 }
-            }    
+            } */
         }
 
         /// <summary>
@@ -252,11 +287,17 @@ namespace Our_Project.States_and_state_related
                     }
                     if (putShapeAtNewPlace)
                     {
+
+                        
+
                         for (int i = 0; i < how_much_tiles_in_shape; i++)
                         {
                             shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
                                 emptyTilesToMove[i].getCartasianRectangle().Y);
+                        
                         }
+
+                        addShapeToEmptyBoard(shape, shapeTilesToMove, emptyTilesToMove);
                     }
                 }
             }
