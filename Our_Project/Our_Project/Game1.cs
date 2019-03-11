@@ -24,12 +24,12 @@ namespace Our_Project
         public ITitleIntroState TitleIntroState;
         public IStartMenuState StartMenuState;
         public IPlayingState PlayingState;
-        
+        public IPlacingSoldiersState PlacingSoldiersState;
         public IPausedState PausedState;
         public IOptionsMenuState OptionsMenuState;
 
 
-        ///---!!!!
+        
         public IBuildingBoardState BuildingBoardState;
 
         public bool EnableSoundFx { get; set; }
@@ -44,18 +44,14 @@ namespace Our_Project
         {
             graphics = new GraphicsDeviceManager(this);
 
-
-          
-
-
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-       //  graphics.PreferredBackBufferHeight = 2160;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            screen_height = graphics.PreferredBackBufferHeight;
-       //      graphics.PreferredBackBufferWidth = 3840;
-           graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
+       
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
+            screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
 
             inputHandler = new InputHandler(this);
@@ -63,8 +59,6 @@ namespace Our_Project
 
             celAnimationManager = new CelAnimationManager(this, "Textures\\Animations");
             Components.Add(celAnimationManager);
-
-            
 
             soundManager = new SoundManager(this);
             Components.Add(soundManager);
@@ -77,8 +71,10 @@ namespace Our_Project
             PlayingState = new PlayingState(this);
             PausedState = new PausedState(this);
             OptionsMenuState = new OptionsMenuState(this);
-
             BuildingBoardState = new BuildingBoardState(this);
+            PlacingSoldiersState = new PlacingSoldiersState(this);
+
+            
 
             EnableSoundFx = true;
             EnableMusic = true;
@@ -89,7 +85,6 @@ namespace Our_Project
         protected override void BeginRun()
         {
             stateManager.ChangeState(TitleIntroState.Value);
-
             base.BeginRun();
         }
 
@@ -122,9 +117,6 @@ namespace Our_Project
 
             soundManager.LoadContent(musicPath, fxPath);
 
-          
-
-
         }
 
         /// <summary>
@@ -147,15 +139,9 @@ namespace Our_Project
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-            
-            
-
+       
             base.Update(gameTime);
         }
-
-       
-
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -167,12 +153,8 @@ namespace Our_Project
             spriteBatch.Begin();
 
             base.Draw(gameTime);
-
-
-           
             spriteBatch.End();
 
-            
         }
 
         //translates 2d world coordinates to isometric screen coordinates.

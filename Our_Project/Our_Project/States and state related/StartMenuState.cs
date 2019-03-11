@@ -11,16 +11,8 @@ namespace Our_Project
         
         private SpriteFont font;
         private Texture2D button_texture;
-        private int selected;
 
         public Button Host_Button;
-        private string[] entries = 
-        {
-            "Host",
-            "join",
-            "Options",
-            "Exit Game"
-        };
 
         public StartMenuState(Game game)
             : base(game)

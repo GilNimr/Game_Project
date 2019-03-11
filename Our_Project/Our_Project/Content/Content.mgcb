@@ -88,6 +88,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Controls/Button.png
 
+#begin Textures/Controls/Shape1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Controls/Shape1.png
+
 #begin Textures/optionsMenu.png
 /importer:TextureImporter
 /processor:TextureProcessor

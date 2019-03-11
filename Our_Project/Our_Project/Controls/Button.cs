@@ -23,8 +23,9 @@ namespace Our_Project
         private MouseState _previousMouse;
 
         private Texture2D _texture;
-
+        public Texture2D picture;
         protected IInputHandler Input;
+        private double click_timer;
 
         public event EventHandler Click;
 
@@ -61,6 +62,8 @@ namespace Our_Project
             PenColour = Color.Black;
         }
 
+        
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             var colour = Color.White;
@@ -77,7 +80,15 @@ namespace Our_Project
                 var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_font.MeasureString(Text).Y / 2 );
 
                 spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour);
-            //    spriteBatch.DrawString(_font, Text, new Vector2(x, y), PenColour,0f,Vector2.Zero,new Vector2(Rectangle.Width/_font.MeasureString(Text).X, Rectangle.Height/_font.MeasureString(Text).Y ), SpriteEffects.None,0);
+
+            }
+
+            if (picture != null)
+            {
+
+               // var x = (Rectangle.X + (Rectangle.Width / 2)) - (_texture.Width/2);
+              //  var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_texture.Height / 2);
+                spriteBatch.Draw(picture, new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width ,Rectangle.Height), PenColour);
             }
         }
 
@@ -95,8 +106,18 @@ namespace Our_Project
 
                 if (Input.MouseHandler.WasLeftButtonClicked())
                 {
+                    Clicked = true;
                     Click?.Invoke(this, new EventArgs());
                 }
+            }
+            if (Clicked)
+            {
+                click_timer += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            if (click_timer > 1.0)
+            {
+                Clicked = false;
+                click_timer = 0;
             }
         }
 

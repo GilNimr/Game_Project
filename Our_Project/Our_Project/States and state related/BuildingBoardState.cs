@@ -20,6 +20,8 @@ namespace Our_Project.States_and_state_related
         private List<Button> buttons;
         private Button save_and_start_game;
 
+
+
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
@@ -98,7 +100,8 @@ namespace Our_Project.States_and_state_related
             buttons.Add(new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(200, 20),
-                Text = "First Shape",
+                Text = "",
+                picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
             });
 
             foreach (Button button in buttons)
@@ -119,7 +122,7 @@ namespace Our_Project.States_and_state_related
 
         private void saveAndStartGame(object sender, EventArgs e)
         {
-            StateManager.ChangeState(OurGame.PlayingState.Value);
+            StateManager.ChangeState(OurGame.PlacingSoldiersState.Value);
         }
 
         private void clickFirstShape(object sender, System.EventArgs e)
@@ -320,6 +323,9 @@ namespace Our_Project.States_and_state_related
             return new Vector2(tmpx, tmpy);
         }
 
-
+        public Board getEmptyBoard()
+        {
+            return bigEmptyBoard;
+        }
     }
 }

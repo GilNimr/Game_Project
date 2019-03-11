@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Content;
 
 namespace Our_Project
 {
-    class Board
+   public class Board
     {
         enum TypeOfBord { fullBoard, Shape }
 

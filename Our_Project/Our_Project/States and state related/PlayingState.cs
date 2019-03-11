@@ -54,7 +54,8 @@ namespace Our_Project
             scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
             game.Components.Add(scrollingBackgroundManager);
             game.Services.AddService(typeof(IPlayingState), this);
-          // game.Services.AddService(typeof(IScrollingBackgroundManager), this);
+
+         
             teleports = new Tile[2];
 
             player = new Player();
