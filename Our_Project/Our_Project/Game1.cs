@@ -21,16 +21,15 @@ namespace Our_Project
         GameStateManager stateManager;
 
 
-        public ITitleIntroState TitleIntroState;
-        public IStartMenuState StartMenuState;
-        public IPlayingState PlayingState;
+
+        public ITitleIntroState TitleIntroState; // the first state user see
+        public IStartMenuState StartMenuState;  // the state with 'play'
+        public IPlayingState PlayingState; // the game
         public IPlacingSoldiersState PlacingSoldiersState;
-        public IPausedState PausedState;
-        public IOptionsMenuState OptionsMenuState;
-
-
-        
+        public IPausedState PausedState;  // not implemented
+        public IOptionsMenuState OptionsMenuState; // not implemented
         public IBuildingBoardState BuildingBoardState;
+
 
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
@@ -47,7 +46,7 @@ namespace Our_Project
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-       
+
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
@@ -78,8 +77,6 @@ namespace Our_Project
 
             EnableSoundFx = true;
             EnableMusic = true;
-
-           
         }
 
         protected override void BeginRun()
@@ -96,8 +93,6 @@ namespace Our_Project
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            
             base.Initialize();
         }
 
@@ -109,12 +104,10 @@ namespace Our_Project
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
-
+            
             // Load sounds
             string musicPath = @"Sounds\Music";
             string fxPath = @"Sounds\SoundFX\";
-
             soundManager.LoadContent(musicPath, fxPath);
 
         }
@@ -139,9 +132,11 @@ namespace Our_Project
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+
        
             base.Update(gameTime);
         }
+
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -151,7 +146,6 @@ namespace Our_Project
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
-
             base.Draw(gameTime);
             spriteBatch.End();
 

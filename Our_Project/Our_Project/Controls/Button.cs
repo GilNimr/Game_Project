@@ -109,7 +109,12 @@ namespace Our_Project
                     Clicked = true;
                     Click?.Invoke(this, new EventArgs());
                 }
+                else
+                {
+                    Clicked = false;
+                }
             }
+
             if (Clicked)
             {
                 click_timer += gameTime.ElapsedGameTime.TotalSeconds;
@@ -119,6 +124,7 @@ namespace Our_Project
                 Clicked = false;
                 click_timer = 0;
             }
+
         }
 
         #endregion

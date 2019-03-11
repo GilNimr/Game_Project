@@ -20,6 +20,9 @@ namespace Our_Project
         private Pawn current_pawn;                  // current pawn on tile
         private Tile left, right, down, up;        //   Tile neighbors
         private Color color;
+        private bool isHidden;
+        
+        
 
         public Occupied occupied;
 
@@ -43,6 +46,7 @@ namespace Our_Project
             cartasianRectangle = _cartasianRectangle;
             occupied = Occupied.no;
             color = Color.White;
+            isHidden = true;
         }
 
 
@@ -165,6 +169,16 @@ namespace Our_Project
         public void setCurrentPawn (Pawn p)
         {
             current_pawn = p;
+        }
+
+        public void setIsHidden(bool b)
+        {
+            isHidden = b;
+        }
+
+        public bool getIsHidden()
+        {
+            return isHidden;
         }
 
         
