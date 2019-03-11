@@ -335,39 +335,20 @@ namespace Our_Project.States_and_state_related
 
                     saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
                        shape, shapeTilesToMove, emptyTilesToMove);
+
                     }
-                
-
-                    
-
-                    
-                    
-                        
-                    
-
-                    /*if (saveYourShapeInBoard != null)
-                        saveYourShapeInBoard.Click -= (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                                shape, shapeTilesToMove, emptyTilesToMove);
-                                */
-
-
-
 
                 }
-                
-                
-                    
-            
-
         }
         
 
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)
         {
-            
                 addShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
-            
+            shapes.Remove(shape);
+            hideShape = true;
+          //  buttons.Remove(firstShape);
         }
 
         /// <summary>
