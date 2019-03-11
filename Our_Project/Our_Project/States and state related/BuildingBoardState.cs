@@ -55,17 +55,36 @@ namespace Our_Project.States_and_state_related
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
+
             /*
-        allHidenPoints[0].Add(new NodeOFHidenTiles(0, 1));
-        allHidenPoints[0].Add(new NodeOFHidenTiles(0, 2)); */
+             *  //
+             *  ////
+             *    //
+             */
+            
+            allHidenPoints[0].Add(new NodeOFHidenTiles(0, 2));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(0, 3));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(1, 2));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(1, 3));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(4, 0));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(4, 1));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(5, 0));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(5, 1));
 
-            allHidenPoints[0].Add(new NodeOFHidenTiles(2, 0));
-            allHidenPoints[0].Add(new NodeOFHidenTiles(2, 1));
-            allHidenPoints[0].Add(new NodeOFHidenTiles(3, 0));
-            allHidenPoints[0].Add(new NodeOFHidenTiles(3, 1));
 
+            /*
+             * \\\\\\\\\
+             *    \\\
+             */
 
-            allHidenPoints[1].Add(new NodeOFHidenTiles(-1, -1));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(2, 0));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(2, 1));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(2, 4));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(2, 5));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(3, 0));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(3, 1));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(3, 4));
+            allHidenPoints[1].Add(new NodeOFHidenTiles(3, 5));
 
             allHidenPoints[2].Add(new NodeOFHidenTiles(-1, -1));
 
@@ -154,8 +173,17 @@ namespace Our_Project.States_and_state_related
             
             firstShape.Click += clickFirstShape;
             buttons.Add(firstShape);
-          //  Game.Components.Add(firstShape);
-            
+            //  Game.Components.Add(firstShape);
+
+            secondShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(200, 40),
+                Text = "Second Shape",
+            };
+
+            secondShape.Click += clickSecondShape;
+            buttons.Add(secondShape);
+
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
@@ -170,6 +198,26 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Add(b);
         }
 
+        private void clickSecondShape(object sender, EventArgs e)
+        {
+            Board s = null;
+            shapes.Clear();
+            if (hideShape)
+            {
+                
+                s = new Board(allHidenPoints[1], 4, 6, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                shapes.Add(s);
+                hideShape = false;
+            }
+
+            else
+            {
+                shapes.Remove(s);
+                //                shapes[0] = null;
+                hideShape = true;
+            }
+        }
+
         private void saveAndStartGame(object sender, EventArgs e)
         {
             StateManager.ChangeState(OurGame.PlayingState.Value);
@@ -177,15 +225,19 @@ namespace Our_Project.States_and_state_related
 
         private void clickFirstShape(object sender, System.EventArgs e)
         {
+            shapes.Clear();
+            Board s=null;
             if (hideShape)
             {
-                shapes.Add(new Board(allHidenPoints[0], 4, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content));
+                shapes.Clear();
+                s = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                shapes.Add(s);
                 hideShape = false;
             }
 
             else
             {
-                shapes.Remove(shapes[0]);
+                shapes.Remove(s);
                 //                shapes[0] = null;
                 hideShape = true;
             }
