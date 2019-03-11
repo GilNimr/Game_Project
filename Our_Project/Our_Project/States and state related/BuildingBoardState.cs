@@ -92,6 +92,7 @@ namespace Our_Project.States_and_state_related
                 for (int j=0; j<bigEmptyBoard.getBoard()[i].Length; j++)
                 {
                     bigEmptyBoard.getBoard()[i][j].texture = fullTexture;
+                    bigEmptyBoard.getBoard()[i][j].setIsHidden(false);
                 }
             }
 
@@ -106,9 +107,9 @@ namespace Our_Project.States_and_state_related
                 if (!tilesFromShpae[i].getIsHidden())
                 {
                     tFromEmpty.texture = tilesFromShpae[i].texture;
+                    tFromEmpty.setIsHidden(false);
                 }
                 i++;
-               
             }
 
 
@@ -270,30 +271,24 @@ namespace Our_Project.States_and_state_related
                                     if (shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
                                         && (!shape.getMove()))
                                     {
-                                        //putShapeAtNewPlace = false;
-
-
                                         if ((shapeTile.getCartasianRectangle().Center.X >
                                             emptyTile.getCartasianRectangle().Center.X) &&
                                             (shapeTile.getCartasianRectangle().Center.Y >
-                                            emptyTile.getCartasianRectangle().Center.Y)
+                                            emptyTile.getCartasianRectangle().Center.Y) && emptyTile.getIsHidden()
                                             )
                                         {
                                             eachShapeHasEmptyTile[a] = true;
                                             emptyTilesToMove.Add(emptyTile);
                                             shapeTilesToMove.Add(shapeTile);
                                             a++;
-
-
-                                            buttons.Remove(saveYourShapeInBoard);
-                                            Game.Components.Remove(saveYourShapeInBoard);
+                                        
                                         }
 
                                     }
                                     if (shape.getMove())
                                     {
-                                    buttons.Remove(saveYourShapeInBoard);
-                                    Game.Components.Remove(saveYourShapeInBoard);
+                                        buttons.Remove(saveYourShapeInBoard);
+                                        Game.Components.Remove(saveYourShapeInBoard);
                                     }
                                 }
                             }
@@ -333,6 +328,12 @@ namespace Our_Project.States_and_state_related
 
                         }
 
+
+                        if (legalPlace(shapeTilesToMove, emptyTilesToMove))
+                        {
+
+                        }
+
                     saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
                        shape, shapeTilesToMove, emptyTilesToMove);
 
@@ -340,7 +341,58 @@ namespace Our_Project.States_and_state_related
 
                 }
         }
-        
+
+        private bool legalPlace(List<Tile> shape, List<Tile> empty)
+        {
+
+            return true;
+
+      /*      List<bool> legalPlace = new List<bool>();
+            foreach (Tile t in empty)
+            {
+                int tileId = t.getId();
+
+                Tile neighbor = thereIsNeighbor(tileId);
+                Tile secondNeighbor;
+
+                if (neighbor != null)
+                {
+                    secondNeighbor = thereIsNeighbor(neighbor.getId());
+
+                }
+
+
+                
+
+            }
+
+            return true;
+        */}
+        /*
+        private Tile thereIsNeighbor(int tileId)
+        {
+            if (!bigEmptyBoard.boardDictionaryById[tileId].getLeft().getIsHidden())
+            {
+                return bigEmptyBoard.boardDictionaryById[tileId].getLeft();
+            }
+
+            else if (!bigEmptyBoard.boardDictionaryById[tileId].getRight().getIsHidden())
+            {
+                return bigEmptyBoard.boardDictionaryById[tileId].getRight();
+            }
+
+            else if (!bigEmptyBoard.boardDictionaryById[tileId].getDown().getIsHidden())
+            {
+                return bigEmptyBoard.boardDictionaryById[tileId].getDown();
+            }
+
+            else if (!bigEmptyBoard.boardDictionaryById[tileId].getUp().getIsHidden())
+            {
+                return bigEmptyBoard.boardDictionaryById[tileId].getUp();
+            }
+
+            return null;
+        }*/
 
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)

@@ -44,7 +44,7 @@ namespace Our_Project
             cartasianRectangle = _cartasianRectangle;
             occupied = Occupied.no;
             color = Color.White;
-            isHidden = false;
+            isHidden = true;
         }
 
 
