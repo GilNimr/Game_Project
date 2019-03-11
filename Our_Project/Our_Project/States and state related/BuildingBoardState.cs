@@ -101,6 +101,7 @@ namespace Our_Project.States_and_state_related
                     bigEmptyBoard.getBoard()[i][j].setIsHidden(false);
                 }
             }
+            setNeighbors();
 
         }
 
@@ -117,22 +118,7 @@ namespace Our_Project.States_and_state_related
                 }
                 i++;
             }
-
-
-            /*.setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
-                emptyTilesToMove[i].getCartasianRectangle().Y);
-            currentShapeToPutAtNewPlace.Add(shapeTilesToMove[i]);*/
-
-
-
-            /*
-            for (int i=firstI; i<=endI; i++)
-            {
-                for (int j=firstJ; j<endJ; j++)
-                {
-                    bigEmptyBoard.getBoard()[i][j].texture = fullTexture;
-                }
-            } */
+            setNeighbors();
         }
 
         /// <summary>
@@ -141,6 +127,7 @@ namespace Our_Project.States_and_state_related
         /// </summary>
         protected override void LoadContent()
         {
+            
             setAllContent();
             setAllButtons();
             buildEmptyBoard();
@@ -283,15 +270,11 @@ namespace Our_Project.States_and_state_related
                                             )
                                         {
 
-                                        eachShapeHasEmptyTile[a] = true;
+                                            eachShapeHasEmptyTile[a] = true;
                                         
                                             emptyTilesToMove.Add(emptyTile);
                                             shapeTilesToMove.Add(shapeTile);
-                                            
-                                        
-
-                                        a++;
-
+                                            a++;
                                         }
 
                                     }
@@ -337,68 +320,105 @@ namespace Our_Project.States_and_state_related
 
 
                         if (legalPlace(shapeTilesToMove, emptyTilesToMove))
-                        {
+                    {
+                        saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
+                        shape, shapeTilesToMove, emptyTilesToMove);
 
-                        }
-
-                    saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                       shape, shapeTilesToMove, emptyTilesToMove);
+                        setNeighbors();
 
                     }
+                    /*
+                saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
+                   shape, shapeTilesToMove, emptyTilesToMove);*/
+
                 }
+                }
+        }
+
+        private void setNeighbors()
+        {
+            for (int i = 0; i < bigEmptyBoard.getBoard().Length; ++i)
+            {
+                for (int j = 0; j < bigEmptyBoard.getBoard()[i].Length; ++j)
+                {
+                    if (bigEmptyBoard.getBoard()[i][j] != null)
+                    {
+                        //right
+                        if (i < bigEmptyBoard.getBoard().Length - 1)
+                            bigEmptyBoard.getBoard()[i][j].setRight(bigEmptyBoard.getBoard()[i + 1][j]); // x axis grow up
+
+                        //left
+                        if (i >= 1)
+                            bigEmptyBoard.getBoard()[i][j].setLeft(bigEmptyBoard.getBoard()[i - 1][j]); // x axis go down
+
+                        //down
+                        if (j < bigEmptyBoard.getBoard()[i].Length - 1)
+                            bigEmptyBoard.getBoard()[i][j].setDown(bigEmptyBoard.getBoard()[i][j + 1]); // y axis grow up
+                                                                                                        //up
+                        if (j >= 1)
+                            bigEmptyBoard.getBoard()[i][j].setUp(bigEmptyBoard.getBoard()[i][j - 1]); // y axis go down
+                    }
+
+                }
+            }
         }
 
         private bool legalPlace(List<Tile> shape, List<Tile> empty)
         {
-
-            return true;
-
-      /*      List<bool> legalPlace = new List<bool>();
-            foreach (Tile t in empty)
+            foreach (Tile tile in empty)
             {
-                int tileId = t.getId();
+                
 
-                Tile neighbor = thereIsNeighbor(tileId);
-                Tile secondNeighbor;
+                Tile t = bigEmptyBoard.boardDictionaryById[tile.getId()];
 
-                if (neighbor != null)
+
+                if (t.getId() == 188)
                 {
-                    secondNeighbor = thereIsNeighbor(neighbor.getId());
-
+                    int stop=1;
                 }
 
 
-                
+                if ((t.getLeft() != null) && !t.getLeft().getIsHidden())
+                {
+                    if (t.getUp().getLeft() != null && t.getDown().getLeft() != null)
+                    {
+                        if (!t.getUp().getLeft().getIsHidden() || !t.getDown().getLeft().getIsHidden())
+                            return true;
+                    }
+                }
+
+                if (t.getRight() != null && !t.getRight().getIsHidden())
+                {
+                    if (t.getUp().getRight() != null && t.getDown().getRight()!= null)
+                    {
+                        if (!t.getUp().getRight().getIsHidden() || !t.getDown().getRight().getIsHidden())
+                            return true;
+                    }
+                }
+
+                if (t.getUp() != null && !t.getUp().getIsHidden())
+                {
+                    if (t.getRight().getUp() != null && t.getLeft().getUp()!= null)
+                    {
+                        if (!t.getRight().getUp().getIsHidden() || !t.getLeft().getUp().getIsHidden())
+                            return true;
+                    }
+                }
+
+                if (t.getDown() != null && !t.getDown().getIsHidden())
+                {
+                    if (t.getRight().getDown() != null && t.getLeft().getDown() != null)
+                    {
+                        if (!t.getRight().getDown().getIsHidden() || !t.getLeft().getDown().getIsHidden())
+                            return true;
+                    }
+                }
 
             }
 
-            return true;
-        */}
-        /*
-        private Tile thereIsNeighbor(int tileId)
-        {
-            if (!bigEmptyBoard.boardDictionaryById[tileId].getLeft().getIsHidden())
-            {
-                return bigEmptyBoard.boardDictionaryById[tileId].getLeft();
-            }
-
-            else if (!bigEmptyBoard.boardDictionaryById[tileId].getRight().getIsHidden())
-            {
-                return bigEmptyBoard.boardDictionaryById[tileId].getRight();
-            }
-
-            else if (!bigEmptyBoard.boardDictionaryById[tileId].getDown().getIsHidden())
-            {
-                return bigEmptyBoard.boardDictionaryById[tileId].getDown();
-            }
-
-            else if (!bigEmptyBoard.boardDictionaryById[tileId].getUp().getIsHidden())
-            {
-                return bigEmptyBoard.boardDictionaryById[tileId].getUp();
-            }
-
-            return null;
-        }*/
+            return false;   
+        }
+        
 
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)
@@ -441,9 +461,14 @@ namespace Our_Project.States_and_state_related
                                             (shapeTile.getCartasianRectangle().Center.Y >
                                             emptyTile.getCartasianRectangle().Center.Y))
                                         {
-                                           
-                                           if (!shapeTile.getIsHidden())
-                                            emptyTile.setColor(Color.Green);
+
+                                            if (!shapeTile.getIsHidden())
+                                            {
+                                                emptyTile.setColor(Color.Green);
+                                                
+                                                OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
+                                                    emptyTile.getCartasianRectangle().Y), Color.White, 0, new Vector2(0), 0.35f, SpriteEffects.None, 0);
+                                            }
                                         }
                                     }
                                 }

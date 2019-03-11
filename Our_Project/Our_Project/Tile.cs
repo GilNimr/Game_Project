@@ -21,6 +21,8 @@ namespace Our_Project
         private Tile left, right, down, up;        //   Tile neighbors
         private Color color;
         private bool isHidden;
+        
+        
 
         public Occupied occupied;
 

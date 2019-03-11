@@ -60,6 +60,7 @@ namespace Our_Project
         {
 
             checkAndMoveShape();
+
         }
 
 
