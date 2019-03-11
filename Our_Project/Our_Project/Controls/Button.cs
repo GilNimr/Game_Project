@@ -25,6 +25,7 @@ namespace Our_Project
         private Texture2D _texture;
 
         protected IInputHandler Input;
+        private double click_timer;
 
         public event EventHandler Click;
 
@@ -95,9 +96,15 @@ namespace Our_Project
 
                 if (Input.MouseHandler.WasLeftButtonClicked())
                 {
+                    Clicked = true;
                     Click?.Invoke(this, new EventArgs());
                 }
+                else
+                {
+                    Clicked = false;
+                }
             }
+            
         }
 
         #endregion

@@ -18,7 +18,9 @@ namespace Our_Project.States_and_state_related
         private List<Board> shapes;
         private List<List<NodeOFHidenTiles>> allHidenPoints;
         private List<Button> buttons;
-        private Button save_and_start_game;
+        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
+        private Button save_and_start_game, saveYourShapeInBoard;
+
 
 
 
@@ -106,13 +108,13 @@ namespace Our_Project.States_and_state_related
                     tFromEmpty.texture = tilesFromShpae[i].texture;
                 }
                 i++;
+               
             }
-                
-                
-                
-                /*.setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
-                    emptyTilesToMove[i].getCartasianRectangle().Y);
-                currentShapeToPutAtNewPlace.Add(shapeTilesToMove[i]);*/
+
+
+            /*.setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
+                emptyTilesToMove[i].getCartasianRectangle().Y);
+            currentShapeToPutAtNewPlace.Add(shapeTilesToMove[i]);*/
 
 
 
@@ -150,17 +152,16 @@ namespace Our_Project.States_and_state_related
         {
             buttons = new List<Button>();
 
-            buttons.Add(new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            firstShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(200, 20),
                 Text = "First Shape",
-            });
-
-            foreach (Button button in buttons)
-            {
-                button.Click += clickFirstShape;
-                Game.Components.Add(button);
-            }
+            };
+            
+            firstShape.Click += clickFirstShape;
+            buttons.Add(firstShape);
+          //  Game.Components.Add(firstShape);
+            
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
@@ -168,8 +169,11 @@ namespace Our_Project.States_and_state_related
                 Text = "Save and start game",
             };
 
-            save_and_start_game.Click += saveAndStartGame;
-            Game.Components.Add(save_and_start_game);
+            save_and_start_game.Click += saveAndStartGame; 
+            buttons.Add(save_and_start_game);
+
+            foreach(Button b in buttons)
+                Game.Components.Add(b);
         }
 
         private void saveAndStartGame(object sender, EventArgs e)
@@ -183,6 +187,9 @@ namespace Our_Project.States_and_state_related
             {
                 shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, fullTileIso, fullTile2d, false, this.Content));
                 hideShape = false;
+
+
+
             }
 
             else
@@ -230,10 +237,16 @@ namespace Our_Project.States_and_state_related
 
         private void putShapeAtNewPosition()
         {
-            foreach (Board shape in shapes)
-            {
-                if (shape != null)
+            bool putShapeAtNewPlace;
+            List<Tile> shapeTilesToMove = new List<Tile>();
+            List<Tile> emptyTilesToMove = new List<Tile>();
+
+            Board shape=null;
+
+                if (shapes.Count>0)
                 {
+
+                    shape = shapes[0];
                     int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
                     List<bool> eachShapeHasEmptyTile = new List<bool>();
 
@@ -243,8 +256,8 @@ namespace Our_Project.States_and_state_related
                     }
 
                     int a = 0;
-                    List<Tile> shapeTilesToMove = new List<Tile>();
-                    List<Tile> emptyTilesToMove = new List<Tile>();
+                    //List<Tile> shapeTilesToMove = new List<Tile>();
+                    //List<Tile> emptyTilesToMove = new List<Tile>();
 
                     foreach (Tile[] shapeTilesLine in shape.getBoard())
                     {
@@ -257,6 +270,9 @@ namespace Our_Project.States_and_state_related
                                     if (shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
                                         && (!shape.getMove()))
                                     {
+                                        //putShapeAtNewPlace = false;
+
+
                                         if ((shapeTile.getCartasianRectangle().Center.X >
                                             emptyTile.getCartasianRectangle().Center.X) &&
                                             (shapeTile.getCartasianRectangle().Center.Y >
@@ -267,7 +283,17 @@ namespace Our_Project.States_and_state_related
                                             emptyTilesToMove.Add(emptyTile);
                                             shapeTilesToMove.Add(shapeTile);
                                             a++;
+
+
+                                            buttons.Remove(saveYourShapeInBoard);
+                                            Game.Components.Remove(saveYourShapeInBoard);
                                         }
+
+                                    }
+                                    if (shape.getMove())
+                                    {
+                                    buttons.Remove(saveYourShapeInBoard);
+                                    Game.Components.Remove(saveYourShapeInBoard);
                                     }
                                 }
                             }
@@ -275,7 +301,10 @@ namespace Our_Project.States_and_state_related
                     }
 
 
-                    bool putShapeAtNewPlace = false;
+                    //bool putShapeAtNewPlace = false;
+
+
+                    putShapeAtNewPlace = false;
                     for (int i = 0; i < how_much_tiles_in_shape; i++)
                     {
                         if (!eachShapeHasEmptyTile[i])
@@ -285,24 +314,61 @@ namespace Our_Project.States_and_state_related
                         }
                         putShapeAtNewPlace = true;
                     }
+
                     if (putShapeAtNewPlace)
                     {
 
-                        
+                        saveYourShapeInBoard = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+                        {
+                            Position = new Vector2(Game1.screen_width - 1000, 20),
+                            Text = "Save your shape in board",
+                        };
+                        buttons.Add(saveYourShapeInBoard);
+                        Game.Components.Add(saveYourShapeInBoard);
 
                         for (int i = 0; i < how_much_tiles_in_shape; i++)
                         {
                             shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
                                 emptyTilesToMove[i].getCartasianRectangle().Y);
-                        
+
                         }
 
-                        addShapeToEmptyBoard(shape, shapeTilesToMove, emptyTilesToMove);
+                    saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
+                       shape, shapeTilesToMove, emptyTilesToMove);
                     }
-                }
-            }
-        }
+                
 
+                    
+
+                    
+                    
+                        
+                    
+
+                    /*if (saveYourShapeInBoard != null)
+                        saveYourShapeInBoard.Click -= (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
+                                shape, shapeTilesToMove, emptyTilesToMove);
+                                */
+
+
+
+
+                }
+                
+                
+                    
+            
+
+        }
+        
+
+        private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
+            List<Tile> emptyTiles)
+        {
+            
+                addShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
+            
+        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -354,10 +420,9 @@ namespace Our_Project.States_and_state_related
                     shape.Draw(OurGame.spriteBatch, Color.White);
             }
 
-            foreach (Button button in buttons)
-                button.Draw(gameTime, OurGame.spriteBatch);
-            save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
-
+            foreach(Button b in buttons)
+                b.Draw(gameTime, OurGame.spriteBatch);
+            
             base.Draw(gameTime);
 
             //  OurGame.spriteBatch.End();
