@@ -367,15 +367,12 @@ namespace Our_Project.States_and_state_related
         {
             foreach (Tile tile in empty)
             {
-                
+               
 
                 Tile t = bigEmptyBoard.boardDictionaryById[tile.getId()];
 
-
-                if (t.getId() == 188)
-                {
-                    int stop=1;
-                }
+                if (t.getId() >= 286)
+                    return false;
 
 
                 if ((t.getLeft() != null) && !t.getLeft().getIsHidden())
