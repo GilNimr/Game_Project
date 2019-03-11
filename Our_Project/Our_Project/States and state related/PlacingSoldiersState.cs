@@ -18,17 +18,26 @@ namespace Our_Project.States_and_state_related
         public Board ourBoard;
         BuildingBoardState buildingBoardState;
         private bool hideFlag = true;
-
+        IInputHandler inputHandler;
         ICelAnimationManager celAnimationManager;
         private Rectangle rec;
+      
         private String strength= "";
+        private bool draggin;
 
+        Rectangle mouseRec
+        {
+            get
+            {
+                return new Rectangle(inputHandler.MouseHandler.MouseState.Position.X, inputHandler.MouseHandler.MouseState.Position.Y, 1, 1);
+            }
+        }
         public PlacingSoldiersState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IPlacingSoldiersState), this);
           buildingBoardState= (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
-
+            inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
         }
 
         protected override void LoadContent()
@@ -86,6 +95,7 @@ namespace Our_Project.States_and_state_related
             if (hideFlag)
             {
                 rec = new Rectangle(500,500, 200, 200);
+                
                 hideFlag = false;
             }
 
@@ -98,9 +108,11 @@ namespace Our_Project.States_and_state_related
 
         }
 
-        private void DragFlag()
+        private void DragFlag(Point difference)
         {
-
+            rec.X = difference.X - rec.Width / 2;
+            rec.Y = difference.Y - rec.Height / 2;
+            
         }
         private void SaveAndStartGame(object sender, EventArgs e)
         {
@@ -111,6 +123,13 @@ namespace Our_Project.States_and_state_related
         {
             base.Update(gameTime);
 
+
+            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(rec) || draggin))
+            {
+                DragFlag(new Point(mouseRec.X, mouseRec.Y));
+                draggin = true;
+            }
+            else draggin = false;
         }
 
         public override void Draw(GameTime gameTime)
