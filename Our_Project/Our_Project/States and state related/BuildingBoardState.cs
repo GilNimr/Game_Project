@@ -55,9 +55,15 @@ namespace Our_Project.States_and_state_related
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
+            /*
+        allHidenPoints[0].Add(new NodeOFHidenTiles(0, 1));
+        allHidenPoints[0].Add(new NodeOFHidenTiles(0, 2)); */
 
-            allHidenPoints[0].Add(new NodeOFHidenTiles(0, 1));
-            allHidenPoints[0].Add(new NodeOFHidenTiles(0, 2));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(2, 0));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(2, 1));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(3, 0));
+            allHidenPoints[0].Add(new NodeOFHidenTiles(3, 1));
+
 
             allHidenPoints[1].Add(new NodeOFHidenTiles(-1, -1));
 
@@ -186,11 +192,8 @@ namespace Our_Project.States_and_state_related
         {
             if (hideShape)
             {
-                shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, fullTileIso, fullTile2d, false, this.Content));
+                shapes.Add(new Board(allHidenPoints[0], 4, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content));
                 hideShape = false;
-
-
-
             }
 
             else
@@ -248,11 +251,13 @@ namespace Our_Project.States_and_state_related
                 {
 
                     shape = shapes[0];
-                    int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
+                   // int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
                     List<bool> eachShapeHasEmptyTile = new List<bool>();
 
-                    for (int i = 0; i < how_much_tiles_in_shape; i++)
+                    for (int i = 0; i < shape.getBoard().Length; i++)
                     {
+                    for (int j=0; j< shape.getBoard()[i].Length; j++)
+                    if (!shape.getBoard()[i][j].getIsHidden())
                         eachShapeHasEmptyTile.Add(false);
                     }
 
@@ -269,7 +274,7 @@ namespace Our_Project.States_and_state_related
                                 foreach (Tile emptyTile in emptyTilesLine)
                                 {
                                     if (shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
-                                        && (!shape.getMove()))
+                                        && (!shape.getMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden())
                                     {
                                         if ((shapeTile.getCartasianRectangle().Center.X >
                                             emptyTile.getCartasianRectangle().Center.X) &&
@@ -277,11 +282,16 @@ namespace Our_Project.States_and_state_related
                                             emptyTile.getCartasianRectangle().Center.Y) && emptyTile.getIsHidden()
                                             )
                                         {
-                                            eachShapeHasEmptyTile[a] = true;
+
+                                        eachShapeHasEmptyTile[a] = true;
+                                        
                                             emptyTilesToMove.Add(emptyTile);
                                             shapeTilesToMove.Add(shapeTile);
-                                            a++;
+                                            
                                         
+
+                                        a++;
+
                                         }
 
                                     }
@@ -295,12 +305,9 @@ namespace Our_Project.States_and_state_related
                         }
                     }
 
-
-                    //bool putShapeAtNewPlace = false;
-
-
+                    
                     putShapeAtNewPlace = false;
-                    for (int i = 0; i < how_much_tiles_in_shape; i++)
+                    for (int i = 0; i < eachShapeHasEmptyTile.Count; i++)
                     {
                         if (!eachShapeHasEmptyTile[i])
                         {
@@ -321,7 +328,7 @@ namespace Our_Project.States_and_state_related
                         buttons.Add(saveYourShapeInBoard);
                         Game.Components.Add(saveYourShapeInBoard);
 
-                        for (int i = 0; i < how_much_tiles_in_shape; i++)
+                        for (int i = 0; i < /*how_much_tiles_in_shape*/ shapeTilesToMove.Count; i++)
                         {
                             shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
                                 emptyTilesToMove[i].getCartasianRectangle().Y);
@@ -338,7 +345,6 @@ namespace Our_Project.States_and_state_related
                        shape, shapeTilesToMove, emptyTilesToMove);
 
                     }
-
                 }
         }
 
@@ -435,7 +441,8 @@ namespace Our_Project.States_and_state_related
                                             (shapeTile.getCartasianRectangle().Center.Y >
                                             emptyTile.getCartasianRectangle().Center.Y))
                                         {
-                                           // emptyTile.Draw(OurGame.spriteBatch, Color.Green);
+                                           
+                                           if (!shapeTile.getIsHidden())
                                             emptyTile.setColor(Color.Green);
                                         }
                                     }
