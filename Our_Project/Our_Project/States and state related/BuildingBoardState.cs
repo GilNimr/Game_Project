@@ -371,7 +371,7 @@ namespace Our_Project.States_and_state_related
 
                 Tile t = bigEmptyBoard.boardDictionaryById[tile.getId()];
 
-                if (t.getId() >= 286)
+                if (t.getId() < 286)
                     return false;
 
 
