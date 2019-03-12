@@ -22,6 +22,8 @@ namespace Our_Project.States_and_state_related
         ICelAnimationManager celAnimationManager;
 
         private Rectangle iso_rec;
+        private bool resting;
+
         private Rectangle cartasian_rec
         {
             get
@@ -41,6 +43,13 @@ namespace Our_Project.States_and_state_related
                 return new Rectangle(inputHandler.MouseHandler.MouseState.Position.X, inputHandler.MouseHandler.MouseState.Position.Y, 1, 1);
             }
         }
+        public Player player;
+        public Player enemy;
+        public static Tile[] teleports; // array of all the teleports tiles.
+        private Texture2D teleport_texture;
+        private Button save_flag_button;
+        private int pawn_index = 0;
+
         public PlacingSoldiersState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IPlacingSoldiersState), this);
@@ -67,6 +76,13 @@ namespace Our_Project.States_and_state_related
             save_and_start_game.Click += SaveAndStartGame;
             Game.Components.Add(save_and_start_game);
 
+            save_flag_button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(Game1.screen_width - 1000, 20),
+                Text = "Save here?",
+            };
+            
+
             CelCount celCount = new CelCount(30, 5);
             celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 10);
             celAnimationManager.ResumeAnimation("israel");
@@ -89,6 +105,15 @@ namespace Our_Project.States_and_state_related
                 button.Click += CreateFlag;
 
             }
+
+            teleports = new Tile[2];
+            teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
+
+            player = new Player();
+            player.myTurn = true;
+         //   enemy = new Player();
+            player.pawns = new Pawn[player.army_size];
+         //   enemy.pawns = new Pawn[player.army_size];
         }
 
         private void CreateFlag(object sender, System.EventArgs e)
@@ -113,7 +138,7 @@ namespace Our_Project.States_and_state_related
 
             else
             {
-                
+                iso_rec = new Rectangle(-100,-100,0,0);
                 hideFlag = true;
             }
 
@@ -137,8 +162,22 @@ namespace Our_Project.States_and_state_related
                         cartasian_rec.Center.Y > tile.getCartasianRectangle().Center.Y)
                     {
                         if (tile.getId() >= 288 && !tile.getIsHidden())
+                        {
+                            if(!resting)
                             tile.setColor(Color.Green);
-                        else tile.setColor(Color.Red);
+
+                            if(!draggin && !resting)
+                            {
+                                resting = true;
+
+                                iso_rec = new Rectangle( Game1.TwoD2isometrix(tile.getCartasianRectangle().Center) - new Point(Tile.getTileSize() / 2), new Point(Tile.getTileSize()));
+
+                                save_flag_button.Click += new EventHandler((sender, e) => SaveFlag(sender, e, tile));
+                                Game.Components.Add(save_flag_button);
+
+                            }
+                        }
+                        else if(draggin) tile.setColor(Color.Red);
                     }
                 }
             }
@@ -150,10 +189,37 @@ namespace Our_Project.States_and_state_related
             StateManager.ChangeState(OurGame.PlayingState.Value);
         }
 
+        private void SaveFlag(object sender, EventArgs e, Tile tile)
+        {
+            foreach (Button button in buttons.ToArray())
+            {
+                if (button.Text == strength)
+                    buttons.Remove(button);
+            }
+
+            if (strength != "flag")
+            {
+        
+                player.pawns[pawn_index] = new Pawn(OurGame, teleport_texture, tile, int.Parse(strength), Pawn.Team.my_team, pawn_index, font);
+            }
+            else
+            {
+               
+                player.pawns[pawn_index] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
+            }
+            pawn_index++;
+            hideFlag = true;
+            resting = false;
+            iso_rec = new Rectangle(-100, -100, 0, 0);
+            
+
+        }
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
+            resting = !draggin;
 
             if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(iso_rec) || draggin))
             {
@@ -163,6 +229,9 @@ namespace Our_Project.States_and_state_related
             else draggin = false;
 
             PlaceFlag();
+
+            if (draggin)
+                Game.Components.Remove(save_flag_button);
         }
 
         public override void Draw(GameTime gameTime)
@@ -173,14 +242,24 @@ namespace Our_Project.States_and_state_related
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, OurGame.spriteBatch);
-               
-                 celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, iso_rec, SpriteEffects.None);
-                OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
             }
+                celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, iso_rec, SpriteEffects.None);
+                OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
+            
                 save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
 
+            if(Game.Components.Contains(save_flag_button))
+                save_flag_button.Draw(gameTime, OurGame.spriteBatch);
+
+            for (int i = 0; i < player.army_size; i++)
+            {
+                if (player.pawns[i] != null)
+                    player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
+            }
+            
+
             //debug view.
-           // celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, cartasian_rec, SpriteEffects.None);
+            // celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, cartasian_rec, SpriteEffects.None);
 
             base.Draw(gameTime);
         }
