@@ -33,22 +33,6 @@ namespace Our_Project.States_and_state_related
             allHidenPoints = setHidenTiles();
             shapes = new List<Board>();
         }
-        
-        private void setShapesBoards(Texture2D fullTile2d, Texture2D fullTileIso, List<List<NodeOFHidenTiles>> allHidenPoints)
-        {
-            shapes.Add(new Board(allHidenPoints[0], 2, 3, 0, 0, fullTileIso, fullTile2d, false, this.Content));
-
-            // int space_between_shapes = 50;
-            /*shapes.Add(new Board(allHidenPoints[1], 1, 4, shapes[0].getEndOfXaxisOfLastTile() +
-                space_between_shapes, shapes[0].getEndOfYaxisOfLastTile() + space_between_shapes,
-                fullTileIso, fullTile2d, false, this.Content));
-            shapes.Add(new Board(allHidenPoints[2], 4, 2, shapes[1].getEndOfXaxisOfLastTile() +
-                space_between_shapes, shapes[1].getEndOfYaxisOfLastTile() + space_between_shapes,
-                fullTileIso, fullTile2d, false, this.Content));
-            shapes.Add(new Board(allHidenPoints[3], 3, 2, shapes[2].getEndOfXaxisOfLastTile() +
-                space_between_shapes, shapes[2].getEndOfYaxisOfLastTile() + space_between_shapes,
-                fullTileIso, fullTile2d, false, this.Content));*/
-        }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
         {
@@ -88,7 +72,27 @@ namespace Our_Project.States_and_state_related
             allHidenPoints[1].Add(new NodeOFHidenTiles(3, 4));
             allHidenPoints[1].Add(new NodeOFHidenTiles(3, 5));
 
-            allHidenPoints[2].Add(new NodeOFHidenTiles(-1, -1));
+
+            /*
+             * ///
+             * ///
+             * ///
+             * ////////
+             * 
+             * 
+             */ 
+
+            allHidenPoints[2].Add(new NodeOFHidenTiles(0, 2));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(0, 3));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(1, 2));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(1, 3));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(2, 2));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(2, 3));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(3, 2));
+            allHidenPoints[2].Add(new NodeOFHidenTiles(3, 3));
+
+
+
 
             allHidenPoints[3].Add(new NodeOFHidenTiles(0, 1));
             allHidenPoints[3].Add(new NodeOFHidenTiles(2, 1));
@@ -434,7 +438,8 @@ namespace Our_Project.States_and_state_related
 
                 if ((t.getLeft() != null) && !t.getLeft().getIsHidden())
                 {
-                    if (t.getUp().getLeft() != null && t.getDown().getLeft() != null)
+                    if (t.getUp() != null && t.getUp().getLeft() != null && t.getDown() != null &&
+                        t.getDown().getLeft() != null)
                     {
                         if (!t.getUp().getLeft().getIsHidden() || !t.getDown().getLeft().getIsHidden())
                             return true;
@@ -443,7 +448,8 @@ namespace Our_Project.States_and_state_related
 
                 if (t.getRight() != null && !t.getRight().getIsHidden())
                 {
-                    if (t.getUp().getRight() != null && t.getDown().getRight()!= null)
+                    if (t.getUp() != null &&  t.getUp().getRight() != null && t.getDown()!=null &&
+                        t.getDown().getRight()!= null)
                     {
                         if (!t.getUp().getRight().getIsHidden() || !t.getDown().getRight().getIsHidden())
                             return true;
@@ -452,7 +458,8 @@ namespace Our_Project.States_and_state_related
 
                 if (t.getUp() != null && !t.getUp().getIsHidden())
                 {
-                    if (t.getRight().getUp() != null && t.getLeft().getUp()!= null)
+                    if (t.getRight()!= null && t.getRight().getUp() != null && t.getLeft()!=null &&
+                        t.getLeft().getUp()!= null)
                     {
                         if (!t.getRight().getUp().getIsHidden() || !t.getLeft().getUp().getIsHidden())
                             return true;
@@ -461,7 +468,8 @@ namespace Our_Project.States_and_state_related
 
                 if (t.getDown() != null && !t.getDown().getIsHidden())
                 {
-                    if (t.getRight().getDown() != null && t.getLeft().getDown() != null)
+                    if (t.getRight()!= null && t.getRight().getDown() != null && t.getLeft()!= null &&
+                        t.getLeft().getDown() != null)
                     {
                         if (!t.getRight().getDown().getIsHidden() || !t.getLeft().getDown().getIsHidden())
                             return true;
