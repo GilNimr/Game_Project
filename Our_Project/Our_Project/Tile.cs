@@ -13,7 +13,7 @@ namespace Our_Project
 
         public Texture2D texture;              //the isometric tile texture
         private Texture2D cartasian_texture;              //the 2D tile for debugging.
-        private  static  int tileSize;                   // the tile size
+        private static  int tileSize;                   // the tile size
         private Rectangle cartasianRectangle;
         private int id;                         // ID of tile
         private Rectangle isoprojection_rectangle; //the rectangle in which we draw the isometric projection
@@ -58,8 +58,8 @@ namespace Our_Project
         public void Draw(SpriteBatch spriteBatch)
         {
             
-            //dubug draw of the cartasian 2d-real world tiles.
-            //spriteBatch.Draw(oldTile, oldRectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
+            //debug draw of the cartasian 2d-real world tiles.
+           // spriteBatch.Draw(cartasian_texture, cartasianRectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
 
             //creating the isometric-screen rectangle where we will draw our tile.
             Vector2 iso_location = Game1.TwoD2isometrix(cartasianRectangle.X, cartasianRectangle.Y);

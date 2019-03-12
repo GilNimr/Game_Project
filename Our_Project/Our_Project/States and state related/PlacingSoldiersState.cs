@@ -20,11 +20,20 @@ namespace Our_Project.States_and_state_related
         private bool hideFlag = true;
         IInputHandler inputHandler;
         ICelAnimationManager celAnimationManager;
-        private Rectangle rec;
-      
+
+        private Rectangle iso_rec;
+        private Rectangle cartasian_rec
+        {
+            get
+            {
+                return new Rectangle(Game1.Isometrix2twoD(iso_rec.Location), new Point(iso_rec.Width / 2, iso_rec.Height));
+            }
+        }
+        
+
         private String strength= "";
         private bool draggin;
-
+        Point flag_size = new Point(Tile.getTileSize());
         Rectangle mouseRec
         {
             get
@@ -38,6 +47,7 @@ namespace Our_Project.States_and_state_related
           buildingBoardState= (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
+           
         }
 
         protected override void LoadContent()
@@ -80,6 +90,7 @@ namespace Our_Project.States_and_state_related
 
             }
         }
+
         private void CreateFlag(object sender, System.EventArgs e)
         {
             foreach(Button button in buttons)
@@ -94,7 +105,8 @@ namespace Our_Project.States_and_state_related
            
             if (hideFlag)
             {
-                rec = new Rectangle(500,500, 200, 200);
+                iso_rec = new Rectangle(new Point(500), new Point(Tile.getTileSize()));
+                
                 
                 hideFlag = false;
             }
@@ -110,10 +122,29 @@ namespace Our_Project.States_and_state_related
 
         private void DragFlag(Point difference)
         {
-            rec.X = difference.X - rec.Width / 2;
-            rec.Y = difference.Y - rec.Height / 2;
+            iso_rec.X = difference.X - iso_rec.Width / 2;
+            iso_rec.Y = difference.Y - iso_rec.Height / 2;
             
         }
+        private void PlaceFlag()
+        {
+            
+            foreach (Tile tile in ourBoard.boardDictionaryById.Values)
+            {
+                if (tile.getCartasianRectangle().Intersects(cartasian_rec))
+                {
+                    if(cartasian_rec.Center.X>tile.getCartasianRectangle().Center.X &&
+                        cartasian_rec.Center.Y > tile.getCartasianRectangle().Center.Y)
+                    {
+                        if (tile.getId() >= 288 && !tile.getIsHidden())
+                            tile.setColor(Color.Green);
+                        else tile.setColor(Color.Red);
+                    }
+                }
+            }
+            
+        }
+
         private void SaveAndStartGame(object sender, EventArgs e)
         {
             StateManager.ChangeState(OurGame.PlayingState.Value);
@@ -124,12 +155,14 @@ namespace Our_Project.States_and_state_related
             base.Update(gameTime);
 
 
-            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(rec) || draggin))
+            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(iso_rec) || draggin))
             {
                 DragFlag(new Point(mouseRec.X, mouseRec.Y));
                 draggin = true;
             }
             else draggin = false;
+
+            PlaceFlag();
         }
 
         public override void Draw(GameTime gameTime)
@@ -141,12 +174,13 @@ namespace Our_Project.States_and_state_related
             {
                 button.Draw(gameTime, OurGame.spriteBatch);
                
-                 celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, rec, SpriteEffects.None);
-                OurGame.spriteBatch.DrawString(font, strength, new Vector2(rec.X, rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
+                 celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, iso_rec, SpriteEffects.None);
+                OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
             }
                 save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
-            
 
+            //debug view.
+           // celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, cartasian_rec, SpriteEffects.None);
 
             base.Draw(gameTime);
         }

@@ -519,9 +519,10 @@ namespace Our_Project.States_and_state_related
                                             if (!shapeTile.getIsHidden())
                                             {
                                                 emptyTile.setColor(Color.Green);
-                                                
+
+                                                //for debug purposes
                                                 OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
-                                                    emptyTile.getCartasianRectangle().Y), Color.White, 0, new Vector2(0), 0.35f, SpriteEffects.None, 0);
+                                                    emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);
                                             }
                                         }
                                     }

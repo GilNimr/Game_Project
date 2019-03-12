@@ -41,7 +41,7 @@ namespace Our_Project
                      StateManager.PopState();
                  else // Starting a new game. */
             //---- StateManager.ChangeState(OurGame.PlayingState.Value);
-
+            Game.Components.Remove(Host_Button);
             StateManager.ChangeState(OurGame.BuildingBoardState.Value);
             
             /*    break;
