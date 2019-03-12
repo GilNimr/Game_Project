@@ -193,6 +193,16 @@ namespace Our_Project.States_and_state_related
             secondShape.Click += clickSecondShape;
             buttons.Add(secondShape);
 
+            thirdShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(200, 60),
+                Text = "Third Shape",
+            };
+
+            thirdShape.Click += clickThirdShape;
+            buttons.Add(thirdShape);
+
+
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
@@ -215,6 +225,26 @@ namespace Our_Project.States_and_state_related
             {
                 
                 s = new Board(allHidenPoints[1], 4, 6, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                shapes.Add(s);
+                hideShape = false;
+            }
+
+            else
+            {
+                shapes.Remove(s);
+                //                shapes[0] = null;
+                hideShape = true;
+            }
+        }
+
+        private void clickThirdShape(object sender, EventArgs e)
+        {
+            Board s = null;
+            shapes.Clear();
+            if (hideShape)
+            {
+
+                s = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
                 hideShape = false;
             }
