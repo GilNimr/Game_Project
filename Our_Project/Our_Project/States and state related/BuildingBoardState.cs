@@ -132,7 +132,7 @@ namespace Our_Project.States_and_state_related
                     bigEmptyBoard.getBoard()[i][j].setIsHidden(false);
                 }
             }
-            setNeighbors();
+            setNeighbors(bigEmptyBoard);
 
         }
 
@@ -149,7 +149,7 @@ namespace Our_Project.States_and_state_related
                 }
                 i++;
             }
-            setNeighbors();
+            setNeighbors(bigEmptyBoard);
         }
 
         /// <summary>
@@ -241,6 +241,7 @@ namespace Our_Project.States_and_state_related
                 
                 s = new Board(allHidenPoints[1], 4, 6, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
+                setNeighbors(s);
                 hideShape = false;
             }
 
@@ -261,6 +262,7 @@ namespace Our_Project.States_and_state_related
 
                 s = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
+                setNeighbors(s);
                 hideShape = false;
             }
 
@@ -281,6 +283,7 @@ namespace Our_Project.States_and_state_related
 
                 s = new Board(allHidenPoints[3], 6, 2, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
+                setNeighbors(s);
                 hideShape = false;
             }
 
@@ -306,6 +309,7 @@ namespace Our_Project.States_and_state_related
                 shapes.Clear();
                 s = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
+                setNeighbors(s);
                 hideShape = false;
             }
 
@@ -445,12 +449,12 @@ namespace Our_Project.States_and_state_related
                         }
 
 
-                        if (legalPlace(shapeTilesToMove, emptyTilesToMove))
+                        if (legalPlace(shape, shapeTilesToMove, emptyTilesToMove))
                     {
                         saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
                         shape, shapeTilesToMove, emptyTilesToMove);
 
-                        setNeighbors();
+                        setNeighbors(bigEmptyBoard);
 
                     }
                     /*
@@ -461,95 +465,101 @@ namespace Our_Project.States_and_state_related
                 }
         }
 
-        private void setNeighbors()
+        private void setNeighbors(Board b)
         {
-            for (int i = 0; i < bigEmptyBoard.getBoard().Length; ++i)
+            for (int i = 0; i < b.getBoard().Length; ++i)
             {
-                for (int j = 0; j < bigEmptyBoard.getBoard()[i].Length; ++j)
+                for (int j = 0; j < b.getBoard()[i].Length; ++j)
                 {
-                    if (bigEmptyBoard.getBoard()[i][j] != null)
+                    if (b.getBoard()[i][j] != null)
                     {
                         //right
-                        if (i < bigEmptyBoard.getBoard().Length - 1)
-                            bigEmptyBoard.getBoard()[i][j].setRight(bigEmptyBoard.getBoard()[i + 1][j]); // x axis grow up
+                        if (i < b.getBoard().Length - 1)
+                            b.getBoard()[i][j].setRight(b.getBoard()[i + 1][j]); // x axis grow up
 
                         //left
                         if (i >= 1)
-                            bigEmptyBoard.getBoard()[i][j].setLeft(bigEmptyBoard.getBoard()[i - 1][j]); // x axis go down
+                            b.getBoard()[i][j].setLeft(b.getBoard()[i - 1][j]); // x axis go down
 
                         //down
-                        if (j < bigEmptyBoard.getBoard()[i].Length - 1)
-                            bigEmptyBoard.getBoard()[i][j].setDown(bigEmptyBoard.getBoard()[i][j + 1]); // y axis grow up
+                        if (j < b.getBoard()[i].Length - 1)
+                            b.getBoard()[i][j].setDown(b.getBoard()[i][j + 1]); // y axis grow up
                                                                                                         //up
                         if (j >= 1)
-                            bigEmptyBoard.getBoard()[i][j].setUp(bigEmptyBoard.getBoard()[i][j - 1]); // y axis go down
+                            b.getBoard()[i][j].setUp(b.getBoard()[i][j - 1]); // y axis go down
                     }
 
                 }
             }
         }
 
-        private bool legalPlace(List<Tile> shape, List<Tile> empty)
+        private bool legalPlace(Board shape, List<Tile> shapeTiles, List<Tile> empty)
         {
-            foreach (Tile tile in empty)
+            //int i = 0;
+            
+            for (int i=0; i<shapeTiles.Count; i++)
             {
-               
+                Tile tFromShape = shape.boardDictionaryById[shapeTiles[i].getId()];
+                Tile tFromEmpty = bigEmptyBoard.boardDictionaryById[empty[i].getId()];
 
-                Tile t = bigEmptyBoard.boardDictionaryById[tile.getId()];
-
-                if (t.getId() < 286)
+                if (tFromEmpty.getId() < 286)
                     return false;
 
-                int stop;
-                if (t.getId() < 456)
-                    stop = 0;
+                if (tFromEmpty.getLeft() != null && !tFromEmpty.getLeft().getIsHidden())
+                {
+                    if (tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
+                        && tFromEmpty.getUp().getLeft() != null && !tFromEmpty.getUp().getLeft().getIsHidden()
+                        ||
+                        tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
+                        && tFromEmpty.getDown().getLeft() != null && !tFromEmpty.getDown().getLeft().getIsHidden())
+                    {
+                        return true;
+                    }
+                }
                 
-
-
-                if ((t.getLeft() != null) && !t.getLeft().getIsHidden())
+                if (tFromEmpty.getRight() != null && !tFromEmpty.getRight().getIsHidden())
                 {
-                    if (t.getUp() != null && t.getUp().getLeft() != null && t.getDown() != null &&
-                        t.getDown().getLeft() != null)
+                    if (tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
+                        && tFromEmpty.getUp().getRight() != null && !tFromEmpty.getUp().getRight().getIsHidden()
+                        ||
+                        tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
+                        && tFromEmpty.getDown().getRight() != null && !tFromEmpty.getDown().getRight().getIsHidden())
                     {
-                        if (!t.getUp().getLeft().getIsHidden() || !t.getDown().getLeft().getIsHidden())
-                            return true;
+                        return true;
+                    }
+                        
+                }
+
+                if (tFromEmpty.getUp() != null && !tFromEmpty.getUp().getIsHidden())
+                {
+                    if (tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
+                        && tFromEmpty.getRight().getUp() != null && !tFromEmpty.getRight().getUp().getIsHidden()
+                        ||
+                         tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
+                        && tFromEmpty.getLeft().getUp() != null && !tFromEmpty.getLeft().getUp().getIsHidden())
+                    {
+                        return true;
                     }
                 }
 
-                if (t.getRight() != null && !t.getRight().getIsHidden())
+                if (tFromEmpty.getDown() != null && !tFromEmpty.getDown().getIsHidden())
                 {
-                    if (t.getUp() != null &&  t.getUp().getRight() != null && t.getDown()!=null &&
-                        t.getDown().getRight()!= null)
+                    if ( tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
+                        && tFromEmpty.getRight().getDown() != null && !tFromEmpty.getRight().getDown().getIsHidden()
+                        ||
+                        tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
+                        && tFromEmpty.getLeft().getDown() != null && !tFromEmpty.getLeft().getDown().getIsHidden())
                     {
-                        if (!t.getUp().getRight().getIsHidden() || !t.getDown().getRight().getIsHidden())
-                            return true;
+                        return true;
                     }
+                        
                 }
-
-                if (t.getUp() != null && !t.getUp().getIsHidden())
-                {
-                    if (t.getRight()!= null && t.getRight().getUp() != null && t.getLeft()!=null &&
-                        t.getLeft().getUp()!= null)
-                    {
-                        if (!t.getRight().getUp().getIsHidden() || !t.getLeft().getUp().getIsHidden())
-                            return true;
-                    }
-                }
-
-                if (t.getDown() != null && !t.getDown().getIsHidden())
-                {
-                    if (t.getRight()!= null && t.getRight().getDown() != null && t.getLeft()!= null &&
-                        t.getLeft().getDown() != null)
-                    {
-                        if (!t.getRight().getDown().getIsHidden() || !t.getLeft().getDown().getIsHidden())
-                            return true;
-                    }
-                }
-
             }
-
-            return false;   
+            return false;
         }
+
+            
+
         
 
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,

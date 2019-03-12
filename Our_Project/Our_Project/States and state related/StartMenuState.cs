@@ -10,6 +10,7 @@ namespace Our_Project
         private Texture2D texture;        
         private SpriteFont font;
         private Texture2D button_texture;
+        
 
         public Button Host_Button;
 
@@ -41,8 +42,9 @@ namespace Our_Project
                      StateManager.PopState();
                  else // Starting a new game. */
             //---- StateManager.ChangeState(OurGame.PlayingState.Value);
-
+            Game.Components.Remove(Host_Button);
             StateManager.ChangeState(OurGame.BuildingBoardState.Value);
+
             
             /*    break;
             case 1:
