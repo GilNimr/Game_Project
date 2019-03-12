@@ -92,10 +92,16 @@ namespace Our_Project.States_and_state_related
             allHidenPoints[2].Add(new NodeOFHidenTiles(3, 3));
 
 
+            /*
+             *  \\
+             *  \\
+             *  \\
+             *  \\
+             *  \\
+             */ 
 
-
-            allHidenPoints[3].Add(new NodeOFHidenTiles(0, 1));
-            allHidenPoints[3].Add(new NodeOFHidenTiles(2, 1));
+            allHidenPoints[3].Add(new NodeOFHidenTiles(-1, -1));
+            allHidenPoints[3].Add(new NodeOFHidenTiles(-1, -1));
 
             return allHidenPoints;
         }
@@ -196,11 +202,20 @@ namespace Our_Project.States_and_state_related
             thirdShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(200, 60),
-                Text = "Third Shape",
+                Text = "Thirth Shape",
             };
 
             thirdShape.Click += clickThirdShape;
             buttons.Add(thirdShape);
+
+            forthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(200, 80),
+                Text = "Fourth Shape",
+            };
+
+            forthShape.Click += clickFourthShape;
+            buttons.Add(forthShape);
 
 
 
@@ -245,6 +260,26 @@ namespace Our_Project.States_and_state_related
             {
 
                 s = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                shapes.Add(s);
+                hideShape = false;
+            }
+
+            else
+            {
+                shapes.Remove(s);
+                //                shapes[0] = null;
+                hideShape = true;
+            }
+        }
+
+        private void clickFourthShape(object sender, EventArgs e)
+        {
+            Board s = null;
+            shapes.Clear();
+            if (hideShape)
+            {
+
+                s = new Board(allHidenPoints[3], 6, 2, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
                 hideShape = false;
             }
@@ -464,6 +499,11 @@ namespace Our_Project.States_and_state_related
 
                 if (t.getId() < 286)
                     return false;
+
+                int stop;
+                if (t.getId() < 456)
+                    stop = 0;
+                
 
 
                 if ((t.getLeft() != null) && !t.getLeft().getIsHidden())
