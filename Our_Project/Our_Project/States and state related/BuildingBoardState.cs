@@ -93,15 +93,16 @@ namespace Our_Project.States_and_state_related
 
 
             /*
-             *  \\
-             *  \\
-             *  \\
-             *  \\
+             *  \\          \\\\\\\\\
+             *  \\          \\\\\\\\\
+             *  \\     &    \\\\\\\\\
+             *  \\          \\\\\\\\\
              *  \\
              */ 
 
             allHidenPoints[3].Add(new NodeOFHidenTiles(-1, -1));
             allHidenPoints[3].Add(new NodeOFHidenTiles(-1, -1));
+
 
             return allHidenPoints;
         }
@@ -217,6 +218,14 @@ namespace Our_Project.States_and_state_related
             forthShape.Click += clickFourthShape;
             buttons.Add(forthShape);
 
+            fifthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            {
+                Position = new Vector2(200, 100),
+                Text = "Fifth Shape",
+            };
+
+            fifthShape.Click += clickFifthShape;
+            buttons.Add(fifthShape);
 
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
@@ -282,6 +291,27 @@ namespace Our_Project.States_and_state_related
             {
 
                 s = new Board(allHidenPoints[3], 6, 2, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                shapes.Add(s);
+                setNeighbors(s);
+                hideShape = false;
+            }
+
+            else
+            {
+                shapes.Remove(s);
+                //                shapes[0] = null;
+                hideShape = true;
+            }
+        }
+
+        private void clickFifthShape(object sender, EventArgs e)
+        {
+            Board s = null;
+            shapes.Clear();
+            if (hideShape)
+            {
+
+                s = new Board(allHidenPoints[3], 5, 5, 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 shapes.Add(s);
                 setNeighbors(s);
                 hideShape = false;
