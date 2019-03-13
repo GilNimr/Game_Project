@@ -50,6 +50,8 @@ namespace Our_Project.States_and_state_related
         private Button save_flag_button;
         private int pawn_index = 0;
         private Tile curtile;
+        private Connection connection;
+        private bool i_am_second_player;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
@@ -57,6 +59,8 @@ namespace Our_Project.States_and_state_related
           buildingBoardState= (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
+            connection = buildingBoardState.connection;
+            i_am_second_player = BuildingBoardState.i_am_second_player;
            
         }
 
@@ -111,11 +115,11 @@ namespace Our_Project.States_and_state_related
             teleports = new Tile[2];
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
-            player = new Player(OurGame);
+            player = buildingBoardState.player;
             player.myTurn = true;
-         //   enemy = new Player();
-            player.pawns = new Pawn[player.army_size];
-         //   enemy.pawns = new Pawn[player.army_size];
+            enemy = buildingBoardState.enemy;
+            
+        
         }
 
         private void CreateFlag(object sender, System.EventArgs e)
@@ -224,6 +228,7 @@ namespace Our_Project.States_and_state_related
         {
             base.Update(gameTime);
 
+            connection.update();
             resting = !draggin;
 
             if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(iso_rec) || draggin))

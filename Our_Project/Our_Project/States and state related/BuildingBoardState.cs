@@ -567,8 +567,16 @@ namespace Our_Project.States_and_state_related
                 Tile tFromShape = shape.boardDictionaryById[shapeTiles[i].getId()];
                 Tile tFromEmpty = bigEmptyBoard.boardDictionaryById[empty[i].getId()];
 
-                if (tFromEmpty.getId() < 286)
-                    return false;
+                if (!i_am_second_player) {
+                    if (tFromEmpty.getId() < 286)
+                        return false;
+                }
+                else
+                {
+                    if (tFromEmpty.getId() > 264)
+                        return false;
+                }
+                
 
                 if (tFromEmpty.getLeft() != null && !tFromEmpty.getLeft().getIsHidden())
                 {
