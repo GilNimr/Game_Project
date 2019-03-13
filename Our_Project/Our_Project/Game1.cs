@@ -67,13 +67,13 @@ namespace Our_Project
 
             TitleIntroState = new TitleIntroState(this);
             StartMenuState = new StartMenuState(this);
-            PlayingState = new PlayingState(this);
+           
             PausedState = new PausedState(this);
             OptionsMenuState = new OptionsMenuState(this);
             BuildingBoardState = new BuildingBoardState(this);
             PlacingSoldiersState = new PlacingSoldiersState(this);
+            PlayingState = new PlayingState(this);
 
-            
 
             EnableSoundFx = true;
             EnableMusic = true;

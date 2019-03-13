@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using Our_Project.States_and_state_related;
 using XELibrary;
 
 namespace Our_Project
@@ -22,16 +22,18 @@ namespace Our_Project
 
         // private Pawn[] pawns;           // the pawns
 
-        NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
-        Shape[] shapes;                 // all the shapes we going to use
+     /*   NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
+        Shape[] shapes;                 // all the shapes we going to use*/
 
         public static Tile[] teleports; // array of all the teleports tiles.
 
-        public int gridSize = 200;        // size of the whole board
+      /*  public int gridSize = 200;        // size of the whole board*/
 
 
         SpriteFont font_small;
-     //   private Texture2D israel_spritesheet;
+        private Board ourBoard;
+
+        //   private Texture2D israel_spritesheet;
         public static int tileSize = Game1.screen_height / 30;
 
 
@@ -40,7 +42,7 @@ namespace Our_Project
         public static Dictionary<int, Tile> tileDictionary;
 
 
-
+        PlacingSoldiersState placingSoldiersState;
         public Player player;
         public Player enemy;
         public Connection connection;
@@ -55,15 +57,20 @@ namespace Our_Project
             game.Components.Add(scrollingBackgroundManager);
             game.Services.AddService(typeof(IPlayingState), this);
 
-         
+            placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
+
             teleports = new Tile[2];
 
-            player = new Player(game);
-            player.myTurn = true;
-            enemy = new Player(game);
-            connection = new Connection(ref player, ref enemy);
+            player = placingSoldiersState.player;
+            i_am_second_player = placingSoldiersState.i_am_second_player;
 
-            tileDictionary = new Dictionary<int, Tile>();
+            if(!i_am_second_player)
+               player.myTurn = true;
+
+            enemy = placingSoldiersState.enemy;
+            connection = placingSoldiersState.connection;
+
+            
             
         }
 
@@ -75,8 +82,9 @@ namespace Our_Project
             //Loading fonts.
             font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
 
+            ourBoard = placingSoldiersState.ourBoard;
+            tileDictionary = placingSoldiersState.ourBoard.boardDictionaryById;
 
-            
 
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso5");
@@ -86,7 +94,7 @@ namespace Our_Project
 
             //pawn texture.
             Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
-
+/*
             //creating a jagged 2d array to store tiles and the array of pawns to be user army
             tile_matrix = new Tile[gridSize][];
 
@@ -108,7 +116,7 @@ namespace Our_Project
              * 
              */
 
-
+/*
             shapes = new Shape[2];              
             shapes[0] = new Shape(hidenTiles, 10, 10, Tile_texture, cartasian_texture, 0, 0, false,0);
 
@@ -153,7 +161,7 @@ namespace Our_Project
 
                                             /*if (i >= tile_matrix.Length || _j >= tile_matrix.Length)
                                                 break;*/
-
+/*
                                             tile_matrix[i][_j] = shapes[indexOfShape].shapeBoard[i][j];
                                         }
                                         else
@@ -172,17 +180,18 @@ namespace Our_Project
                         }
                     }
                 }
-
+*/
                 //manually putting teleports for now
             tileDictionary[75].teleport_tile = true;
             tileDictionary[75].texture = teleport_texture;
             teleports[0] = tileDictionary[75];
-            tileDictionary[5025].teleport_tile = true;
-            tileDictionary[5025].texture = teleport_texture;
-            teleports[1] = tileDictionary[5025];
-
+            tileDictionary[200].teleport_tile = true;
+            tileDictionary[200].texture = teleport_texture;
+            teleports[1] = tileDictionary[200];
+/*
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
+
             //manually putting pawns for now.
             player.pawns[0] = new Pawn(OurGame, Pawn_texture, tileDictionary[0], 0, Pawn.Team.my_team,0,font_small);
             player.pawns[1] = new Pawn(OurGame, Pawn_texture, tileDictionary[1], 1, Pawn.Team.my_team,1,font_small);
@@ -251,7 +260,7 @@ namespace Our_Project
             enemy.pawns[19].current_tile.occupied = Tile.Occupied.yes_by_enemy;*/
 
 
-
+/*
 
             //initializing Tiles neighbors.
             for (int i = 0; i < tile_matrix.Length; ++i)
@@ -279,8 +288,8 @@ namespace Our_Project
                 }
             }
 
-
-            connection.update();
+*/
+      /*      connection.update();
             if (i_am_second_player)
             {
 
@@ -299,7 +308,7 @@ namespace Our_Project
                     enemy.pawns[i].team = Pawn.Team.enemy_team;
                     enemy.pawns[i].current_tile.occupied = Tile.Occupied.yes_by_enemy;
                 }
-            }
+            }*/
             
 
         }
@@ -340,9 +349,11 @@ namespace Our_Project
                         {
                             for (int j = 0; j < player.pawns.Length; j++)
                             {
+                                if (player.pawns[j] != null)
+                                { 
                                 if (i != j) // so the other will canceled
                                     player.pawns[j].isMouseClicked = false;
-
+                                }
                             }
                         }
                     }
@@ -366,7 +377,9 @@ namespace Our_Project
             scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
-            for (int i = 0; i < tile_matrix.Length; ++i)
+            ourBoard.Draw(OurGame.spriteBatch, Color.White);
+
+        /*    for (int i = 0; i < tile_matrix.Length; ++i)
             {
                 for (int j = 0; j < tile_matrix[i].Length; ++j)
                 {
@@ -377,14 +390,22 @@ namespace Our_Project
                         tile_matrix[i][j].setColor(Color.White); //returning to default color in case it was changed.
                     }
                 }
-            }
+            }*/
 
 
             for (int i = 0; i < player.pawns.Length; i++)
-                player.pawns[i].Draw(OurGame.spriteBatch,gameTime);
+            {
+                if(player.pawns[i]!=null)
+                player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
+            }
+                
 
             for (int i = 0; i < enemy.pawns.Length; i++)
-                enemy.pawns[i].Draw(OurGame.spriteBatch,gameTime);
+            {
+                if (enemy.pawns[i] != null)
+                    enemy.pawns[i].Draw(OurGame.spriteBatch, gameTime);
+            }
+                
 
 
             if (player.myTurn)

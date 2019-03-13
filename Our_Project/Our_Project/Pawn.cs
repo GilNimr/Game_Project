@@ -81,7 +81,7 @@ namespace Our_Project
             celAnimationManager.AddAnimation("jamaica", "sprite sheet jamaica", celCount, 20);
             celAnimationManager.ResumeAnimation("jamaica");
 
-          //  send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
+            send_update = true; //initialize as true it tells the server to update this pawn for the second plyer.
         }
 
         public void Update(GameTime gametime)

@@ -50,8 +50,8 @@ namespace Our_Project.States_and_state_related
         private Button save_flag_button;
         private int pawn_index = 0;
         private Tile curtile;
-        private Connection connection;
-        private bool i_am_second_player;
+        public Connection connection;
+        public bool i_am_second_player;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
@@ -59,6 +59,9 @@ namespace Our_Project.States_and_state_related
           buildingBoardState= (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
+            player = buildingBoardState.player;
+            player.myTurn = true;
+            enemy = buildingBoardState.enemy;
             connection = buildingBoardState.connection;
             i_am_second_player = BuildingBoardState.i_am_second_player;
            
@@ -115,9 +118,7 @@ namespace Our_Project.States_and_state_related
             teleports = new Tile[2];
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
-            player = buildingBoardState.player;
-            player.myTurn = true;
-            enemy = buildingBoardState.enemy;
+           
             
         
         }
@@ -167,7 +168,7 @@ namespace Our_Project.States_and_state_related
                     if(cartasian_rec.Center.X>tile.getCartasianRectangle().Center.X &&
                         cartasian_rec.Center.Y > tile.getCartasianRectangle().Center.Y)
                     {
-                        if (tile.getId() >= 288 && !tile.getIsHidden())
+                        if ((tile.getId() >= 288 ) || (i_am_second_player && tile.getId() < 288 ) && !tile.getIsHidden())
                         {
                             if(!resting)
                             tile.setColor(Color.Green);
@@ -206,12 +207,12 @@ namespace Our_Project.States_and_state_related
             if (strength != "flag")
             {
         
-                player.pawns[pawn_index] = new Pawn(OurGame, teleport_texture, tile, int.Parse(strength), Pawn.Team.my_team, pawn_index, font);
+                player.pawns[int.Parse(strength)] = new Pawn(OurGame, teleport_texture, tile, int.Parse(strength), Pawn.Team.my_team, pawn_index, font);
             }
             else
             {
                
-                player.pawns[pawn_index] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
+                player.pawns[21] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
             }
             
             pawn_index++;
@@ -242,7 +243,7 @@ namespace Our_Project.States_and_state_related
 
             if (draggin)
                 Game.Components.Remove(save_flag_button);
-            if (pawn_index == 21 && !Game.Components.Contains(save_and_start_game))
+            if (pawn_index == 3 && !Game.Components.Contains(save_and_start_game))
                 Game.Components.Add(save_and_start_game);
         }
 
@@ -268,7 +269,12 @@ namespace Our_Project.States_and_state_related
                 if (player.pawns[i] != null)
                     player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
-            
+            for (int i = 0; i < enemy.army_size; i++)
+            {
+                if (enemy.pawns[i] != null)
+                    enemy.pawns[i].Draw(OurGame.spriteBatch, gameTime);
+            }
+
 
             //debug view.
             // celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, cartasian_rec, SpriteEffects.None);

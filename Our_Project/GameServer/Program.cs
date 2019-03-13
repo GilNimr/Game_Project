@@ -211,7 +211,7 @@ namespace GameServer
                                             om.Write("tile_added");
                                             om.Write(pos[4 + i]);
                                             server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
-                                        pos[4 + i] = -10;
+                                            pos[4 + i] = -10;
                                     }
                                 }
 

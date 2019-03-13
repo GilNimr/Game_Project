@@ -13,7 +13,7 @@ namespace Our_Project.States_and_state_related
     public sealed class BuildingBoardState : BaseGameState, IBuildingBoardState
     {
         private Texture2D fullTile2d , fullTileIso , emptyTile2d , emptyTileIso;
-        private SpriteFont font;   
+        public SpriteFont font;   
         private bool hideShape = true;
         private Board bigEmptyBoard;
         private Board dragingShape;
@@ -51,7 +51,7 @@ namespace Our_Project.States_and_state_related
             enemy = new Player(game);
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
-            connection = new Connection(ref player, ref enemy);
+            connection = new Connection(game,ref player, ref enemy);
 
             dragingShape = null;
             remainShapesToPutOnBigEmptyBoard = 5;

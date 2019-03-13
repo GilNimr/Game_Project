@@ -12,14 +12,17 @@ namespace Our_Project
     public class Connection
     {
         NetClient client;
+
+        Game game;
         Player player;
         Player enemy;
         private NetConnection server;
 
         public static NetOutgoingMessage outmsg;
 
-        public Connection(ref Player _player,ref Player _enemy)
+        public Connection(Game game,ref Player _player,ref Player _enemy)
         {
+            this.game = game;
             enemy = _enemy;
             player = _player;
             NetPeerConfiguration config = new NetPeerConfiguration("Flags");
@@ -136,14 +139,21 @@ namespace Our_Project
                                     
                                     int id = msg.ReadInt32();
                                     int i = msg.ReadInt32();
-                                    
-                                    enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;   
-                                  
-                                    enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
-                                    PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
-                                    PlayingState.tileDictionary[id].setCurrentPawn(enemy.pawns[i]);
-                                    enemy.pawns[i].team = Pawn.Team.enemy_team;
-                                    player.myTurn = true;
+
+                                    if (enemy.pawns[i] == null)
+                                    {
+                                        enemy.pawns[i] = new Pawn(game, null, player.buildingBoardState.getEmptyBoard().boardDictionaryById[id], i, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
+                                    }
+                                    else
+                                    {
+                                        enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
+                                        enemy.pawns[i].current_tile = PlayingState.tileDictionary[id];
+                                        PlayingState.tileDictionary[id].occupied = Tile.Occupied.yes_by_enemy;
+                                        PlayingState.tileDictionary[id].setCurrentPawn(enemy.pawns[i]);
+                                        enemy.pawns[i].team = Pawn.Team.enemy_team;
+                                        player.myTurn = true;
+                                    }
+                                   
                                     
                                    
                                     break;
