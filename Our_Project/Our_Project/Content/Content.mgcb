@@ -46,17 +46,23 @@
 /processorParam:Quality=Best
 /build:Sounds/Music/titleSound.wav
 
+#begin Sounds/SoundFX/badPlace.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SoundFX/badPlace.mp3
+
+#begin Sounds/SoundFX/click.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/SoundFX/click.mp3
+
 #begin Sounds/SoundFX/Jump.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Sounds/SoundFX/Jump.wav
-
-#begin Sounds/SoundFX/wright click.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/wright click.mp3
 
 #begin Textures/Animations/sprite sheet israel.png
 /importer:TextureImporter

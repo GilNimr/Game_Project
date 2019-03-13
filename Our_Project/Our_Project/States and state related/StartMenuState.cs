@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using XELibrary;
 
 namespace Our_Project
 {
@@ -10,7 +11,7 @@ namespace Our_Project
         private Texture2D texture;        
         private SpriteFont font;
         private Texture2D button_texture;
-        
+        ISoundManager soundOfClick;
 
         public Button Host_Button;
 
@@ -18,6 +19,7 @@ namespace Our_Project
             : base(game)
         {
             game.Services.AddService(typeof(IStartMenuState), this);
+            soundOfClick = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
         }
 
         public override void Update(GameTime gameTime)
@@ -42,6 +44,7 @@ namespace Our_Project
                      StateManager.PopState();
                  else // Starting a new game. */
             //---- StateManager.ChangeState(OurGame.PlayingState.Value);
+            soundOfClick.Play("click");
             Game.Components.Remove(Host_Button);
             StateManager.ChangeState(OurGame.BuildingBoardState.Value);
 

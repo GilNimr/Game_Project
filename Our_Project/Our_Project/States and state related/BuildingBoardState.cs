@@ -182,10 +182,10 @@ namespace Our_Project.States_and_state_related
         protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
         {
             base.StateChanged(sender, e);
-            /*
+            
             if (StateManager.State == this.Value)
                 soundManager.Play("backGroundPlayinState");
-            else
+            /*else
                 soundManager.StopSong();*/
         }
 
@@ -258,6 +258,7 @@ namespace Our_Project.States_and_state_related
 
         private void clickFirstShape(object sender, System.EventArgs e)
         {
+            soundEffect.Play("click");
             if (hideShape)
             {
                 dragingShape = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
@@ -275,6 +276,7 @@ namespace Our_Project.States_and_state_related
 
         private void clickSecondShape(object sender, EventArgs e)
         {
+            soundEffect.Play("click");
             if (hideShape)
             {
                 
@@ -293,6 +295,7 @@ namespace Our_Project.States_and_state_related
 
         private void clickThirdShape(object sender, EventArgs e)
         {
+            soundEffect.Play("click");
             if (hideShape)
             {
                 dragingShape = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
@@ -310,6 +313,7 @@ namespace Our_Project.States_and_state_related
 
         private void clickFourthShape(object sender, EventArgs e)
         {
+            soundEffect.Play("click");
             if (hideShape)
             {
 
@@ -328,6 +332,7 @@ namespace Our_Project.States_and_state_related
 
         private void clickFifthShape(object sender, EventArgs e)
         {
+            soundEffect.Play("click");
             if (hideShape)
             {
 
@@ -346,6 +351,7 @@ namespace Our_Project.States_and_state_related
 
         private void saveAndStartGame(object sender, EventArgs e)
         {
+            soundEffect.Play("click");
             buttons.Clear();
             StateManager.ChangeState(OurGame.PlacingSoldiersState.Value);
         }
@@ -468,12 +474,13 @@ namespace Our_Project.States_and_state_related
 
                         if (legalPlace(shape, shapeTilesToMove, emptyTilesToMove))
                         {
+                            soundEffect.Play("click");
                             saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                            shape, shapeTilesToMove, emptyTilesToMove);
+                                shape, shapeTilesToMove, emptyTilesToMove);
                             setNeighbors(bigEmptyBoard);
-                        
-
-                    }
+                        }
+                        else
+                            soundEffect.Play("badPlace");
                     }
                 }
         }
@@ -569,14 +576,11 @@ namespace Our_Project.States_and_state_related
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)
         {
-                addShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
+            soundEffect.Play("click");
+            addShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
             dragingShape = null;
             GC.Collect();
             hideShape = true;
-
-            soundEffect.Play("wright click");
-            //else
-            //  soundManager.StopSong();
         }
 
         /// <summary>
@@ -610,10 +614,16 @@ namespace Our_Project.States_and_state_related
 
                                             if (!shapeTile.getIsHidden())
                                             {
-                                                emptyTile.setColor(Color.Red);
+                                                if (!emptyTile.getIsHidden())
+                                                {
+                                                    emptyTile.setColor(Color.Red);
+                                                }
+                                                    
+                                                else
+                                                    emptyTile.setColor(Color.Green);
 
-                                                //for debug purposes
-                                                OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
+                                            //for debug purposes
+                                            OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
                                                     emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);
                                             }
                                         }
