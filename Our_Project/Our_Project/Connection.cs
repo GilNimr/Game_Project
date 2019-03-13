@@ -43,6 +43,21 @@ namespace Our_Project
 
         public void update()
         {
+            
+            for (int i = 0; i < player.Board.getHeight()* player.Board.getWidth(); i++)
+            {
+                if (player.Board.boardDictionaryById[i].sendUpdate)
+                {
+                    NetOutgoingMessage om = client.CreateMessage();
+                    om.Write("tile_added");
+                    om.Write(i);
+                    client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                    player.Board.boardDictionaryById[i].sendUpdate = false;
+
+
+                }
+            }
+
             if (player.pawns != null)
             {
                 NetOutgoingMessage om = client.CreateMessage();
@@ -65,6 +80,7 @@ namespace Our_Project
                     }
                 }
             }
+
             if(enemy.pawns!=null)
             {
                 NetOutgoingMessage om = client.CreateMessage();
@@ -86,6 +102,7 @@ namespace Our_Project
                 }
 
             }
+
             NetIncomingMessage msg;
             while ((msg = client.ReadMessage()) != null)
             {
@@ -106,6 +123,14 @@ namespace Our_Project
 
                         switch (data_string)
                         {
+                            case "tile_added":
+                                {
+                                    int tile_id = msg.ReadInt32();
+                                    player.Board.boardDictionaryById[tile_id].texture = player.Board.boardDictionaryById[299].texture;
+                                    player.Board.boardDictionaryById[tile_id].setIsHidden(false);
+
+                                    break;
+                                }
                             case "move":
                                 {
                                     

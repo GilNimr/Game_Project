@@ -58,9 +58,9 @@ namespace Our_Project
          
             teleports = new Tile[2];
 
-            player = new Player();
+            player = new Player(game);
             player.myTurn = true;
-            enemy = new Player();
+            enemy = new Player(game);
             connection = new Connection(ref player, ref enemy);
 
             tileDictionary = new Dictionary<int, Tile>();

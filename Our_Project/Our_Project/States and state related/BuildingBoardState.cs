@@ -37,9 +37,9 @@ namespace Our_Project.States_and_state_related
             allHidenPoints = setHidenTiles();
             shapes = new List<Board>();
 
-            player = new Player();
+            player = new Player(game);
             player.myTurn = true;
-            enemy = new Player();
+            enemy = new Player(game);
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
             connection = new Connection(ref player, ref enemy);
@@ -158,6 +158,7 @@ namespace Our_Project.States_and_state_related
                 {
                     tFromEmpty.texture = tilesFromShpae[i].texture;
                     tFromEmpty.setIsHidden(false);
+                    tFromEmpty.sendUpdate = true;
                 }
                 i++;
             }
@@ -179,7 +180,7 @@ namespace Our_Project.States_and_state_related
 
         private void initializeConnection()
         {
-           
+            
             connection.update();
             if (i_am_second_player)
             {
@@ -419,6 +420,7 @@ namespace Our_Project.States_and_state_related
 
             putShapeAtNewPosition();
 
+            connection.update();
             base.Update(gameTime);
         }
 
@@ -727,7 +729,7 @@ namespace Our_Project.States_and_state_related
             return new Vector2(tmpx, tmpy);
         }
 
-        public Board getEmptyBoard()
+        public  Board getEmptyBoard()
         {
             return bigEmptyBoard;
         }

@@ -22,6 +22,8 @@ namespace GameServer
             GameRoom currentGameRoom = new GameRoom();
             List<GameRoom> gamerooms = new List<GameRoom>();
 
+            List<int> tile_list=new List<int>();
+
             //  server.UPnP.ForwardPort(14242, "Flags game for school project");
 
 
@@ -79,9 +81,14 @@ namespace GameServer
                                 Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " connected!");
 
 
-                                msg.SenderConnection.Tag = new int[5] {
-                                -10,-10,-10,-10,-10
-                                };
+                                msg.SenderConnection.Tag = new int[1000];//{
+                                                                         //       -10,-10,-10,-10,-10
+                                                                         //       };
+                                int[] pos = msg.SenderConnection.Tag as int[];
+                                for (int i = 0; i < pos.Length; i++)
+                                {
+                                    pos[i] = -10;
+                                }
 
                                 if(server.ConnectionsCount % 2 == 1)
                                 {
@@ -102,6 +109,17 @@ namespace GameServer
                             string data_string = msg.ReadString();
                             switch (data_string)
                             {
+                                case "tile_added":
+                                    {
+                                        int tile_id= msg.ReadInt32();
+                                        int[] pos = msg.SenderConnection.Tag as int[];
+                                        int i = 0;
+                                        while (pos[4 + i] != -10)
+                                            i++;
+                                        pos[4+i] = tile_id;
+                                        
+                                        break;
+                                    }
                                 case "move":
                                     {
                                         int id = msg.ReadInt32();
@@ -156,7 +174,7 @@ namespace GameServer
                                     //  om.Write(otherPlayer.RemoteUniqueIdentifier);
 
                                     if (otherPlayer.Tag == null)
-                                        otherPlayer.Tag = new int[5];
+                                        otherPlayer.Tag = new int[1000];
 
                                     int[] pos = otherPlayer.Tag as int[];
                                     if (pos[0] != -10 && pos[1] != -10)
@@ -179,6 +197,21 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[2] = -10;
                                         pos[3] = -10;
+                                    }
+                                    int i = 0;
+                                    while (pos[4 + i] == -10 && 4 + i < 999)
+                                    {
+                                        
+                                        i++;
+                                    }
+                                        
+                                    if(pos[4+i]!=-10)
+                                    {
+                                        
+                                            om.Write("tile_added");
+                                            om.Write(pos[4 + i]);
+                                            server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[4 + i] = -10;
                                     }
                                 }
 

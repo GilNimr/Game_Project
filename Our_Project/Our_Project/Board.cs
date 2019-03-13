@@ -17,7 +17,7 @@ namespace Our_Project
 
         TypeOfBord typeOfBord;
         Tile[][] board;                                     // the board
-        Texture2D tileIsoImg;                               // the isometric image of tile
+       public Texture2D tileIsoImg;                               // the isometric image of tile
         Texture2D tile2dImg;                                // the 2d image of tile
         Texture2D emtyIsoImg;                               // the empty isometric tile
         Texture2D empty2dImg;                               // the empty 2d tile

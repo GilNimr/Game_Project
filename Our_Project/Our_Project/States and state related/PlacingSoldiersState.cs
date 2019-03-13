@@ -111,7 +111,7 @@ namespace Our_Project.States_and_state_related
             teleports = new Tile[2];
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
-            player = new Player();
+            player = new Player(OurGame);
             player.myTurn = true;
          //   enemy = new Player();
             player.pawns = new Pawn[player.army_size];

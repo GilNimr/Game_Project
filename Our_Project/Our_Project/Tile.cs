@@ -22,6 +22,7 @@ namespace Our_Project
         private Color color;
         private bool isHidden;
         public float Depth=0f;
+        public bool sendUpdate = false;
         
         
 
