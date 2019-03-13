@@ -23,6 +23,10 @@ namespace Our_Project.States_and_state_related
         private Button save_and_start_game, saveYourShapeInBoard;
         private int remainShapesToPutOnBigEmptyBoard;
         ISoundManager soundManager, soundEffect;
+        bool isPlayBadPlaceSoundEffect;
+        MouseState prvState;
+
+
 
 
         public BuildingBoardState(Game game) : base(game)
@@ -34,6 +38,7 @@ namespace Our_Project.States_and_state_related
             remainShapesToPutOnBigEmptyBoard = 5;
             soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
+            isPlayBadPlaceSoundEffect = true;
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -589,6 +594,9 @@ namespace Our_Project.States_and_state_related
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
+            //MouseState prvState = Mouse.GetState();
+            MouseState currentMouse = Mouse.GetState();
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
@@ -617,10 +625,27 @@ namespace Our_Project.States_and_state_related
                                                 if (!emptyTile.getIsHidden())
                                                 {
                                                     emptyTile.setColor(Color.Red);
+
+                                                if (Mouse.GetState().LeftButton == ButtonState.Released &&
+                                                    prvState.LeftButton == ButtonState.Pressed)
+                                                    isPlayBadPlaceSoundEffect = false;
+
+                                                if (!isPlayBadPlaceSoundEffect)
+                                                {
+                                                    soundEffect.Play("badPlace");
+                                                    isPlayBadPlaceSoundEffect = true;
                                                 }
+
+                                                
+
+                                            }
+
+
+                                            else
+                                            {
+                                                emptyTile.setColor(Color.Green);
+                                            }
                                                     
-                                                else
-                                                    emptyTile.setColor(Color.Green);
 
                                             //for debug purposes
                                             OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
@@ -633,6 +658,7 @@ namespace Our_Project.States_and_state_related
                         }
                 }
             }
+            prvState = currentMouse;
 
                 if (dragingShape != null)
                     dragingShape.Draw(OurGame.spriteBatch, Color.White);
@@ -643,6 +669,7 @@ namespace Our_Project.States_and_state_related
             base.Draw(gameTime);
         }
         
+
         //translates 2d world coordinates to isometric screen coordinates.
         public static Vector2 TwoD2isometrix(int x, int y)
         {
