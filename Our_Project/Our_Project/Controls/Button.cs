@@ -12,10 +12,6 @@ namespace Our_Project
 {
     public class Button : GameComponent
     {
-        
-
-       
-
         private SpriteFont _font;
 
         private bool _isHovering;
@@ -85,9 +81,6 @@ namespace Our_Project
 
             if (picture != null)
             {
-
-               // var x = (Rectangle.X + (Rectangle.Width / 2)) - (_texture.Width/2);
-              //  var y = (Rectangle.Y + (Rectangle.Height / 2)) - (_texture.Height / 2);
                 spriteBatch.Draw(picture, new Rectangle(Rectangle.X, Rectangle.Y, Rectangle.Width ,Rectangle.Height), PenColour);
             }
         }

@@ -64,6 +64,7 @@ namespace Our_Project
             connection = new Connection(ref player, ref enemy);
 
             tileDictionary = new Dictionary<int, Tile>();
+            
         }
 
         protected override void LoadContent()
@@ -302,8 +303,8 @@ namespace Our_Project
             
 
         }
+        
 
-      
 
         public override void Update(GameTime gameTime)
         {
