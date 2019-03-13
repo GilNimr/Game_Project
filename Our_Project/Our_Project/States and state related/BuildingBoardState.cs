@@ -15,8 +15,8 @@ namespace Our_Project.States_and_state_related
         private SpriteFont font;   
         private bool hideShape = true;
         private Board bigEmptyBoard;
-        private List<Board> shapes;
-        //private Board dragingShape;
+        //private List<Board> shapes;
+        private Board dragingShape;
         private List<List<NodeOFHidenTiles>> allHidenPoints;
         private List<Button> buttons;
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
@@ -32,7 +32,8 @@ namespace Our_Project.States_and_state_related
             game.Services.AddService(typeof(IBuildingBoardState), this);
 
             allHidenPoints = setHidenTiles();
-            shapes = new List<Board>();
+            //shapes = new List<Board>();
+            dragingShape = null;
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -244,106 +245,121 @@ namespace Our_Project.States_and_state_related
 
         private void clickFirstShape(object sender, System.EventArgs e)
         {
-            shapes.Clear();
-            Board s = null;
+            //shapes.Clear();
+            //dragingShape = null;
+            //Board s = null;
             if (hideShape)
             {
-                s = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
-                shapes.Add(s);
-                setNeighbors(s);
+                dragingShape = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                //shapes.Add(s);
+                setNeighbors(dragingShape);
                 hideShape = false;
             }
 
             else
             {
-                shapes.Remove(s);
+                //shapes.Remove(s);
+                dragingShape = null;
+                GC.Collect();
                 hideShape = true;
             }
         }
 
         private void clickSecondShape(object sender, EventArgs e)
         {
-            Board s = null;
-            shapes.Clear();
+            //Board s = null;
+            //shapes.Clear();
+            //dragingShape = null;
+
             if (hideShape)
             {
                 
-                s = new Board(allHidenPoints[1], 4, 6, 0, 0, fullTileIso, fullTile2d, false, this.Content);
-                shapes.Add(s);
-                setNeighbors(s);
+                dragingShape = new Board(allHidenPoints[1], 4, 6, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                //shapes.Add(s);
+                setNeighbors(dragingShape);
                 hideShape = false;
             }
 
             else
             {
-                shapes.Remove(s);
+                //shapes.Remove(s);
+                dragingShape = null;
+                GC.Collect();
                 hideShape = true;
             }
         }
 
         private void clickThirdShape(object sender, EventArgs e)
         {
-            Board s = null;
-            shapes.Clear();
+            //Board s = null;
+            //shapes.Clear();
+            
             if (hideShape)
             {
 
-                s = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
-                shapes.Add(s);
-                setNeighbors(s);
+                dragingShape = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                //shapes.Add(s);
+                setNeighbors(dragingShape);
                 hideShape = false;
+                
             }
 
             else
             {
-                shapes.Remove(s);
+                //shapes.Remove(s);
+                dragingShape = null;
+                GC.Collect();
                 hideShape = true;
             }
         }
 
         private void clickFourthShape(object sender, EventArgs e)
         {
-            Board s = null;
-            shapes.Clear();
+           // Board s = null;
+            //shapes.Clear();
             if (hideShape)
             {
 
-                s = new Board(allHidenPoints[3], 6, 2, 0, 0, fullTileIso, fullTile2d, false, this.Content);
-                shapes.Add(s);
-                setNeighbors(s);
+                dragingShape = new Board(allHidenPoints[3], 6, 2, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+              //  shapes.Add(s);
+                setNeighbors(dragingShape);
                 hideShape = false;
             }
 
             else
             {
-                shapes.Remove(s);
+                //shapes.Remove(s);
+                dragingShape = null;
+                GC.Collect();
                 hideShape = true;
             }
         }
 
         private void clickFifthShape(object sender, EventArgs e)
         {
-            Board s = null;
-            shapes.Clear();
+           // Board s = null;
+            //shapes.Clear();
             if (hideShape)
             {
 
-                s = new Board(allHidenPoints[3], 5, 5, 0, 0, fullTileIso, fullTile2d, false, this.Content);
-                shapes.Add(s);
-                setNeighbors(s);
+                dragingShape = new Board(allHidenPoints[3], 5, 5, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+              //  shapes.Add(s);
+                setNeighbors(dragingShape);
                 hideShape = false;
             }
 
             else
             {
-                shapes.Remove(s);
+                //shapes.Remove(s);
+                dragingShape = null;
+                GC.Collect();
                 hideShape = true;
             }
         }
 
         private void saveAndStartGame(object sender, EventArgs e)
         {
-            shapes.Clear();
+            //shapes.Clear();
             buttons.Clear();
             StateManager.ChangeState(OurGame.PlacingSoldiersState.Value);
         }
@@ -376,11 +392,11 @@ namespace Our_Project.States_and_state_related
 
         private void updateAllShapes()
         {
-            foreach (Board shape in shapes)
-            {
-                if (shape != null)
-                    shape.Update();
-            }
+            //foreach (Board shape in shapes)
+            //{
+                if (dragingShape != null)
+                    dragingShape.Update();
+            //}
         }
 
         private void putShapeAtNewPosition()
@@ -391,10 +407,11 @@ namespace Our_Project.States_and_state_related
 
             Board shape=null;
 
-                if (shapes.Count>0)
+                if (/*shapes.Count>0*/ dragingShape != null)
                 {
 
-                    shape = shapes[0];
+                    //shape = shapes[0];
+                    shape = dragingShape;
 
                     List<bool> eachShapeHasEmptyTile = new List<bool>();
 
@@ -580,7 +597,9 @@ namespace Our_Project.States_and_state_related
             List<Tile> emptyTiles)
         {
                 addShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
-            shapes.Remove(shape);
+            //shapes.Remove(shape);
+            dragingShape = null;
+            GC.Collect();
             hideShape = true;
           //  buttons.Remove(firstShape);
         }
@@ -602,10 +621,11 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (Tile emptyTile in emptyTilesLine)
                 {
-                    foreach (Board shape in shapes)
-                    {
-                        if (shape != null)
+               //     foreach (Board shape in shapes)
+                 //   {
+                        if (dragingShape/*shape*/ != null)
                         {
+                            Board shape = dragingShape;
                             foreach (Tile[] shapeTilesLine in shape.getBoard())
                             {
                                 foreach (Tile shapeTile in shapeTilesLine)
@@ -633,14 +653,14 @@ namespace Our_Project.States_and_state_related
                         }
 
 
-                    }
+                    //}
                 }
             }
-            foreach (Board shape in shapes)
-            {
-                if (shape != null)
-                    shape.Draw(OurGame.spriteBatch, Color.White);
-            }
+        //foreach (Board shape in shapes)
+        //{
+                if (dragingShape != null)
+                    dragingShape.Draw(OurGame.spriteBatch, Color.White);
+            //}
 
             foreach(Button b in buttons)
                 b.Draw(gameTime, OurGame.spriteBatch);
