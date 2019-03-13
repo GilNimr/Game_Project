@@ -1,5 +1,6 @@
 ﻿using Lidgren.Network;
 using Microsoft.Xna.Framework;
+using Our_Project.States_and_state_related;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,8 +48,10 @@ namespace Our_Project
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < player.pawns.Length; i++)
                 {
-                    if (player.pawns[i].send_update)
-                    {
+                    if (player.pawns[i] != null)
+                    { 
+                       if (player.pawns[i].send_update)
+                       {
                         om.Write("move");
                         om.Write(player.pawns[i].current_tile.getId());
                         om.Write(i);
@@ -58,8 +61,8 @@ namespace Our_Project
                         player.pawns[i].send_update = false;
                         player.myTurn = false;
  
+                       }
                     }
-
                 }
             }
             if(enemy.pawns!=null)
@@ -67,8 +70,10 @@ namespace Our_Project
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < enemy.pawns.Length; i++)
                 {
-                    if (enemy.pawns[i].attacked)
-                    {
+                    if (enemy.pawns[i] != null)
+                    { 
+                      if (enemy.pawns[i].attacked)
+                      {
                         om.Write("attacked");
                         om.Write(enemy.pawns[i].attacker.id);
                         om.Write(i);
@@ -76,8 +81,8 @@ namespace Our_Project
 
                         client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
                         enemy.pawns[i].attacked = false;
+                      }
                     }
-
                 }
 
             }
@@ -91,7 +96,7 @@ namespace Our_Project
                         server = client.Connect(msg.SenderEndPoint);
                         int num_of_players = msg.ReadInt32();
                         if (num_of_players == 1)
-                            PlayingState.i_am_second_player = true;
+                            BuildingBoardState.i_am_second_player = true;
 
                         break;
 

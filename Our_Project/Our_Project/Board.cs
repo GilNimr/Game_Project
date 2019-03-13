@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using Our_Project.States_and_state_related;
 
 namespace Our_Project
 {
@@ -379,12 +380,27 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            for (int i = 0; i < width; i++)
-            {
+            if (!BuildingBoardState.i_am_second_player || this.height<10)  //if we are second player there is different draw order
+                                                                           //to big emty board only!   
+           {
+              for (int i = 0; i < width; i++)
+              {
                 for (int j = 0; j < height; j++)
                 {
                     board[i][j].Draw(spriteBatch);
                     board[i][j].setColor(Color.White); //returning to default color in case it was changed.
+                }
+              }
+           }
+            else
+            {
+                for (int i = width-1; i >= 0 ; i--)
+                {
+                    for (int j = height-1; j >=0 ; j--)
+                    {
+                        board[i][j].Draw(spriteBatch);
+                        board[i][j].setColor(Color.White); //returning to default color in case it was changed.
+                    }
                 }
             }
         }

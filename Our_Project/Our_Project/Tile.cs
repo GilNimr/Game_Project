@@ -21,6 +21,7 @@ namespace Our_Project
         private Tile left, right, down, up;        //   Tile neighbors
         private Color color;
         private bool isHidden;
+        public float Depth=0f;
         
         
 
@@ -66,7 +67,7 @@ namespace Our_Project
             isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, cartasianRectangle.Width *2, cartasianRectangle.Height*2);
 
             if (texture!= null && isoprojection_rectangle != null)
-                spriteBatch.Draw(texture, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, Depth);
         }
 
         public int getId()
@@ -84,7 +85,12 @@ namespace Our_Project
             return cartasianRectangle;
         }
 
-       
+        public void setCartasianRectangle(Rectangle rec)
+        {
+            cartasianRectangle = rec;
+        }
+
+
         public Pawn getCurrentPawn()
         {
             return current_pawn;

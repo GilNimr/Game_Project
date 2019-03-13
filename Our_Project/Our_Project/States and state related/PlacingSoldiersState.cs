@@ -49,6 +49,7 @@ namespace Our_Project.States_and_state_related
         private Texture2D teleport_texture;
         private Button save_flag_button;
         private int pawn_index = 0;
+        private Tile curtile;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
@@ -74,14 +75,15 @@ namespace Our_Project.States_and_state_related
             };
 
             save_and_start_game.Click += SaveAndStartGame;
-            Game.Components.Add(save_and_start_game);
+           // Game.Components.Add(save_and_start_game);
 
             save_flag_button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(Game1.screen_width - 1000, 20),
                 Text = "Save here?",
             };
-            
+
+            save_flag_button.Click += new EventHandler((sender, e) => SaveFlag(sender, e, curtile));
 
             CelCount celCount = new CelCount(30, 5);
             celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 10);
@@ -172,7 +174,7 @@ namespace Our_Project.States_and_state_related
 
                                 iso_rec = new Rectangle( Game1.TwoD2isometrix(tile.getCartasianRectangle().Center) - new Point(Tile.getTileSize() / 2), new Point(Tile.getTileSize()));
 
-                                save_flag_button.Click += new EventHandler((sender, e) => SaveFlag(sender, e, tile));
+                                curtile = tile;
                                 Game.Components.Add(save_flag_button);
 
                             }
@@ -207,6 +209,7 @@ namespace Our_Project.States_and_state_related
                
                 player.pawns[pawn_index] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
             }
+            
             pawn_index++;
             hideFlag = true;
             resting = false;
@@ -214,6 +217,8 @@ namespace Our_Project.States_and_state_related
             
 
         }
+
+        
 
         public override void Update(GameTime gameTime)
         {
@@ -232,6 +237,8 @@ namespace Our_Project.States_and_state_related
 
             if (draggin)
                 Game.Components.Remove(save_flag_button);
+            if (pawn_index == 21 && !Game.Components.Contains(save_and_start_game))
+                Game.Components.Add(save_and_start_game);
         }
 
         public override void Draw(GameTime gameTime)

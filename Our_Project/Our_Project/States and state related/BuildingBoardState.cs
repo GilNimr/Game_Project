@@ -21,6 +21,10 @@ namespace Our_Project.States_and_state_related
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
         private Button save_and_start_game, saveYourShapeInBoard;
 
+        public Connection connection;
+        public static bool i_am_second_player = false;
+        public Player player;
+        public Player enemy;
 
 
 
@@ -32,6 +36,13 @@ namespace Our_Project.States_and_state_related
 
             allHidenPoints = setHidenTiles();
             shapes = new List<Board>();
+
+            player = new Player();
+            player.myTurn = true;
+            enemy = new Player();
+            player.pawns = new Pawn[player.army_size];
+            enemy.pawns = new Pawn[player.army_size];
+            connection = new Connection(ref player, ref enemy);
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -163,6 +174,40 @@ namespace Our_Project.States_and_state_related
             setAllContent();
             setAllButtons();
             buildEmptyBoard();
+            initializeConnection();
+        }
+
+        private void initializeConnection()
+        {
+           
+            connection.update();
+            if (i_am_second_player)
+            {
+                flipMatrix(bigEmptyBoard);
+            }
+        }
+
+        private void flipMatrix(Board bigEmptyBoard)
+        {
+            Rectangle tmp;
+
+            int length = bigEmptyBoard.getHeight() - 1;
+            for (int i = 0; i < bigEmptyBoard.getHeight() / 2; i++)
+            {
+                for (int j = 0; j < bigEmptyBoard.getHeight(); j++)
+                {
+                    tmp = bigEmptyBoard.getBoard()[i][j].getCartasianRectangle();
+                    bigEmptyBoard.getBoard()[i][j].setCartasianRectangle(bigEmptyBoard.getBoard()[length - i][length - j].getCartasianRectangle());
+                   
+                    bigEmptyBoard.getBoard()[length - i][length - j].setCartasianRectangle(tmp);
+                    
+                }
+            }
+
+            
+        
+        
+     
         }
 
         private void setAllContent()
@@ -639,7 +684,7 @@ namespace Our_Project.States_and_state_related
                                                 emptyTile.setColor(Color.Green);
 
                                                 //for debug purposes
-                                                OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
+                                                OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),Game1.TwoD2isometrix( emptyTile.getCartasianRectangle().X,
                                                     emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);
                                             }
                                         }
