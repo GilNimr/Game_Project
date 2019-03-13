@@ -19,7 +19,7 @@ namespace Our_Project
         private Texture2D teleport_texture;
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
-        ISoundManager soundManager;
+    //    ISoundManager soundManager;
         // private Pawn[] pawns;           // the pawns
 
         NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
@@ -64,7 +64,7 @@ namespace Our_Project
             connection = new Connection(ref player, ref enemy);
 
             tileDictionary = new Dictionary<int, Tile>();
-            soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
+            //soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
         }
 
         protected override void LoadContent()
@@ -303,7 +303,7 @@ namespace Our_Project
             
 
         }
-
+        /*
         protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
         {
             base.StateChanged(sender, e);
@@ -312,7 +312,7 @@ namespace Our_Project
                 soundManager.Play("playingStateBackgroundSound");
             else
                 soundManager.StopSong();
-        }
+        }*/
 
         public override void Update(GameTime gameTime)
         {

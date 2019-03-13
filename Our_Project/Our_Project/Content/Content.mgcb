@@ -34,30 +34,6 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/KaushanScript.spritefont
 
-#begin Sounds/Music/Buoyant Iceberg.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/Music/Buoyant Iceberg.mp3
-
-#begin Sounds/Music/playingStateBackgroundSound.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/Music/playingStateBackgroundSound.mp3
-
-#begin Sounds/Music/titleSound.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/Music/titleSound.wav
-
-#begin Sounds/SoundFX/Jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/Jump.wav
-
 #begin Textures/Animations/sprite sheet israel.png
 /importer:TextureImporter
 /processor:TextureProcessor
