@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using XELibrary;
 
 namespace Our_Project.States_and_state_related
 {
@@ -21,7 +22,7 @@ namespace Our_Project.States_and_state_related
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
         private Button save_and_start_game, saveYourShapeInBoard;
         private int remainShapesToPutOnBigEmptyBoard;
-        
+        ISoundManager soundManager;
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -30,6 +31,7 @@ namespace Our_Project.States_and_state_related
             allHidenPoints = setHidenTiles();
             dragingShape = null;
             remainShapesToPutOnBigEmptyBoard = 5;
+            soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -173,6 +175,16 @@ namespace Our_Project.States_and_state_related
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
+        }
+
+        protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
+        {
+            base.StateChanged(sender, e);
+
+            if (StateManager.State == this.Value)
+                soundManager.Play("backGroundPlayinState");
+            else
+                soundManager.StopSong();
         }
 
         private void setAllButtons()
