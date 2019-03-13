@@ -34,17 +34,17 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/KaushanScript.spritefont
 
+#begin Sounds/Music/backGroundPlayinState.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sounds/Music/backGroundPlayinState.mp3
+
 #begin Sounds/Music/titleSound.wav
 /importer:WavImporter
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:Sounds/Music/titleSound.wav
-
-#begin Sounds/SoundFX/backGroundPlayinState.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/backGroundPlayinState.mp3
 
 #begin Sounds/SoundFX/Jump.wav
 /importer:WavImporter
