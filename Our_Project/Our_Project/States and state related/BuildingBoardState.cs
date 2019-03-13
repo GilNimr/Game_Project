@@ -16,6 +16,7 @@ namespace Our_Project.States_and_state_related
         private bool hideShape = true;
         private Board bigEmptyBoard;
         private List<Board> shapes;
+        //private Board dragingShape;
         private List<List<NodeOFHidenTiles>> allHidenPoints;
         private List<Button> buttons;
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
@@ -241,6 +242,25 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Add(b);
         }
 
+        private void clickFirstShape(object sender, System.EventArgs e)
+        {
+            shapes.Clear();
+            Board s = null;
+            if (hideShape)
+            {
+                s = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                shapes.Add(s);
+                setNeighbors(s);
+                hideShape = false;
+            }
+
+            else
+            {
+                shapes.Remove(s);
+                hideShape = true;
+            }
+        }
+
         private void clickSecondShape(object sender, EventArgs e)
         {
             Board s = null;
@@ -257,7 +277,6 @@ namespace Our_Project.States_and_state_related
             else
             {
                 shapes.Remove(s);
-                //                shapes[0] = null;
                 hideShape = true;
             }
         }
@@ -278,7 +297,6 @@ namespace Our_Project.States_and_state_related
             else
             {
                 shapes.Remove(s);
-                //                shapes[0] = null;
                 hideShape = true;
             }
         }
@@ -299,7 +317,6 @@ namespace Our_Project.States_and_state_related
             else
             {
                 shapes.Remove(s);
-                //                shapes[0] = null;
                 hideShape = true;
             }
         }
@@ -320,38 +337,18 @@ namespace Our_Project.States_and_state_related
             else
             {
                 shapes.Remove(s);
-                //                shapes[0] = null;
                 hideShape = true;
             }
         }
 
         private void saveAndStartGame(object sender, EventArgs e)
         {
+            shapes.Clear();
+            buttons.Clear();
             StateManager.ChangeState(OurGame.PlacingSoldiersState.Value);
         }
 
-        private void clickFirstShape(object sender, System.EventArgs e)
-        {
-            shapes.Clear();
-            Board s=null;
-            if (hideShape)
-            {
-                shapes.Clear();
-                s = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
-                shapes.Add(s);
-                setNeighbors(s);
-                hideShape = false;
-            }
-
-            else
-            {
-                shapes.Remove(s);
-                //                shapes[0] = null;
-                hideShape = true;
-            }
-
-
-        }
+        
 
 
         /// <summary>
@@ -398,7 +395,7 @@ namespace Our_Project.States_and_state_related
                 {
 
                     shape = shapes[0];
-                   // int how_much_tiles_in_shape = shape.getHeight() * shape.getWidth();
+
                     List<bool> eachShapeHasEmptyTile = new List<bool>();
 
                     for (int i = 0; i < shape.getBoard().Length; i++)
@@ -409,8 +406,6 @@ namespace Our_Project.States_and_state_related
                     }
 
                     int a = 0;
-                    //List<Tile> shapeTilesToMove = new List<Tile>();
-                    //List<Tile> emptyTilesToMove = new List<Tile>();
 
                     foreach (Tile[] shapeTilesLine in shape.getBoard())
                     {
@@ -471,27 +466,20 @@ namespace Our_Project.States_and_state_related
                         buttons.Add(saveYourShapeInBoard);
                         Game.Components.Add(saveYourShapeInBoard);
 
-                        for (int i = 0; i < /*how_much_tiles_in_shape*/ shapeTilesToMove.Count; i++)
+                        for (int i = 0; i < shapeTilesToMove.Count; i++)
                         {
                             shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
                                 emptyTilesToMove[i].getCartasianRectangle().Y);
-
                         }
 
 
                         if (legalPlace(shape, shapeTilesToMove, emptyTilesToMove))
-                    {
-                        saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                        shape, shapeTilesToMove, emptyTilesToMove);
-
-                        setNeighbors(bigEmptyBoard);
-
+                        {
+                            saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
+                            shape, shapeTilesToMove, emptyTilesToMove);
+                            setNeighbors(bigEmptyBoard);
+                        }
                     }
-                    /*
-                saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                   shape, shapeTilesToMove, emptyTilesToMove);*/
-
-                }
                 }
         }
 
@@ -587,11 +575,7 @@ namespace Our_Project.States_and_state_related
             }
             return false;
         }
-
-            
-
         
-
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)
         {
@@ -665,7 +649,7 @@ namespace Our_Project.States_and_state_related
 
             //  OurGame.spriteBatch.End();
         }
-
+        
         //translates 2d world coordinates to isometric screen coordinates.
         public static Vector2 TwoD2isometrix(int x, int y)
         {
@@ -681,6 +665,7 @@ namespace Our_Project.States_and_state_related
             int tmpy = (2 * y - x) / 2;
             return new Vector2(tmpx, tmpy);
         }
+        
 
         public Board getEmptyBoard()
         {
