@@ -22,7 +22,8 @@ namespace Our_Project.States_and_state_related
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
         private Button save_and_start_game, saveYourShapeInBoard;
         private int remainShapesToPutOnBigEmptyBoard;
-        ISoundManager soundManager;
+        ISoundManager soundManager, soundEffect;
+
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -32,6 +33,7 @@ namespace Our_Project.States_and_state_related
             dragingShape = null;
             remainShapesToPutOnBigEmptyBoard = 5;
             soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
+            soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -180,11 +182,11 @@ namespace Our_Project.States_and_state_related
         protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
         {
             base.StateChanged(sender, e);
-
+            /*
             if (StateManager.State == this.Value)
                 soundManager.Play("backGroundPlayinState");
             else
-                soundManager.StopSong();
+                soundManager.StopSong();*/
         }
 
         private void setAllButtons()
@@ -469,7 +471,9 @@ namespace Our_Project.States_and_state_related
                             saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
                             shape, shapeTilesToMove, emptyTilesToMove);
                             setNeighbors(bigEmptyBoard);
-                        }
+                        
+
+                    }
                     }
                 }
         }
@@ -569,6 +573,10 @@ namespace Our_Project.States_and_state_related
             dragingShape = null;
             GC.Collect();
             hideShape = true;
+
+            soundEffect.Play("wright click");
+            //else
+            //  soundManager.StopSong();
         }
 
         /// <summary>
