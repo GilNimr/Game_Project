@@ -185,8 +185,8 @@ namespace Our_Project.States_and_state_related
 
                 Text = "",
                 picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
+                
             };
-            
             firstShape.Click += clickFirstShape;
             buttons.Add(firstShape);
 
@@ -204,6 +204,7 @@ namespace Our_Project.States_and_state_related
             {
                 Position = new Vector2(200, 60),
                 Text = "Thirth Shape",
+                
             };
 
             thirdShape.Click += clickThirdShape;
@@ -589,7 +590,7 @@ namespace Our_Project.States_and_state_related
 
                                             if (!shapeTile.getIsHidden())
                                             {
-                                                emptyTile.setColor(Color.Green);
+                                                emptyTile.setColor(Color.Red);
 
                                                 //for debug purposes
                                                 OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),new Vector2( emptyTile.getCartasianRectangle().X,
