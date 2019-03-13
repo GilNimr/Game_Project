@@ -20,11 +20,8 @@ namespace Our_Project.States_and_state_related
         private List<Button> buttons;
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
         private Button save_and_start_game, saveYourShapeInBoard;
-
-
-
-
-
+        private int remainShapesToPutOnBigEmptyBoard;
+        
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -32,6 +29,7 @@ namespace Our_Project.States_and_state_related
 
             allHidenPoints = setHidenTiles();
             dragingShape = null;
+            remainShapesToPutOnBigEmptyBoard = 5;
         }
 
         private static List<List<NodeOFHidenTiles>> setHidenTiles()
@@ -140,16 +138,20 @@ namespace Our_Project.States_and_state_related
         private void addShapeToEmptyBoard(Board s, List<Tile> tilesFromShpae, List<Tile> tilesFromEmpty)
         {   // set new shape in emptyBoard
             int i = 0;
-            foreach (Tile tFromEmpty in tilesFromEmpty)
+            if (remainShapesToPutOnBigEmptyBoard > 0)
             {
-                if (!tilesFromShpae[i].getIsHidden())
+                foreach (Tile tFromEmpty in tilesFromEmpty)
                 {
-                    tFromEmpty.texture = tilesFromShpae[i].texture;
-                    tFromEmpty.setIsHidden(false);
+                    if (!tilesFromShpae[i].getIsHidden())
+                    {
+                        tFromEmpty.texture = tilesFromShpae[i].texture;
+                        tFromEmpty.setIsHidden(false);
+                    }
+                    i++;
                 }
-                i++;
+                setNeighbors(bigEmptyBoard);
+                remainShapesToPutOnBigEmptyBoard--;
             }
-            setNeighbors(bigEmptyBoard);
         }
 
         /// <summary>
