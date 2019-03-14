@@ -11,7 +11,6 @@ using XELibrary;
 
 /*
  * On this screen you will choose 5 shapes and builld your area.
- * 
  */ 
 
 
@@ -684,6 +683,8 @@ namespace Our_Project.States_and_state_related
             dragingShape = null;
             GC.Collect();
             hideShape = true;
+            buttons.Remove(saveYourShapeInBoard);
+            Game.Components.Remove(saveYourShapeInBoard);
         }
 
         /// <summary>
