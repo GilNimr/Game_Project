@@ -485,26 +485,34 @@ namespace Our_Project.States_and_state_related
                  * and each tile of empty that we want to put on it*/
             List<Tile> shapeTilesToMove = new List<Tile>();
             List<Tile> emptyTilesToMove = new List<Tile>();
-            //Board shape=null;
 
                 if (dragingShape != null)
                 {
-                    //shape = dragingShape;
-                    List<bool> eachShapeHasEmptyTile = new List<bool>();
 
+                    /*
+                     * allFullTilesAtShapeIsInsideBigEmptyBoardLimit will be list with all the tiles that not hiden in shape, and we
+                     * will check that all of them is in the limit of bigEmptyBoard.
+                     */
+
+                    List<bool> allFullTilesAtShapeIsInsideBigEmptyBoardLimit = new List<bool>();
                     for (int i = 0; i < dragingShape.getBoard().Length; i++)
                     {
                         for (int j=0; j< dragingShape.getBoard()[i].Length; j++)
                             if (!dragingShape.getBoard()[i][j].getIsHidden())
-                                eachShapeHasEmptyTile.Add(false);
+                                allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Add(false);
                     }
 
-                    int a = 0;
-                    foreach (Tile[] shapeTilesLine in dragingShape.getBoard())
+                    /*
+                     * Now we start loop on tiles of shape, and loop of tiles of bigEmptyBoard and checking instract
+                     * between them
+                     */ 
+
+                    int a = 0; // just indext for allFullTilesAtShapeIsInsideBigEmptyBoardLimit
+                    foreach (Tile[] shapeTilesLine in dragingShape.getBoard()) // tiles at shape
                     {
                         foreach (Tile shapeTile in shapeTilesLine)
                         {
-                            foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
+                            foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard()) // tiles at bigEmptyBoard
                             {
                                 foreach (Tile emptyTile in emptyTilesLine)
                                 {
@@ -517,7 +525,7 @@ namespace Our_Project.States_and_state_related
                                             emptyTile.getCartasianRectangle().Center.Y) && emptyTile.getIsHidden()
                                             )
                                         {
-                                            eachShapeHasEmptyTile[a] = true;
+                                            allFullTilesAtShapeIsInsideBigEmptyBoardLimit[a] = true;
                                             emptyTilesToMove.Add(emptyTile);
                                             shapeTilesToMove.Add(shapeTile);
                                             a++;
@@ -535,9 +543,9 @@ namespace Our_Project.States_and_state_related
 
                     
                     putShapeAtNewPlace = false;
-                    for (int i = 0; i < eachShapeHasEmptyTile.Count; i++)
+                    for (int i = 0; i < allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Count; i++)
                     {
-                        if (!eachShapeHasEmptyTile[i])
+                        if (!allFullTilesAtShapeIsInsideBigEmptyBoardLimit[i])
                         {
                             putShapeAtNewPlace = false;
                             break;
