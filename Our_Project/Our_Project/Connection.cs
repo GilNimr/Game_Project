@@ -142,7 +142,7 @@ namespace Our_Project
 
                                     if (enemy.pawns[i] == null)
                                     {
-                                        enemy.pawns[i] = new Pawn(game, null, player.buildingBoardState.getEmptyBoard().boardDictionaryById[id], i, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
+                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.getEmptyBoard().boardDictionaryById[id], i+1, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
                                         enemy.pawns[i].current_tile = player.buildingBoardState.getEmptyBoard().boardDictionaryById[id];
                                         player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
                                         player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);

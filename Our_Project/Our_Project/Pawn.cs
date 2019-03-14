@@ -34,6 +34,8 @@ namespace Our_Project
 
         private SpriteFont strength_font;
 
+        public String flag_animation;
+
         private double timer_atk_num_display=0;
         private bool draw_atk_font = false;
 
@@ -47,9 +49,11 @@ namespace Our_Project
         }
         ICelAnimationManager celAnimationManager;
 
-        public Pawn(Game game,Texture2D _texture, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
+        public Pawn(Game game,String _flag_animation, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
+
+            flag_animation = _flag_animation;
 
             if (_strength == 21)  
                 the_flag = true;
@@ -67,13 +71,17 @@ namespace Our_Project
            _tile.occupied = Tile.Occupied.yes_by_me;
           
             strength = _strength;
-            texture = _texture;
+           // texture = _texture;
            
             isMouseClicked = false;
             hasMoved = false;
             position = new Vector2(_tile.getCartasianRectangle().X, _tile.getCartasianRectangle().Y);
 
-            CelCount celCount = new CelCount(30, 5);
+            CelCount celCount = new CelCount(5, 25);
+            celAnimationManager.AddAnimation("canada", "canada test", celCount, 10);
+            celAnimationManager.ResumeAnimation("canada");
+
+             celCount = new CelCount(30, 5);
             celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 10);
             celAnimationManager.ResumeAnimation("israel");
 
@@ -246,7 +254,7 @@ namespace Our_Project
                 if (team == Team.my_team)
                 {
                     Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.getCartasianRectangle().Center) - new Point(Tile.getTileSize() / 2), new Point(Tile.getTileSize()));
-                    celAnimationManager.Draw(gameTime, "jamaica", spriteBatch, Rec, SpriteEffects.None);
+                    celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
                     if (the_flag)
                         spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.getCartasianRectangle().Center.X, current_tile.getCartasianRectangle().Center.Y), Color.White);
@@ -268,7 +276,7 @@ namespace Our_Project
                 else //pawn of enemy team
                 {
                     Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.getCartasianRectangle().Center) - new Point(Tile.getTileSize() / 2), new Point(Tile.getTileSize()));
-                    celAnimationManager.Draw(gameTime, "israel", spriteBatch, Rec, SpriteEffects.None);
+                    celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
                     if (timer_atk_num_display < 2.0 && draw_atk_font)
                         spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, 5f, SpriteEffects.None, 0);
@@ -286,13 +294,13 @@ namespace Our_Project
                 if (team == Team.my_team)
                 {
                     //   spriteBatch.Draw(texture, new Rectangle(30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), Color.White);
-                    celAnimationManager.Draw(gameTime, "jamaica", spriteBatch, new Rectangle(30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), SpriteEffects.None);
+                    celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, new Rectangle(30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), SpriteEffects.None);
                     spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(30 * strength, 20), Color.White);
                 }
                 else
                 {
                     //  spriteBatch.Draw(texture, new Rectangle(320 + 30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), Color.White);
-                    celAnimationManager.Draw(gameTime, "jamaica", spriteBatch, new Rectangle(320 + 30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), SpriteEffects.None);
+                    celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, new Rectangle(320 + 30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), SpriteEffects.None);
                     spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(320+30 * strength, 20), Color.White);
                 }
                 

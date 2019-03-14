@@ -20,6 +20,7 @@ namespace Our_Project.States_and_state_related
         private bool hideFlag = true;
         IInputHandler inputHandler;
         ICelAnimationManager celAnimationManager;
+        private IScrollingBackgroundManager scrollingBackgroundManager;
 
         private Rectangle iso_rec;
         private bool resting;
@@ -52,12 +53,15 @@ namespace Our_Project.States_and_state_related
         private Tile curtile;
         public Connection connection;
         public bool i_am_second_player;
+        public string flag_animation;
+        public string enemy_flag_animation;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IPlacingSoldiersState), this);
           buildingBoardState= (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
+            scrollingBackgroundManager= (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
             inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
             player = buildingBoardState.player;
             player.myTurn = true;
@@ -71,6 +75,22 @@ namespace Our_Project.States_and_state_related
         {
             base.LoadContent();
             i_am_second_player = BuildingBoardState.i_am_second_player;
+
+            if (!i_am_second_player)
+            {
+                flag_animation = "canada";
+                player.flag = "canada";
+                enemy_flag_animation = "israel";
+                enemy.flag = "israel";
+            }
+            else
+            {
+                flag_animation = "israel";
+                player.flag = "israel";
+                enemy_flag_animation = "canada";
+                enemy.flag = "canada";
+            }
+
             ourBoard = buildingBoardState.getEmptyBoard();
             buttons = new List<Button>();
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
@@ -212,12 +232,12 @@ namespace Our_Project.States_and_state_related
             if (strength != "flag")
             {
         
-                player.pawns[int.Parse(strength)-1] = new Pawn(OurGame, teleport_texture, tile, int.Parse(strength), Pawn.Team.my_team, pawn_index, font);
+                player.pawns[int.Parse(strength)-1] = new Pawn(OurGame, flag_animation, tile, int.Parse(strength), Pawn.Team.my_team, int.Parse(strength) - 1, font);
             }
             else
             {
                
-                player.pawns[20] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
+                player.pawns[20] = new Pawn(OurGame, flag_animation, tile, 21, Pawn.Team.my_team, 20, font);
             }
             
             pawn_index++;
@@ -255,13 +275,18 @@ namespace Our_Project.States_and_state_related
         public override void Draw(GameTime gameTime)
         {
 
+            //drawing space bg
+            scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
+
             ourBoard.Draw(OurGame.spriteBatch, Color.White);
 
             foreach (Button button in buttons)
             {
                 button.Draw(gameTime, OurGame.spriteBatch);
             }
-            celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, iso_rec, SpriteEffects.None);
+            celAnimationManager.Draw(gameTime, flag_animation, OurGame.spriteBatch, iso_rec, SpriteEffects.None);
             //debug view of flag
            // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
             OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);

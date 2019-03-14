@@ -14,7 +14,10 @@ namespace Our_Project
         public int army_size;
         public Pawn[] pawns;
         public bool myTurn=false;
+        public string flag;
+        
         public Board Board
+
         {
             get
             {
@@ -22,10 +25,14 @@ namespace Our_Project
             }
         }
         public BuildingBoardState buildingBoardState;
+        private PlacingSoldiersState placingSoldiersState;
+
         public Player(Game game)
         {
             buildingBoardState = (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
-           
+          
+            
+
             army_size = 21;
         }
     }

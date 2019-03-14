@@ -36,7 +36,7 @@ namespace Our_Project
         public static int tileSize = Game1.screen_height / 30;
 
 
-        ScrollingBackgroundManager scrollingBackgroundManager;
+        IScrollingBackgroundManager scrollingBackgroundManager;
 
         public static Dictionary<int, Tile> tileDictionary;
 
@@ -47,23 +47,27 @@ namespace Our_Project
         public Connection connection;
 
         public static bool i_am_second_player=false;
-        
+
+        private string flag;
+        private string enemy_flag;
 
         public PlayingState(Game game)
            : base(game)
         {
-            scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
-            game.Components.Add(scrollingBackgroundManager);
+  
             game.Services.AddService(typeof(IPlayingState), this);
 
             placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
 
+            scrollingBackgroundManager = (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
+
             teleports = new Tile[2];
 
             player = placingSoldiersState.player;
-          
 
-           
+            flag = placingSoldiersState.flag_animation;
+            enemy_flag= placingSoldiersState.flag_animation;
+
 
             enemy = placingSoldiersState.enemy;
             connection = placingSoldiersState.connection;
@@ -74,9 +78,7 @@ namespace Our_Project
 
         protected override void LoadContent()
         {
-            scrollingBackgroundManager.AddBackground("space", "backgroundSpace", new Vector2(0, 0), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
-            scrollingBackgroundManager.AddBackground("space2", "backgroundSpace", new Vector2(0, 1023), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
-            scrollingBackgroundManager.AddBackground("space3", "backgroundSpace", new Vector2(0, 2047), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
+
             //Loading fonts.
             font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
 
@@ -319,7 +321,7 @@ namespace Our_Project
         {
             base.Update(gameTime);
 
-            scrollingBackgroundManager.ScrollRate = -1f;
+          
 
             connection.update();
 

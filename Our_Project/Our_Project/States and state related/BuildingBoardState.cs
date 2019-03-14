@@ -33,14 +33,16 @@ namespace Our_Project.States_and_state_related
         ISoundManager soundEffect;
         bool isPlayBadPlaceSoundEffect;
         MouseState prvState;
-        
-
-
-
+        private ScrollingBackgroundManager scrollingBackgroundManager;
 
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
+
+            scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
+            game.Components.Add(scrollingBackgroundManager);
+            
+            scrollingBackgroundManager.ScrollRate = -1f;
 
             allHidenPoints = setHidenTiles();
 
@@ -212,6 +214,14 @@ namespace Our_Project.States_and_state_related
             setAllButtons();
             buildEmptyBoard();
             initializeConnection();
+            loadBG();
+        }
+
+        private void loadBG()
+        {
+            scrollingBackgroundManager.AddBackground("space", "backgroundSpace", new Vector2(0, 0), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
+            scrollingBackgroundManager.AddBackground("space2", "backgroundSpace", new Vector2(0, 1023), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
+            scrollingBackgroundManager.AddBackground("space3", "backgroundSpace", new Vector2(0, 2047), new Rectangle(0, 0, 1024, 1024), 30, 0.5f, Color.White);
         }
 
         private void initializeConnection()
@@ -664,7 +674,12 @@ namespace Our_Project.States_and_state_related
             MouseState currentMouse = Mouse.GetState();
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
+            //drawing space bg
+            scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
+
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
             
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())

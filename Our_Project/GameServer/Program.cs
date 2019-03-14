@@ -187,7 +187,7 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[0] = -10;
                                         pos[1] = -10;
-                                        no_more_tiles = true;
+                                        
                                     }
                                     if(!no_more_tiles)
                                     {
@@ -218,6 +218,7 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[2] = -10;
                                         pos[3] = -10;
+                                        no_more_tiles = true;
                                     }
                                    
                                     
