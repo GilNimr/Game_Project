@@ -31,13 +31,12 @@ namespace Our_Project
             client = new NetClient(config);
             client.Start();
 
-
-            // client.DiscoverKnownPeer(" 172.27.38.20", 14242) ; //sapir
-           // client.DiscoverKnownPeer("62.219.99.130", 14242); //sapir external
-            client.DiscoverLocalPeers(14242);
             
-        //    client.DiscoverKnownPeer("192.168.1.11", 14242); //home
-          //  client.DiscoverKnownPeer("192.168.43.199", 14242); //home amit
+            // client.DiscoverLocalPeers(14242);
+          
+
+        //   client.DiscoverKnownPeer("77.127.40.31", 14242); //home
+         client.DiscoverKnownPeer("192.168.1.7", 14242); //home internal
 
 
 

@@ -321,7 +321,7 @@ namespace Our_Project.States_and_state_related
 
             if (draggin)
                 Game.Components.Remove(save_flag_button);
-            if (pawn_index == 3 && teleport_index==2 && !Game.Components.Contains(save_and_start_game))
+            if (pawn_index >= 3 && teleport_index==2 && !Game.Components.Contains(save_and_start_game))
                 Game.Components.Add(save_and_start_game);
         }
 
