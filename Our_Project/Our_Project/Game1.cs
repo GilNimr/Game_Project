@@ -37,6 +37,7 @@ namespace Our_Project
        public static int screen_width;
        public static int screen_height;
         
+       //public static float scale = ;
 
 
         public Game1()
