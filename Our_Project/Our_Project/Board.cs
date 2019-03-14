@@ -284,12 +284,11 @@ namespace Our_Project
             }
         }
 
-        private void setHidenIndex()
+        private void SetHidenIndex()
         {
             hidenIndex++;
             if (hidenIndex >= hidenTiles.Count)
                 hidenIndex = -1;
-
         }
 
         private bool hideThisTile(int hidenIndex, int i, int j)
@@ -329,7 +328,7 @@ namespace Our_Project
         {
             board[i][j] = new Tile(emtyIsoImg, empty2dImg, rec, id);
             //board[i][j].setIsHidden(true);
-            setHidenIndex();
+            SetHidenIndex();
         }
 
         public int getStarterX()
