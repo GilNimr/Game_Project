@@ -19,8 +19,8 @@ namespace Our_Project.States_and_state_related
         private Board dragingShape;
         private List<List<NodeOFHidenTiles>> allHidenPoints;
         private List<Button> buttons;
-        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape;
-        private Button save_and_start_game, saveYourShapeInBoard;
+        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, save_and_start_game, saveYourShapeInBoard;
+        
 
 
         public Connection connection;
@@ -33,7 +33,7 @@ namespace Our_Project.States_and_state_related
         ISoundManager soundEffect;
         bool isPlayBadPlaceSoundEffect;
         MouseState prvState;
-
+        
 
 
 
@@ -243,10 +243,11 @@ namespace Our_Project.States_and_state_related
         private void setAllButtons()
         {
             buttons = new List<Button>();
+            int xPositionOfShapeButton = Game1.screen_width / 8;
 
             firstShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(200, 20),
+                Position = new Vector2(xPositionOfShapeButton, 20),
 
                 Text = "",
                 picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
@@ -258,7 +259,7 @@ namespace Our_Project.States_and_state_related
 
             secondShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(200, 40),
+                Position = new Vector2(xPositionOfShapeButton, 40),
                 Text = "Second Shape",
             };
 
@@ -267,7 +268,7 @@ namespace Our_Project.States_and_state_related
 
             thirdShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(200, 60),
+                Position = new Vector2(xPositionOfShapeButton, 60),
                 Text = "Thirth Shape",
                 
             };
@@ -277,7 +278,7 @@ namespace Our_Project.States_and_state_related
 
             forthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(200, 80),
+                Position = new Vector2(xPositionOfShapeButton, 80),
                 Text = "Fourth Shape",
             };
 
@@ -286,7 +287,7 @@ namespace Our_Project.States_and_state_related
 
             fifthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(200, 100),
+                Position = new Vector2(xPositionOfShapeButton, 100),
                 Text = "Fifth Shape",
             };
 
