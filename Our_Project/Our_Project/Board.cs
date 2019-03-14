@@ -101,7 +101,7 @@ namespace Our_Project
             {
                 foreach (Tile tile in tilesLine)
                 {
-                    tile.addToCartasianRectangle((int)difference.X, (int)difference.Y); // += the cartisian rectangle of tile
+                    tile.AddToCartasianRectangle((int)difference.X, (int)difference.Y); // += the cartisian rectangle of tile
                 }
             }
         }
@@ -115,8 +115,8 @@ namespace Our_Project
         {
             // set the differnce between the position of shape when dragging for draw better
             Vector2 getRectangleIsometric = Game1.TwoD2isometrix(
-                                            board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().X,
-                                            board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().Y);
+                                            board[iIndexOfTileToMove][jIndexOfTileToMove].GetCartasianRectangle().X,
+                                            board[iIndexOfTileToMove][jIndexOfTileToMove].GetCartasianRectangle().Y);
             Vector2 ret = new Vector2((mouseState.X - getRectangleIsometric.X), (mouseState.Y -
                                            getRectangleIsometric.Y));
             return ret;
@@ -126,7 +126,7 @@ namespace Our_Project
         {
             // return true if mouse click on shape 
             return (mouseState.LeftButton == ButtonState.Pressed) &&
-                                        (mouseRectangle.Intersects(board[i][j].getCartasianRectangle()));
+                                        (mouseRectangle.Intersects(board[i][j].GetCartasianRectangle()));
         }
 
         private static void SetIndexesOfTilesWeMoves(out int iIndexOfTileToMove, out int jIndexOfTileToMove, int i, int j)
@@ -306,13 +306,13 @@ namespace Our_Project
         {
             // set tile of shape (not hiden)
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
-            board[i][j].setIsHidden(false);
+            board[i][j].SetIsHidden(false);
         }
 
         private void SetNewHidenTile(int i, int j, Rectangle rec)
         {
             board[i][j] = new Tile(emtyIsoImg, empty2dImg, rec, id);
-            board[i][j].setIsHidden(true);
+            board[i][j].SetIsHidden(true);
             SetHidenIndex();
         }
 
@@ -370,7 +370,7 @@ namespace Our_Project
                 for (int j = 0; j < height; j++)
                 {
                     board[i][j].Draw(spriteBatch);
-                    board[i][j].setColor(Color.White); //returning to default color in case it was changed.
+                    board[i][j].SetColor(Color.White); //returning to default color in case it was changed.
                 }
               }
            }
@@ -381,7 +381,7 @@ namespace Our_Project
                     for (int j = height-1; j >=0 ; j--)
                     {
                         board[i][j].Draw(spriteBatch);
-                        board[i][j].setColor(Color.White); //returning to default color in case it was changed.
+                        board[i][j].SetColor(Color.White); //returning to default color in case it was changed.
                     }
                 }
             }

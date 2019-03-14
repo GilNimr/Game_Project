@@ -155,8 +155,8 @@ namespace Our_Project.States_and_state_related
             };
 
             // setting the middle line of bigEmptyBoard
-            SetMiddleLine(new Board(empty, 2, 12, bigEmptyBoard.GetBoard()[12][0].getCartasianRectangle().X,
-                bigEmptyBoard.GetBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content));
+            SetMiddleLine(new Board(empty, 2, 12, bigEmptyBoard.GetBoard()[12][0].GetCartasianRectangle().X,
+                bigEmptyBoard.GetBoard()[12][0].GetCartasianRectangle().Y, fullTileIso, null, false, this.Content));
         }
 
         private void SetMiddleLine(Board line)  // setting the middle line of bigEmptyBoard
@@ -168,7 +168,7 @@ namespace Our_Project.States_and_state_related
                 for (int j=0; j<bigEmptyBoard.GetBoard()[i].Length; j++)
                 {
                     bigEmptyBoard.GetBoard()[i][j].texture = fullTexture;   // set textur
-                    bigEmptyBoard.GetBoard()[i][j].setIsHidden(false);      // set boolean type isHiden
+                    bigEmptyBoard.GetBoard()[i][j].SetIsHidden(false);      // set boolean type isHiden
                 }
             }
             SetNeighbors(bigEmptyBoard);    // set the neighbors
@@ -183,10 +183,10 @@ namespace Our_Project.States_and_state_related
                 //like we did on setMiddleLine():
                 foreach (Tile tFromEmpty in tilesFromEmpty)
                 {
-                    if (!tilesFromShpae[i].getIsHidden())
+                    if (!tilesFromShpae[i].GetIsHidden())
                     {
                         tFromEmpty.texture = tilesFromShpae[i].texture;
-                        tFromEmpty.setIsHidden(false);
+                        tFromEmpty.SetIsHidden(false);
                         tFromEmpty.sendUpdate = true;
                     }
                     i++;
@@ -254,10 +254,10 @@ namespace Our_Project.States_and_state_related
             {
                 for (int j = 0; j < bigEmptyBoard.GetHeight(); j++)
                 {
-                    tmp = bigEmptyBoard.GetBoard()[i][j].getCartasianRectangle();
-                    bigEmptyBoard.GetBoard()[i][j].setCartasianRectangle(bigEmptyBoard.GetBoard()[length - i][length - j].getCartasianRectangle());
+                    tmp = bigEmptyBoard.GetBoard()[i][j].GetCartasianRectangle();
+                    bigEmptyBoard.GetBoard()[i][j].SetCartasianRectangle(bigEmptyBoard.GetBoard()[length - i][length - j].GetCartasianRectangle());
                    
-                    bigEmptyBoard.GetBoard()[length - i][length - j].setCartasianRectangle(tmp);
+                    bigEmptyBoard.GetBoard()[length - i][length - j].SetCartasianRectangle(tmp);
                     
                 }
             }
@@ -451,7 +451,7 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (Tile t in tileLine)
                 {
-                    if (t.getIsHidden())
+                    if (t.GetIsHidden())
                         t.texture = null;
                 }
             }
@@ -509,7 +509,7 @@ namespace Our_Project.States_and_state_related
                 for (int i = 0; i < dragingShape.GetBoard().Length; i++)
                 {
                     for (int j = 0; j < dragingShape.GetBoard()[i].Length; j++)
-                        if (!dragingShape.GetBoard()[i][j].getIsHidden())
+                        if (!dragingShape.GetBoard()[i][j].GetIsHidden())
                             allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Add(false);
                 }
 
@@ -603,22 +603,22 @@ namespace Our_Project.States_and_state_related
 
             for (int i = 0; i < shapeTilesToMove.Count; i++)
             {
-                shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
-                    emptyTilesToMove[i].getCartasianRectangle().Y);
+                shapeTilesToMove[i].SetToCartasianRectangle(emptyTilesToMove[i].GetCartasianRectangle().X,
+                    emptyTilesToMove[i].GetCartasianRectangle().Y);
             }
         }
 
         private static bool CheckingMatchBetweenEmptyAndShape(Tile shapeTile, Tile emptyTile)
         { // check match between tiles
-            return (shapeTile.getCartasianRectangle().Center.X > emptyTile.getCartasianRectangle().Center.X) &&
-                        (shapeTile.getCartasianRectangle().Center.Y > emptyTile.getCartasianRectangle().Center.Y) 
-                        && emptyTile.getIsHidden();
+            return (shapeTile.GetCartasianRectangle().Center.X > emptyTile.GetCartasianRectangle().Center.X) &&
+                        (shapeTile.GetCartasianRectangle().Center.Y > emptyTile.GetCartasianRectangle().Center.Y) 
+                        && emptyTile.GetIsHidden();
         }
 
         private bool CheckingInstractOfTiles(Tile shapeTile, Tile emptyTile)
         {
-            return shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
-                                                    && (!dragingShape.GetMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden();
+            return shapeTile.GetCartasianRectangle().Intersects(emptyTile.GetCartasianRectangle())
+                                                    && (!dragingShape.GetMove()) && !shapeTile.GetIsHidden() && emptyTile.GetIsHidden();
         }
 
         private void SetNeighbors(Board b)
@@ -632,18 +632,18 @@ namespace Our_Project.States_and_state_related
                     {
                         //right
                         if (i < b.GetBoard().Length - 1)
-                            b.GetBoard()[i][j].setRight(b.GetBoard()[i + 1][j]); // x axis grow up
+                            b.GetBoard()[i][j].SetRight(b.GetBoard()[i + 1][j]); // x axis grow up
 
                         //left
                         if (i >= 1)
-                            b.GetBoard()[i][j].setLeft(b.GetBoard()[i - 1][j]); // x axis go down
+                            b.GetBoard()[i][j].SetLeft(b.GetBoard()[i - 1][j]); // x axis go down
 
                         //down
                         if (j < b.GetBoard()[i].Length - 1)
-                            b.GetBoard()[i][j].setDown(b.GetBoard()[i][j + 1]); // y axis grow up
+                            b.GetBoard()[i][j].SetDown(b.GetBoard()[i][j + 1]); // y axis grow up
                                                                                                         //up
                         if (j >= 1)
-                            b.GetBoard()[i][j].setUp(b.GetBoard()[i][j - 1]); // y axis go down
+                            b.GetBoard()[i][j].SetUp(b.GetBoard()[i][j - 1]); // y axis go down
                     }
                 }
             }
@@ -653,17 +653,17 @@ namespace Our_Project.States_and_state_related
         { //checking that there is at least 2 not-hiden-tiles neighbors of shape
             for (int i=0; i<shapeTiles.Count; i++)
             {
-                Tile tFromShape = shape.boardDictionaryById[shapeTiles[i].getId()];
-                Tile tFromEmpty = bigEmptyBoard.boardDictionaryById[empty[i].getId()];
+                Tile tFromShape = shape.boardDictionaryById[shapeTiles[i].GetId()];
+                Tile tFromEmpty = bigEmptyBoard.boardDictionaryById[empty[i].GetId()];
 
                 if (!i_am_second_player)
                 {
-                    if (tFromEmpty.getId() < 286)
+                    if (tFromEmpty.GetId() < 286)
                         return false;
                 }
                 else
                 {
-                    if (tFromEmpty.getId() > 264) // currect place of user on big board
+                    if (tFromEmpty.GetId() > 264) // currect place of user on big board
                         return false;
                 }
 
@@ -714,58 +714,58 @@ namespace Our_Project.States_and_state_related
 
         private static bool MoreTileFromDown(Tile tFromShape, Tile tFromEmpty)
         {
-            return tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
-                                    && tFromEmpty.getRight().getDown() != null && !tFromEmpty.getRight().getDown().getIsHidden()
+            return tFromEmpty.GetRight() != null && tFromShape.GetRight() != null && !tFromShape.GetRight().GetIsHidden()
+                                    && tFromEmpty.GetRight().GetDown() != null && !tFromEmpty.GetRight().GetDown().GetIsHidden()
                                     ||
-                                    tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
-                                    && tFromEmpty.getLeft().getDown() != null && !tFromEmpty.getLeft().getDown().getIsHidden();
+                                    tFromEmpty.GetLeft() != null && tFromShape.GetLeft() != null && !tFromShape.GetLeft().GetIsHidden()
+                                    && tFromEmpty.GetLeft().GetDown() != null && !tFromEmpty.GetLeft().GetDown().GetIsHidden();
         }
 
         private static bool CheckingFromDown(Tile tFromEmpty)
         {
-            return tFromEmpty.getDown() != null && !tFromEmpty.getDown().getIsHidden();
+            return tFromEmpty.GetDown() != null && !tFromEmpty.GetDown().GetIsHidden();
         }
 
         private static bool MoreTileFromUp(Tile tFromShape, Tile tFromEmpty)
         {
-            return tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
-                                    && tFromEmpty.getRight().getUp() != null && !tFromEmpty.getRight().getUp().getIsHidden()
+            return tFromEmpty.GetRight() != null && tFromShape.GetRight() != null && !tFromShape.GetRight().GetIsHidden()
+                                    && tFromEmpty.GetRight().GetUp() != null && !tFromEmpty.GetRight().GetUp().GetIsHidden()
                                     ||
-                                     tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
-                                    && tFromEmpty.getLeft().getUp() != null && !tFromEmpty.getLeft().getUp().getIsHidden();
+                                     tFromEmpty.GetLeft() != null && tFromShape.GetLeft() != null && !tFromShape.GetLeft().GetIsHidden()
+                                    && tFromEmpty.GetLeft().GetUp() != null && !tFromEmpty.GetLeft().GetUp().GetIsHidden();
         }
 
         private static bool CheckingFromUp(Tile tFromEmpty)
         {
-            return tFromEmpty.getUp() != null && !tFromEmpty.getUp().getIsHidden();
+            return tFromEmpty.GetUp() != null && !tFromEmpty.GetUp().GetIsHidden();
         }
 
         private static bool MoreTileFromRight(Tile tFromShape, Tile tFromEmpty)
         {
-            return tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
-                                    && tFromEmpty.getUp().getRight() != null && !tFromEmpty.getUp().getRight().getIsHidden()
+            return tFromEmpty.GetUp() != null && tFromShape.GetUp() != null && !tFromShape.GetUp().GetIsHidden()
+                                    && tFromEmpty.GetUp().GetRight() != null && !tFromEmpty.GetUp().GetRight().GetIsHidden()
                                     ||
-                                    tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
-                                    && tFromEmpty.getDown().getRight() != null && !tFromEmpty.getDown().getRight().getIsHidden();
+                                    tFromEmpty.GetDown() != null && tFromShape.GetDown() != null && !tFromShape.GetDown().GetIsHidden()
+                                    && tFromEmpty.GetDown().GetRight() != null && !tFromEmpty.GetDown().GetRight().GetIsHidden();
         }
 
         private static bool CheckingFromRight(Tile tFromEmpty)
         {
-            return tFromEmpty.getRight() != null && !tFromEmpty.getRight().getIsHidden();
+            return tFromEmpty.GetRight() != null && !tFromEmpty.GetRight().GetIsHidden();
         }
 
         private static bool MoreTileFromLeft(Tile tFromShape, Tile tFromEmpty)
         {
-            return tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
-                                    && tFromEmpty.getUp().getLeft() != null && !tFromEmpty.getUp().getLeft().getIsHidden()
+            return tFromEmpty.GetUp() != null && tFromShape.GetUp() != null && !tFromShape.GetUp().GetIsHidden()
+                                    && tFromEmpty.GetUp().GetLeft() != null && !tFromEmpty.GetUp().GetLeft().GetIsHidden()
                                     ||
-                                    tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
-                                    && tFromEmpty.getDown().getLeft() != null && !tFromEmpty.getDown().getLeft().getIsHidden();
+                                    tFromEmpty.GetDown() != null && tFromShape.GetDown() != null && !tFromShape.GetDown().GetIsHidden()
+                                    && tFromEmpty.GetDown().GetLeft() != null && !tFromEmpty.GetDown().GetLeft().GetIsHidden();
         }
 
         private static bool CheckingFromLeft(Tile tFromEmpty)
         {
-            return tFromEmpty.getLeft() != null && !tFromEmpty.getLeft().getIsHidden();
+            return tFromEmpty.GetLeft() != null && !tFromEmpty.GetLeft().GetIsHidden();
         }
 
         private void SaveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
@@ -821,12 +821,12 @@ namespace Our_Project.States_and_state_related
                                     {
                                         if (ChekingMatchTilesForDraw(emptyTile, shapeTile))
                                         {
-                                            if (!shapeTile.getIsHidden())
+                                            if (!shapeTile.GetIsHidden())
                                             {
-                                                if (!emptyTile.getIsHidden())
+                                                if (!emptyTile.GetIsHidden())
                                                 {       
                                                         // we paint emptyBoard to red if there is shape already
-                                                    emptyTile.setColor(Color.Red);
+                                                    emptyTile.SetColor(Color.Red);
 
                                                         /* we use the boolean isPlayBad... for sound just once 
                                                             each illegal shape position*/
@@ -843,7 +843,7 @@ namespace Our_Project.States_and_state_related
 
                                                 else // if it is legal place
                                                 {
-                                                    emptyTile.setColor(Color.Green);
+                                                    emptyTile.SetColor(Color.Green);
                                                 }
 
 
@@ -874,16 +874,16 @@ namespace Our_Project.States_and_state_related
         // checking instract between tiles at Draw metod
         private static bool CheckingInstractTilesForDraw(Tile emptyTile, Tile shapeTile)
         {
-            return shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle());
+            return shapeTile.GetCartasianRectangle().Intersects(emptyTile.GetCartasianRectangle());
         }
 
         // checking match between tiles at Draw metod
         private static bool ChekingMatchTilesForDraw(Tile emptyTile, Tile shapeTile)
         {
-            return (shapeTile.getCartasianRectangle().Center.X >
-                                                        emptyTile.getCartasianRectangle().Center.X) &&
-                                                        (shapeTile.getCartasianRectangle().Center.Y >
-                                                        emptyTile.getCartasianRectangle().Center.Y);
+            return (shapeTile.GetCartasianRectangle().Center.X >
+                                                        emptyTile.GetCartasianRectangle().Center.X) &&
+                                                        (shapeTile.GetCartasianRectangle().Center.Y >
+                                                        emptyTile.GetCartasianRectangle().Center.Y);
         }
 
         public  Board GetEmptyBoard()

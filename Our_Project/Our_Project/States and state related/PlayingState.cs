@@ -65,7 +65,7 @@ namespace Our_Project
 
             foreach (var tile in ourBoard.boardDictionaryById.Values)
             {
-                if (tile.getIsHidden())
+                if (tile.GetIsHidden())
                     tile.texture = null;
                 else if (tile.teleport_tile)
                     tile.texture = teleport_texture;
