@@ -18,35 +18,36 @@ namespace Our_Project
 {
    public class Board
     {
-        enum TypeOfBord { fullBoard, Shape }
+        private enum TypeOfBord { fullBoard, Shape }
+        private TypeOfBord typeOfBord;
+        private int id;                                             // id to tile at this board
+        int height, width;                            // if full board, sizeOfBoard = height = width
+        int starterX, starterY;                             // where begin shape
+        int endOfXaxisOfLastTile, endOfYaxisOfLastTile;  // where each shape are end. (the next will begin)
+        int hidenIndex;
+        int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
 
-        TypeOfBord typeOfBord;
         Tile[][] board;                                     // the board
-       public Texture2D tileIsoImg;                               // the isometric image of tile
+        public Texture2D tileIsoImg;                               // the isometric image of tile
         Texture2D tile2dImg;                                // the 2d image of tile
         Texture2D emtyIsoImg;                               // the empty isometric tile
         Texture2D empty2dImg;                               // the empty 2d tile
         readonly int tileSize = Game1.screen_height / 30;   // size of tile
-        int id;                                             // id to tile at this board
-        int height, width;                            // if full board, sizeOfBoard = height = width
-        int starterX, starterY;                             // where begin shape
-        int endOfXaxisOfLastTile, endOfYaxisOfLastTile;  // where each shape are end. (the next will begin)
-        public /*static*/ Dictionary<int, Tile> boardDictionaryById;   // get tile by id
+        public Dictionary <int, Tile> boardDictionaryById;   // get tile by id
         List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
-        int hidenIndex;
+        
         bool move; // for knowing if move some shape
-        int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
+        
 
 
         //private SpriteFont font;
-        string printDebug = "just for debug";
+        //string printDebug = "just for debug";
 
 
         public Board(int size, Texture2D isometricTileImage, Texture2D twoDtileImage)
         {/// full board
 
             typeOfBord = TypeOfBord.fullBoard;
-
             setGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size);
         }
 
@@ -54,26 +55,21 @@ namespace Our_Project
         public Board(List<NodeOFHidenTiles> _hidenTiles, int _width,
             int _height, int starterX, int starterY, Texture2D ti,
             Texture2D t2d, bool _addToLeft, ContentManager content)
-        {// shape
+        {
+            // shape
             typeOfBord = TypeOfBord.Shape;
             setShapeTypes(_hidenTiles, starterX, starterY, content);
             setGeneralTypesOfBoard(ti, t2d, _height, _width);
-
         }
 
 
         public void Update()
         {
-
             checkAndMoveShape();
-
         }
-
-
-
+        
         private void checkAndMoveShape()
         {
-
             MouseState mouseState = Mouse.GetState();
 
             Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
@@ -94,7 +90,7 @@ namespace Our_Project
 
                     if (move)
                     {
-                        difference = setDifference(iIndexOfTileToMove, jIndexOfTileToMove, ref mouseState);
+                        difference = SetDifference(iIndexOfTileToMove, jIndexOfTileToMove, ref mouseState);
 
                         moveTheShape(difference);
                     }
@@ -121,11 +117,9 @@ namespace Our_Project
         private void setNewShpae(Board shapeToDrow)
         {
             Texture isometricTextureOfTile = shapeToDrow.tileIsoImg;
-
-            
         }
 
-        private Vector2 setDifference(int iIndexOfTileToMove, int jIndexOfTileToMove, ref MouseState mouseState)
+        private Vector2 SetDifference(int iIndexOfTileToMove, int jIndexOfTileToMove, ref MouseState mouseState)
         {
             Vector2 getRectangleIsometric = Game1.TwoD2isometrix(
                 board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().X,
@@ -216,9 +210,7 @@ namespace Our_Project
         void setBoard()
         {
             newBoard();
-
             setTiles();
-
         }
 
 
@@ -409,5 +401,5 @@ namespace Our_Project
                 }
             }
         }
-    }
+   }
 }
