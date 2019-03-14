@@ -8,6 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using XELibrary;
 
+
+/*
+ * On this screen you will choose 5 shapes and builld your area.
+ * 
+ */ 
+
+
 namespace Our_Project.States_and_state_related
 {
     public sealed class BuildingBoardState : BaseGameState, IBuildingBoardState
@@ -414,6 +421,17 @@ namespace Our_Project.States_and_state_related
 
         private void saveAndStartGame(object sender, EventArgs e)
         {
+
+            foreach (Tile[] tileLine in bigEmptyBoard.getBoard())
+            {
+                foreach (Tile t in tileLine)
+                {
+                    if (t.getIsHidden())
+                        t.texture = null;
+                }
+            }
+
+
             soundEffect.Play("click");
             buttons.Clear();
             StateManager.ChangeState(OurGame.PlacingSoldiersState.Value);
