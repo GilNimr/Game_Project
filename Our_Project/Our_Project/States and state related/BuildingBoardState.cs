@@ -523,10 +523,9 @@ namespace Our_Project.States_and_state_related
                                     if (checkingMatchBetweenEmptyAndShape(shapeTile, emptyTile)) // checking specific match between tiles
                                     {
                                         allFullTilesAtShapeIsInsideBigEmptyBoardLimit[a] = true; // set specific tile as true
-                                                                                                 /*
-                                                                                                  * Now we add emptyTile and shapeTile to a list, that if we will move at the
-                                                                                                  * and the shape to other place - we use this lists.
-                                                                                                  */
+                                        /*  Now we add emptyTile and shapeTile to a list, that if we will move at the
+                                         * and the shape to other place - we use this lists.*/
+
                                         emptyTilesToMove.Add(emptyTile);
                                         shapeTilesToMove.Add(shapeTile);
                                         a++;
@@ -796,7 +795,7 @@ namespace Our_Project.States_and_state_related
 
             // draw bigEmptyBoard
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
-            
+            // just as we did at the update, we want to draw in accordance to situation
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
             {
                 foreach (Tile emptyTile in emptyTilesLine)
@@ -808,55 +807,51 @@ namespace Our_Project.States_and_state_related
                             {
                                 foreach (Tile shapeTile in shapeTilesLine)
                                 {
-                                    if (shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle()))
+                                // because it is not ecacly the same condition, we hav sub-metods for draw
+                                    if (checkingInstractTilesForDraw(emptyTile, shapeTile))
                                     {
-                                        if ((shapeTile.getCartasianRectangle().Center.X >
-                                            emptyTile.getCartasianRectangle().Center.X) &&
-                                            (shapeTile.getCartasianRectangle().Center.Y >
-                                            emptyTile.getCartasianRectangle().Center.Y))
+                                        if (chekingMatchTilesForDraw(emptyTile, shapeTile))
                                         {
-
                                             if (!shapeTile.getIsHidden())
                                             {
                                                 if (!emptyTile.getIsHidden())
-                                                {
+                                                {       
+                                                        // we paint emptyBoard to red if there is shape already
                                                     emptyTile.setColor(Color.Red);
 
-                                                if (Mouse.GetState().LeftButton == ButtonState.Released &&
-                                                    prvState.LeftButton == ButtonState.Pressed)
-                                                    isPlayBadPlaceSoundEffect = false;
+                                                        /* we use the boolean isPlayBad... for sound just once 
+                                                            each illegal shape position*/
+                                                    if (Mouse.GetState().LeftButton == ButtonState.Released &&
+                                                        prvState.LeftButton == ButtonState.Pressed)
+                                                        isPlayBadPlaceSoundEffect = false;
 
-                                                if (!isPlayBadPlaceSoundEffect)
-                                                {
-                                                    soundEffect.Play("badPlace");
-                                                    isPlayBadPlaceSoundEffect = true;
+                                                    if (!isPlayBadPlaceSoundEffect)
+                                                    {
+                                                        soundEffect.Play("badPlace");
+                                                        isPlayBadPlaceSoundEffect = true;
+                                                    }
                                                 }
 
-                                                
-
-                                            }
-
-
-                                            else
-                                            {
-                                                emptyTile.setColor(Color.Green);
-                                            }
-                                                    
+                                                else // if it is legal place
+                                                {
+                                                    emptyTile.setColor(Color.Green);
+                                                }
 
 
-                                                //for debug purposes
-                                               /* OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),Game1.TwoD2isometrix( emptyTile.getCartasianRectangle().X,
 
-                                                    emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);*/
-                                            }
+                                            //for debug purposes
+                                            /* OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),Game1.TwoD2isometrix( emptyTile.getCartasianRectangle().X,
+
+                                                 emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);*/
                                         }
                                     }
                                 }
                             }
                         }
+                        }
                 }
             }
-            prvState = currentMouse;
+            prvState = currentMouse; // for badPlace sound algorithm
 
                 if (dragingShape != null)
                     dragingShape.Draw(OurGame.spriteBatch, Color.White);
@@ -866,24 +861,21 @@ namespace Our_Project.States_and_state_related
             
             base.Draw(gameTime);
         }
-        
 
-        //translates 2d world coordinates to isometric screen coordinates.
-        public static Vector2 TwoD2isometrix(int x, int y)
+        // checking instract between tiles at Draw metod
+        private static bool checkingInstractTilesForDraw(Tile emptyTile, Tile shapeTile)
         {
-            int tmpx = x - y;
-            int tmpy = (x + y) / 2;
-            return new Vector2(tmpx, tmpy);
+            return shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle());
         }
 
-        //translates isometric screen coordinates to 2d World.
-        public static Vector2 Isometrix2twoD(int x, int y)
+        // checking match between tiles at Draw metod
+        private static bool chekingMatchTilesForDraw(Tile emptyTile, Tile shapeTile)
         {
-            int tmpx = (2 * y + x) / 2;
-            int tmpy = (2 * y - x) / 2;
-            return new Vector2(tmpx, tmpy);
+            return (shapeTile.getCartasianRectangle().Center.X >
+                                                        emptyTile.getCartasianRectangle().Center.X) &&
+                                                        (shapeTile.getCartasianRectangle().Center.Y >
+                                                        emptyTile.getCartasianRectangle().Center.Y);
         }
-        
 
         public  Board getEmptyBoard()
         {
