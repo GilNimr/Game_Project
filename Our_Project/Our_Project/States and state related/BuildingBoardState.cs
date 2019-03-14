@@ -181,7 +181,7 @@ namespace Our_Project.States_and_state_related
                     {
                         tFromEmpty.texture = tilesFromShpae[i].texture;
                         tFromEmpty.setIsHidden(false);
-                      //  tFromEmpty.sendUpdate = true;
+                        tFromEmpty.sendUpdate = true;
                     }
                     i++;
                 }
