@@ -698,6 +698,12 @@ namespace Our_Project.States_and_state_related
             return false;
         }
 
+        /*
+         * The next 8 function is sub-function of legaPlace metod, and they check neighbors
+         * check from ____ -> checking the first neighbor tile
+         * moreTileFrom____ -> checking the second neighbor from same side
+         */ 
+
         private static bool moreTileFromDown(Tile tFromShape, Tile tFromEmpty)
         {
             return tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
@@ -757,6 +763,14 @@ namespace Our_Project.States_and_state_related
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)
         {
+            /*
+             * if user chose to save shape, this is the function from the save button.
+             * here we hear sound, adding the shape to bigEmptyBoard and delete the shape as shape
+             * (now realy inside the bigEmptyBoard
+             * then we remove the save button
+             */ 
+
+
             soundEffect.Play("click");
             addShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
             dragingShape = null;
@@ -773,7 +787,6 @@ namespace Our_Project.States_and_state_related
         public override void Draw(GameTime gameTime)
         {
             MouseState currentMouse = Mouse.GetState();
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //drawing space bg
@@ -781,6 +794,7 @@ namespace Our_Project.States_and_state_related
             scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
+            // draw bigEmptyBoard
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
             
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
