@@ -174,18 +174,18 @@ namespace Our_Project
 
                                     if (enemy.pawns[i] == null)
                                     {
-                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.getEmptyBoard().boardDictionaryById[id], i+1, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
-                                        enemy.pawns[i].current_tile = player.buildingBoardState.getEmptyBoard().boardDictionaryById[id];
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);
+                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id], i+1, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
+                                        enemy.pawns[i].current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id];
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     }
                                     else
                                     {
                                         enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
-                                        enemy.pawns[i].current_tile = player.buildingBoardState.getEmptyBoard().boardDictionaryById[id];
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);
+                                        enemy.pawns[i].current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id];
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                         player.myTurn = true;
                                     }

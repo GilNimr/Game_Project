@@ -21,7 +21,7 @@ namespace Our_Project
         {
             get
             {
-                return buildingBoardState.getEmptyBoard();
+                return buildingBoardState.GetEmptyBoard();
             }
         }
      

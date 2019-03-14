@@ -20,7 +20,6 @@ namespace Our_Project
         public SpriteBatch spriteBatch;
 
         CelAnimationManager celAnimationManager;
-       // ScrollingBackgroundManager scrollingBackgroundManager;
         InputHandler inputHandler;
         SoundManager soundManager;
         GameStateManager stateManager;

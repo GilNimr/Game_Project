@@ -93,7 +93,7 @@ namespace Our_Project.States_and_state_related
                 enemy.flag = "canada";
             }
 
-            ourBoard = buildingBoardState.getEmptyBoard();
+            ourBoard = buildingBoardState.GetEmptyBoard();
             buttons = new List<Button>();
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
             button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
