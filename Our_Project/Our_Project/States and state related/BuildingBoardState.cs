@@ -191,16 +191,14 @@ namespace Our_Project.States_and_state_related
                     next = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
                     {
                         
-                    Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
+                        Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
                         Text = "Next",
                     };
-
-                    next.Click += saveAndStartGame;
-                    buttons.Add(next);
-                    Game.Components.Add(next);
+                    
+                    next.Click += saveAndStartGame; // if we click on this button
+                    buttons.Add(next);      // we add the button to buttons list
+                    Game.Components.Add(next);  // we add the button to Compopnents 
                 }
-
-
             }
         }
 
@@ -210,8 +208,7 @@ namespace Our_Project.States_and_state_related
         /// </summary>
         protected override void LoadContent()
         {
-            
-            setAllContent();
+            setAllContent();    // load textures
             setAllButtons();
             buildEmptyBoard();
             initializeConnection();
@@ -259,7 +256,7 @@ namespace Our_Project.States_and_state_related
         }
 
         private void setAllContent()
-        {
+        {   // load all textures
             fullTile2d = OurGame.Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
             fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
@@ -269,6 +266,14 @@ namespace Our_Project.States_and_state_related
 
         private void setAllButtons()
         {
+            /*
+             *  for each button:
+             *  we placement it on Game1.ScreenHeight/width as we want, add the button to buttons lists and
+             *  to Components
+             *  each button will show create his shape, if user will click again , the shape will disapear and 
+             *  will be deleted.
+             */
+
             buttons = new List<Button>();
             int xPositionOfShapeButton = Game1.screen_width / 4;
             int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
@@ -276,13 +281,12 @@ namespace Our_Project.States_and_state_related
             firstShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),
-
                 Text = "First shape",
-                //picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
-                
             };
+
             firstShape.Click += clickFirstShape;
             buttons.Add(firstShape);
+
             int heightOfButton = firstShape.Rectangle.Height;
 
             secondShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
@@ -297,8 +301,7 @@ namespace Our_Project.States_and_state_related
             thirdShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton),
-                Text = "Thirth Shape",
-                
+                Text = "Thirth Shape",    
             };
 
             thirdShape.Click += clickThirdShape;
@@ -321,10 +324,7 @@ namespace Our_Project.States_and_state_related
 
             fifthShape.Click += clickFifthShape;
             buttons.Add(fifthShape);
-
-
-
-
+            
             foreach(Button b in buttons)
                 Game.Components.Add(b);
         }
