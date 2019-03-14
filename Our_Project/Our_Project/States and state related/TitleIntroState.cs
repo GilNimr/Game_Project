@@ -63,9 +63,9 @@ namespace Our_Project
             base.StateChanged(sender, e);
 
             if (StateManager.State == this.Value)
-                soundManager.Play("titleSound");
-            else
-                soundManager.StopSong();
+                soundManager.Play(/*"titleSound"*/ "backGroundPlayinState");
+            //else
+              //  soundManager.StopSong();
         }
     }
 }
