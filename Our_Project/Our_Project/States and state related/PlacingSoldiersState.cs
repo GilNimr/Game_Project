@@ -9,11 +9,12 @@ using XELibrary;
 
 namespace Our_Project.States_and_state_related
 {
-    class PlacingSoldiersState : BaseGameState, IPlacingSoldiersState
+    public class PlacingSoldiersState : BaseGameState, IPlacingSoldiersState
     {
         private SpriteFont font;
         private Texture2D button_texture;
         private Button save_and_start_game;
+        private Button teleport_button;
         public List<Button> buttons;
         public Board ourBoard;
         BuildingBoardState buildingBoardState;
@@ -47,7 +48,7 @@ namespace Our_Project.States_and_state_related
         public Player player;
         public Player enemy;
         public static Tile[] teleports; // array of all the teleports tiles.
-        private Texture2D teleport_texture;
+        public Texture2D teleport_texture;
         private Button save_flag_button;
         private int pawn_index = 0;
         private Tile curtile;
@@ -55,6 +56,7 @@ namespace Our_Project.States_and_state_related
         public bool i_am_second_player;
         public string flag_animation;
         public string enemy_flag_animation;
+        private int teleport_index = 0 ;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
@@ -107,7 +109,7 @@ namespace Our_Project.States_and_state_related
 
             save_flag_button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(Game1.screen_width - 1000, 20),
+                Position = new Vector2(save_and_start_game.Rectangle.X - save_and_start_game.Rectangle.Width, (int)(Game1.screen_height / 50)),
                 Text = "Save here?",
             };
 
@@ -129,8 +131,18 @@ namespace Our_Project.States_and_state_related
             int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
             int heightOfButton = save_and_start_game.Rectangle.Height;
 
+            teleport_button = new Button(OurGame, button_texture, font)
+            {
+                Position = new Vector2(xPositionOfShapeButton + save_flag_button.Rectangle.Width, heightOfButton)
+                    ,
+                Text = ("teleport"),
+            };
+
+           
+
             for (int i=0; i<= 20; i++)
             {
+               
                 if(i!=20)
                 buttons.Add(new Button(OurGame, button_texture, font) {Position=new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i*heightOfButton)
                     ,Text=(i+1).ToString() });
@@ -138,7 +150,7 @@ namespace Our_Project.States_and_state_related
                     buttons.Add(new Button(OurGame, button_texture, font) { Position = new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i*heightOfButton),
                         Text = "flag" });
             }
-
+            buttons.Add(teleport_button);
             foreach (Button button in buttons)
             {
                 Game.Components.Add(button);
@@ -146,7 +158,7 @@ namespace Our_Project.States_and_state_related
 
             }
 
-            teleports = new Tile[2];
+            teleports = new Tile[4];
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
            
@@ -232,26 +244,61 @@ namespace Our_Project.States_and_state_related
             foreach (Button button in buttons.ToArray())
             {
                 if (button.Text == strength)
-                    buttons.Remove(button);
-            }
-
-            if (strength != "flag")
-            {
-        
-                player.pawns[int.Parse(strength)-1] = new Pawn(OurGame, flag_animation, tile, int.Parse(strength), Pawn.Team.my_team, int.Parse(strength) - 1, font);
-            }
-            else
-            {
-               
-                player.pawns[20] = new Pawn(OurGame, flag_animation, tile, 21, Pawn.Team.my_team, 20, font);
+                    if (button.Text != "teleport")
+                    {
+                        buttons.Remove(button);
+                        Game.Components.Remove(button);
+                    }
+                       
             }
             
-            pawn_index++;
+            if (strength == "flag")
+            {
+                player.pawns[20] = new Pawn(OurGame, flag_animation, tile, 21, Pawn.Team.my_team, 20, font);
+                pawn_index++;
+
+
+            }
+            else if (strength == "teleport")
+            {
+                if (teleport_index < 2)
+                {
+                    tile.texture = teleport_texture;
+                    tile.setIsHidden(false);
+                    tile.teleport_tile = true;
+                    tile.sendUpdate = true;
+                    for (int i = 0; i < PlayingState.teleports.Length; i++)
+                    {
+                        if (PlayingState.teleports[i] == null)
+                        {
+                            PlayingState.teleports[i] = tile;
+                            break;
+                        }
+                            
+                    }
+
+                    teleport_index++;
+                }
+            }
+            //if regular pawn.
+            else
+            {
+                    player.pawns[int.Parse(strength) - 1] = new Pawn(OurGame, flag_animation, tile, int.Parse(strength), Pawn.Team.my_team, int.Parse(strength) - 1, font);
+                    pawn_index++;
+
+            }
+
+
+
             hideFlag = true;
             resting = false;
             iso_rec = new Rectangle(-100, -100, 0, 0);
-            
 
+            if (teleport_index >= 2)
+            {
+                buttons.Remove(teleport_button);
+                Game.Components.Remove(teleport_button);
+            }
         }
 
         
@@ -274,7 +321,7 @@ namespace Our_Project.States_and_state_related
 
             if (draggin)
                 Game.Components.Remove(save_flag_button);
-            if (pawn_index == 3 && !Game.Components.Contains(save_and_start_game))
+            if (pawn_index == 3 && teleport_index==2 && !Game.Components.Contains(save_and_start_game))
                 Game.Components.Add(save_and_start_game);
         }
 
@@ -292,9 +339,14 @@ namespace Our_Project.States_and_state_related
             {
                 button.Draw(gameTime, OurGame.spriteBatch);
             }
-            celAnimationManager.Draw(gameTime, flag_animation, OurGame.spriteBatch, iso_rec, SpriteEffects.None);
+            if (strength != "teleport")
+                celAnimationManager.Draw(gameTime, flag_animation, OurGame.spriteBatch, iso_rec, SpriteEffects.None);
+            else
+                OurGame.spriteBatch.Draw(teleport_texture, iso_rec, Color.White);
+
             //debug view of flag
            // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
+
             OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
             
                 save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
@@ -319,5 +371,6 @@ namespace Our_Project.States_and_state_related
 
             base.Draw(gameTime);
         }
+
     }
 }

@@ -82,7 +82,7 @@ namespace GameServer
                                 Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " connected!");
 
 
-                                msg.SenderConnection.Tag = new int[1000];//{
+                                msg.SenderConnection.Tag = new int[601];//{
                                                                          //       -10,-10,-10,-10,-10
                                                                          //       };
                                 int[] pos = msg.SenderConnection.Tag as int[];
@@ -110,6 +110,13 @@ namespace GameServer
                             string data_string = msg.ReadString();
                             switch (data_string)
                             {
+                                case "teleport":
+                                    {
+                                        int tile_id = msg.ReadInt32();
+                                        int[] pos = msg.SenderConnection.Tag as int[];
+                                        pos[600] = tile_id;
+                                        break;
+                                    }
                                 case "tile_added":
                                     {
                                         int tile_id= msg.ReadInt32();
@@ -175,7 +182,7 @@ namespace GameServer
                                     //  om.Write(otherPlayer.RemoteUniqueIdentifier);
 
                                     if (otherPlayer.Tag == null)
-                                        otherPlayer.Tag = new int[1000];
+                                        otherPlayer.Tag = new int[601];
 
                                     int[] pos = otherPlayer.Tag as int[];
                                     if (pos[0] != -10 && pos[1] != -10)
@@ -192,7 +199,7 @@ namespace GameServer
                                     if(!no_more_tiles)
                                     {
                                         int i = 0;
-                                        while (pos[4 + i] == -10 && 4 + i < 999)
+                                        while (pos[4 + i] == -10 && 4 + i < 599)
                                         {
 
                                             i++;
@@ -219,6 +226,16 @@ namespace GameServer
                                         pos[2] = -10;
                                         pos[3] = -10;
                                         no_more_tiles = true;
+                                    }
+                                    if(pos[600]!=-10)
+                                    {
+                                        om = server.CreateMessage();
+                                        om.Write("teleport");
+                                        om.Write(pos[600]);
+                                        // send message
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[600] = -10;
+                                    
                                     }
                                    
                                     

@@ -15,7 +15,7 @@ namespace Our_Project
         public static bool win = false;
         public static bool lose = false;        private Texture2D Tile_texture; // the square
         private Texture2D cartasian_texture;
-        private Texture2D teleport_texture;
+        public static Texture2D teleport_texture;
         private Texture2D Pawn_texture; // the character of user team
         private Tile[][] tile_matrix;   // the board of the game
 
@@ -64,11 +64,11 @@ namespace Our_Project
 
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
 
-            teleports = new Tile[2];
+            //teleports = new Tile[2];
 
             player = placingSoldiersState.player;
 
-         
+            teleports = new Tile[4];
 
 
             enemy = placingSoldiersState.enemy;
@@ -97,6 +97,8 @@ namespace Our_Project
             {
                 if (tile.getIsHidden())
                     tile.texture = null;
+                else if (tile.teleport_tile)
+                    tile.texture = teleport_texture;
                 else
                     tile.texture = Tile_texture;
             }         
@@ -120,13 +122,7 @@ namespace Our_Project
             flag = placingSoldiersState.flag_animation;
             enemy_flag = placingSoldiersState.enemy_flag_animation;
 
-            //manually putting teleports for now
-            tileDictionary[75].teleport_tile = true;
-            tileDictionary[75].texture = teleport_texture;
-            teleports[0] = tileDictionary[75];
-            tileDictionary[200].teleport_tile = true;
-            tileDictionary[200].texture = teleport_texture;
-            teleports[1] = tileDictionary[200];
+         //   teleports = PlacingSoldiersState.teleports;
            
                        
 

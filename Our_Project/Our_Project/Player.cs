@@ -13,9 +13,9 @@ namespace Our_Project
     {
         public int army_size;
         public Pawn[] pawns;
-        public bool myTurn=false;
+        public bool myTurn = false;
         public string flag;
-        
+
         public Board Board
 
         {
@@ -24,14 +24,16 @@ namespace Our_Project
                 return buildingBoardState.getEmptyBoard();
             }
         }
+     
         public BuildingBoardState buildingBoardState;
-        private PlacingSoldiersState placingSoldiersState;
+        public PlacingSoldiersState placingSoldiersState;
 
         public Player(Game game)
         {
             buildingBoardState = (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
-          
-            
+            placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
+
+
 
             army_size = 21;
         }

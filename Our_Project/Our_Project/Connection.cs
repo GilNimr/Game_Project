@@ -47,19 +47,32 @@ namespace Our_Project
         public void update()
         {
             
+            
             for (int i = 0; i < player.Board.getHeight()* player.Board.getWidth(); i++)
             {
                 if (player.Board.boardDictionaryById[i].sendUpdate)
                 {
-                    NetOutgoingMessage om = client.CreateMessage();
-                    om.Write("tile_added");
-                    om.Write(i);
-                    client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
-                    player.Board.boardDictionaryById[i].sendUpdate = false;
-
+                    if (player.Board.boardDictionaryById[i].teleport_tile)
+                    {
+                        NetOutgoingMessage om = client.CreateMessage();
+                        om.Write("teleport");
+                        om.Write(i);
+                        client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                        player.Board.boardDictionaryById[i].sendUpdate = false;
+                    }
+                    else
+                    {
+                        NetOutgoingMessage om = client.CreateMessage();
+                        om.Write("tile_added");
+                        om.Write(i);
+                        client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                        player.Board.boardDictionaryById[i].sendUpdate = false;
+                    }
+                   
 
                 }
             }
+         
 
             if (player.pawns != null)
             {
@@ -131,6 +144,25 @@ namespace Our_Project
                                     int tile_id = msg.ReadInt32();
                                     player.Board.boardDictionaryById[tile_id].texture = player.Board.boardDictionaryById[299].texture;
                                     player.Board.boardDictionaryById[tile_id].setIsHidden(false);
+
+                                    break;
+                                }
+                            case "teleport":
+                                {
+                                    int tile_id = msg.ReadInt32();
+                                    player.Board.boardDictionaryById[tile_id].texture = PlayingState.teleport_texture;
+                                    player.Board.boardDictionaryById[tile_id].setIsHidden(false);
+                                    player.Board.boardDictionaryById[tile_id].teleport_tile = true;
+
+                                    for(int i=0; i< PlayingState.teleports.Length; i++)
+                                    {
+                                        if (PlayingState.teleports[i] == null)
+                                        {
+                                            PlayingState.teleports[i] = player.Board.boardDictionaryById[tile_id];
+                                            break;
+                                        }
+                                            
+                                    }
 
                                     break;
                                 }

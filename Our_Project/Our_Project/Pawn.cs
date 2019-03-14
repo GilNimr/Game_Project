@@ -136,29 +136,29 @@ namespace Our_Project
                 if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Pressed)
                 {
                     // checking the move direction:
-                    if ((current_tile.getLeft() != null) &&
-                        (current_tile.getLeft().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getLeft().getCartasianRectangle())))
+                    if ((current_tile.getLeft() != null) && (!current_tile.getLeft().getIsHidden()) &&
+                        (current_tile.getLeft().occupied != Tile.Occupied.yes_by_me) &&  (mouseRec.Intersects(current_tile.getLeft().getCartasianRectangle())))
 
                     {
                         moveORattack(current_tile.getLeft(), gametime);
                     }
 
 
-                    else if ((current_tile.getRight() != null) && 
+                    else if ((current_tile.getRight() != null) && (!current_tile.getRight().getIsHidden()) &&
                         (current_tile.getRight().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getRight().getCartasianRectangle())))
 
                     {
                         moveORattack(current_tile.getRight(), gametime);
                     }
 
-                    else if ((current_tile.getUp() != null) &&
+                    else if ((current_tile.getUp() != null) && (!current_tile.getUp().getIsHidden()) &&
                         (current_tile.getUp().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getUp().getCartasianRectangle())))
 
                     {
                         moveORattack(current_tile.getUp() , gametime);
                     }
 
-                    else if ((current_tile.getDown() != null) && 
+                    else if ((current_tile.getDown() != null) && (!current_tile.getDown().getIsHidden()) &&
                         (current_tile.getDown().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.getDown().getCartasianRectangle())))
 
                     {

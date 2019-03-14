@@ -165,7 +165,7 @@ namespace Our_Project
             int rand_number = rand.Next(0, 2);
             while (PlayingState.teleports[rand_number] == this)
             {
-                rand_number = rand.Next(0, 2);
+                rand_number = rand.Next(0, 4);
             }
             return PlayingState.teleports[rand_number];
             
