@@ -520,7 +520,7 @@ namespace Our_Project.States_and_state_related
                             {
                                 if (checkingInstractOfTiles(shapeTile, emptyTile)) // if emptyTile and shapeTile instract
                                 {
-                                    if (tilesOnCurrectPlace(shapeTile, emptyTile)) // checking specific match between tiles
+                                    if (checkingMatchBetweenEmptyAndShape(shapeTile, emptyTile)) // checking specific match between tiles
                                     {
                                         allFullTilesAtShapeIsInsideBigEmptyBoardLimit[a] = true; // set specific tile as true
                                                                                                  /*
@@ -590,7 +590,9 @@ namespace Our_Project.States_and_state_related
         }
 
         private static void setShapeAtHisNewPosition(List<Tile> shapeTilesToMove, List<Tile> emptyTilesToMove)
-        {
+        { /* still not save, but the user will see how it will be look like 
+            if he will decide to put the shape in this place*/
+
             for (int i = 0; i < shapeTilesToMove.Count; i++)
             {
                 shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
@@ -598,12 +600,11 @@ namespace Our_Project.States_and_state_related
             }
         }
 
-        private static bool tilesOnCurrectPlace(Tile shapeTile, Tile emptyTile)
-        {
-            return (shapeTile.getCartasianRectangle().Center.X >
-                                                    emptyTile.getCartasianRectangle().Center.X) &&
-                                                    (shapeTile.getCartasianRectangle().Center.Y >
-                                                    emptyTile.getCartasianRectangle().Center.Y) && emptyTile.getIsHidden();
+        private static bool checkingMatchBetweenEmptyAndShape(Tile shapeTile, Tile emptyTile)
+        { // check match between tiles
+            return (shapeTile.getCartasianRectangle().Center.X > emptyTile.getCartasianRectangle().Center.X) &&
+                        (shapeTile.getCartasianRectangle().Center.Y > emptyTile.getCartasianRectangle().Center.Y) 
+                        && emptyTile.getIsHidden();
         }
 
         private bool checkingInstractOfTiles(Tile shapeTile, Tile emptyTile)
@@ -613,7 +614,8 @@ namespace Our_Project.States_and_state_related
         }
 
         private void setNeighbors(Board b)
-        {
+        { 
+            // set the neighbors of board b. as we have a lot of change, we need to update it each change
             for (int i = 0; i < b.getBoard().Length; ++i)
             {
                 for (int j = 0; j < b.getBoard()[i].Length; ++j)
@@ -640,66 +642,54 @@ namespace Our_Project.States_and_state_related
         }
 
         private bool legalPlace(Board shape, List<Tile> shapeTiles, List<Tile> empty)
-        {
+        { //checking that there is at least 2 not-hiden-tiles neighbors of shape
             for (int i=0; i<shapeTiles.Count; i++)
             {
                 Tile tFromShape = shape.boardDictionaryById[shapeTiles[i].getId()];
                 Tile tFromEmpty = bigEmptyBoard.boardDictionaryById[empty[i].getId()];
 
-                if (!i_am_second_player) {
+                if (!i_am_second_player)
+                {
                     if (tFromEmpty.getId() < 286)
                         return false;
                 }
                 else
                 {
-                    if (tFromEmpty.getId() > 264)
+                    if (tFromEmpty.getId() > 264) // currect place of user on big board
                         return false;
                 }
-                
 
-                if (tFromEmpty.getLeft() != null && !tFromEmpty.getLeft().getIsHidden())
+                /*
+                 * Now we check neighbors from each side
+                 */ 
+
+                if (checkingFromLeft(tFromEmpty))
                 {
-                    if (tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
-                        && tFromEmpty.getUp().getLeft() != null && !tFromEmpty.getUp().getLeft().getIsHidden()
-                        ||
-                        tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
-                        && tFromEmpty.getDown().getLeft() != null && !tFromEmpty.getDown().getLeft().getIsHidden())
-                    {
-                        return true;
-                    }
-                }
-                
-                if (tFromEmpty.getRight() != null && !tFromEmpty.getRight().getIsHidden())
-                {
-                    if (tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
-                        && tFromEmpty.getUp().getRight() != null && !tFromEmpty.getUp().getRight().getIsHidden()
-                        ||
-                        tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
-                        && tFromEmpty.getDown().getRight() != null && !tFromEmpty.getDown().getRight().getIsHidden())
+                    if (moreTileFromLeft(tFromShape, tFromEmpty))
                     {
                         return true;
                     }
                 }
 
-                if (tFromEmpty.getUp() != null && !tFromEmpty.getUp().getIsHidden())
+                if (checkingFromRight(tFromEmpty))
                 {
-                    if (tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
-                        && tFromEmpty.getRight().getUp() != null && !tFromEmpty.getRight().getUp().getIsHidden()
-                        ||
-                         tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
-                        && tFromEmpty.getLeft().getUp() != null && !tFromEmpty.getLeft().getUp().getIsHidden())
+                    if (moreTileFromRight(tFromShape, tFromEmpty))
                     {
                         return true;
                     }
                 }
 
-                if (tFromEmpty.getDown() != null && !tFromEmpty.getDown().getIsHidden())
+                if (checkingFromUp(tFromEmpty))
                 {
-                    if ( tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
-                        && tFromEmpty.getRight().getDown() != null && !tFromEmpty.getRight().getDown().getIsHidden()
-                        ||
-                        tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
-                        && tFromEmpty.getLeft().getDown() != null && !tFromEmpty.getLeft().getDown().getIsHidden())
+                    if (moreTileFromUp(tFromShape, tFromEmpty))
+                    {
+                        return true;
+                    }
+                }
+
+                if (checkingFromDown(tFromEmpty))
+                {
+                    if (moreTileFromDown(tFromShape, tFromEmpty))
                     {
                         return true;
                     }
@@ -707,7 +697,63 @@ namespace Our_Project.States_and_state_related
             }
             return false;
         }
-        
+
+        private static bool moreTileFromDown(Tile tFromShape, Tile tFromEmpty)
+        {
+            return tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
+                                    && tFromEmpty.getRight().getDown() != null && !tFromEmpty.getRight().getDown().getIsHidden()
+                                    ||
+                                    tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
+                                    && tFromEmpty.getLeft().getDown() != null && !tFromEmpty.getLeft().getDown().getIsHidden();
+        }
+
+        private static bool checkingFromDown(Tile tFromEmpty)
+        {
+            return tFromEmpty.getDown() != null && !tFromEmpty.getDown().getIsHidden();
+        }
+
+        private static bool moreTileFromUp(Tile tFromShape, Tile tFromEmpty)
+        {
+            return tFromEmpty.getRight() != null && tFromShape.getRight() != null && !tFromShape.getRight().getIsHidden()
+                                    && tFromEmpty.getRight().getUp() != null && !tFromEmpty.getRight().getUp().getIsHidden()
+                                    ||
+                                     tFromEmpty.getLeft() != null && tFromShape.getLeft() != null && !tFromShape.getLeft().getIsHidden()
+                                    && tFromEmpty.getLeft().getUp() != null && !tFromEmpty.getLeft().getUp().getIsHidden();
+        }
+
+        private static bool checkingFromUp(Tile tFromEmpty)
+        {
+            return tFromEmpty.getUp() != null && !tFromEmpty.getUp().getIsHidden();
+        }
+
+        private static bool moreTileFromRight(Tile tFromShape, Tile tFromEmpty)
+        {
+            return tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
+                                    && tFromEmpty.getUp().getRight() != null && !tFromEmpty.getUp().getRight().getIsHidden()
+                                    ||
+                                    tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
+                                    && tFromEmpty.getDown().getRight() != null && !tFromEmpty.getDown().getRight().getIsHidden();
+        }
+
+        private static bool checkingFromRight(Tile tFromEmpty)
+        {
+            return tFromEmpty.getRight() != null && !tFromEmpty.getRight().getIsHidden();
+        }
+
+        private static bool moreTileFromLeft(Tile tFromShape, Tile tFromEmpty)
+        {
+            return tFromEmpty.getUp() != null && tFromShape.getUp() != null && !tFromShape.getUp().getIsHidden()
+                                    && tFromEmpty.getUp().getLeft() != null && !tFromEmpty.getUp().getLeft().getIsHidden()
+                                    ||
+                                    tFromEmpty.getDown() != null && tFromShape.getDown() != null && !tFromShape.getDown().getIsHidden()
+                                    && tFromEmpty.getDown().getLeft() != null && !tFromEmpty.getDown().getLeft().getIsHidden();
+        }
+
+        private static bool checkingFromLeft(Tile tFromEmpty)
+        {
+            return tFromEmpty.getLeft() != null && !tFromEmpty.getLeft().getIsHidden();
+        }
+
         private void saveShapeAtNewPlace(object sender, EventArgs e, Board shape, List<Tile> shapeTiles,
             List<Tile> emptyTiles)
         {
