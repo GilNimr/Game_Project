@@ -470,36 +470,37 @@ namespace Our_Project.States_and_state_related
             if (dragingShape != null)
                 dragingShape.Update();
             
-
-            putShapeAtNewPosition();
+            putShapeAtNewPosition(); // checking and put shapes as user wants on the big board
 
             connection.update();
             base.Update(gameTime);
         }
         
 
-        private void putShapeAtNewPosition()
-        {
-            bool putShapeAtNewPlace;
+         private void putShapeAtNewPosition() // checking and put shapes as user wants on the bigBoard
+         {
+            bool putShapeAtNewPlace; // will be true if user wants to check new place of shape
+            
+                /* lists that will save each tile from shape that we want to move,
+                 * and each tile of empty that we want to put on it*/
             List<Tile> shapeTilesToMove = new List<Tile>();
             List<Tile> emptyTilesToMove = new List<Tile>();
-            Board shape=null;
+            //Board shape=null;
 
                 if (dragingShape != null)
                 {
-                    shape = dragingShape;
+                    //shape = dragingShape;
                     List<bool> eachShapeHasEmptyTile = new List<bool>();
 
-                    for (int i = 0; i < shape.getBoard().Length; i++)
+                    for (int i = 0; i < dragingShape.getBoard().Length; i++)
                     {
-                        for (int j=0; j< shape.getBoard()[i].Length; j++)
-                            if (!shape.getBoard()[i][j].getIsHidden())
+                        for (int j=0; j< dragingShape.getBoard()[i].Length; j++)
+                            if (!dragingShape.getBoard()[i][j].getIsHidden())
                                 eachShapeHasEmptyTile.Add(false);
                     }
 
                     int a = 0;
-
-                    foreach (Tile[] shapeTilesLine in shape.getBoard())
+                    foreach (Tile[] shapeTilesLine in dragingShape.getBoard())
                     {
                         foreach (Tile shapeTile in shapeTilesLine)
                         {
@@ -508,7 +509,7 @@ namespace Our_Project.States_and_state_related
                                 foreach (Tile emptyTile in emptyTilesLine)
                                 {
                                     if (shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
-                                        && (!shape.getMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden())
+                                        && (!dragingShape.getMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden())
                                     {
                                         if ((shapeTile.getCartasianRectangle().Center.X >
                                             emptyTile.getCartasianRectangle().Center.X) &&
@@ -522,7 +523,7 @@ namespace Our_Project.States_and_state_related
                                             a++;
                                         }
                                     }
-                                    if (shape.getMove())
+                                    if (dragingShape.getMove())
                                     {
                                         buttons.Remove(saveYourShapeInBoard);
                                         Game.Components.Remove(saveYourShapeInBoard);
@@ -565,11 +566,11 @@ namespace Our_Project.States_and_state_related
                         }
 
 
-                        if (legalPlace(shape, shapeTilesToMove, emptyTilesToMove))
+                        if (legalPlace(dragingShape, shapeTilesToMove, emptyTilesToMove))
                         {
                             soundEffect.Play("click");
                             saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                                shape, shapeTilesToMove, emptyTilesToMove);
+                                dragingShape, shapeTilesToMove, emptyTilesToMove);
                             setNeighbors(bigEmptyBoard);
                         }
                         else
