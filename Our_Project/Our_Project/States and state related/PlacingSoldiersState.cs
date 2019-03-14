@@ -63,13 +63,14 @@ namespace Our_Project.States_and_state_related
             player.myTurn = true;
             enemy = buildingBoardState.enemy;
             connection = buildingBoardState.connection;
-            i_am_second_player = BuildingBoardState.i_am_second_player;
+           
            
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
+            i_am_second_player = BuildingBoardState.i_am_second_player;
             ourBoard = buildingBoardState.getEmptyBoard();
             buttons = new List<Button>();
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");

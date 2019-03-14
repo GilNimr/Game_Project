@@ -187,18 +187,8 @@ namespace GameServer
                                         pos[0] = -10;
                                         pos[1] = -10;
                                     }
-
-                                    if (pos[2] != -10 && pos[3] != -10)
+                                    else
                                     {
-                                        om.Write("attacked");
-                                        om.Write(pos[2]);
-                                        om.Write(pos[3]);
-                                        // send message
-                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
-                                        pos[2] = -10;
-                                        pos[3] = -10;
-                                    }
-                                    else {
                                         int i = 0;
                                         while (pos[4 + i] == -10 && 4 + i < 999)
                                         {
@@ -215,6 +205,18 @@ namespace GameServer
                                             pos[4 + i] = -10;
                                         }
                                     }
+
+                                    if (pos[2] != -10 && pos[3] != -10)
+                                    {
+                                        om.Write("attacked");
+                                        om.Write(pos[2]);
+                                        om.Write(pos[3]);
+                                        // send message
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[2] = -10;
+                                        pos[3] = -10;
+                                    }
+                                   
                                     
                                 }
 
