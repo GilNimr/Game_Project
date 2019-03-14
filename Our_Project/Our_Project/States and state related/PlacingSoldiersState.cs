@@ -92,7 +92,11 @@ namespace Our_Project.States_and_state_related
 
             save_flag_button.Click += new EventHandler((sender, e) => SaveFlag(sender, e, curtile));
 
-            CelCount celCount = new CelCount(30, 5);
+            CelCount celCount = new CelCount(5, 25);
+            celAnimationManager.AddAnimation("canada", "canada test", celCount, 10);
+            celAnimationManager.ResumeAnimation("canada");
+
+            celCount = new CelCount(30, 5);
             celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 10);
             celAnimationManager.ResumeAnimation("israel");
 
@@ -256,8 +260,10 @@ namespace Our_Project.States_and_state_related
             {
                 button.Draw(gameTime, OurGame.spriteBatch);
             }
-                celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, iso_rec, SpriteEffects.None);
-                OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
+            celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, iso_rec, SpriteEffects.None);
+            //debug view of flag
+           // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
+            OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
             
                 save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
 

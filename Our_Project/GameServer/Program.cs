@@ -198,21 +198,24 @@ namespace GameServer
                                         pos[2] = -10;
                                         pos[3] = -10;
                                     }
-                                    int i = 0;
-                                    while (pos[4 + i] == -10 && 4 + i < 999)
-                                    {
-                                        
-                                        i++;
-                                    }
-                                        
-                                    if(pos[4+i]!=-10)
-                                    {
-                                        
+                                    else {
+                                        int i = 0;
+                                        while (pos[4 + i] == -10 && 4 + i < 999)
+                                        {
+
+                                            i++;
+                                        }
+
+                                        if (pos[4 + i] != -10)
+                                        {
+
                                             om.Write("tile_added");
                                             om.Write(pos[4 + i]);
                                             server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                             pos[4 + i] = -10;
+                                        }
                                     }
+                                    
                                 }
 
                             }
