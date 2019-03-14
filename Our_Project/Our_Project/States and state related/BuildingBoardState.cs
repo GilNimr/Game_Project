@@ -329,6 +329,14 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Add(b);
         }
 
+        /*
+         * Now we have function for each button.
+         * when you click - you hear sound, and the algorithm will check if you already see some shape.
+         * if you do - it will disapear (and will be deleted), if you dont - the button will create his shape, set
+         * the neighbors of it .
+         * the shapes are drawed in commits in setHidenPoints metod
+         */ 
+
         private void clickFirstShape(object sender, System.EventArgs e)
         {
             soundEffect.Play("click");
@@ -422,10 +430,11 @@ namespace Our_Project.States_and_state_related
             }
         }
 
-        private void saveAndStartGame(object sender, EventArgs e)
-        {
 
-            foreach (Tile[] tileLine in bigEmptyBoard.getBoard())
+        private void saveAndStartGame(object sender, EventArgs e) // if you finished build your board and click "next"
+        {   
+                // set each texture-tile in bigEmptyBoard that without shape as null
+            foreach (Tile[] tileLine in bigEmptyBoard.getBoard()) 
             {
                 foreach (Tile t in tileLine)
                 {
@@ -434,10 +443,9 @@ namespace Our_Project.States_and_state_related
                 }
             }
 
-
             soundEffect.Play("click");
-            buttons.Clear();
-            StateManager.ChangeState(OurGame.PlacingSoldiersState.Value);
+            buttons.Clear();    //destroid buttons
+            StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
         }
 
         
@@ -449,7 +457,6 @@ namespace Our_Project.States_and_state_related
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -459,19 +466,17 @@ namespace Our_Project.States_and_state_related
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            updateAllShapes();
+            // update shape if not null
+            if (dragingShape != null)
+                dragingShape.Update();
+            
 
             putShapeAtNewPosition();
 
             connection.update();
             base.Update(gameTime);
         }
-
-        private void updateAllShapes()
-        {
-            if (dragingShape != null)
-                dragingShape.Update();
-        }
+        
 
         private void putShapeAtNewPosition()
         {
