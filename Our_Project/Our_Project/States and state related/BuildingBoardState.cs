@@ -30,7 +30,7 @@ namespace Our_Project.States_and_state_related
 
 
         private int remainShapesToPutOnBigEmptyBoard;
-        ISoundManager soundManager, soundEffect;
+        ISoundManager soundEffect;
         bool isPlayBadPlaceSoundEffect;
         MouseState prvState;
 
@@ -55,7 +55,6 @@ namespace Our_Project.States_and_state_related
 
             dragingShape = null;
             remainShapesToPutOnBigEmptyBoard = 5;
-            soundManager = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             isPlayBadPlaceSoundEffect = true;
 
@@ -240,16 +239,6 @@ namespace Our_Project.States_and_state_related
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
         }
-        /*
-        protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
-        {
-            base.StateChanged(sender, e);
-            
-            if (StateManager.State == this.Value)
-                soundManager.Play("backGroundPlayinState");
-            /*else
-                soundManager.StopSong();*/
-        //}
 
         private void setAllButtons()
         {

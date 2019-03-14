@@ -223,7 +223,7 @@ namespace Our_Project.States_and_state_related
             pawn_index++;
             hideFlag = true;
             resting = false;
-            iso_rec = new Rectangle(-100, -100, 0, 0);//
+            iso_rec = new Rectangle(-100, -100, 0, 0);
             
 
         }
