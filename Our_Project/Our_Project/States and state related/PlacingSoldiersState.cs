@@ -78,8 +78,8 @@ namespace Our_Project.States_and_state_related
 
             save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(Game1.screen_width - 500, 20),
-                Text = "Save and start game",
+                Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
+                Text = "Next",
             };
 
             save_and_start_game.Click += SaveAndStartGame;
@@ -105,12 +105,18 @@ namespace Our_Project.States_and_state_related
             celAnimationManager.AddAnimation("jamaica", "sprite sheet jamaica", celCount, 20);
             celAnimationManager.ResumeAnimation("jamaica");
 
-            for (int i=1; i<= 21; i++)
+            int xPositionOfShapeButton = Game1.screen_width / 50;
+            int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
+            int heightOfButton = save_and_start_game.Rectangle.Height;
+
+            for (int i=0; i<= 20; i++)
             {
-                if(i!=21)
-                buttons.Add(new Button(OurGame, button_texture, font) {Position=new Vector2(Game1.screen_width/40,Game1.screen_height/40*i),Text=i.ToString() });
+                if(i!=20)
+                buttons.Add(new Button(OurGame, button_texture, font) {Position=new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i*heightOfButton)
+                    ,Text=(i+1).ToString() });
                 else
-                    buttons.Add(new Button(OurGame, button_texture, font) { Position = new Vector2(Game1.screen_width / 40, Game1.screen_height / 40 * i), Text = "flag" });
+                    buttons.Add(new Button(OurGame, button_texture, font) { Position = new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i*heightOfButton),
+                        Text = "flag" });
             }
 
             foreach (Button button in buttons)

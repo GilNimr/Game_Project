@@ -188,8 +188,9 @@ namespace Our_Project.States_and_state_related
                 {
                     save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
                     {
-                        Position = new Vector2((int)(Game1.screen_width / 1.5), (int)(Game1.screen_height / 50)),
-                        Text = "Save and start game",
+                        
+                    Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
+                        Text = "Next",
                     };
 
                     save_and_start_game.Click += saveAndStartGame;
@@ -259,15 +260,15 @@ namespace Our_Project.States_and_state_related
         private void setAllButtons()
         {
             buttons = new List<Button>();
-            int xPositionOfShapeButton = Game1.screen_width / 5;
+            int xPositionOfShapeButton = Game1.screen_width / 4;
             int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
 
             firstShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),
 
-                Text = "",
-                picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
+                Text = "First shape",
+                //picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
                 
             };
             firstShape.Click += clickFirstShape;
@@ -520,10 +521,13 @@ namespace Our_Project.States_and_state_related
                     if (putShapeAtNewPlace)
                     {
 
-                        saveYourShapeInBoard = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+                    int xPositionOfShapeButton = Game1.screen_width / 5;
+                    int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
+
+                    saveYourShapeInBoard = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
                         {
-                            Position = new Vector2(Game1.screen_width - 1000, 20),
-                            Text = "Save your shape in board",
+                            Position = new Vector2(Game1.screen_width / 2 , (int)(Game1.screen_height / 50)),
+                            Text = "Save Shape",
                         };
                         buttons.Add(saveYourShapeInBoard);
                         Game.Components.Add(saveYourShapeInBoard);
@@ -715,9 +719,9 @@ namespace Our_Project.States_and_state_related
 
 
                                                 //for debug purposes
-                                                OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),Game1.TwoD2isometrix( emptyTile.getCartasianRectangle().X,
+                                               /* OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),Game1.TwoD2isometrix( emptyTile.getCartasianRectangle().X,
 
-                                                    emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);
+                                                    emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);*/
                                             }
                                         }
                                     }

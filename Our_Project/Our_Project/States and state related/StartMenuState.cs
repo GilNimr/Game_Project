@@ -68,7 +68,7 @@ namespace Our_Project
 
             Host_Button = new Button(Game, button_texture , font)
             {
-                Position = new Vector2(Game1.screen_width/2 -  button_texture.Width/2, Game1.screen_height / 2 - button_texture.Height/2),
+                Position = new Vector2(Game1.screen_width/2  -  button_texture.Width/*/2*/, Game1.screen_height / 2 - button_texture.Height/2),
                 Text = "play",
             };
             Host_Button.Click += HostButtonClick;

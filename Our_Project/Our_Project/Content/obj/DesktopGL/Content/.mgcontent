@@ -4,33 +4,33 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/Arial.spritefont</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/ArialSmall.spritefont</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/KaushanScript.spritefont</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/backGroundPlayinState.mp3</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/titleSound.wav</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/badPlace.mp3</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/click.mp3</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/Jump.wav</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/canada test.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/sprite sheet israel.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/sprite sheet jamaica.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundSpace.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Button.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Shape1.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/optionsMenu.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Pawns/death.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/startMenu.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso2.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso3.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso5.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile_iso.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/teleport.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/White_2d_Tile.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/White_Isometric_Tile.png</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Fonts/Arial.spritefont</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Fonts/ArialSmall.spritefont</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Fonts/KaushanScript.spritefont</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/backGroundPlayinState.mp3</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/titleSound.wav</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/badPlace.mp3</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/click.mp3</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/Jump.wav</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/canada test.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/sprite sheet israel.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/sprite sheet jamaica.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundSpace.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Button.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Shape1.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/optionsMenu.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Pawns/death.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/startMenu.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso2.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso3.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/grass_tile_iso5.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/Gray_Tile_iso.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/teleport.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/White_2d_Tile.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/Tiles/White_Isometric_Tile.png</File>
+    <File>C:/Users/shach/OneDrive - Sapir College/ספיר/פיתוח משחקי וידאו/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

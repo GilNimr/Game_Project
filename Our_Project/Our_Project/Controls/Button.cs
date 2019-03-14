@@ -36,7 +36,7 @@ namespace Our_Project
             get
             {
              //   return new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height);
-                return new Rectangle((int)Position.X, (int)Position.Y, Game1.screen_width/10, Game1.screen_height/40);
+                return new Rectangle((int)Position.X, (int)Position.Y, Game1.screen_width/7, Game1.screen_height/22);
             }
         }
 
