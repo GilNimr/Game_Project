@@ -200,6 +200,10 @@ namespace Our_Project.States_and_state_related
                     Game.Components.Add(next);  // we add the button to Compopnents 
                 }
             }
+            else
+            {
+                soundEffect.Play("badPlace"); // if there is no more shapes to put and user wanted to
+            }
         }
 
         /// <summary>
@@ -475,116 +479,137 @@ namespace Our_Project.States_and_state_related
             connection.update();
             base.Update(gameTime);
         }
-        
 
-         private void putShapeAtNewPosition() // checking and put shapes as user wants on the bigBoard
-         {
-            bool putShapeAtNewPlace; // will be true if user wants to check new place of shape
-            
-                /* lists that will save each tile from shape that we want to move,
-                 * and each tile of empty that we want to put on it*/
+
+        private void putShapeAtNewPosition() // checking and put shapes as user wants on the bigBoard
+        {
+            /* lists that will save each tile from shape that we want to move,
+             * and each tile of empty that we want to put on it*/
             List<Tile> shapeTilesToMove = new List<Tile>();
             List<Tile> emptyTilesToMove = new List<Tile>();
 
-                if (dragingShape != null)
+            if (dragingShape != null)
+            {
+
+                /*
+                 * allFullTilesAtShapeIsInsideBigEmptyBoardLimit will be list with all the tiles that not hiden in shape, and we
+                 * will check that all of them is in the limit of bigEmptyBoard.
+                 */
+
+                List<bool> allFullTilesAtShapeIsInsideBigEmptyBoardLimit = new List<bool>();
+                for (int i = 0; i < dragingShape.getBoard().Length; i++)
                 {
+                    for (int j = 0; j < dragingShape.getBoard()[i].Length; j++)
+                        if (!dragingShape.getBoard()[i][j].getIsHidden())
+                            allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Add(false);
+                }
 
-                    /*
-                     * allFullTilesAtShapeIsInsideBigEmptyBoardLimit will be list with all the tiles that not hiden in shape, and we
-                     * will check that all of them is in the limit of bigEmptyBoard.
-                     */
+                /*
+                 * Now we start loop on tiles of shape, and loop of tiles of bigEmptyBoard and checking instract
+                 * between them
+                 */
 
-                    List<bool> allFullTilesAtShapeIsInsideBigEmptyBoardLimit = new List<bool>();
-                    for (int i = 0; i < dragingShape.getBoard().Length; i++)
+                int a = 0; // just indext for allFullTilesAtShapeIsInsideBigEmptyBoardLimit
+                foreach (Tile[] shapeTilesLine in dragingShape.getBoard()) // tiles at shape
+                {
+                    foreach (Tile shapeTile in shapeTilesLine)
                     {
-                        for (int j=0; j< dragingShape.getBoard()[i].Length; j++)
-                            if (!dragingShape.getBoard()[i][j].getIsHidden())
-                                allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Add(false);
-                    }
-
-                    /*
-                     * Now we start loop on tiles of shape, and loop of tiles of bigEmptyBoard and checking instract
-                     * between them
-                     */ 
-
-                    int a = 0; // just indext for allFullTilesAtShapeIsInsideBigEmptyBoardLimit
-                    foreach (Tile[] shapeTilesLine in dragingShape.getBoard()) // tiles at shape
-                    {
-                        foreach (Tile shapeTile in shapeTilesLine)
+                        foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard()) // tiles at bigEmptyBoard
                         {
-                            foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard()) // tiles at bigEmptyBoard
+                            foreach (Tile emptyTile in emptyTilesLine)
                             {
-                                foreach (Tile emptyTile in emptyTilesLine)
+                                if (checkingInstractOfTiles(shapeTile, emptyTile)) // if emptyTile and shapeTile instract
                                 {
-                                    if (shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
-                                        && (!dragingShape.getMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden())
+                                    if (tilesOnCurrectPlace(shapeTile, emptyTile)) // checking specific match between tiles
                                     {
-                                        if ((shapeTile.getCartasianRectangle().Center.X >
-                                            emptyTile.getCartasianRectangle().Center.X) &&
-                                            (shapeTile.getCartasianRectangle().Center.Y >
-                                            emptyTile.getCartasianRectangle().Center.Y) && emptyTile.getIsHidden()
-                                            )
-                                        {
-                                            allFullTilesAtShapeIsInsideBigEmptyBoardLimit[a] = true;
-                                            emptyTilesToMove.Add(emptyTile);
-                                            shapeTilesToMove.Add(shapeTile);
-                                            a++;
-                                        }
+                                        allFullTilesAtShapeIsInsideBigEmptyBoardLimit[a] = true; // set specific tile as true
+                                                                                                 /*
+                                                                                                  * Now we add emptyTile and shapeTile to a list, that if we will move at the
+                                                                                                  * and the shape to other place - we use this lists.
+                                                                                                  */
+                                        emptyTilesToMove.Add(emptyTile);
+                                        shapeTilesToMove.Add(shapeTile);
+                                        a++;
                                     }
-                                    if (dragingShape.getMove())
-                                    {
-                                        buttons.Remove(saveYourShapeInBoard);
-                                        Game.Components.Remove(saveYourShapeInBoard);
-                                    }
+                                }
+                                if (dragingShape.getMove()) // cancel saveYourShapeInBoard button if we dragging the shapes
+                                {
+                                    buttons.Remove(saveYourShapeInBoard);
+                                    Game.Components.Remove(saveYourShapeInBoard);
                                 }
                             }
                         }
                     }
+                }
 
-                    
-                    putShapeAtNewPlace = false;
-                    for (int i = 0; i < allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Count; i++)
+                /*
+                 * Now we check allFullTilesAtShapeIsInsideBigEmptyBoardLimit list, if it will be all true - 
+                 * so we can move this shape.
+                 */
+
+                bool isAllShapeOnBigEmptyBoard = false; // will be true if user wants to check new place of shape
+
+                for (int i = 0; i < allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Count; i++)
+                {
+                    if (!allFullTilesAtShapeIsInsideBigEmptyBoardLimit[i])
                     {
-                        if (!allFullTilesAtShapeIsInsideBigEmptyBoardLimit[i])
-                        {
-                            putShapeAtNewPlace = false;
-                            break;
-                        }
-                        putShapeAtNewPlace = true;
+                        isAllShapeOnBigEmptyBoard = false;
+                        break;
                     }
+                    isAllShapeOnBigEmptyBoard = true;
+                }
 
-                    if (putShapeAtNewPlace)
-                    {
-
+                if (isAllShapeOnBigEmptyBoard)
+                {
+                    // if shape is in limit, we create and show the saveYourShapeButton, for save the new place
                     int xPositionOfShapeButton = Game1.screen_width / 5;
                     int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
 
                     saveYourShapeInBoard = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
-                        {
-                            Position = new Vector2(Game1.screen_width / 2 , (int)(Game1.screen_height / 50)),
-                            Text = "Save Shape",
-                        };
-                        buttons.Add(saveYourShapeInBoard);
-                        Game.Components.Add(saveYourShapeInBoard);
+                    {
+                        Position = new Vector2(Game1.screen_width / 2, (int)(Game1.screen_height / 50)),
+                        Text = "Save Shape",
+                    };
+                    // add the button the same as we did with the shapes buttons
+                    buttons.Add(saveYourShapeInBoard);
+                    Game.Components.Add(saveYourShapeInBoard);
 
-                        for (int i = 0; i < shapeTilesToMove.Count; i++)
-                        {
-                            shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
-                                emptyTilesToMove[i].getCartasianRectangle().Y);
-                        }
+                    setShapeAtHisNewPosition(shapeTilesToMove, emptyTilesToMove);
 
-
-                        if (legalPlace(dragingShape, shapeTilesToMove, emptyTilesToMove))
-                        {
-                            soundEffect.Play("click");
-                            saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
-                                dragingShape, shapeTilesToMove, emptyTilesToMove);
-                            setNeighbors(bigEmptyBoard);
-                        }
-                        else
-                            soundEffect.Play("badPlace");
+                    if (legalPlace(dragingShape, shapeTilesToMove, emptyTilesToMove)) // check if there is 2 neighbor tiles
+                    {
+                        soundEffect.Play("click");
+                        saveYourShapeInBoard.Click += (sender2, e2) => saveShapeAtNewPlace(sender2, e2,
+                            dragingShape, shapeTilesToMove, emptyTilesToMove); // set the shape as part in bigEmptyBoard
+                        setNeighbors(bigEmptyBoard); // set neighbors
                     }
+                    else // if it is illegal place
+                        soundEffect.Play("badPlace");
                 }
+            }
+        }
+
+        private static void setShapeAtHisNewPosition(List<Tile> shapeTilesToMove, List<Tile> emptyTilesToMove)
+        {
+            for (int i = 0; i < shapeTilesToMove.Count; i++)
+            {
+                shapeTilesToMove[i].setToCartasianRectangle(emptyTilesToMove[i].getCartasianRectangle().X,
+                    emptyTilesToMove[i].getCartasianRectangle().Y);
+            }
+        }
+
+        private static bool tilesOnCurrectPlace(Tile shapeTile, Tile emptyTile)
+        {
+            return (shapeTile.getCartasianRectangle().Center.X >
+                                                    emptyTile.getCartasianRectangle().Center.X) &&
+                                                    (shapeTile.getCartasianRectangle().Center.Y >
+                                                    emptyTile.getCartasianRectangle().Center.Y) && emptyTile.getIsHidden();
+        }
+
+        private bool checkingInstractOfTiles(Tile shapeTile, Tile emptyTile)
+        {
+            return shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
+                                                    && (!dragingShape.getMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden();
         }
 
         private void setNeighbors(Board b)
