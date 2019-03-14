@@ -18,57 +18,48 @@ namespace Our_Project.States_and_state_related
 {
     public sealed class BuildingBoardState : BaseGameState, IBuildingBoardState
     {
+            // fullTile - tile texture. emptyTile - free tile for put a shape
         private Texture2D fullTile2d , fullTileIso , emptyTile2d , emptyTileIso;
-        public SpriteFont font;   
-        private bool hideShape = true;
-        private Board bigEmptyBoard;
-        private Board dragingShape;
-        private List<List<NodeOFHidenTiles>> allHidenPoints;
-        private List<Button> buttons;
-        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, save_and_start_game, saveYourShapeInBoard;
-        
+        private bool hideShape;     // true if user dont see any shape
+        private Board bigEmptyBoard;    // the big board we build our area on it
+        private Board dragingShape;     // get the only shape the user sees
+        private List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
+        private List<Button> buttons;       // all the buttons:
+        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard;
+        private int remainShapesToPutOnBigEmptyBoard; //counter of shapes on board
+        private ISoundManager soundEffect;      
+        private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
+        private MouseState prvState;            // mouse state for the algorithm of bad place sound
+        private ScrollingBackgroundManager scrollingBackgroundManager;
 
-
+        public SpriteFont font;   // font on button
         public Connection connection;
         public static bool i_am_second_player = false;
         public Player player;
         public Player enemy;
-
-
-        private int remainShapesToPutOnBigEmptyBoard;
-        ISoundManager soundEffect;
-        bool isPlayBadPlaceSoundEffect;
-        MouseState prvState;
-        private ScrollingBackgroundManager scrollingBackgroundManager;
-
+        
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
-
             scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
             game.Components.Add(scrollingBackgroundManager);
-            
             scrollingBackgroundManager.ScrollRate = -1f;
-
-            allHidenPoints = setHidenTiles();
-
-         //   shapes = new List<Board>();
-
+            allHidenPoints = setHidenTiles();   // set all the allHidenPoints
             player = new Player(game);
             player.myTurn = true;
             enemy = new Player(game);
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
             connection = new Connection(game,ref player, ref enemy);
-
-            dragingShape = null;
-            remainShapesToPutOnBigEmptyBoard = 5;
+            remainShapesToPutOnBigEmptyBoard = 5;   // set the number of shapes we exepted on board as 5
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
-            isPlayBadPlaceSoundEffect = true;
-
+            isPlayBadPlaceSoundEffect = true;   // for the algorithm about activate the badPlace sound
+            // we dont see any shape:
+                dragingShape = null;
+                hideShape = true;
         }
 
-        private static List<List<NodeOFHidenTiles>> setHidenTiles()
+        private static List<List<NodeOFHidenTiles>> setHidenTiles() // set the hide tiles at each shape as list of lists
         {
             List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>();
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
@@ -76,7 +67,8 @@ namespace Our_Project.States_and_state_related
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
             allHidenPoints.Add(new List<NodeOFHidenTiles>());
 
-            /*
+            /*  for shape:
+             *  
              *  //
              *  ////
              *    //
@@ -92,7 +84,8 @@ namespace Our_Project.States_and_state_related
             allHidenPoints[0].Add(new NodeOFHidenTiles(5, 1));
 
 
-            /*
+            /* for shape:
+             * 
              * \\\\\\\\\
              *    \\\
              */
@@ -107,12 +100,12 @@ namespace Our_Project.States_and_state_related
             allHidenPoints[1].Add(new NodeOFHidenTiles(3, 5));
 
 
-            /*
+            /* for shape:
+             * 
              * ///
              * ///
              * ///
              * ////////
-             * 
              * 
              */ 
 
@@ -126,18 +119,19 @@ namespace Our_Project.States_and_state_related
             allHidenPoints[2].Add(new NodeOFHidenTiles(3, 3));
 
 
-            /*
+            /*  for shapes:
+             *  
              *  \\          \\\\\\\\\
              *  \\          \\\\\\\\\
              *  \\     &    \\\\\\\\\
              *  \\          \\\\\\\\\
-             *  \\
+             *  
+             *  (with no hiden tiles)
              */ 
 
             allHidenPoints[3].Add(new NodeOFHidenTiles(-1, -1));
             allHidenPoints[3].Add(new NodeOFHidenTiles(-1, -1));
-
-
+            
             return allHidenPoints;
         }
 
@@ -146,16 +140,17 @@ namespace Our_Project.States_and_state_related
             // set the board
             bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
 
-            // adding a 2/24 shape wich will be the middle of the board
+            // adding a 2/24 shape wich will be the middle of the board, set the hiden tiles and call them at the next metod
             List<NodeOFHidenTiles> empty = new List<NodeOFHidenTiles>();
             empty.Add(new NodeOFHidenTiles(-1, -1));
             empty.Add(new NodeOFHidenTiles(-1, -1));
-
+            
+            // setting the middle line of bigEmptyBoard
             setMiddleLine(new Board(empty, 2, 12, bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().X,
                 bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content));
         }
 
-        private void setMiddleLine(Board line)
+        private void setMiddleLine(Board line)  // setting the middle line of bigEmptyBoard
         {
             Texture2D fullTexture = line.getBoard()[0][0].texture;
 
@@ -163,47 +158,46 @@ namespace Our_Project.States_and_state_related
             {
                 for (int j=0; j<bigEmptyBoard.getBoard()[i].Length; j++)
                 {
-                    bigEmptyBoard.getBoard()[i][j].texture = fullTexture;
-                    bigEmptyBoard.getBoard()[i][j].setIsHidden(false);
+                    bigEmptyBoard.getBoard()[i][j].texture = fullTexture;   // set textur
+                    bigEmptyBoard.getBoard()[i][j].setIsHidden(false);      // set boolean type isHiden
                 }
             }
-            setNeighbors(bigEmptyBoard);
-
+            setNeighbors(bigEmptyBoard);    // set the neighbors
         }
 
-        private void addShapeToEmptyBoard(Board s, List<Tile> tilesFromShpae, List<Tile> tilesFromEmpty)
-        {   // set new shape in emptyBoard
+        // if user wants to save shape were he put it:
+        private void addShapeToEmptyBoard(Board s, List<Tile> tilesFromShpae, List<Tile> tilesFromEmpty) 
+        {   
             int i = 0;
-            if (remainShapesToPutOnBigEmptyBoard > 0)
+            if (remainShapesToPutOnBigEmptyBoard > 0) // check if it is legal to put one shape more
             {
+                //like we did on setMiddleLine():
                 foreach (Tile tFromEmpty in tilesFromEmpty)
                 {
-
                     if (!tilesFromShpae[i].getIsHidden())
                     {
                         tFromEmpty.texture = tilesFromShpae[i].texture;
                         tFromEmpty.setIsHidden(false);
-                        tFromEmpty.sendUpdate = true;
+                      //  tFromEmpty.sendUpdate = true;
                     }
                     i++;
-
                 }
                 setNeighbors(bigEmptyBoard);
-                remainShapesToPutOnBigEmptyBoard--;
+                remainShapesToPutOnBigEmptyBoard--; // subtract counter
 
 
-                if (remainShapesToPutOnBigEmptyBoard == 0)
-                {
-                    save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+                if (remainShapesToPutOnBigEmptyBoard == 0) // if now we have max number of shapes
+                {   // we will create and show the next button
+                    next = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
                     {
                         
                     Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
                         Text = "Next",
                     };
 
-                    save_and_start_game.Click += saveAndStartGame;
-                    buttons.Add(save_and_start_game);
-                    Game.Components.Add(save_and_start_game);
+                    next.Click += saveAndStartGame;
+                    buttons.Add(next);
+                    Game.Components.Add(next);
                 }
 
 
@@ -693,7 +687,6 @@ namespace Our_Project.States_and_state_related
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Draw(GameTime gameTime)
         {
-            //MouseState prvState = Mouse.GetState();
             MouseState currentMouse = Mouse.GetState();
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
