@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Our_Project.States_and_state_related;
