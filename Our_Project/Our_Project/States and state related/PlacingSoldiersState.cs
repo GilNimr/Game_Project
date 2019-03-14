@@ -173,7 +173,7 @@ namespace Our_Project.States_and_state_related
                     if(cartasian_rec.Center.X>tile.getCartasianRectangle().Center.X &&
                         cartasian_rec.Center.Y > tile.getCartasianRectangle().Center.Y)
                     {
-                        if ((tile.getId() >= 288 ) || (i_am_second_player && tile.getId() < 288 ) && !tile.getIsHidden())
+                        if (((!i_am_second_player&& tile.getId() >= 288 ) || (i_am_second_player && tile.getId() < 288 )) && !tile.getIsHidden())
                         {
                             if(!resting)
                             tile.setColor(Color.Green);
@@ -212,12 +212,12 @@ namespace Our_Project.States_and_state_related
             if (strength != "flag")
             {
         
-                player.pawns[int.Parse(strength)] = new Pawn(OurGame, teleport_texture, tile, int.Parse(strength), Pawn.Team.my_team, pawn_index, font);
+                player.pawns[int.Parse(strength)-1] = new Pawn(OurGame, teleport_texture, tile, int.Parse(strength), Pawn.Team.my_team, pawn_index, font);
             }
             else
             {
                
-                player.pawns[21] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
+                player.pawns[20] = new Pawn(OurGame, teleport_texture, tile, 21, Pawn.Team.my_team, pawn_index, font);
             }
             
             pawn_index++;

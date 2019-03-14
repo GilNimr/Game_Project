@@ -7,6 +7,7 @@ namespace GameServer
 {
     class Program
     {
+        private static bool no_more_tiles =false;
 
         static void Main(string[] args)
         {
@@ -186,8 +187,9 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[0] = -10;
                                         pos[1] = -10;
+                                        no_more_tiles = true;
                                     }
-                                    else
+                                    if(!no_more_tiles)
                                     {
                                         int i = 0;
                                         while (pos[4 + i] == -10 && 4 + i < 999)
@@ -208,6 +210,7 @@ namespace GameServer
 
                                     if (pos[2] != -10 && pos[3] != -10)
                                     {
+                                        om = server.CreateMessage();
                                         om.Write("attacked");
                                         om.Write(pos[2]);
                                         om.Write(pos[3]);

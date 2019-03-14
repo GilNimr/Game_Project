@@ -13,8 +13,7 @@ namespace Our_Project
     public sealed class PlayingState : BaseGameState, IPlayingState
     {
         public static bool win = false;
-        public static bool lose = false;
-        private Texture2D Tile_texture; // the square
+        public static bool lose = false;        private Texture2D Tile_texture; // the square
         private Texture2D cartasian_texture;
         private Texture2D teleport_texture;
         private Texture2D Pawn_texture; // the character of user team
@@ -64,8 +63,7 @@ namespace Our_Project
             player = placingSoldiersState.player;
           
 
-            if(!i_am_second_player)
-               player.myTurn = true;
+           
 
             enemy = placingSoldiersState.enemy;
             connection = placingSoldiersState.connection;
@@ -310,6 +308,8 @@ namespace Our_Project
                       }
                   }*/
             i_am_second_player = placingSoldiersState.i_am_second_player;
+            if (!i_am_second_player)
+                player.myTurn = true;
 
         }
         
