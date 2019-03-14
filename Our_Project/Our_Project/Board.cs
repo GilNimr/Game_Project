@@ -19,36 +19,28 @@ namespace Our_Project
    public class Board
     {
         private enum TypeOfBord { fullBoard, Shape }
-        private TypeOfBord typeOfBord;
+        private readonly TypeOfBord typeOfBord;
         private int id;                                             // id to tile at this board
-        int height, width;                            // if full board, sizeOfBoard = height = width
-        int starterX, starterY;                             // where begin shape
-        int endOfXaxisOfLastTile, endOfYaxisOfLastTile;  // where each shape are end. (the next will begin)
-        int hidenIndex;
-        int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
-
-        Tile[][] board;                                     // the board
-        public Texture2D tileIsoImg;                               // the isometric image of tile
-        Texture2D tile2dImg;                                // the 2d image of tile
-        Texture2D emtyIsoImg;                               // the empty isometric tile
-        Texture2D empty2dImg;                               // the empty 2d tile
-        readonly int tileSize = Game1.screen_height / 30;   // size of tile
-        public Dictionary <int, Tile> boardDictionaryById;   // get tile by id
-        List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
-        
-        bool move; // for knowing if move some shape
-        
-
-
-        //private SpriteFont font;
-        //string printDebug = "just for debug";
-
-
+        private int height, width;                            // if full board, sizeOfBoard = height = width
+        private int starterX, starterY;                             // where begin shape
+        private int endOfXaxisOfLastTile, endOfYaxisOfLastTile;  // where each shape are end. (the next will begin)
+        private int hidenIndex;
+        private int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
+        private Tile[][] board;                                     // the board
+        private /*public*/ Texture2D tileIsoImg;                               // the isometric image of tile
+        private Texture2D tile2dImg;                                // the 2d image of tile
+        private readonly Texture2D emtyIsoImg;                               // the empty isometric tile
+        private readonly Texture2D empty2dImg;                               // the empty 2d tile
+        private readonly int tileSize = Game1.screen_height / 30;   // size of tile
+        private List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
+        public Dictionary <int, Tile> boardDictionaryById;           // get tile by id
+        private bool move;                                          // for knowing if move some shape at the moment
+       
         public Board(int size, Texture2D isometricTileImage, Texture2D twoDtileImage)
         {/// full board
 
             typeOfBord = TypeOfBord.fullBoard;
-            setGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size);
+            SetGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size); // set types for board or shapes
         }
 
 
@@ -58,108 +50,105 @@ namespace Our_Project
         {
             // shape
             typeOfBord = TypeOfBord.Shape;
-            setShapeTypes(_hidenTiles, starterX, starterY, content);
-            setGeneralTypesOfBoard(ti, t2d, _height, _width);
+            SetShapeTypes(_hidenTiles, starterX, starterY, content); //set types only in shape
+            SetGeneralTypesOfBoard(ti, t2d, _height, _width);
         }
 
 
         public void Update()
         {
-            checkAndMoveShape();
+            CheckAndMoveShape(); // checking if mouse drag shape and move it
         }
         
-        private void checkAndMoveShape()
+        private void CheckAndMoveShape()
         {
+            // checking if mouse drag shape and move it
+
             MouseState mouseState = Mouse.GetState();
-
-            Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
-
+            Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y); //we always need to convert to isometric before draw:
             Rectangle mouseRectangle = new Rectangle((int)CartasianMouseLocation.X,
                 (int)CartasianMouseLocation.Y, 1, 1);
 
             for (int i = 0; i < board.Length; i++)
             {
-                Vector2 difference;
+                Vector2 difference; // save the difference between position of mouse to last position of shape (for draw the drag)
                 for (int j = 0; j < board[i].Length; j++)
                 {
-                    if (clickedShapeAndMove(ref mouseState, ref mouseRectangle, i, j))
+                    if (ClickedShapeAndMove(ref mouseState, ref mouseRectangle, i, j)) // if click on shape
                     {
-                        move = true;
-                        setIndexesOfTilesWeMoves(out iIndexOfTileToMove, out jIndexOfTileToMove, i, j);
+                        move = true; // and algorithm will set the differnce and move
+                        SetIndexesOfTilesWeMoves(out iIndexOfTileToMove, out jIndexOfTileToMove, i, j);
                     }
 
                     if (move)
                     {
                         difference = SetDifference(iIndexOfTileToMove, jIndexOfTileToMove, ref mouseState);
-
-                        moveTheShape(difference);
+                        MoveTheShape(difference); // drag the shape up to difference
                     }
 
                     if (mouseState.LeftButton == ButtonState.Released)
-                    {
+                    {   
+                        // if releas the mouse, bool move is false
                         move = false;
                     }
                 }
             }
         }
 
-        private void moveTheShape(Vector2 difference)
-        {
+        private void MoveTheShape(Vector2 difference)
+        { // drag the shape up to difference
             foreach (Tile[] tilesLine in board)
             {
                 foreach (Tile tile in tilesLine)
                 {
-                    tile.addToCartasianRectangle((int)difference.X, (int)difference.Y);
+                    tile.addToCartasianRectangle((int)difference.X, (int)difference.Y); // += the cartisian rectangle of tile
                 }
             }
         }
-
-        private void setNewShpae(Board shapeToDrow)
+        /*
+        private void SetNewShpae(Board shapeToDrow)
         {
             Texture isometricTextureOfTile = shapeToDrow.tileIsoImg;
-        }
+        }*/
 
         private Vector2 SetDifference(int iIndexOfTileToMove, int jIndexOfTileToMove, ref MouseState mouseState)
         {
+            // set the differnce between the position of shape when dragging for draw better
             Vector2 getRectangleIsometric = Game1.TwoD2isometrix(
-                board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().X,
-                board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().Y);
-
-
+                                            board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().X,
+                                            board[iIndexOfTileToMove][jIndexOfTileToMove].getCartasianRectangle().Y);
             Vector2 ret = new Vector2((mouseState.X - getRectangleIsometric.X), (mouseState.Y -
                                            getRectangleIsometric.Y));
-
             return ret;
         }
 
-        private bool clickedShapeAndMove(ref MouseState mouseState, ref Rectangle mouseRectangle, int i, int j)
+        private bool ClickedShapeAndMove(ref MouseState mouseState, ref Rectangle mouseRectangle, int i, int j)
         {
+            // return true if mouse click on shape 
             return (mouseState.LeftButton == ButtonState.Pressed) &&
                                         (mouseRectangle.Intersects(board[i][j].getCartasianRectangle()));
         }
 
-        private static void setIndexesOfTilesWeMoves(out int iIndexOfTileToMove, out int jIndexOfTileToMove, int i, int j)
+        private static void SetIndexesOfTilesWeMoves(out int iIndexOfTileToMove, out int jIndexOfTileToMove, int i, int j)
         {
+            // set the specific i and j for difference
             iIndexOfTileToMove = i;
             jIndexOfTileToMove = j;
         }
 
-        private void setGeneralTypesOfBoard(Texture2D isometricTileImage, Texture2D twoDtileImage,
+        private void SetGeneralTypesOfBoard(Texture2D isometricTileImage, Texture2D twoDtileImage,
             int height, int width)
         {
-            setSizes(height, width);
-
+            SetSizes(height, width);
             id = 0;
-
             boardDictionaryById = new Dictionary<int, Tile>();
-
-            setTexture(isometricTileImage, twoDtileImage);
-            setBoard();
+            SetTexture(isometricTileImage, twoDtileImage); // set the texture of tiles
+            SetBoard(); // set all tiles in board (new Tile...)
         }
 
-        private void setSizes(int height, int width)
+        private void SetSizes(int height, int width)
         {
-            if (typeOfBord == TypeOfBord.fullBoard)
+            if (typeOfBord == TypeOfBord.fullBoard) // if board, so it is square
                 this.height = this.width = height;
             else
             {
@@ -168,22 +157,21 @@ namespace Our_Project
             }
         }
 
-        private void setTexture(Texture2D isometricTileImage, Texture2D twoDtileImage)
+        private void SetTexture(Texture2D isometricTileImage, Texture2D twoDtileImage)
         {
+            // set the texture of tiles
             tileIsoImg = isometricTileImage;
             tile2dImg = twoDtileImage;
         }
 
-        private void setShapeTypes(List<NodeOFHidenTiles> _hidenTiles, int starterX, int starterY, ContentManager content)
+        private void SetShapeTypes(List<NodeOFHidenTiles> _hidenTiles, int starterX, int starterY, ContentManager content)
         {
-            //font = content.Load<SpriteFont>("font");
-            move = false;
-            setPositionOfShape(starterX, starterY);
-            setHidenTiles(_hidenTiles);
-            setEmptyTilesImg(content);
+            move = false; // because shape start at const place without move
+            SetPositionOfShape(starterX, starterY);
+            SetHidenTiles(_hidenTiles); // set the hiden tiles at shape
         }
 
-        private void setPositionOfShape(int starterX, int starterY)
+        private void SetPositionOfShape(int starterX, int starterY)
         {
             this.starterX = starterX;
             this.starterY = starterY;
@@ -191,8 +179,9 @@ namespace Our_Project
 
 
 
-        private void setHidenTiles(List<NodeOFHidenTiles> _hidenTiles)
+        private void SetHidenTiles(List<NodeOFHidenTiles> _hidenTiles)
         {
+            // set hiden tiles in shape
                 hidenTiles = new List<NodeOFHidenTiles>();
                 for (int i = 0; i < _hidenTiles.Count; i++)
                 {
@@ -200,22 +189,16 @@ namespace Our_Project
                 }
         }
 
-        private void setEmptyTilesImg(ContentManager content)
+        void SetBoard()
         {
-            /* empty2dImg = content.Load<Texture2D>("White_2d_Tile");
-             emtyIsoImg = content.Load<Texture2D>("White_Isometric_Tile");
-         */
-        }
-
-        void setBoard()
-        {
-            newBoard();
-            setTiles();
+            NewBoard(); // set the tiles as new in board
+            SetTiles(); // set the tiles with there texture and position
         }
 
 
-        private void newBoard()
+        private void NewBoard()
         {
+            // set the tiles as new in board
             board = new Tile[width][];
 
             for (int i = 0; i < width; i++)
@@ -225,9 +208,9 @@ namespace Our_Project
         }
 
 
-        private void setTiles()
+        private void SetTiles()
         {
-
+            // run all the tiles:
             hidenIndex = 0;
             for (int i = 0; i < width; i++)
             {
@@ -235,47 +218,46 @@ namespace Our_Project
                 {
                     int axisXofNewTileRectangle, axisYofNewTileRectangle;
 
-                    if (isShape())
+                    if (IsShape()) // if it is shape, we set the positions values and set the tile to shape (can be hiden)
                     {
-                        setXYaxissOfShape(i, j, out axisXofNewTileRectangle, out axisYofNewTileRectangle);
-                        checkAndSetEndOfXYaxiss(i, j, axisXofNewTileRectangle, axisYofNewTileRectangle);
-                        setNewTileOfShape(i, j, axisXofNewTileRectangle, axisYofNewTileRectangle, hidenIndex);
+                        SetXYaxissOfShape(i, j, out axisXofNewTileRectangle, out axisYofNewTileRectangle);
+                        CheckAndSetEndOfXYaxiss(i, j, axisXofNewTileRectangle, axisYofNewTileRectangle);
+                        SetNewTileOfShape(i, j, axisXofNewTileRectangle, axisYofNewTileRectangle, hidenIndex);
                     }
                     else
-                    {
-                        setXYaxissOfFullBoard(i, j, out axisXofNewTileRectangle, out axisYofNewTileRectangle);
-
-                        setTileOfFullBoard(i, j, axisXofNewTileRectangle, axisYofNewTileRectangle, hidenIndex);
+                    {   // if it is not shape, set the tiles of board
+                        SetXYaxissOfFullBoard(i, j, out axisXofNewTileRectangle, out axisYofNewTileRectangle);
+                        SetTileOfFullBoard(i, j, axisXofNewTileRectangle, axisYofNewTileRectangle, hidenIndex);
                     }
-                    addToDictionary(i, j);
+                    AddToDictionary(i, j);
                 }
             }
         }
 
-        private void addToDictionary(int i, int j)
+        private void AddToDictionary(int i, int j)
         {
             boardDictionaryById.Add(id, board[i][j]);
             id++;
         }
 
-        private void setXYaxissOfFullBoard(int i, int j, out int axisXofNewTileRectangle, out int axisYofNewTileRectangle)
+        private void SetXYaxissOfFullBoard(int i, int j, out int axisXofNewTileRectangle, out int axisYofNewTileRectangle)
         {
             axisXofNewTileRectangle = i * tileSize;
             axisYofNewTileRectangle = j * tileSize;
         }
 
-        private void setXYaxissOfShape(int i, int j, out int axisXofNewTileRectangle, out int axisYofNewTileRectangle)
+        private void SetXYaxissOfShape(int i, int j, out int axisXofNewTileRectangle, out int axisYofNewTileRectangle)
         {
             axisXofNewTileRectangle = starterX + i * tileSize;
             axisYofNewTileRectangle = starterY + j * tileSize;
         }
 
-        private bool isShape()
+        private bool IsShape()
         {
             return typeOfBord == TypeOfBord.Shape;
         }
 
-        private void checkAndSetEndOfXYaxiss(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle)
+        private void CheckAndSetEndOfXYaxiss(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle)
         {
             if (i == width - 1 && j == height - 1)
             {
@@ -286,17 +268,19 @@ namespace Our_Project
 
         private void SetHidenIndex()
         {
+            // next hiden tile of specific shape
             hidenIndex++;
             if (hidenIndex >= hidenTiles.Count)
                 hidenIndex = -1;
         }
 
-        private bool hideThisTile(int hidenIndex, int i, int j)
+        private bool HideThisTile(int hidenIndex, int i, int j)
         {
+            // return if this i and j supposed to be hiden
             return hidenIndex > -1 && i == hidenTiles[hidenIndex].getI() && j == hidenTiles[hidenIndex].getJ();
         }
 
-        private void setTileOfFullBoard(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle,
+        private void SetTileOfFullBoard(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle,
             int hidenIndex)
         {
             Rectangle rec = new Rectangle(Game1.screen_width / 3 + axisXofNewTileRectangle,
@@ -304,75 +288,77 @@ namespace Our_Project
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
         }
 
-        private void setNewTileOfShape(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle, int hidenIndex)
+        private void SetNewTileOfShape(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle, int hidenIndex)
         {
             Rectangle rec = new Rectangle(200 + axisXofNewTileRectangle,
             10 + axisYofNewTileRectangle, tileSize, tileSize);
 
-            if (hideThisTile(hidenIndex, i, j))
+            if (HideThisTile(hidenIndex, i, j)) // if that shape supposed to be hident
             {
-                setNewHidenTile(i, j, rec);
+                SetNewHidenTile(i, j, rec);
             }
 
-            else
-                setNewShapeTile(i, j, rec);
+            else // if that shape not hiden
+                SetNewShapeTile(i, j, rec);
         }
 
-        private void setNewShapeTile(int i, int j, Rectangle rec)
+        private void SetNewShapeTile(int i, int j, Rectangle rec)
         {
+            // set tile of shape (not hiden)
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
             board[i][j].setIsHidden(false);
         }
 
-        private void setNewHidenTile(int i, int j, Rectangle rec)
+        private void SetNewHidenTile(int i, int j, Rectangle rec)
         {
             board[i][j] = new Tile(emtyIsoImg, empty2dImg, rec, id);
-            //board[i][j].setIsHidden(true);
+            board[i][j].setIsHidden(true);
             SetHidenIndex();
         }
 
-        public int getStarterX()
+        /*
+         * getters and setters:
+         */ 
+
+        public int GetStarterX()
         {
             return starterX;
         }
 
-        public int getStarterY()
+        public int GetStarterY()
         {
             return starterY;
         }
 
-        public int getHeight()
+        public int GetHeight()
         {
             return height;
         }
 
-        public int getWidth()
+        public int GetWidth()
         {
             return width;
         }
 
-        public int getEndOfXaxisOfLastTile()
+        public int GetEndOfXaxisOfLastTile()
         {
             return endOfXaxisOfLastTile;
         }
 
-        public int getEndOfYaxisOfLastTile()
+        public int GetEndOfYaxisOfLastTile()
         {
             return endOfYaxisOfLastTile;
         }
 
-        public Tile[][] getBoard()
+        public Tile[][] GetBoard()
         {
             return board;
         }
 
-        public bool getMove()
+        public bool GetMove()
         {
             return move;
         }
-
-
-
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {

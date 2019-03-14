@@ -48,7 +48,7 @@ namespace Our_Project
         {
             
             
-            for (int i = 0; i < player.Board.getHeight()* player.Board.getWidth(); i++)
+            for (int i = 0; i < player.Board.GetHeight()* player.Board.GetWidth(); i++)
             {
                 if (player.Board.boardDictionaryById[i].sendUpdate)
                 {

@@ -149,20 +149,20 @@ namespace Our_Project.States_and_state_related
             empty.Add(new NodeOFHidenTiles(-1, -1));
             
             // setting the middle line of bigEmptyBoard
-            setMiddleLine(new Board(empty, 2, 12, bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().X,
-                bigEmptyBoard.getBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content));
+            setMiddleLine(new Board(empty, 2, 12, bigEmptyBoard.GetBoard()[12][0].getCartasianRectangle().X,
+                bigEmptyBoard.GetBoard()[12][0].getCartasianRectangle().Y, fullTileIso, null, false, this.Content));
         }
 
         private void setMiddleLine(Board line)  // setting the middle line of bigEmptyBoard
         {
-            Texture2D fullTexture = line.getBoard()[0][0].texture;
+            Texture2D fullTexture = line.GetBoard()[0][0].texture;
 
             for (int i=11; i<=12; i++)
             {
-                for (int j=0; j<bigEmptyBoard.getBoard()[i].Length; j++)
+                for (int j=0; j<bigEmptyBoard.GetBoard()[i].Length; j++)
                 {
-                    bigEmptyBoard.getBoard()[i][j].texture = fullTexture;   // set textur
-                    bigEmptyBoard.getBoard()[i][j].setIsHidden(false);      // set boolean type isHiden
+                    bigEmptyBoard.GetBoard()[i][j].texture = fullTexture;   // set textur
+                    bigEmptyBoard.GetBoard()[i][j].setIsHidden(false);      // set boolean type isHiden
                 }
             }
             setNeighbors(bigEmptyBoard);    // set the neighbors
@@ -243,15 +243,15 @@ namespace Our_Project.States_and_state_related
         {
             Rectangle tmp;
 
-            int length = bigEmptyBoard.getHeight() - 1;
-            for (int i = 0; i < bigEmptyBoard.getHeight() / 2; i++)
+            int length = bigEmptyBoard.GetHeight() - 1;
+            for (int i = 0; i < bigEmptyBoard.GetHeight() / 2; i++)
             {
-                for (int j = 0; j < bigEmptyBoard.getHeight(); j++)
+                for (int j = 0; j < bigEmptyBoard.GetHeight(); j++)
                 {
-                    tmp = bigEmptyBoard.getBoard()[i][j].getCartasianRectangle();
-                    bigEmptyBoard.getBoard()[i][j].setCartasianRectangle(bigEmptyBoard.getBoard()[length - i][length - j].getCartasianRectangle());
+                    tmp = bigEmptyBoard.GetBoard()[i][j].getCartasianRectangle();
+                    bigEmptyBoard.GetBoard()[i][j].setCartasianRectangle(bigEmptyBoard.GetBoard()[length - i][length - j].getCartasianRectangle());
                    
-                    bigEmptyBoard.getBoard()[length - i][length - j].setCartasianRectangle(tmp);
+                    bigEmptyBoard.GetBoard()[length - i][length - j].setCartasianRectangle(tmp);
                     
                 }
             }
@@ -441,7 +441,7 @@ namespace Our_Project.States_and_state_related
         private void saveAndStartGame(object sender, EventArgs e) // if you finished build your board and click "next"
         {   
                 // set each texture-tile in bigEmptyBoard that without shape as null
-            foreach (Tile[] tileLine in bigEmptyBoard.getBoard()) 
+            foreach (Tile[] tileLine in bigEmptyBoard.GetBoard()) 
             {
                 foreach (Tile t in tileLine)
                 {
@@ -500,10 +500,10 @@ namespace Our_Project.States_and_state_related
                  */
 
                 List<bool> allFullTilesAtShapeIsInsideBigEmptyBoardLimit = new List<bool>();
-                for (int i = 0; i < dragingShape.getBoard().Length; i++)
+                for (int i = 0; i < dragingShape.GetBoard().Length; i++)
                 {
-                    for (int j = 0; j < dragingShape.getBoard()[i].Length; j++)
-                        if (!dragingShape.getBoard()[i][j].getIsHidden())
+                    for (int j = 0; j < dragingShape.GetBoard()[i].Length; j++)
+                        if (!dragingShape.GetBoard()[i][j].getIsHidden())
                             allFullTilesAtShapeIsInsideBigEmptyBoardLimit.Add(false);
                 }
 
@@ -513,11 +513,11 @@ namespace Our_Project.States_and_state_related
                  */
 
                 int a = 0; // just indext for allFullTilesAtShapeIsInsideBigEmptyBoardLimit
-                foreach (Tile[] shapeTilesLine in dragingShape.getBoard()) // tiles at shape
+                foreach (Tile[] shapeTilesLine in dragingShape.GetBoard()) // tiles at shape
                 {
                     foreach (Tile shapeTile in shapeTilesLine)
                     {
-                        foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard()) // tiles at bigEmptyBoard
+                        foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard()) // tiles at bigEmptyBoard
                         {
                             foreach (Tile emptyTile in emptyTilesLine)
                             {
@@ -534,7 +534,7 @@ namespace Our_Project.States_and_state_related
                                         a++;
                                     }
                                 }
-                                if (dragingShape.getMove()) // cancel saveYourShapeInBoard button if we dragging the shapes
+                                if (dragingShape.GetMove()) // cancel saveYourShapeInBoard button if we dragging the shapes
                                 {
                                     buttons.Remove(saveYourShapeInBoard);
                                     Game.Components.Remove(saveYourShapeInBoard);
@@ -612,32 +612,32 @@ namespace Our_Project.States_and_state_related
         private bool checkingInstractOfTiles(Tile shapeTile, Tile emptyTile)
         {
             return shapeTile.getCartasianRectangle().Intersects(emptyTile.getCartasianRectangle())
-                                                    && (!dragingShape.getMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden();
+                                                    && (!dragingShape.GetMove()) && !shapeTile.getIsHidden() && emptyTile.getIsHidden();
         }
 
         private void setNeighbors(Board b)
         { 
             // set the neighbors of board b. as we have a lot of change, we need to update it each change
-            for (int i = 0; i < b.getBoard().Length; ++i)
+            for (int i = 0; i < b.GetBoard().Length; ++i)
             {
-                for (int j = 0; j < b.getBoard()[i].Length; ++j)
+                for (int j = 0; j < b.GetBoard()[i].Length; ++j)
                 {
-                    if (b.getBoard()[i][j] != null)
+                    if (b.GetBoard()[i][j] != null)
                     {
                         //right
-                        if (i < b.getBoard().Length - 1)
-                            b.getBoard()[i][j].setRight(b.getBoard()[i + 1][j]); // x axis grow up
+                        if (i < b.GetBoard().Length - 1)
+                            b.GetBoard()[i][j].setRight(b.GetBoard()[i + 1][j]); // x axis grow up
 
                         //left
                         if (i >= 1)
-                            b.getBoard()[i][j].setLeft(b.getBoard()[i - 1][j]); // x axis go down
+                            b.GetBoard()[i][j].setLeft(b.GetBoard()[i - 1][j]); // x axis go down
 
                         //down
-                        if (j < b.getBoard()[i].Length - 1)
-                            b.getBoard()[i][j].setDown(b.getBoard()[i][j + 1]); // y axis grow up
+                        if (j < b.GetBoard()[i].Length - 1)
+                            b.GetBoard()[i][j].setDown(b.GetBoard()[i][j + 1]); // y axis grow up
                                                                                                         //up
                         if (j >= 1)
-                            b.getBoard()[i][j].setUp(b.getBoard()[i][j - 1]); // y axis go down
+                            b.GetBoard()[i][j].setUp(b.GetBoard()[i][j - 1]); // y axis go down
                     }
                 }
             }
@@ -799,14 +799,14 @@ namespace Our_Project.States_and_state_related
             // draw bigEmptyBoard
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
             // just as we did at the update, we want to draw in accordance to situation
-            foreach (Tile[] emptyTilesLine in bigEmptyBoard.getBoard())
+            foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
             {
                 foreach (Tile emptyTile in emptyTilesLine)
                 {
                         if (dragingShape != null)
                         {
                             Board shape = dragingShape;
-                            foreach (Tile[] shapeTilesLine in shape.getBoard())
+                            foreach (Tile[] shapeTilesLine in shape.GetBoard())
                             {
                                 foreach (Tile shapeTile in shapeTilesLine)
                                 {
