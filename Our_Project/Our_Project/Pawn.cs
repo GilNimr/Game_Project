@@ -23,8 +23,7 @@ namespace Our_Project
         private Tile direction;          // if we will move this will get the details of new tile
 
         public bool the_flag;
-
-        private Texture2D texture;  // pawn texture
+        
         public int strength;
         public bool send_update;
         public bool isMouseClicked; // if mouse clicked on pawn 
@@ -37,7 +36,7 @@ namespace Our_Project
         public MouseState oldState; // mouse input old position 
         public Vector2 position;
 
-        private SpriteFont strength_font;
+        private readonly SpriteFont strength_font;
 
         public String flag_animation;
 
@@ -145,7 +144,7 @@ namespace Our_Project
                         (current_tile.GetLeft().occupied != Tile.Occupied.yes_by_me) &&  (mouseRec.Intersects(current_tile.GetLeft().GetCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.GetLeft(), gametime);
+                        MoveORattack(current_tile.GetLeft(), gametime);
                     }
 
 
@@ -153,21 +152,21 @@ namespace Our_Project
                         (current_tile.GetRight().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.GetRight().GetCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.GetRight(), gametime);
+                        MoveORattack(current_tile.GetRight(), gametime);
                     }
 
                     else if ((current_tile.GetUp() != null) && (!current_tile.GetUp().GetIsHidden()) &&
                         (current_tile.GetUp().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.GetUp().GetCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.GetUp() , gametime);
+                        MoveORattack(current_tile.GetUp() , gametime);
                     }
 
                     else if ((current_tile.GetDown() != null) && (!current_tile.GetDown().GetIsHidden()) &&
                         (current_tile.GetDown().occupied != Tile.Occupied.yes_by_me) && (mouseRec.Intersects(current_tile.GetDown().GetCartasianRectangle())))
 
                     {
-                        moveORattack(current_tile.GetDown() , gametime);
+                        MoveORattack(current_tile.GetDown() , gametime);
                     }
                     if (hasMoved && !hasDied) // get new oldState
                     {
@@ -359,7 +358,7 @@ namespace Our_Project
             
         }
 
-       private void moveORattack(Tile _direction, GameTime gameTime)
+       private void MoveORattack(Tile _direction, GameTime gameTime)
         {
             hasMoved = true;
 

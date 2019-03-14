@@ -238,7 +238,7 @@ namespace Our_Project.States_and_state_related
         private void InitializeConnection()
         {
             
-            connection.update();
+            connection.Update();
             if (i_am_second_player)
             {
                 FlipMatrix(bigEmptyBoard);
@@ -485,7 +485,7 @@ namespace Our_Project.States_and_state_related
             
             PutShapeAtNewPosition(); // checking and put shapes as user wants on the big board
 
-            connection.update();
+            connection.Update();
             base.Update(gameTime);
         }
 

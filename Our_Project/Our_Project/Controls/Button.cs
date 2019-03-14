@@ -20,10 +20,8 @@ namespace Our_Project
         private SpriteFont _font;
 
         private bool _isHovering;
-
-        private MouseState _previousMouse;
-
-        private Texture2D _texture;
+        
+        private readonly Texture2D _texture;
         public Texture2D picture;
         protected IInputHandler Input;
         private double click_timer;

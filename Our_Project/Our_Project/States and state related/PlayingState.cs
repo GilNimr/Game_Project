@@ -100,7 +100,7 @@ namespace Our_Project
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-            connection.update();
+            connection.Update();
             
             for (int i = 0; i < player.pawns.Length; i++)
             {

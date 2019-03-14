@@ -26,7 +26,7 @@ namespace Our_Project.States_and_state_related
         private Rectangle iso_rec;
         private bool resting;
 
-        private Rectangle cartasian_rec
+        private Rectangle Cartasian_rec
         {
             get
             {
@@ -38,7 +38,7 @@ namespace Our_Project.States_and_state_related
         private String strength= "";
         private bool draggin;
         Point flag_size = new Point(Tile.GetTileSize());
-        Rectangle mouseRec
+        Rectangle MouseRec
         {
             get
             {
@@ -206,10 +206,10 @@ namespace Our_Project.States_and_state_related
             
             foreach (Tile tile in ourBoard.boardDictionaryById.Values)
             {
-                if (tile.GetCartasianRectangle().Intersects(cartasian_rec))
+                if (tile.GetCartasianRectangle().Intersects(Cartasian_rec))
                 {
-                    if(cartasian_rec.Center.X>tile.GetCartasianRectangle().Center.X &&
-                        cartasian_rec.Center.Y > tile.GetCartasianRectangle().Center.Y)
+                    if(Cartasian_rec.Center.X>tile.GetCartasianRectangle().Center.X &&
+                        Cartasian_rec.Center.Y > tile.GetCartasianRectangle().Center.Y)
                     {
                         if (((!i_am_second_player&& tile.GetId() >= 288 ) || (i_am_second_player && tile.GetId() < 288 )) && !tile.GetIsHidden())
                         {
@@ -307,12 +307,12 @@ namespace Our_Project.States_and_state_related
         {
             base.Update(gameTime);
 
-            connection.update();
+            connection.Update();
             resting = !draggin;
 
-            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(iso_rec) || draggin))
+            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (MouseRec.Intersects(iso_rec) || draggin))
             {
-                DragFlag(new Point(mouseRec.X, mouseRec.Y));
+                DragFlag(new Point(MouseRec.X, MouseRec.Y));
                 draggin = true;
             }
             else draggin = false;

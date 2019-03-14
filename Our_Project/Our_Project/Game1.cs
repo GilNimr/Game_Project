@@ -18,8 +18,7 @@ namespace Our_Project
     {
         public GraphicsDeviceManager graphics;
         public SpriteBatch spriteBatch;
-
-        CelAnimationManager celAnimationManager;
+        readonly CelAnimationManager celAnimationManager;
         readonly InputHandler inputHandler;
         SoundManager soundManager;
         GameStateManager stateManager;

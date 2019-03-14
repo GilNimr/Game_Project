@@ -29,8 +29,6 @@ namespace Our_Project
         private Tile[][] board;                                     // the board
         private /*public*/ Texture2D tileIsoImg;                               // the isometric image of tile
         private Texture2D tile2dImg;                                // the 2d image of tile
-        private readonly Texture2D emtyIsoImg;                               // the empty isometric tile
-        private readonly Texture2D empty2dImg;                               // the empty 2d tile
         private readonly int tileSize = Game1.screen_height / 30;   // size of tile
         private List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
         public Dictionary <int, Tile> boardDictionaryById;           // get tile by id
@@ -311,7 +309,7 @@ namespace Our_Project
 
         private void SetNewHidenTile(int i, int j, Rectangle rec)
         {
-            board[i][j] = new Tile(emtyIsoImg, empty2dImg, rec, id);
+            board[i][j] = new Tile(null, null, rec, id);
             board[i][j].SetIsHidden(true);
             SetHidenIndex();
         }

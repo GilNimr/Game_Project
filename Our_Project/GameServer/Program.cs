@@ -100,12 +100,12 @@ namespace GameServer
                                 {
                                     GameRoom tmp = new GameRoom();
                                     currentGameRoom = tmp;
-                                    currentGameRoom.setFirstPlayer(msg.SenderConnection);
+                                    currentGameRoom.SetFirstPlayer(msg.SenderConnection);
                                     gamerooms.Add(currentGameRoom);
                                 }
                                 else
                                 {
-                                    currentGameRoom.setSecondPlayer(msg.SenderConnection);
+                                    currentGameRoom.SetSecondPlayer(msg.SenderConnection);
                                 }
                                
                             }

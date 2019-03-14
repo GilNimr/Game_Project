@@ -17,8 +17,7 @@ namespace Our_Project
     public class Connection
     {
         NetClient client;
-
-        Game game;
+        readonly Game game;
         Player player;
         Player enemy;
         private NetConnection server;
@@ -49,7 +48,7 @@ namespace Our_Project
             // client.DiscoverLocalPeers(14242);
         }
 
-        public void update()
+        public void Update()
         {
             
             
@@ -179,8 +178,10 @@ namespace Our_Project
 
                                     if (enemy.pawns[i] == null)
                                     {
-                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id], i+1, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
-                                        enemy.pawns[i].current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id];
+                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id], i + 1, Pawn.Team.enemy_team, i, player.buildingBoardState.font)
+                                        {
+                                            current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id]
+                                        };
                                         player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
                                         player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].SetCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
