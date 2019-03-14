@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */ 
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -8,11 +13,9 @@ using System.Text;
 using System.Threading.Tasks;
 using XELibrary;
 
-
 /*
  * On this screen you will choose 5 shapes and builld your area.
  */ 
-
 
 namespace Our_Project.States_and_state_related
 {
