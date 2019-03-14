@@ -182,6 +182,22 @@ namespace Our_Project.States_and_state_related
                 }
                 setNeighbors(bigEmptyBoard);
                 remainShapesToPutOnBigEmptyBoard--;
+
+
+                if (remainShapesToPutOnBigEmptyBoard == 0)
+                {
+                    save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+                    {
+                        Position = new Vector2((int)(Game1.screen_width / 1.5), (int)(Game1.screen_height / 50)),
+                        Text = "Save and start game",
+                    };
+
+                    save_and_start_game.Click += saveAndStartGame;
+                    buttons.Add(save_and_start_game);
+                    Game.Components.Add(save_and_start_game);
+                }
+
+
             }
         }
 
@@ -243,11 +259,12 @@ namespace Our_Project.States_and_state_related
         private void setAllButtons()
         {
             buttons = new List<Button>();
-            int xPositionOfShapeButton = Game1.screen_width / 8;
+            int xPositionOfShapeButton = Game1.screen_width / 5;
+            int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
 
             firstShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(xPositionOfShapeButton, 20),
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),
 
                 Text = "",
                 picture = Content.Load<Texture2D>(@"Textures\Controls\Shape1")
@@ -255,11 +272,11 @@ namespace Our_Project.States_and_state_related
             };
             firstShape.Click += clickFirstShape;
             buttons.Add(firstShape);
-
+            int heightOfButton = firstShape.Rectangle.Height;
 
             secondShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(xPositionOfShapeButton, 40),
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + heightOfButton),
                 Text = "Second Shape",
             };
 
@@ -268,7 +285,7 @@ namespace Our_Project.States_and_state_related
 
             thirdShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(xPositionOfShapeButton, 60),
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton),
                 Text = "Thirth Shape",
                 
             };
@@ -278,7 +295,7 @@ namespace Our_Project.States_and_state_related
 
             forthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(xPositionOfShapeButton, 80),
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 3*heightOfButton),
                 Text = "Fourth Shape",
             };
 
@@ -287,7 +304,7 @@ namespace Our_Project.States_and_state_related
 
             fifthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
             {
-                Position = new Vector2(xPositionOfShapeButton, 100),
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 4*heightOfButton),
                 Text = "Fifth Shape",
             };
 
@@ -295,14 +312,7 @@ namespace Our_Project.States_and_state_related
             buttons.Add(fifthShape);
 
 
-            save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
-            {
-                Position = new Vector2(Game1.screen_width - 500, 20),
-                Text = "Save and start game",
-            };
 
-            save_and_start_game.Click += saveAndStartGame; 
-            buttons.Add(save_and_start_game);
 
             foreach(Button b in buttons)
                 Game.Components.Add(b);
