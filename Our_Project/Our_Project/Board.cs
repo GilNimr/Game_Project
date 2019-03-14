@@ -277,7 +277,7 @@ namespace Our_Project
         private bool HideThisTile(int hidenIndex, int i, int j)
         {
             // return if this i and j supposed to be hiden
-            return hidenIndex > -1 && i == hidenTiles[hidenIndex].getI() && j == hidenTiles[hidenIndex].getJ();
+            return hidenIndex > -1 && i == hidenTiles[hidenIndex].GetI() && j == hidenTiles[hidenIndex].GetJ();
         }
 
         private void SetTileOfFullBoard(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle,

@@ -1,4 +1,9 @@
-﻿using Our_Project.States_and_state_related;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using Our_Project.States_and_state_related;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;

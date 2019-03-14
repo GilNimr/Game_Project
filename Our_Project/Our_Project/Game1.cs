@@ -20,7 +20,7 @@ namespace Our_Project
         public SpriteBatch spriteBatch;
 
         CelAnimationManager celAnimationManager;
-        InputHandler inputHandler;
+        readonly InputHandler inputHandler;
         SoundManager soundManager;
         GameStateManager stateManager;
 
@@ -41,17 +41,13 @@ namespace Our_Project
        public static int screen_width;
        public static int screen_height;
         
-       //public static float scale = ;
-
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-
-
+            
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
@@ -78,8 +74,7 @@ namespace Our_Project
             BuildingBoardState = new BuildingBoardState(this);
             PlacingSoldiersState = new PlacingSoldiersState(this);
             PlayingState = new PlayingState(this);
-
-
+            
             EnableSoundFx = true;
             EnableMusic = true;
         }
@@ -137,8 +132,7 @@ namespace Our_Project
 
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
-       
+            
             base.Update(gameTime);
         }
 
@@ -153,7 +147,6 @@ namespace Our_Project
             spriteBatch.Begin();
             base.Draw(gameTime);
             spriteBatch.End();
-
         }
 
         //translates 2d world coordinates to isometric screen coordinates.

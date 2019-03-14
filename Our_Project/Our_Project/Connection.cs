@@ -1,4 +1,9 @@
-﻿using Lidgren.Network;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Our_Project.States_and_state_related;
 using System;
