@@ -3,6 +3,11 @@
  * Shachar Bartal 305262016
  */
 
+ /*
+  *  this class will be part of list, each node (=this) will show an i & j index of tile at Board
+  *  that we want to define as shape, that's indexes will be hiden at this shape
+  */
+  
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +18,20 @@ namespace Our_Project
 {
     public class NodeOFHidenTiles
     {
-        int i, j;
-
+        private readonly int i, j;
+        
         public NodeOFHidenTiles(int _i, int _j)
         {
             i = _i;
             j = _j;
         }
 
-        public int getI()
+        public int GetI()
         {
             return i;
         }
 
-        public int getJ()
+        public int GetJ()
         {
             return j;
         }

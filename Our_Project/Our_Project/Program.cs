@@ -1,4 +1,9 @@
-﻿using System;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using System;
 
 namespace Our_Project
 {

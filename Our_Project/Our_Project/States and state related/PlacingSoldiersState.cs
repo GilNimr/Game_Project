@@ -26,7 +26,7 @@ namespace Our_Project.States_and_state_related
         private Rectangle iso_rec;
         private bool resting;
 
-        private Rectangle cartasian_rec
+        private Rectangle Cartasian_rec
         {
             get
             {
@@ -37,8 +37,8 @@ namespace Our_Project.States_and_state_related
 
         private String strength= "";
         private bool draggin;
-        Point flag_size = new Point(Tile.getTileSize());
-        Rectangle mouseRec
+        Point flag_size = new Point(Tile.GetTileSize());
+        Rectangle MouseRec
         {
             get
             {
@@ -96,7 +96,7 @@ namespace Our_Project.States_and_state_related
                 enemy.flag = "canada";
             }
 
-            ourBoard = buildingBoardState.getEmptyBoard();
+            ourBoard = buildingBoardState.GetEmptyBoard();
             buttons = new List<Button>();
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
             button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
@@ -183,7 +183,7 @@ namespace Our_Project.States_and_state_related
            
             if (hideFlag)
             {
-                iso_rec = new Rectangle(new Point(500), new Point(Tile.getTileSize()));
+                iso_rec = new Rectangle(new Point(500), new Point(Tile.GetTileSize()));
                 
                 
                 hideFlag = false;
@@ -209,29 +209,31 @@ namespace Our_Project.States_and_state_related
             
             foreach (Tile tile in ourBoard.boardDictionaryById.Values)
             {
-                if (tile.getCartasianRectangle().Intersects(cartasian_rec))
+                if (tile.GetCartasianRectangle().Intersects(Cartasian_rec))
                 {
-                    if(cartasian_rec.Center.X>tile.getCartasianRectangle().Center.X &&
-                        cartasian_rec.Center.Y > tile.getCartasianRectangle().Center.Y)
+                    if(Cartasian_rec.Center.X>tile.GetCartasianRectangle().Center.X &&
+                        Cartasian_rec.Center.Y > tile.GetCartasianRectangle().Center.Y)
                     {
-                        if (((!i_am_second_player&& tile.getId() >= 288 ) || (i_am_second_player && tile.getId() < 288 )) && !tile.getIsHidden()
+
+                        if (((!i_am_second_player&& tile.GetId() >= 288 ) || (i_am_second_player && tile.GetId() < 288 )) && !tile.GetIsHidden()
                             &&tile.occupied==Tile.Occupied.no && !tile.teleport_tile)
+
                         {
                             if(!resting)
-                            tile.setColor(Color.Green);
+                            tile.SetColor(Color.Green);
 
                             if(!draggin && !resting)
                             {
                                 resting = true;
 
-                                iso_rec = new Rectangle( Game1.TwoD2isometrix(tile.getCartasianRectangle().Center) - new Point(Tile.getTileSize() / 2), new Point(Tile.getTileSize()));
+                                iso_rec = new Rectangle( Game1.TwoD2isometrix(tile.GetCartasianRectangle().Center) - new Point(Tile.GetTileSize() / 2), new Point(Tile.GetTileSize()));
 
                                 curtile = tile;
                                 Game.Components.Add(save_flag_button);
 
                             }
                         }
-                        else if(draggin) tile.setColor(Color.Red);
+                        else if(draggin) tile.SetColor(Color.Red);
                     }
                 }
             }
@@ -268,7 +270,7 @@ namespace Our_Project.States_and_state_related
                 if (teleport_index < 2)
                 {
                     tile.texture = teleport_texture;
-                    tile.setIsHidden(false);
+                    tile.SetIsHidden(false);
                     tile.teleport_tile = true;
                     tile.sendUpdate = true;
                     for (int i = 0; i < PlayingState.teleports.Length; i++)
@@ -311,12 +313,12 @@ namespace Our_Project.States_and_state_related
         {
             base.Update(gameTime);
 
-            connection.update();
+            connection.Update();
             resting = !draggin;
 
-            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (mouseRec.Intersects(iso_rec) || draggin))
+            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (MouseRec.Intersects(iso_rec) || draggin))
             {
-                DragFlag(new Point(mouseRec.X, mouseRec.Y));
+                DragFlag(new Point(MouseRec.X, MouseRec.Y));
                 draggin = true;
             }
             else draggin = false;
@@ -331,6 +333,7 @@ namespace Our_Project.States_and_state_related
 
         public override void Draw(GameTime gameTime)
         {
+            float scaleOfFone = Pawn.scaleOfFont;
 
             //drawing space bg
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
@@ -351,7 +354,7 @@ namespace Our_Project.States_and_state_related
             //debug view of flag
            // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
 
-            OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
+            OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), scaleOfFone, SpriteEffects.None, 0);
             
                 save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
 

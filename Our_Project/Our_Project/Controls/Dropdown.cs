@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -10,13 +15,12 @@ namespace Our_Project.Controls
 {
     class Dropdown : GameComponent
     {
-        Button master;
-        Texture2D master_texture;
-        Texture2D texture;
-        int rows;
-        
-        int amount;
-        SpriteFont font;
+        readonly Button master;
+        readonly Texture2D master_texture;
+        readonly Texture2D texture;
+        readonly int rows;
+        readonly int amount;
+        readonly SpriteFont font;
         public Dropdown(Game game, int _amount ,int _rows, Texture2D _master_texture, Texture2D _texture, SpriteFont _font ):base(game)
         {
             master_texture = _master_texture;

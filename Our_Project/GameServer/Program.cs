@@ -1,4 +1,9 @@
-﻿using System;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Lidgren.Network;
@@ -96,12 +101,12 @@ namespace GameServer
                                 {
                                     GameRoom tmp = new GameRoom();
                                     currentGameRoom = tmp;
-                                    currentGameRoom.setFirstPlayer(msg.SenderConnection);
+                                    currentGameRoom.SetFirstPlayer(msg.SenderConnection);
                                     gamerooms.Add(currentGameRoom);
                                 }
                                 else
                                 {
-                                    currentGameRoom.setSecondPlayer(msg.SenderConnection);
+                                    currentGameRoom.SetSecondPlayer(msg.SenderConnection);
                                 }
                                
                             }

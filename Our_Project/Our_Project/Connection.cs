@@ -1,4 +1,9 @@
-﻿using Lidgren.Network;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Our_Project.States_and_state_related;
 using System;
@@ -13,10 +18,12 @@ namespace Our_Project
     {
         NetClient client;
 
-        Game game;
      public   Player player;
      public   Player enemy;
        public static bool local;
+
+        readonly Game game;
+
         private NetConnection server;
 
         public static NetOutgoingMessage outmsg;
@@ -39,11 +46,11 @@ namespace Our_Project
             
         }
 
-        public void update()
+        public void Update()
         {
             
             
-            for (int i = 0; i < player.Board.getHeight()* player.Board.getWidth(); i++)
+            for (int i = 0; i < player.Board.GetHeight()* player.Board.GetWidth(); i++)
             {
                 if (player.Board.boardDictionaryById[i].sendUpdate)
                 {
@@ -79,7 +86,7 @@ namespace Our_Project
                        if (player.pawns[i].send_update)
                        {
                         om.Write("move");
-                        om.Write(player.pawns[i].current_tile.getId());
+                        om.Write(player.pawns[i].current_tile.GetId());
                         om.Write(i);
                          
                         
@@ -138,7 +145,7 @@ namespace Our_Project
                                 {
                                     int tile_id = msg.ReadInt32();
                                     player.Board.boardDictionaryById[tile_id].texture = player.Board.boardDictionaryById[299].texture;
-                                    player.Board.boardDictionaryById[tile_id].setIsHidden(false);
+                                    player.Board.boardDictionaryById[tile_id].SetIsHidden(false);
 
                                     break;
                                 }
@@ -146,7 +153,7 @@ namespace Our_Project
                                 {
                                     int tile_id = msg.ReadInt32();
                                     player.Board.boardDictionaryById[tile_id].texture = PlayingState.teleport_texture;
-                                    player.Board.boardDictionaryById[tile_id].setIsHidden(false);
+                                    player.Board.boardDictionaryById[tile_id].SetIsHidden(false);
                                     player.Board.boardDictionaryById[tile_id].teleport_tile = true;
 
                                     for(int i=0; i< PlayingState.teleports.Length; i++)
@@ -169,18 +176,20 @@ namespace Our_Project
 
                                     if (enemy.pawns[i] == null)
                                     {
-                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.getEmptyBoard().boardDictionaryById[id], i+1, Pawn.Team.enemy_team, i, player.buildingBoardState.font);
-                                        enemy.pawns[i].current_tile = player.buildingBoardState.getEmptyBoard().boardDictionaryById[id];
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);
+                                        enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id], i + 1, Pawn.Team.enemy_team, i, player.buildingBoardState.font)
+                                        {
+                                            current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id]
+                                        };
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].SetCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     }
                                     else
                                     {
                                         enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
-                                        enemy.pawns[i].current_tile = player.buildingBoardState.getEmptyBoard().boardDictionaryById[id];
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
-                                        player.buildingBoardState.getEmptyBoard().boardDictionaryById[id].setCurrentPawn(enemy.pawns[i]);
+                                        enemy.pawns[i].current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id];
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].occupied = Tile.Occupied.yes_by_enemy;
+                                        player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].SetCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                         player.myTurn = true;
                                     }

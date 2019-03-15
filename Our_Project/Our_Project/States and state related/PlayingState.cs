@@ -12,84 +12,57 @@ namespace Our_Project
 
     public sealed class PlayingState : BaseGameState, IPlayingState
     {
-        public static bool win = false;
-        public static bool lose = false;        private Texture2D Tile_texture; // the square
-        private Texture2D cartasian_texture;
+        public static Dictionary<int, Tile> tileDictionary;
         public static Texture2D teleport_texture;
-        private Texture2D Pawn_texture; // the character of user team
-        private Tile[][] tile_matrix;   // the board of the game
-
-        // private Pawn[] pawns;           // the pawns
-
-     /*   NodeOFHidenTiles[] hidenTiles;  // an array that include all the tiles are hiden for build the shape
-        Shape[] shapes;                 // all the shapes we going to use*/
-
+        public static bool win = false;
+        public static bool lose = false;
         public static Tile[] teleports; // array of all the teleports tiles.
-
-      /*  public int gridSize = 200;        // size of the whole board*/
-
-
-        SpriteFont font_small;
-        private Board ourBoard;
-
-        //   private Texture2D israel_spritesheet;
+        public static bool i_am_second_player = false;
         public static int tileSize = Game1.screen_height / 30;
 
-
-        IScrollingBackgroundManager scrollingBackgroundManager;
-        ICelAnimationManager celAnimationManager;
-
-        public static Dictionary<int, Tile> tileDictionary;
-
-
-        PlacingSoldiersState placingSoldiersState;
         public Player player;
         public Player enemy;
         public Connection connection;
 
-        public static bool i_am_second_player=false;
-
+        private Texture2D Tile_texture;            
+        private Texture2D cartasian_texture;       
+        private Texture2D Pawn_texture; // the character of user team
+        private Board ourBoard;
         private string flag;
         private string enemy_flag;
 
+        SpriteFont font_small;
+        PlacingSoldiersState placingSoldiersState;
+
+        IScrollingBackgroundManager scrollingBackgroundManager;
+        ICelAnimationManager celAnimationManager;
+        
         public PlayingState(Game game)
            : base(game)
         {
   
             game.Services.AddService(typeof(IPlayingState), this);
-
             placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
-
             scrollingBackgroundManager = (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
-
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
-
-            //teleports = new Tile[2];
-
             player = placingSoldiersState.player;
-
             teleports = new Tile[4];
-
-
             enemy = placingSoldiersState.enemy;
-            
 
-            
-            
         }
 
         protected override void LoadContent()
         {
 
+
             connection = placingSoldiersState.connection;
+
 
             //Loading fonts.
             font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
-
             ourBoard = placingSoldiersState.ourBoard;
             tileDictionary = placingSoldiersState.ourBoard.boardDictionaryById;
-
-
+            
             //Gray tile texture.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso5");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
@@ -97,7 +70,7 @@ namespace Our_Project
 
             foreach (var tile in ourBoard.boardDictionaryById.Values)
             {
-                if (tile.getIsHidden())
+                if (tile.GetIsHidden())
                     tile.texture = null;
                 else if (tile.teleport_tile)
                     tile.texture = teleport_texture;
@@ -123,34 +96,19 @@ namespace Our_Project
 
             flag = placingSoldiersState.flag_animation;
             enemy_flag = placingSoldiersState.enemy_flag_animation;
-
-         //   teleports = PlacingSoldiersState.teleports;
-           
-                       
-
-
+            
             i_am_second_player = placingSoldiersState.i_am_second_player;
             if (!i_am_second_player)
                 player.myTurn = true;
-
         }
         
-
-
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
-
-          
-
-            connection.update();
-
-            
+            connection.Update();
             
             for (int i = 0; i < player.pawns.Length; i++)
             {
-
-            
                 if (player.pawns[i] != null)
                 {
                     if (player.myTurn)
@@ -172,18 +130,16 @@ namespace Our_Project
                     else if (player.pawns[i].attacked)
                     {
                         player.pawns[i].GettingAttacked(gameTime);
-                    }
-                        
+                    }           
                 }
             }
-
         }
+
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             base.Draw(gameTime);
-
 
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
@@ -198,37 +154,19 @@ namespace Our_Project
             //drawing our enemys giant flag 
             Rec = new Rectangle(Game1.screen_width * 2 / 10, Game1.screen_height * 1 / 10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
             celAnimationManager.Draw(gameTime, enemy_flag, OurGame.spriteBatch, Rec, SpriteEffects.None);
-
-
-            /*    for (int i = 0; i < tile_matrix.Length; ++i)
-                {
-                    for (int j = 0; j < tile_matrix[i].Length; ++j)
-                    {
-                        if (tile_matrix[i][j] != null)
-                        {
-
-                            tile_matrix[i][j].Draw(OurGame.spriteBatch);
-                            tile_matrix[i][j].setColor(Color.White); //returning to default color in case it was changed.
-                        }
-                    }
-                }*/
-
-
+            
             for (int i = 0; i < player.pawns.Length; i++)
             {
                 if(player.pawns[i]!=null)
                 player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
-                
-
+            
             for (int i = 0; i < enemy.pawns.Length; i++)
             {
                 if (enemy.pawns[i] != null)
                     enemy.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
-                
-
-
+            
             if (player.myTurn)
             {
                 OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
@@ -241,6 +179,5 @@ namespace Our_Project
             if(lose)
                 OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White);
         }
-        
     }
 }

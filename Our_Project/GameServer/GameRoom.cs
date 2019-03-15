@@ -1,4 +1,9 @@
-﻿using System;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Lidgren.Network;
@@ -17,18 +22,18 @@ namespace GameServer
 
         }
 
-        public void setFirstPlayer(NetConnection first)
+        public void SetFirstPlayer(NetConnection first)
         {
             firstPlayer = first;
             players.Add(firstPlayer);
         }
-        public void setSecondPlayer(NetConnection second)
+        public void SetSecondPlayer(NetConnection second)
         {
             secondPlayer = second;
             players.Add(secondPlayer);
         }
 
-        public NetConnection getFirstPlayer()
+        public NetConnection GetFirstPlayer()
         {
             if (firstPlayer == null)
                 throw new Exception("null value");
@@ -37,7 +42,7 @@ namespace GameServer
 
         }
 
-        public NetConnection getSecondPlayer()
+        public NetConnection GetSecondPlayer()
         {
             if (secondPlayer == null)
                 throw new Exception("null value");
