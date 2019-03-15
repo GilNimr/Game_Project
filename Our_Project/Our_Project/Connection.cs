@@ -32,11 +32,11 @@ namespace Our_Project
             client.Start();
 
             
-            // client.DiscoverLocalPeers(14242);
+             client.DiscoverLocalPeers(14242);
           
 
         //   client.DiscoverKnownPeer("77.127.40.31", 14242); //home
-         client.DiscoverKnownPeer("192.168.1.7", 14242); //home internal
+        // client.DiscoverKnownPeer("192.168.1.7", 14242); //home internal
 
 
 

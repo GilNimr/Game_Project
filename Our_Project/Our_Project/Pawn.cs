@@ -267,7 +267,7 @@ namespace Our_Project
                     spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.getCartasianRectangle().Center.X, current_tile.getCartasianRectangle().Center.Y), Color.White);
 
                     //timer
-                    if (timer_atk_num_display<2.0 && draw_atk_font)
+                    if (timer_atk_num_display<3.0 && draw_atk_font)
                     
                         
                         spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X,(int)position.Y)+new Vector2(-Game1.screen_width/10,-Game1.screen_height/10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, 5f, SpriteEffects.None, 0);
