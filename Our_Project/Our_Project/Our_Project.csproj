@@ -46,7 +46,6 @@
     <Compile Include="Board.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Controls\Button.cs" />
-    <Compile Include="Controls\Dropdown.cs" />
     <Compile Include="NodeOFHidenTiles.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="States and state related\BaseGameState.cs" />

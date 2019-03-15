@@ -58,7 +58,7 @@ namespace Our_Project
             base.Draw(gameTime);
         }
 
-        protected override void StateChanged(object sender, EventArgs e)  // start music if this state is on screen
+        protected override void StateChanged(object sender, EventArgs e)  // start the music if this state is on screen
         {
             base.StateChanged(sender, e);
 

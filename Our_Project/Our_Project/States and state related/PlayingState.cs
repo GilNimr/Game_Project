@@ -14,11 +14,11 @@ namespace Our_Project
     {
         public static Dictionary<int, Tile> tileDictionary;
         public static Texture2D teleport_texture;
-        public static bool win = false;
-        public static bool lose = false;
+        public static bool win = false;  //if we won the game.
+        public static bool lose = false; // if we lost the game.
         public static Tile[] teleports; // array of all the teleports tiles.
         public static bool i_am_second_player = false;
-        public static int tileSize = Game1.screen_height / 30;
+        public static int tileSize = Game1.screen_height / 30; //need to delete later.
 
         public Player player;
         public Player enemy;
@@ -26,10 +26,11 @@ namespace Our_Project
 
         private Texture2D Tile_texture;            
         private Texture2D cartasian_texture;       
-        private Texture2D Pawn_texture; // the character of user team
+        private Texture2D Pawn_texture; // need to delete later. since we are using animations.
         private Board ourBoard;
-        private string flag;
-        private string enemy_flag;
+
+        private string flag;  //string for animation.
+        private string enemy_flag; //string for animation.
 
         SpriteFont font_small;
         PlacingSoldiersState placingSoldiersState;
@@ -54,7 +55,7 @@ namespace Our_Project
         protected override void LoadContent()
         {
 
-
+            //getting the connection from previous state.
             connection = placingSoldiersState.connection;
 
 
@@ -62,12 +63,13 @@ namespace Our_Project
             font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
             ourBoard = placingSoldiersState.ourBoard;
             tileDictionary = placingSoldiersState.ourBoard.boardDictionaryById;
-            
-            //Gray tile texture.
+
+            //loading tile textures.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso5");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
+            //updating the board 
             foreach (var tile in ourBoard.boardDictionaryById.Values)
             {
                 if (tile.GetIsHidden())
@@ -81,19 +83,7 @@ namespace Our_Project
             //pawn texture.
             Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
 
-            //flag animations
-            CelCount celCount = new CelCount(5, 25);
-            celAnimationManager.AddAnimation("canada", "canada test", celCount, 20);
-            celAnimationManager.ResumeAnimation("canada");
-
-            celCount = new CelCount(30, 5);
-            celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 20);
-            celAnimationManager.ResumeAnimation("israel");
-
-            celCount = new CelCount(30, 5);
-            celAnimationManager.AddAnimation("jamaica", "sprite sheet jamaica", celCount, 20);
-            celAnimationManager.ResumeAnimation("jamaica");
-
+            //setting animations.
             flag = placingSoldiersState.flag_animation;
             enemy_flag = placingSoldiersState.enemy_flag_animation;
             
@@ -121,12 +111,13 @@ namespace Our_Project
                             {
                                 if (player.pawns[j] != null)
                                 { 
-                                if (i != j) // so the other will canceled
+                                if (i != j) // unclick all the other pawns.
                                     player.pawns[j].isMouseClicked = false;
                                 }
                             }
                         }
                     }
+                    //if we heard from server that we are getting attacked.
                     else if (player.pawns[i].attacked)
                     {
                         player.pawns[i].GettingAttacked(gameTime);
@@ -141,10 +132,12 @@ namespace Our_Project
 
             base.Draw(gameTime);
 
+            //drawing bg.
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
             scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
+            //drawing our board.
             ourBoard.Draw(OurGame.spriteBatch, Color.White);
 
             //drawing our giant flag 
@@ -155,18 +148,21 @@ namespace Our_Project
             Rec = new Rectangle(Game1.screen_width * 2 / 10, Game1.screen_height * 1 / 10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
             celAnimationManager.Draw(gameTime, enemy_flag, OurGame.spriteBatch, Rec, SpriteEffects.None);
             
+            //drawing player pawns.
             for (int i = 0; i < player.pawns.Length; i++)
             {
                 if(player.pawns[i]!=null)
                 player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
             
+            //drawing enemy pawns.
             for (int i = 0; i < enemy.pawns.Length; i++)
             {
                 if (enemy.pawns[i] != null)
                     enemy.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
             
+            //drawing strings
             if (player.myTurn)
             {
                 OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);

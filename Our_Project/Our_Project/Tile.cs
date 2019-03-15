@@ -21,17 +21,17 @@ namespace Our_Project
         private readonly Texture2D cartasian_texture;              //the 2D tile for debugging.
         private static  int tileSize;                               // the tile size
         private Rectangle cartasianRectangle;
-        private Rectangle isoprojection_rectangle;        //the rectangle in which we draw the isometric projection
+        private Rectangle isoprojection_rectangle;        //the rectangle in which we draw the isometric projection of tile.
         private readonly int id;                                              // ID of tile
         private Pawn current_pawn;                           // current pawn on tile
-        private Tile left, right, down, up;                  //   Tile neighbors
+        private Tile left, right, down, up;                  //  the tile's neighbors
         private Color color;
-        private bool isHidden;                              // if user cant see tile - hiden tile
+        private bool isHidden;                              // if hidden tile
 
-        public Texture2D texture;                                   //the isometric tile texture
-        public float Depth=0f;
-        public bool sendUpdate = false;
-        public bool teleport_tile;
+        public Texture2D texture;                          //the isometric tile texture
+        public float Depth=0f;  //need to delete.
+        public bool sendUpdate = false; //send update to server.
+        public bool teleport_tile; //is this tile a teleport tile.
         public Occupied occupied;
         public enum Occupied
         {
@@ -134,6 +134,7 @@ namespace Our_Project
             down = d;
         }
 
+        //in case we are draggin the tile in build mode.
         public void AddToCartasianRectangle(int x, int y)
         {
             cartasianRectangle.X += x;
@@ -151,6 +152,7 @@ namespace Our_Project
             color = _color;
         }
     
+        //method to find next random teleport
         public Tile Teleport_to_rand()
         {
             Random rand = new Random();

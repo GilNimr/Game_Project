@@ -40,8 +40,6 @@ namespace Our_Project
             buildingBoardState = (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
 
-
-
             army_size = 21;
         }
     }

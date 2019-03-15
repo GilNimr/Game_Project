@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 
 namespace Our_Project
 {
-    public class Connection
+    public class Connection //the client side of connection
     {
         NetClient client;
 
-     public   Player player;
-     public   Player enemy;
-       public static bool local;
+       public   Player player;
+       public   Player enemy;
+       public static bool local; // if this is a local connection.
 
         readonly Game game;
 
@@ -33,28 +33,29 @@ namespace Our_Project
             this.game = game;
             enemy = _enemy;
             player = _player;
+
             NetPeerConfiguration config = new NetPeerConfiguration("Flags");
             config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
 
             client = new NetClient(config);
-            client.Start();
+            client.Start(); //starting connection attempt.
 
             if(local)
              client.DiscoverLocalPeers(14242);
             else
-                client.DiscoverKnownPeer("77.127.40.31", 14242); //home
+                client.DiscoverKnownPeer("77.127.40.31", 14242); //server on gil's home for now.
             
         }
 
         public void Update()
         {
             
-            
+            //checking to see for updates to write to server.
             for (int i = 0; i < player.Board.GetHeight()* player.Board.GetWidth(); i++)
             {
                 if (player.Board.boardDictionaryById[i].sendUpdate)
                 {
-                    if (player.Board.boardDictionaryById[i].teleport_tile)
+                    if (player.Board.boardDictionaryById[i].teleport_tile) //updates on teleports
                     {
                         NetOutgoingMessage om = client.CreateMessage();
                         om.Write("teleport");
@@ -62,7 +63,7 @@ namespace Our_Project
                         client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
                         player.Board.boardDictionaryById[i].sendUpdate = false;
                     }
-                    else
+                    else                                                  //updates on other tiles
                     {
                         NetOutgoingMessage om = client.CreateMessage();
                         om.Write("tile_added");
@@ -70,13 +71,12 @@ namespace Our_Project
                         client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
                         player.Board.boardDictionaryById[i].sendUpdate = false;
                     }
-                   
 
                 }
             }
          
 
-            if (player.pawns != null)
+            if (player.pawns != null) //updates on pawns 
             {
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < player.pawns.Length; i++)
@@ -99,7 +99,7 @@ namespace Our_Project
                 }
             }
 
-            if(enemy.pawns!=null)
+            if(enemy.pawns!=null) //updates on enemys being attacked.
             {
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < enemy.pawns.Length; i++)
@@ -122,28 +122,29 @@ namespace Our_Project
             }
 
             NetIncomingMessage msg;
-            while ((msg = client.ReadMessage()) != null)
+            while ((msg = client.ReadMessage()) != null) //reading all the messages from server
             {
                 switch (msg.MessageType)
                 {
-                    case NetIncomingMessageType.DiscoveryResponse:
+                    case NetIncomingMessageType.DiscoveryResponse: //message that approves our connection
 
                         server = client.Connect(msg.SenderEndPoint);
-                        int num_of_players = msg.ReadInt32();
+
+                        int num_of_players = msg.ReadInt32(); //reading if we are player 1 or player2
+
                         if (num_of_players == 1)
                             BuildingBoardState.i_am_second_player = true;
-
                         break;
 
-                    case NetIncomingMessageType.Data:
+                    case NetIncomingMessageType.Data: //all game related messages
 
-                        string data_string = msg.ReadString();
+                        string data_string = msg.ReadString(); //reading message header
 
                         switch (data_string)
                         {
                             case "tile_added":
                                 {
-                                    int tile_id = msg.ReadInt32();
+                                    int tile_id = msg.ReadInt32(); //reading message
                                     player.Board.boardDictionaryById[tile_id].texture = player.Board.boardDictionaryById[299].texture;
                                     player.Board.boardDictionaryById[tile_id].SetIsHidden(false);
 
@@ -151,7 +152,7 @@ namespace Our_Project
                                 }
                             case "teleport":
                                 {
-                                    int tile_id = msg.ReadInt32();
+                                    int tile_id = msg.ReadInt32(); //reading message
                                     player.Board.boardDictionaryById[tile_id].texture = PlayingState.teleport_texture;
                                     player.Board.boardDictionaryById[tile_id].SetIsHidden(false);
                                     player.Board.boardDictionaryById[tile_id].teleport_tile = true;
@@ -171,10 +172,10 @@ namespace Our_Project
                             case "move":
                                 {
                                     
-                                    int id = msg.ReadInt32();
-                                    int i = msg.ReadInt32();
+                                    int id = msg.ReadInt32();//reading message
+                                    int i = msg.ReadInt32();//reading message
 
-                                    if (enemy.pawns[i] == null)
+                                    if (enemy.pawns[i] == null) //registering new enemy's pawm
                                     {
                                         enemy.pawns[i] = new Pawn(game, enemy.flag, player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id], i + 1, Pawn.Team.enemy_team, i, player.buildingBoardState.font)
                                         {
@@ -184,7 +185,7 @@ namespace Our_Project
                                         player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].SetCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                     }
-                                    else
+                                    else //updating enemy's pawn position
                                     {
                                         enemy.pawns[i].current_tile.occupied = Tile.Occupied.no;
                                         enemy.pawns[i].current_tile = player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id];
@@ -193,15 +194,13 @@ namespace Our_Project
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                         player.myTurn = true;
                                     }
-                                   
-                                    
-                                   
+ 
                                     break;
                                 }
-                            case "attacked":
+                            case "attacked": //if we are being attacked
                                 {
-                                    int id = msg.ReadInt32();
-                                    int i = msg.ReadInt32();
+                                    int id = msg.ReadInt32();//reading message
+                                    int i = msg.ReadInt32();//reading message
 
                                     player.pawns[i].attacked = true;
                                     player.pawns[i].attacker = enemy.pawns[id];

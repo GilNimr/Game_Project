@@ -34,6 +34,7 @@ namespace Our_Project.States_and_state_related
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
         private MouseState prvState;            // mouse state for the algorithm of bad place sound
         private ScrollingBackgroundManager scrollingBackgroundManager;
+        private ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
         public SpriteFont font;   // font on button
         public Connection connection;
@@ -47,6 +48,8 @@ namespace Our_Project.States_and_state_related
             scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
             game.Components.Add(scrollingBackgroundManager);
             scrollingBackgroundManager.ScrollRate = -1f;
+
+            celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
 
             startMenuState = (StartMenuState)game.Services.GetService(typeof(IStartMenuState));
        
@@ -251,6 +254,8 @@ namespace Our_Project.States_and_state_related
             connection.enemy = enemy;
             connection.Update();
 
+            /*if we are the second player we have to flip the
+             *board so we can view it from the same angle as first player.*/
             if (i_am_second_player)
             {
                 FlipMatrix(bigEmptyBoard);

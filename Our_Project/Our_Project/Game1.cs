@@ -109,6 +109,18 @@ namespace Our_Project
             string fxPath = @"Sounds\SoundFX\";
             soundManager.LoadContent(musicPath, fxPath);
 
+            CelCount celCount = new CelCount(5, 25);
+            celAnimationManager.AddAnimation("canada", "canada test", celCount, 10);
+            celAnimationManager.ResumeAnimation("canada");
+
+            celCount = new CelCount(30, 5);
+            celAnimationManager.AddAnimation("israel", "sprite sheet israel", celCount, 10);
+            celAnimationManager.ResumeAnimation("israel");
+
+            celCount = new CelCount(30, 5);
+            celAnimationManager.AddAnimation("jamaica", "sprite sheet jamaica", celCount, 20);
+            celAnimationManager.ResumeAnimation("jamaica");
+
         }
 
         /// <summary>
