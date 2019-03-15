@@ -845,13 +845,6 @@ namespace Our_Project.States_and_state_related
                                                 {
                                                     emptyTile.SetColor(Color.Green);
                                                 }
-
-
-
-                                            //for debug purposes
-                                            /* OurGame.spriteBatch.DrawString(font, emptyTile.getId().ToString(),Game1.TwoD2isometrix( emptyTile.getCartasianRectangle().X,
-
-                                                 emptyTile.getCartasianRectangle().Y), Color.Black, 0, new Vector2(0), 0.8f, SpriteEffects.None, 0);*/
                                         }
                                     }
                                 }

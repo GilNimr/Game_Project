@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-
+using Microsoft.Xna.Framework.Media;
 using XELibrary;
 
 namespace Our_Project
@@ -63,9 +63,10 @@ namespace Our_Project
             base.StateChanged(sender, e);
 
             if (StateManager.State == this.Value)
-                soundManager.Play(/*"titleSound"*/ "backGroundPlayinState");
-            //else
-              //  soundManager.StopSong();
+            {
+                soundManager.Play("backGroundPlayinState");
+                MediaPlayer.IsRepeating = true; // loop of sound
+            }
         }
     }
 }
