@@ -14,8 +14,9 @@ namespace Our_Project
         NetClient client;
 
         Game game;
-        Player player;
-        Player enemy;
+     public   Player player;
+     public   Player enemy;
+       public static bool local;
         private NetConnection server;
 
         public static NetOutgoingMessage outmsg;
@@ -31,16 +32,11 @@ namespace Our_Project
             client = new NetClient(config);
             client.Start();
 
-            
+            if(local)
              client.DiscoverLocalPeers(14242);
-          
-
-        //   client.DiscoverKnownPeer("77.127.40.31", 14242); //home
-        // client.DiscoverKnownPeer("192.168.1.7", 14242); //home internal
-
-
-
-            // client.DiscoverLocalPeers(14242);
+            else
+                client.DiscoverKnownPeer("77.127.40.31", 14242); //home
+            
         }
 
         public void update()

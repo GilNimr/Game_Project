@@ -68,7 +68,7 @@ namespace Our_Project.States_and_state_related
             player = buildingBoardState.player;
             player.myTurn = true;
             enemy = buildingBoardState.enemy;
-            connection = buildingBoardState.connection;
+            
            
            
         }
@@ -76,6 +76,9 @@ namespace Our_Project.States_and_state_related
         protected override void LoadContent()
         {
             base.LoadContent();
+
+            connection = buildingBoardState.connection;
+
             i_am_second_player = BuildingBoardState.i_am_second_player;
 
             if (!i_am_second_player)
@@ -211,7 +214,8 @@ namespace Our_Project.States_and_state_related
                     if(cartasian_rec.Center.X>tile.getCartasianRectangle().Center.X &&
                         cartasian_rec.Center.Y > tile.getCartasianRectangle().Center.Y)
                     {
-                        if (((!i_am_second_player&& tile.getId() >= 288 ) || (i_am_second_player && tile.getId() < 288 )) && !tile.getIsHidden())
+                        if (((!i_am_second_player&& tile.getId() >= 288 ) || (i_am_second_player && tile.getId() < 288 )) && !tile.getIsHidden()
+                            &&tile.occupied==Tile.Occupied.no && !tile.teleport_tile)
                         {
                             if(!resting)
                             tile.setColor(Color.Green);

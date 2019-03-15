@@ -13,13 +13,19 @@ namespace Our_Project
         private Texture2D button_texture;
         ISoundManager soundOfClick;
 
-        public Button Host_Button;
+        public Connection connection;
+        Player player;
+        Player enemy;
+        public Button local_Button;
+        public Button remote_Button;
 
         public StartMenuState(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(IStartMenuState), this);
             soundOfClick = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
+
+           
         }
 
         public override void Update(GameTime gameTime)
@@ -31,32 +37,27 @@ namespace Our_Project
                 // Go back to title screen
                 StateManager.ChangeState(OurGame.TitleIntroState.Value);
             }
-            //Host_Button.Update(gameTime);
+            //local_Button.Update(gameTime);
 
             base.Update(gameTime);
         }
 
-        private void HostButtonClick(object sender, System.EventArgs e)
+        private void LocalButtonClick(object sender, System.EventArgs e)
         {
-            /* case 0:
-                 // Got back here from playing the game. So just pop myself off the stack
-                 if (StateManager.ContainsState(OurGame.PlayingState.Value))
-                     StateManager.PopState();
-                 else // Starting a new game. */
-            //---- StateManager.ChangeState(OurGame.PlayingState.Value);
+            Connection.local = true;
+            connection = new Connection(OurGame, ref player, ref enemy);
             soundOfClick.Play("click");
-            Game.Components.Remove(Host_Button);
+            Game.Components.Remove(local_Button);
             StateManager.ChangeState(OurGame.BuildingBoardState.Value);
 
-            
-            /*    break;
-            case 1:
-                StateManager.PushState(OurGame.OptionsMenuState.Value);
-                break;
-            case 2:
-                StateManager.ChangeState(OurGame.TitleIntroState.Value);
-                break;*/
-
+        }
+        private void RemoteButtonClick(object sender, System.EventArgs e)
+        {
+            Connection.local = false;
+            connection = new Connection(OurGame, ref player, ref enemy);
+            soundOfClick.Play("click");
+            Game.Components.Remove(remote_Button);
+            StateManager.ChangeState(OurGame.BuildingBoardState.Value);
 
         }
 
@@ -66,14 +67,21 @@ namespace Our_Project
             font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
             button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
 
-            Host_Button = new Button(Game, button_texture , font)
+            local_Button = new Button(Game, button_texture , font)
             {
-                Position = new Vector2(Game1.screen_width/2  -  button_texture.Width/*/2*/, Game1.screen_height / 2 - button_texture.Height/2),
-                Text = "play",
+                Position = new Vector2(Game1.screen_width/2  -  button_texture.Width, Game1.screen_height / 2 - button_texture.Height/2),
+                Text = "play on local server",
             };
-            Host_Button.Click += HostButtonClick;
+            local_Button.Click += LocalButtonClick;
+            Game.Components.Add(local_Button);
 
-            Game.Components.Add(Host_Button);
+            remote_Button = new Button(Game, button_texture, font)
+            {
+                Position = new Vector2(local_Button.Position.X, local_Button.Position.Y-local_Button.Rectangle.Height),
+                Text = "play on remote server",
+            };
+            remote_Button.Click += RemoteButtonClick;
+            Game.Components.Add(remote_Button);
         }
 
         public override void Draw(GameTime gameTime)
@@ -86,7 +94,8 @@ namespace Our_Project
             
             OurGame.spriteBatch.Draw(texture, pos, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White, 0.0f, origin, new Vector2(5.0f, 5.0f), SpriteEffects.None, 0.0f);
             {
-                Host_Button.Draw(gameTime,OurGame.spriteBatch);
+                local_Button.Draw(gameTime,OurGame.spriteBatch);
+                remote_Button.Draw(gameTime, OurGame.spriteBatch);
             }
 
             base.Draw(gameTime);

@@ -402,9 +402,11 @@ namespace Our_Project
             }
 
             //checking to see if encounterd a teleport.
-            if (direction.teleport_tile)
+            if (direction.teleport_tile && timer_has_died == 0)
+            {
                 direction = direction.Teleport_to_rand();
-
+                
+            }
             send_update = true;
         }
 

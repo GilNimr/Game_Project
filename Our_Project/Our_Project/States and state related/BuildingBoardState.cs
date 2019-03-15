@@ -34,7 +34,7 @@ namespace Our_Project.States_and_state_related
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
         private MouseState prvState;            // mouse state for the algorithm of bad place sound
         private ScrollingBackgroundManager scrollingBackgroundManager;
-
+        private StartMenuState startMenuState;
         public SpriteFont font;   // font on button
         public Connection connection;
         public static bool i_am_second_player = false;
@@ -48,12 +48,14 @@ namespace Our_Project.States_and_state_related
             game.Components.Add(scrollingBackgroundManager);
             scrollingBackgroundManager.ScrollRate = -1f;
             allHidenPoints = setHidenTiles();   // set all the allHidenPoints
+            startMenuState = (StartMenuState)game.Services.GetService(typeof(IStartMenuState));
             player = new Player(game);
             player.myTurn = true;
             enemy = new Player(game);
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
-            connection = new Connection(game,ref player, ref enemy);
+            
+
             remainShapesToPutOnBigEmptyBoard = 5;   // set the number of shapes we exepted on board as 5
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             isPlayBadPlaceSoundEffect = true;   // for the algorithm about activate the badPlace sound
@@ -215,6 +217,8 @@ namespace Our_Project.States_and_state_related
         /// </summary>
         protected override void LoadContent()
         {
+           
+
             setAllContent();    // load textures
             setAllButtons();
             buildEmptyBoard();
@@ -231,7 +235,9 @@ namespace Our_Project.States_and_state_related
 
         private void initializeConnection()
         {
-            
+            connection = startMenuState.connection;
+            connection.player = player;
+            connection.enemy = enemy;
             connection.update();
             if (i_am_second_player)
             {

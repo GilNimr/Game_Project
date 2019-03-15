@@ -72,7 +72,7 @@ namespace Our_Project
 
 
             enemy = placingSoldiersState.enemy;
-            connection = placingSoldiersState.connection;
+            
 
             
             
@@ -80,6 +80,8 @@ namespace Our_Project
 
         protected override void LoadContent()
         {
+
+            connection = placingSoldiersState.connection;
 
             //Loading fonts.
             font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");

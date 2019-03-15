@@ -168,11 +168,19 @@ namespace Our_Project
         public Tile Teleport_to_rand()
         {
             Random rand = new Random();
-            int rand_number = rand.Next(0, 2);
-            while (PlayingState.teleports[rand_number] == this)
+            int rand_number = rand.Next(0, 4);
+            int index_to_prevent_loop=0;
+            while (PlayingState.teleports[rand_number] == this || PlayingState.teleports[rand_number].occupied!=Occupied.no)
             {
                 rand_number = rand.Next(0, 4);
+                index_to_prevent_loop++;
+
+                if (index_to_prevent_loop == 10)
+                    break;
             }
+            if (index_to_prevent_loop == 10)
+                return this;
+
             return PlayingState.teleports[rand_number];
             
             
