@@ -327,6 +327,7 @@ namespace Our_Project.States_and_state_related
 
         public override void Draw(GameTime gameTime)
         {
+            float scaleOfFone = Pawn.scaleOfFont;
 
             //drawing space bg
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
@@ -347,7 +348,7 @@ namespace Our_Project.States_and_state_related
             //debug view of flag
            // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
 
-            OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), 0.5f, SpriteEffects.None, 0);
+            OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), scaleOfFone, SpriteEffects.None, 0);
             
                 save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
 
