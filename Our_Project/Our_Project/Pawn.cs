@@ -42,7 +42,7 @@ namespace Our_Project
 
         private double timer_atk_num_display=0;
         private bool draw_atk_font = false;
-        private float scaleOfFont = Game1.screen_height * 0.00055f;
+        private readonly float scaleOfFont = Game1.screen_height * 0.00055f;
         private double timer_has_died = 0;
 
         Rectangle mouseRec;
@@ -261,7 +261,7 @@ namespace Our_Project
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
                     if (the_flag)
-                        spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White);
+                        spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
                     else
                     spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
 
