@@ -43,7 +43,9 @@ namespace Our_Project.States_and_state_related
                 return new Rectangle(Game1.Isometrix2twoD(iso_rec.Location), new Point(iso_rec.Width / 2, iso_rec.Height));
             }
         }
-        
+
+        public string flag_animation;
+        public string enemy_flag_animation;
 
         private String strength= ""; //string that represents strength of pawn.
 
@@ -68,8 +70,7 @@ namespace Our_Project.States_and_state_related
         private Tile curtile;        // the current tile we are hovering over.
         public Connection connection;
         public bool i_am_second_player;
-        public string flag_animation;
-        public string enemy_flag_animation;
+      
         private int teleport_index = 0; //index that counts how many teleports we placed.
 
         public PlacingSoldiersState(Game game) : base(game)
@@ -94,21 +95,8 @@ namespace Our_Project.States_and_state_related
 
             i_am_second_player = BuildingBoardState.i_am_second_player;
 
-
-            if (!i_am_second_player) //for now assigning flags depending on player arrival.
-            {
-                flag_animation = "canada";
-                player.flag = "canada";
-                enemy_flag_animation = "israel";
-                enemy.flag = "israel";
-            }
-            else
-            {
-                flag_animation = "israel";
-                player.flag = "israel";
-                enemy_flag_animation = "canada";
-                enemy.flag = "canada";
-            }
+            flag_animation = buildingBoardState.flag_animation;
+            enemy_flag_animation = buildingBoardState.enemy_flag_animation;
 
             ourBoard = buildingBoardState.GetEmptyBoard(); //our board.
             buttons = new List<Button>();

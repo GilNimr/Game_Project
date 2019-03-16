@@ -76,7 +76,7 @@
 /processorParam:TextureFormat=Color
 /build:Textures/Animations/canada test.png
 
-#begin Textures/Animations/sprite sheet israel.png
+#begin Textures/Animations/Israel.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -86,19 +86,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Animations/sprite sheet israel.png
-
-#begin Textures/Animations/sprite sheet jamaica.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Animations/sprite sheet jamaica.png
+/build:Textures/Animations/Israel.png
 
 #begin Textures/backgroundSpace.png
 /importer:TextureImporter

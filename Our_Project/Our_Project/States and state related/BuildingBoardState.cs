@@ -41,7 +41,9 @@ namespace Our_Project.States_and_state_related
         public static bool i_am_second_player = false;
         public Player player;
         public Player enemy;
-        
+        public string flag_animation;
+        public string enemy_flag_animation;
+
         public BuildingBoardState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
@@ -253,6 +255,20 @@ namespace Our_Project.States_and_state_related
             connection.player = player;
             connection.enemy = enemy;
             connection.Update();
+            if (!i_am_second_player) //for now assigning flags depending on player arrival.
+            {
+                flag_animation = "canada";
+                player.flag = "canada";
+                enemy_flag_animation = "israel";
+                enemy.flag = "israel";
+            }
+            else
+            {
+                flag_animation = "israel";
+                player.flag = "israel";
+                enemy_flag_animation = "canada";
+                enemy.flag = "canada";
+            }
 
             /*if we are the second player we have to flip the
              *board so we can view it from the same angle as first player.*/

@@ -12,7 +12,7 @@ namespace GameServer
 {
     class Program //here we run our server.
     {
-        private static bool no_more_tiles =false; //if we dont need to read updates on tiles anymore, to save work.
+       // private static bool no_more_tiles =false; //if we dont need to read updates on tiles anymore, to save work.
 
         static void Main(string[] args)
         {
@@ -87,7 +87,7 @@ namespace GameServer
                                 Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " connected!");
 
                                 //in each connection we use it's TAG to keep game data of that client.
-                                msg.SenderConnection.Tag = new int[601];
+                                msg.SenderConnection.Tag = new int[602];
 
                                 //resetting to -10 (meaning no game data to send to other clients)
                                 int[] pos = msg.SenderConnection.Tag as int[];
@@ -120,7 +120,9 @@ namespace GameServer
                                     {
                                         int tile_id = msg.ReadInt32();//reading message
                                         int[] pos = msg.SenderConnection.Tag as int[]; //using connection TAG to save data about that client
-                                        pos[600] = tile_id;
+                                        if (pos[600] == -10)
+                                            pos[600] = tile_id;
+                                        else pos[601 ]= tile_id;
                                         break;
                                     }
                                 case "tile_added":
@@ -185,7 +187,7 @@ namespace GameServer
                                     NetOutgoingMessage om = server.CreateMessage();
 
                                     if (otherPlayer.Tag == null)
-                                        otherPlayer.Tag = new int[601];
+                                        otherPlayer.Tag = new int[602];
 
                                     int[] pos = otherPlayer.Tag as int[];
                                     if (pos[0] != -10 && pos[1] != -10) //if there is new data to write.
@@ -200,9 +202,8 @@ namespace GameServer
                                         pos[1] = -10;
                                         
                                     }
-                                    if(!no_more_tiles) //if we are still sending updates on tiles.
-                                    {
-                                        int i = 0;
+                 
+                                    int i = 0;
                                         while (pos[4 + i] == -10 && 4 + i < 599)
                                         {
 
@@ -211,13 +212,13 @@ namespace GameServer
 
                                         if (pos[4 + i] != -10) //if there is new data to write.
                                         {
-
+                                        om = server.CreateMessage();
                                             om.Write("tile_added");
                                             om.Write(pos[4 + i]);
                                             server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                             pos[4 + i] = -10;
                                         }
-                                    }
+                           
 
                                     if (pos[2] != -10 && pos[3] != -10) //if there is new data to write.
                                     {
@@ -230,20 +231,29 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[2] = -10;
                                         pos[3] = -10;
-                                        no_more_tiles = true;
+                             
                                     }
-                                    if(pos[600]!=-10) //if there is new data to write.
+                                    if(pos[600]!=-10 || pos[601]!=-10) //if there is new data to write.
                                     {
                                         om = server.CreateMessage();
                                         om.Write("teleport");
-                                        om.Write(pos[600]);
-                                        // send message
-                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
-                                        pos[600] = -10;
-                                    
+                                        if (pos[600] != -10)
+                                        {
+                                            om.Write(pos[600]);
+                                            // send message
+                                            server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                            pos[600] = -10;
+                                        }
+                                        else if(pos[601]!=-10)
+                                        {
+                                            om.Write(pos[601]);
+                                            // send message
+                                            server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                            pos[601] = -10;
+                                        }
                                     }
-                                   
-                                    
+                                 //   server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+
                                 }
 
                             }
