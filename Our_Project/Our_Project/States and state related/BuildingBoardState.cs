@@ -83,7 +83,7 @@ namespace Our_Project.States_and_state_related
 
         private  List<List<NodeOFHidenTiles>> SetHidenTilesFromFile()
         {
-            string[] text = System.IO.File.ReadAllLines(@"\Users\shach\OneDrive - Sapir College\ספיר\פיתוח משחקי וידאו\Game_Project\Our_Project\textInput.txt");
+            string[] text = System.IO.File.ReadAllLines(@"‪..\..\..\..\..\..\Content\Files\shapes.txt");
 
             List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>();
             shapesHeight = new List<int>();
@@ -463,7 +463,7 @@ namespace Our_Project.States_and_state_related
             if (hideShape)
             {
                 
-                dragingShape = new Board(allHidenPoints[1], /*4, 6,*/ shapesHeight[1], shapesWidth[1], 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                dragingShape = new Board(allHidenPoints[1], shapesHeight[1], shapesWidth[1], 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(dragingShape);
                 hideShape = false;
             }
@@ -481,7 +481,7 @@ namespace Our_Project.States_and_state_related
             soundEffect.Play("click");
             if (hideShape)
             {
-                dragingShape = new Board(allHidenPoints[2], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                dragingShape = new Board(allHidenPoints[2], shapesHeight[2], shapesWidth[2], 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(dragingShape);
                 hideShape = false;
             }
@@ -500,7 +500,7 @@ namespace Our_Project.States_and_state_related
             if (hideShape)
             {
 
-                dragingShape = new Board(allHidenPoints[3], 6, 2, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                dragingShape = new Board(allHidenPoints[3], shapesHeight[3], shapesWidth[3], 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(dragingShape);
                 hideShape = false;
             }
@@ -519,7 +519,7 @@ namespace Our_Project.States_and_state_related
             if (hideShape)
             {
 
-                dragingShape = new Board(allHidenPoints[3], 5, 5, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                dragingShape = new Board(allHidenPoints[4], shapesHeight[4], shapesWidth[4], 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(dragingShape);
                 hideShape = false;
             }
