@@ -28,6 +28,7 @@ namespace Our_Project.States_and_state_related
         private Board dragingShape;     // get the only shape the user sees
         private readonly List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
         private List<Button> buttons;       // all the buttons:
+        private List<int> shapesWidth, shapesHeight;
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard;
         private int remainShapesToPutOnBigEmptyBoard; //counter of shapes on board
         private ISoundManager soundEffect;      
@@ -36,6 +37,8 @@ namespace Our_Project.States_and_state_related
         private ScrollingBackgroundManager scrollingBackgroundManager;
         private ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
+        
+        
         public SpriteFont font;   // font on button
         public Connection connection;
         public static bool i_am_second_player = false;
@@ -43,6 +46,7 @@ namespace Our_Project.States_and_state_related
         public Player enemy;
         public string flag_animation;
         public string enemy_flag_animation;
+        
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -50,13 +54,15 @@ namespace Our_Project.States_and_state_related
             scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
             game.Components.Add(scrollingBackgroundManager);
             scrollingBackgroundManager.ScrollRate = -1f;
-
+            
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
 
             startMenuState = (StartMenuState)game.Services.GetService(typeof(IStartMenuState));
-       
 
-            allHidenPoints = SetHidenTiles();   // set all the allHidenPoints
+
+            //allHidenPoints = SetHidenTiles();   // set all the allHidenPoints
+            allHidenPoints = SetHidenTilesFromFile();   // set all the allHidenPoints
+
             player = new Player(game)
             {
                 myTurn = true
@@ -74,6 +80,56 @@ namespace Our_Project.States_and_state_related
                 dragingShape = null;
                 hideShape = true;
         }
+
+        private  List<List<NodeOFHidenTiles>> SetHidenTilesFromFile()
+        {
+            string[] text = System.IO.File.ReadAllLines(@"\Users\shach\OneDrive - Sapir College\ספיר\פיתוח משחקי וידאו\Game_Project\Our_Project\textInput.txt");
+
+            List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>();
+            shapesHeight = new List<int>();
+            shapesWidth = new List<int>();
+            int lastWidth=0;
+            int numberOfShapes, height, width;
+            numberOfShapes = height = width = 0;
+            bool readingShape = false;
+
+            foreach (string line in text)
+            {
+                foreach (char c in line)
+                {
+                    if (c == '$')
+                    {
+                        if (!readingShape)
+                        {
+                            numberOfShapes++;
+                            allHidenPoints.Add(new List<NodeOFHidenTiles>());
+                            readingShape = true;
+                            width = 0;
+                            height = -1;
+                        }
+
+                        else
+                        {
+                            shapesHeight.Add(height);
+                            shapesWidth.Add(lastWidth-1);
+                            readingShape = false;
+                        }
+                        break;
+                    }
+
+                    if (c == '0')
+                    {
+                        allHidenPoints[numberOfShapes-1].Add(new NodeOFHidenTiles(height, width-1));
+                    }
+                    width++;
+                }
+                height++;
+                lastWidth = width;
+                width = 1;
+            }
+            return allHidenPoints;
+        }
+
 
         private static List<List<NodeOFHidenTiles>> SetHidenTiles() // set the hide tiles at each shape as list of lists
         {
@@ -388,7 +444,7 @@ namespace Our_Project.States_and_state_related
             soundEffect.Play("click");
             if (hideShape)
             {
-                dragingShape = new Board(allHidenPoints[0], 6, 4, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                dragingShape = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(dragingShape);
                 hideShape = false;
             }
@@ -407,7 +463,7 @@ namespace Our_Project.States_and_state_related
             if (hideShape)
             {
                 
-                dragingShape = new Board(allHidenPoints[1], 4, 6, 0, 0, fullTileIso, fullTile2d, false, this.Content);
+                dragingShape = new Board(allHidenPoints[1], /*4, 6,*/ shapesHeight[1], shapesWidth[1], 0, 0, fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(dragingShape);
                 hideShape = false;
             }

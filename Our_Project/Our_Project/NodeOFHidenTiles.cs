@@ -25,7 +25,7 @@ namespace Our_Project
             i = _i;
             j = _j;
         }
-
+        
         public int GetI()
         {
             return i;
