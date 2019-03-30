@@ -44,7 +44,7 @@ namespace Our_Project
 
         private bool draw_atk_font = false;
 
-        public static readonly float scaleOfFont = Game1.screen_height * 0.00055f; // for scaling our fonts to different screens.
+        
         private double timer_has_died = 0;
 
         Rectangle mouseRec;
@@ -258,15 +258,15 @@ namespace Our_Project
 
                     //if king of flags.
                     if (the_flag)
-                        spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero,Game1.FontScale , SpriteEffects.None, 0);
                     //if regular pawn
                     else
-                    spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
 
                     //timer for drawing attack.
                     if (timer_atk_num_display<3.0 && draw_atk_font)
 
-                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X,(int)position.Y)+new Vector2(-Game1.screen_width/10,-Game1.screen_height/10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, scaleOfFont*10, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X,(int)position.Y)+new Vector2(-Game1.screen_width/10,-Game1.screen_height/10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, Game1.FontScale * 10, SpriteEffects.None, 0);
                     else //resetting values.
                     {
                         draw_atk_font = false;
@@ -279,7 +279,7 @@ namespace Our_Project
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
                     if (timer_atk_num_display < 3.0 && draw_atk_font)
-                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, Game1.FontScale * 10, SpriteEffects.None, 0);
                     else
                     {
                         draw_atk_font = false;
@@ -295,14 +295,14 @@ namespace Our_Project
                 {
                     //   spriteBatch.Draw(texture, new Rectangle(30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), Color.White);
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, new Rectangle(Game1.screen_width / 40 * strength, Game1.screen_height/10, Tile.GetTileSize() / 2, Tile.GetTileSize() / 2), SpriteEffects.None);
-                    spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(Game1.screen_width / 40 * strength, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(Game1.screen_width / 40 * strength, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
                     
                 }
                 else
                 {
                     //  spriteBatch.Draw(texture, new Rectangle(320 + 30 * strength, 20, Tile.getTileSize() / 2, Tile.getTileSize() / 2), Color.White);
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, new Rectangle( Game1.screen_width / 40 * strength, Game1.screen_height / 10 * 8, Tile.GetTileSize() / 2, Tile.GetTileSize() / 2), SpriteEffects.None);
-                    spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(Game1.screen_width / 40 * strength, Game1.screen_height / 10 * 8), Color.White, 0, Vector2.Zero, scaleOfFont, SpriteEffects.None, 0);
+                    spriteBatch.DrawString(strength_font, strength.ToString(), new Vector2(Game1.screen_width / 40 * strength, Game1.screen_height / 10 * 8), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
                 }
                 
 

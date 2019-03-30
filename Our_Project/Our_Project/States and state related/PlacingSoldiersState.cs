@@ -269,6 +269,7 @@ namespace Our_Project.States_and_state_related
                     tile.SetIsHidden(false);
                     tile.teleport_tile = true;
                     tile.sendUpdate = true;  //tell server this is a teleport tile now.
+                    connection.SendTileUpdate(tile.GetId());
 
                     //adding to our teleports array.
                     for (int i = 0; i < PlayingState.teleports.Length; i++)
@@ -333,7 +334,7 @@ namespace Our_Project.States_and_state_related
 
         public override void Draw(GameTime gameTime)
         {
-            float scaleOfFone = Pawn.scaleOfFont;
+            float scaleOfFone = Game1.FontScale;
 
             //drawing space bg
             scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);

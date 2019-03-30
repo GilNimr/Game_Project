@@ -255,6 +255,7 @@ namespace Our_Project.States_and_state_related
                         tFromEmpty.texture = tilesFromShpae[i].texture;
                         tFromEmpty.SetIsHidden(false);
                         tFromEmpty.sendUpdate = true;
+                        connection.SendTileUpdate(tFromEmpty.GetId());
                     }
                     i++;
                 }

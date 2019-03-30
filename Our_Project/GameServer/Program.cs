@@ -109,8 +109,38 @@ namespace GameServer
                                     currentGameRoom.SetSecondPlayer(msg.SenderConnection);
                                 }
                             }
+                            else if (status == NetConnectionStatus.Disconnected)
+                            {
+                                //writing to console.
+                                Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " disconnected!");
 
-                            break;
+                                foreach (var gameroom in gamerooms)
+                                {
+                                    foreach (var player in gameroom.players)
+                                    {
+                                        if (player == msg.SenderConnection)
+                                        {
+                                            if (player == gameroom.GetFirstPlayer())
+                                            {
+
+                                                NetOutgoingMessage om = server.CreateMessage();
+                                                om.Write("disconnect");
+                                                server.SendMessage(om, gameroom.GetSecondPlayer(), NetDeliveryMethod.ReliableOrdered);
+                                            }
+                                            else if (player == gameroom.GetSecondPlayer())
+                                            {
+                                                NetOutgoingMessage om = server.CreateMessage();
+                                                om.Write("disconnect");
+                                                server.SendMessage(om, gameroom.GetFirstPlayer(), NetDeliveryMethod.ReliableOrdered);
+                                            }
+
+
+                                        }
+                                    }
+                                }
+                            }
+
+                                break;
 
                         case NetIncomingMessageType.Data: //reading game related data.
                             string data_string = msg.ReadString(); //reading message header
@@ -252,7 +282,7 @@ namespace GameServer
                                             pos[601] = -10;
                                         }
                                     }
-                                 //   server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                 
 
                                 }
 

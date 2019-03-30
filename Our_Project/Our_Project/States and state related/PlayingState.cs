@@ -145,7 +145,7 @@ namespace Our_Project
             celAnimationManager.Draw(gameTime, flag, OurGame. spriteBatch, Rec, SpriteEffects.None);
 
             //drawing our enemys giant flag 
-            Rec = new Rectangle(Game1.screen_width * 2 / 10, Game1.screen_height * 1 / 10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
+            Rec = new Rectangle(Game1.screen_width * 1 / 10, Game1.screen_height * 1 / 10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
             celAnimationManager.Draw(gameTime, enemy_flag, OurGame.spriteBatch, Rec, SpriteEffects.None);
             
             //drawing player pawns.
@@ -165,15 +165,15 @@ namespace Our_Project
             //drawing strings
             if (player.myTurn)
             {
-                OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2((Game1.screen_width / 3)*2, (Game1.screen_height*70) / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
             }
             else
-                OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
 
             if(win)
-                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
             if(lose)
-                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White);
+                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
         }
     }
 }

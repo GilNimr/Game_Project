@@ -39,7 +39,8 @@ namespace Our_Project
 
        public static int screen_width;
        public static int screen_height;
-        
+        public static  float FontScale;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -52,6 +53,8 @@ namespace Our_Project
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
+
+            FontScale = Game1.screen_height * 0.00055f; // for scaling our fonts to different screens.
 
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);
@@ -137,7 +140,7 @@ namespace Our_Project
         protected override void Update(GameTime gameTime)
         {
 
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+           if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
             
             base.Update(gameTime);

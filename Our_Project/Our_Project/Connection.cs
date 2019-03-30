@@ -38,43 +38,17 @@ namespace Our_Project
             config.EnableMessageType(NetIncomingMessageType.DiscoveryResponse);
 
             client = new NetClient(config);
-            client.Start(); //starting connection attempt.
+            client.Start(); //Binds to socket and spawns the networking thread.
 
             if(local)
              client.DiscoverLocalPeers(14242);
             else
-                client.DiscoverKnownPeer("77.127.40.31", 14242); //server on gil's home for now.
+             client.DiscoverKnownPeer("77.127.40.31", 14242); //server on gil's home for now.
             
         }
 
         public void Update()
         {
-            
-            //checking to see for updates to write to server.
-            for (int i = 0; i < player.Board.GetHeight()* player.Board.GetWidth(); i++)
-            {
-                if (player.Board.boardDictionaryById[i].sendUpdate)
-                {
-                    if (player.Board.boardDictionaryById[i].teleport_tile) //updates on teleports
-                    {
-                        NetOutgoingMessage om = client.CreateMessage();
-                        om.Write("teleport");
-                        om.Write(i);
-                        client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
-                        player.Board.boardDictionaryById[i].sendUpdate = false;
-                    }
-                    else                                                  //updates on other tiles
-                    {
-                        NetOutgoingMessage om = client.CreateMessage();
-                        om.Write("tile_added");
-                        om.Write(i);
-                        client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
-                        player.Board.boardDictionaryById[i].sendUpdate = false;
-                    }
-
-                }
-            }
-         
 
             if (player.pawns != null) //updates on pawns 
             {
@@ -142,6 +116,12 @@ namespace Our_Project
 
                         switch (data_string)
                         {
+                            case "disconnect":
+                                {
+                                    PlayingState.win = true;
+                                    break;
+                                }
+
                             case "tile_added":
                                 {
                                     int tile_id = msg.ReadInt32(); //reading message
@@ -212,5 +192,31 @@ namespace Our_Project
                 }
             }
         }
+
+        //checking to see for updates to write to server.
+        public void SendTileUpdate(int i)
+        {
+            if (player.Board.boardDictionaryById[i].sendUpdate)
+            {
+                if (player.Board.boardDictionaryById[i].teleport_tile) //updates on teleports
+                {
+                    NetOutgoingMessage om = client.CreateMessage();
+                    om.Write("teleport");
+                    om.Write(i);
+                    client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                    player.Board.boardDictionaryById[i].sendUpdate = false;
+                }
+                else                                                  //updates on other tiles
+                {
+                    NetOutgoingMessage om = client.CreateMessage();
+                    om.Write("tile_added");
+                    om.Write(i);
+                    client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                    player.Board.boardDictionaryById[i].sendUpdate = false;
+                }
+
+            }
+        }
+
     }
 }
