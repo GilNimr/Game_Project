@@ -265,7 +265,7 @@ namespace Our_Project.States_and_state_related
 
                 if (remainShapesToPutOnBigEmptyBoard == 0) // if now we have max number of shapes
                 {   // we will create and show the next button
-                    next = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+                    next = new Button(Game, OurGame.button_texture, font)
                     {
                         
                         Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
@@ -364,7 +364,7 @@ namespace Our_Project.States_and_state_related
             fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
-            font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
+            font = OurGame.font30;
         }
 
         private void SetAllButtons()
@@ -381,7 +381,7 @@ namespace Our_Project.States_and_state_related
             int xPositionOfShapeButton = Game1.screen_width / 4;
             int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
 
-            firstShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            firstShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),
                 Text = "First shape",
@@ -392,7 +392,7 @@ namespace Our_Project.States_and_state_related
 
             int heightOfButton = firstShape.Rectangle.Height;
 
-            secondShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            secondShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + heightOfButton),
                 Text = "Second Shape",
@@ -401,7 +401,7 @@ namespace Our_Project.States_and_state_related
             secondShape.Click += ClickSecondShape;
             buttons.Add(secondShape);
 
-            thirdShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            thirdShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton),
                 Text = "Thirth Shape",    
@@ -410,7 +410,7 @@ namespace Our_Project.States_and_state_related
             thirdShape.Click += ClickThirdShape;
             buttons.Add(thirdShape);
 
-            forthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            forthShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 3*heightOfButton),
                 Text = "Fourth Shape",
@@ -419,7 +419,7 @@ namespace Our_Project.States_and_state_related
             forthShape.Click += ClickFourthShape;
             buttons.Add(forthShape);
 
-            fifthShape = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            fifthShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 4*heightOfButton),
                 Text = "Fifth Shape",
@@ -663,7 +663,7 @@ namespace Our_Project.States_and_state_related
                     int xPositionOfShapeButton = Game1.screen_width / 5;
                     int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
 
-                    saveYourShapeInBoard = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+                    saveYourShapeInBoard = new Button(Game, OurGame.button_texture, font)
                     {
                         Position = new Vector2(Game1.screen_width / 2, (int)(Game1.screen_height / 50)),
                         Text = "Save Shape",

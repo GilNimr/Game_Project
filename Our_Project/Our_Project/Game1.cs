@@ -40,6 +40,9 @@ namespace Our_Project
        public static int screen_width;
        public static int screen_height;
         public static  float FontScale;
+        public SpriteFont font30;
+        public SpriteFont font300;
+        public Texture2D button_texture;
 
         public Game1()
         {
@@ -119,6 +122,10 @@ namespace Our_Project
             celCount = new CelCount(5, 25);
             celAnimationManager.AddAnimation("israel", "israel", celCount, 10);
             celAnimationManager.ResumeAnimation("israel");
+
+            font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
+            font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");
+            button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
 
         }
 

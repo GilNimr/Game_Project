@@ -33,6 +33,7 @@ namespace Our_Project
         private string enemy_flag; //string for animation.
 
         SpriteFont font_small;
+        private SpriteFont font_big;
         PlacingSoldiersState placingSoldiersState;
 
         IScrollingBackgroundManager scrollingBackgroundManager;
@@ -60,7 +61,8 @@ namespace Our_Project
 
 
             //Loading fonts.
-            font_small = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
+            font_small = OurGame.font30;
+            font_big = OurGame.font300;
             ourBoard = placingSoldiersState.ourBoard;
             tileDictionary = placingSoldiersState.ourBoard.boardDictionaryById;
 

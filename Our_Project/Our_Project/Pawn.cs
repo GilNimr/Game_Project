@@ -17,6 +17,7 @@ namespace Our_Project
 {
    public class Pawn
     {
+        Game1 game;
         public int id;
 
         public Tile current_tile;  // the tile that now the pawn is in.
@@ -57,6 +58,7 @@ namespace Our_Project
 
         public Pawn(Game game,String _flag_animation, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
+            this.game =(Game1) game;
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
 
             flag_animation = _flag_animation; //setting animation.
@@ -266,7 +268,7 @@ namespace Our_Project
                     //timer for drawing attack.
                     if (timer_atk_num_display<3.0 && draw_atk_font)
 
-                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X,(int)position.Y)+new Vector2(-Game1.screen_width/10,-Game1.screen_height/10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, Game1.FontScale * 10, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(game.font300, strength.ToString(), Game1.TwoD2isometrix((int)position.X,(int)position.Y)+new Vector2(-Game1.screen_width/10,-Game1.screen_height/10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
                     else //resetting values.
                     {
                         draw_atk_font = false;
@@ -279,7 +281,7 @@ namespace Our_Project
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
                     if (timer_atk_num_display < 3.0 && draw_atk_font)
-                        spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, Game1.FontScale * 10, SpriteEffects.None, 0);
+                        spriteBatch.DrawString(game.font300, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
                     else
                     {
                         draw_atk_font = false;

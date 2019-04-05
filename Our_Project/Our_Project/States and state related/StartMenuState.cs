@@ -9,7 +9,7 @@ namespace Our_Project
     public sealed class StartMenuState : BaseGameState, IStartMenuState
     {
         private Texture2D texture;        
-        private SpriteFont font;
+        private SpriteFont font30;
         private Texture2D button_texture;
         ISoundManager soundOfClick;
 
@@ -66,10 +66,10 @@ namespace Our_Project
         protected override void LoadContent()
         {
             texture = Content.Load<Texture2D>(@"Textures\startMenu");
-            font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
-            button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
+            font30 = OurGame.font30;
+            button_texture = OurGame.button_texture;
 
-            local_Button = new Button(Game, button_texture , font)
+            local_Button = new Button(Game, button_texture , font30)
             {
                 Position = new Vector2(Game1.screen_width/2  -  button_texture.Width, Game1.screen_height / 2 - button_texture.Height/2),
                 Text = "play on local server",
@@ -77,7 +77,7 @@ namespace Our_Project
             local_Button.Click += LocalButtonClick;
             Game.Components.Add(local_Button);
 
-            remote_Button = new Button(Game, button_texture, font)
+            remote_Button = new Button(Game, button_texture, font30)
             {
                 Position = new Vector2(local_Button.Position.X, local_Button.Position.Y-local_Button.Rectangle.Height),
                 Text = "play on remote server",

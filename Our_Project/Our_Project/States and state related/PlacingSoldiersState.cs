@@ -101,11 +101,11 @@ namespace Our_Project.States_and_state_related
             ourBoard = buildingBoardState.GetEmptyBoard(); //our board.
             buttons = new List<Button>();
 
-            font = Content.Load<SpriteFont>(@"Fonts\KaushanScript");
-            button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
+            font = OurGame.font30;
+            button_texture = OurGame.button_texture;
 
             /* button that can be activated when all 20 pawns are placed and 2 teleports*/
-            save_and_start_game = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            save_and_start_game = new Button(Game, button_texture, font)
             {
                 Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
                 Text = "Next",
@@ -114,7 +114,7 @@ namespace Our_Project.States_and_state_related
             save_and_start_game.Click += SaveAndStartGame; // loading method to button.
 
             /*a button that places the pawn(flag) at a current position.*/
-            save_flag_button = new Button(Game, Content.Load<Texture2D>(@"Textures\Controls\Button"), font)
+            save_flag_button = new Button(Game, button_texture, font)
             {
                 Position = new Vector2(save_and_start_game.Rectangle.X - save_and_start_game.Rectangle.Width, (int)(Game1.screen_height / 50)),
                 Text = "Save here?",
@@ -159,9 +159,6 @@ namespace Our_Project.States_and_state_related
             teleports = new Tile[4];
             teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
 
-           
-            
-        
         }
 
         //method of creating a flag or teleport to drag.

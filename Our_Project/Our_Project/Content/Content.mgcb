@@ -13,26 +13,26 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Fonts/Arial.spritefont
+#begin Fonts/KaushanScript30.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/Arial.spritefont
+/build:Fonts/KaushanScript30.spritefont
 
-#begin Fonts/ArialSmall.spritefont
+#begin Fonts/KaushanScript300.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/ArialSmall.spritefont
+/build:Fonts/KaushanScript300.spritefont
 
-#begin Fonts/KaushanScript.spritefont
+#begin Fonts/KaushanScript60.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:Fonts/KaushanScript.spritefont
+/build:Fonts/KaushanScript60.spritefont
 
 #begin Sounds/Music/backGroundPlayinState.mp3
 /importer:Mp3Importer

@@ -4,9 +4,9 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/Arial.spritefont</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/ArialSmall.spritefont</File>
-    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/KaushanScript.spritefont</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/KaushanScript30.spritefont</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/KaushanScript300.spritefont</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Fonts/KaushanScript60.spritefont</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/backGroundPlayinState.mp3</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/Music/titleSound.wav</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Sounds/SoundFX/badPlace.mp3</File>
