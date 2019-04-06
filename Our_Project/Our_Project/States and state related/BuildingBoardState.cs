@@ -42,6 +42,7 @@ namespace Our_Project.States_and_state_related
         public SpriteFont font;   // font on button
         public Connection connection;
         public static bool i_am_second_player = false;
+        public static bool wait_for_other_player = false;
         public Player player;
         public Player enemy;
         public string flag_animation;
@@ -263,7 +264,7 @@ namespace Our_Project.States_and_state_related
                 remainShapesToPutOnBigEmptyBoard--; // subtract counter
 
 
-                if (remainShapesToPutOnBigEmptyBoard == 0) // if now we have max number of shapes
+                if (remainShapesToPutOnBigEmptyBoard == 0 ) // if now we have max number of shapes
                 {   // we will create and show the next button
                     next = new Button(Game, OurGame.button_texture, font)
                     {
@@ -535,9 +536,9 @@ namespace Our_Project.States_and_state_related
 
 
         private void SaveAndStartGame(object sender, EventArgs e) // if you finished build your board and click "next"
-        {   
-                // set each texture-tile in bigEmptyBoard that without shape as null
-            foreach (Tile[] tileLine in bigEmptyBoard.GetBoard()) 
+        {
+            // set each texture-tile in bigEmptyBoard that without shape as null
+            foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
             {
                 foreach (Tile t in tileLine)
                 {
@@ -547,8 +548,11 @@ namespace Our_Project.States_and_state_related
             }
 
             soundEffect.Play("click");
-            buttons.Clear();    //destroid buttons
-            StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
+            if (!wait_for_other_player)
+            {
+                buttons.Clear();    //destroid buttons
+                StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
+            }
         }
 
         
@@ -951,6 +955,11 @@ namespace Our_Project.States_and_state_related
             foreach(Button b in buttons)
                 b.Draw(gameTime, OurGame.spriteBatch);
             
+            if(wait_for_other_player)
+            {
+                OurGame.spriteBatch.DrawString(OurGame.font30, "waiting for an other player to connect", new Vector2((Game1.screen_width / 3) * 2, (Game1.screen_height * 70) / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
+            }
+
             base.Draw(gameTime);
         }
 

@@ -52,11 +52,16 @@ namespace GameServer
                             
 
                             NetOutgoingMessage msg_num_of_players = server.CreateMessage();
-                            if (server.ConnectionsCount % 2 != 0)
+                            if (server.ConnectionsCount % 2 != 0) //second player
                             {
                                 msg_num_of_players.Write(1);
+
+                                NetOutgoingMessage msg_sec_player_connected = server.CreateMessage();
+                                msg_sec_player_connected.Write("second");
+                                server.SendMessage(msg_sec_player_connected,currentGameRoom.GetFirstPlayer(), NetDeliveryMethod.ReliableOrdered);
+
                             }
-                            else
+                            else //first player
                             {
                                 msg_num_of_players.Write(0);
                             }
@@ -114,7 +119,7 @@ namespace GameServer
                                 //writing to console.
                                 Console.WriteLine(NetUtility.ToHexString(msg.SenderConnection.RemoteUniqueIdentifier) + " disconnected!");
 
-                                foreach (var gameroom in gamerooms)
+                                foreach (var gameroom in gamerooms.ToArray())
                                 {
                                     foreach (var player in gameroom.players)
                                     {
@@ -126,12 +131,14 @@ namespace GameServer
                                                 NetOutgoingMessage om = server.CreateMessage();
                                                 om.Write("disconnect");
                                                 server.SendMessage(om, gameroom.GetSecondPlayer(), NetDeliveryMethod.ReliableOrdered);
+                                                gamerooms.Remove(gameroom);
                                             }
                                             else if (player == gameroom.GetSecondPlayer())
                                             {
                                                 NetOutgoingMessage om = server.CreateMessage();
                                                 om.Write("disconnect");
                                                 server.SendMessage(om, gameroom.GetFirstPlayer(), NetDeliveryMethod.ReliableOrdered);
+                                                gamerooms.Remove(gameroom);
                                             }
 
 

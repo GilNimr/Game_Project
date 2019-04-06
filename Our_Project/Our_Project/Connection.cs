@@ -108,6 +108,8 @@ namespace Our_Project
 
                         if (num_of_players == 1)
                             BuildingBoardState.i_am_second_player = true;
+                        else
+                            BuildingBoardState.wait_for_other_player = true;
                         break;
 
                     case NetIncomingMessageType.Data: //all game related messages
@@ -116,6 +118,11 @@ namespace Our_Project
 
                         switch (data_string)
                         {
+                            case "second":
+                                {
+                                    BuildingBoardState.wait_for_other_player = false;
+                                    break;
+                                }
                             case "disconnect":
                                 {
                                     PlayingState.win = true;
