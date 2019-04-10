@@ -43,10 +43,12 @@ namespace Our_Project
         public SpriteFont font30;
         public SpriteFont font300;
         public Texture2D button_texture;
+        private ParticleService particleService;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            
 
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
@@ -70,6 +72,8 @@ namespace Our_Project
 
             stateManager = new GameStateManager(this);
             Components.Add(stateManager);
+
+            
 
             TitleIntroState = new TitleIntroState(this);
             StartMenuState = new StartMenuState(this);
@@ -109,7 +113,9 @@ namespace Our_Project
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
+            particleService = new ParticleService(this, GraphicsDevice);
+            Components.Add(particleService);
+
             // Load sounds
             string musicPath = @"Sounds\Music";
             string fxPath = @"Sounds\SoundFX\";

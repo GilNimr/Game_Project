@@ -156,7 +156,7 @@ namespace Our_Project
         public Tile Teleport_to_rand()
         {
             Random rand = new Random();
-            int rand_number = rand.Next(0, 4);
+            int rand_number = rand.Next(0, 2);
             int index_to_prevent_loop=0;
             while (PlayingState.teleports[rand_number] == this || PlayingState.teleports[rand_number].occupied!=Occupied.no)
             {

@@ -47,6 +47,7 @@
     <Compile Include="Connection.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="NodeOFHidenTiles.cs" />
+    <Compile Include="ParticleService.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="States and state related\BaseGameState.cs" />
     <Compile Include="Game1.cs" />
@@ -68,8 +69,20 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\MyNetGame1\Lidgren.Network\bin\Debug\Lidgren.Network.dll</HintPath>
     </Reference>
+    <Reference Include="MonoGame.Extended, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Content.Pipeline">
+      <HintPath>..\..\..\..\..\.nuget\packages\monogame.extended.content.pipeline\1.1.0\tools\MonoGame.Extended.Content.Pipeline.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoGame.Extended.Particles, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Extended.Particles.1.1.0\lib\portable-net45+win8+wpa81\MonoGame.Extended.Particles.dll</HintPath>
+    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -126,12 +139,16 @@
     </None>
     <None Include="app.config" />
     <None Include="app.manifest" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\XELibrary\XELibrary.csproj">
       <Project>{623010cd-3e24-4f0e-9eae-922dad230975}</Project>
       <Name>XELibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

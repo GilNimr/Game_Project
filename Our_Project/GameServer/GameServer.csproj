@@ -6,6 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MonoGame.Extended" Version="1.1.0" />
+    <PackageReference Include="MonoGame.Extended.Content.Pipeline" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Lidgren.Network">
       <HintPath>..\DLL's\Lidgren.Network.dll</HintPath>
     </Reference>
