@@ -30,6 +30,7 @@ namespace Our_Project
         public int strength;
         public bool send_update;
         public bool isMouseClicked; // if we clicked on pawn 
+        private bool start_timer_move;
         private bool hasMoved;           // if the pawn has moved
 
         public bool attacked = false;
@@ -61,6 +62,7 @@ namespace Our_Project
         ICelAnimationManager celAnimationManager;
         ParticleService particleService;
         private double timer_tel_particle;
+        private double timer_has_moved;
 
         public Pawn(Game game, String _flag_animation, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
@@ -102,6 +104,20 @@ namespace Our_Project
         public void Update(GameTime gametime)
         {
             particleService.Update(gametime);
+
+            if (start_timer_move)
+            {
+                timer_has_moved += gametime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if (timer_has_moved > 1.0)
+            {
+                hasMoved = true;
+                // send_update = true;
+                timer_has_moved = 0;
+                start_timer_move = false;
+            }
+
             MouseState mouseState = Mouse.GetState(); // previous mouse position
             MouseState newState = Mouse.GetState();     // current mouse position  
 
@@ -171,32 +187,26 @@ namespace Our_Project
                     {
                         MoveORattack(current_tile.GetDown(), gametime);
                     }
-                    if (hasMoved && !hasDied)
-                    {
-                        oldState = newState;
-
-
-                        {
-                            // moving the pawn and assigning new values to related tiles.
-                            current_tile.occupied = Tile.Occupied.no;
-                            current_tile.SetCurrentPawn(null);
-                            current_tile = direction;
-                            current_tile.occupied = Tile.Occupied.yes_by_me;
-                            current_tile.SetCurrentPawn(this);
-                            send_update = true;
-                        }
-                    }
-                    else if (hasDied)
-                    {
-
-                        current_tile.occupied = Tile.Occupied.no;
-                        current_tile.SetCurrentPawn(null);
-                        isMouseClicked = false;
-
-                    }
+                   
                 }
 
             }
+            if (hasMoved && !hasDied)
+            {
+                
+
+
+                {
+                    // moving the pawn and assigning new values to related tiles.
+                    current_tile.occupied = Tile.Occupied.no;
+                    current_tile.SetCurrentPawn(null);
+                    current_tile = direction;
+                    current_tile.occupied = Tile.Occupied.yes_by_me;
+                    current_tile.SetCurrentPawn(this);
+                    send_update = true;
+                }
+            }
+    
             else if (hasDied) //if the pawn is dead we cannot move or click on him.
             {
 
@@ -205,6 +215,7 @@ namespace Our_Project
                 isMouseClicked = false;
 
             }
+            oldState = newState;
         }
 
         //if we got information from the server about an attack.
@@ -258,7 +269,7 @@ namespace Our_Project
             if (timer_has_died > 0 && !hasDied)
                 timer_has_died += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timer_has_died > 3.0)
+            if (timer_has_died > 1.5)
                 hasDied = true;
 
             if (timer_tel_particle > 1.5)
@@ -273,7 +284,8 @@ namespace Our_Project
                 timer_tel_particle += gameTime.ElapsedGameTime.TotalSeconds;
                 return;
             }
-       
+           
+
 
             //if pawn is still alive.
             if (!hasDied)
@@ -292,7 +304,7 @@ namespace Our_Project
                         spriteBatch.DrawString(strength_font, strength.ToString(), Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
 
                     //timer for drawing attack.
-                    if (timer_atk_num_display < 3.0 && draw_atk_font)
+                    if (timer_atk_num_display < 1.5 && draw_atk_font)
 
                         spriteBatch.DrawString(game.font300, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(-Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Green, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
                     else //resetting values.
@@ -306,7 +318,7 @@ namespace Our_Project
                     Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center) - new Point(Tile.GetTileSize() / 2), new Point(Tile.GetTileSize()));
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
-                    if (timer_atk_num_display < 3.0 && draw_atk_font)
+                    if (timer_atk_num_display < 1.5 && draw_atk_font)
                         spriteBatch.DrawString(game.font300, strength.ToString(), Game1.TwoD2isometrix((int)position.X, (int)position.Y) + new Vector2(+Game1.screen_width / 10, -Game1.screen_height / 10 - 20 * (float)timer_atk_num_display), Color.Red, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
                     else
                     {
@@ -370,7 +382,7 @@ namespace Our_Project
                 if ((current_tile.GetDown() != null) && (current_tile.GetDown().occupied == Tile.Occupied.no))
                     current_tile.GetDown().SetColor(Color.White);
 
-                isMouseClicked = false;
+                //isMouseClicked = false;
                 hasMoved = false;
                 direction = null;
             }
@@ -383,14 +395,17 @@ namespace Our_Project
         //if pawned move to an empty tile or enemy tile or teleport tile.
         private void MoveORattack(Tile _direction, GameTime gametime)
         {
+            isMouseClicked = false;
             hasMoved = true;
 
-            direction = _direction; //tile we moved to
+          direction = _direction; //tile we moved to
 
 
 
             if (direction.occupied == Tile.Occupied.yes_by_enemy) // starting encounter with enemy
             {
+                hasMoved = false;
+                start_timer_move = true;
                 direction.GetCurrentPawn().attacked = true;
                 direction.GetCurrentPawn().attacker = this;
 
@@ -425,19 +440,20 @@ namespace Our_Project
                     // direction.getCurrentPawn().hasDied = true;
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 }
-
+               // send_update = true;
             }
 
             //checking to see if encounterd a teleport.
             if (direction.teleport_tile && timer_has_died == 0)
             {
+                hasMoved = true;
                 particleService.Trigger(Game1.TwoD2isometrix(direction.GetCartasianRectangle().Center.X, direction.GetCartasianRectangle().Center.Y));
                 direction = direction.Teleport_to_rand();
                 trigger_teleport_particle = true;
-              
+                send_update = true;
 
             }
-            send_update = true;
+            //send_update = true;
         }
 
         
