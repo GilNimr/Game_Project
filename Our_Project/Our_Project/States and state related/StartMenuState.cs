@@ -59,7 +59,7 @@ namespace Our_Project
             soundOfClick.Play("click");
             Game.Components.Remove(remote_Button);
             Game.Components.Remove(local_Button);
-            StateManager.ChangeState(OurGame.BuildingBoardState.Value);
+            StateManager.ChangeState(OurGame.ChooseFlagState.Value);
 
         }
 

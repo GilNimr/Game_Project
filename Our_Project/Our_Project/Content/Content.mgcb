@@ -65,7 +65,7 @@
 /processorParam:Quality=Best
 /build:Sounds/SoundFX/Jump.wav
 
-#begin Textures/Animations/canada test.png
+#begin Textures/Animations/Canada.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -75,7 +75,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Textures/Animations/canada test.png
+/build:Textures/Animations/Canada.png
 
 #begin Textures/Animations/Israel.png
 /importer:TextureImporter
@@ -88,6 +88,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Animations/Israel.png
+
+#begin Textures/Animations/Jamaica.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Animations/Jamaica.png
 
 #begin Textures/backgroundSpace.png
 /importer:TextureImporter
@@ -112,6 +124,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Controls/Button.png
+
+#begin Textures/Controls/choose_flag_menu.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Controls/choose_flag_menu.png
 
 #begin Textures/Controls/Shape1.png
 /importer:TextureImporter

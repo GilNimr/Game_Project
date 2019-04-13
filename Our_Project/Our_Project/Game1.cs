@@ -27,6 +27,7 @@ namespace Our_Project
 
         public ITitleIntroState TitleIntroState; // the first state user see
         public IStartMenuState StartMenuState;  // the state with 'play'
+        public IChooseFlagState ChooseFlagState;  // the state with 'play'
         public IPlayingState PlayingState; // the game
         public IPlacingSoldiersState PlacingSoldiersState;
         public IPausedState PausedState;  // not implemented
@@ -77,7 +78,7 @@ namespace Our_Project
 
             TitleIntroState = new TitleIntroState(this);
             StartMenuState = new StartMenuState(this);
-           
+            ChooseFlagState = new ChooseFlagState(this);
             PausedState = new PausedState(this);
             OptionsMenuState = new OptionsMenuState(this);
             BuildingBoardState = new BuildingBoardState(this);
@@ -122,12 +123,16 @@ namespace Our_Project
             soundManager.LoadContent(musicPath, fxPath);
 
             CelCount celCount = new CelCount(5, 25);
-            celAnimationManager.AddAnimation("canada", "canada test", celCount, 10);
+            celAnimationManager.AddAnimation("canada", "canada", celCount, 10);
             celAnimationManager.ResumeAnimation("canada");
 
             celCount = new CelCount(5, 25);
             celAnimationManager.AddAnimation("israel", "israel", celCount, 10);
             celAnimationManager.ResumeAnimation("israel");
+
+            celCount = new CelCount(5, 25);
+            celAnimationManager.AddAnimation("jamaica", "jamaica", celCount, 10);
+            celAnimationManager.ResumeAnimation("jamaica");
 
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
             font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");

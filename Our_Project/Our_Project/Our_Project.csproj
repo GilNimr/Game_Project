@@ -52,6 +52,7 @@
     <Compile Include="States and state related\BaseGameState.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="States and state related\BuildingBoardState.cs" />
+    <Compile Include="States and state related\ChooseFlagState.cs" />
     <Compile Include="States and state related\GameStateInterfaces.cs" />
     <Compile Include="States and state related\OptionsMenuState.cs" />
     <Compile Include="States and state related\PausedState.cs" />
