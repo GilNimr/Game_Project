@@ -153,6 +153,15 @@ namespace GameServer
                             string data_string = msg.ReadString(); //reading message header
                             switch (data_string)
                             {
+                                case "flag":
+                                    {
+                                        int taken = msg.ReadInt32();
+                                      
+                                        int[] pos = msg.SenderConnection.Tag as int[]; //using connection TAG to save data about that client
+                                        pos[599] = taken;
+                                        break;
+                                    }
+                                    
                                 case "teleport":
                                     {
                                         int tile_id = msg.ReadInt32();//reading message
@@ -239,7 +248,18 @@ namespace GameServer
                                         pos[1] = -10;
                                         
                                     }
-                 
+                                    if (pos[599] != -10) //if there is new data to write.
+                                    {
+                                        om.Write("flag");
+                                        om.Write(pos[599]);
+                                       
+
+                                        // send message
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[599] = -10;
+
+                                    }
+
                                     int i = 0;
                                         while (pos[4 + i] == -10 && 4 + i < 599)
                                         {

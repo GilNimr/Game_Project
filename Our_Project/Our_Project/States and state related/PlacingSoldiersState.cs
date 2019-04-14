@@ -81,15 +81,16 @@ namespace Our_Project.States_and_state_related
             scrollingBackgroundManager = (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
             inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
 
-            player = buildingBoardState.player;
-            player.myTurn = true;
-            enemy = buildingBoardState.enemy;
    
         }
 
         protected override void LoadContent()
         {
             base.LoadContent();
+
+            player = buildingBoardState.player;
+            player.myTurn = true;
+            enemy = buildingBoardState.enemy;
 
             connection = buildingBoardState.connection;
 

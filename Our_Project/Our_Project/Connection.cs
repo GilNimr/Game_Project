@@ -46,34 +46,46 @@ namespace Our_Project
              client.DiscoverKnownPeer("77.127.40.31", 14242); //server on gil's home for now.
             
         }
+        public void SendFlagChoise(int i)
+        {
+            NetOutgoingMessage om = client.CreateMessage();
+            om.Write("flag");
+            om.Write(i);
+            client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+        }
 
         public void Update()
         {
-
-            if (player.pawns != null) //updates on pawns 
+            if (player != null)
             {
-                NetOutgoingMessage om = client.CreateMessage();
-                for (int i = 0; i < player.pawns.Length; i++)
+                if (player.pawns != null) //updates on pawns 
                 {
-                    if (player.pawns[i] != null)
-                    { 
-                       if (player.pawns[i].send_update)
-                       {
-                        om.Write("move");
-                        om.Write(player.pawns[i].current_tile.GetId());
-                        om.Write(i);
-                         
-                        
-                        client.SendMessage(om,NetDeliveryMethod.ReliableOrdered);
-                        player.pawns[i].send_update = false;
-                        player.myTurn = false;
- 
-                       }
+                    NetOutgoingMessage om = client.CreateMessage();
+                    for (int i = 0; i < player.pawns.Length; i++)
+                    {
+                        if (player.pawns[i] != null)
+                        {
+                            if (player.pawns[i].send_update)
+                            {
+                                om.Write("move");
+                                om.Write(player.pawns[i].current_tile.GetId());
+                                om.Write(i);
+
+
+                                client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                                player.pawns[i].send_update = false;
+                                player.myTurn = false;
+
+                            }
+                        }
                     }
                 }
             }
+            if (enemy != null)
+            {
 
-            if(enemy.pawns!=null) //updates on enemys being attacked.
+            
+            if(enemy.pawns!=null ) //updates on enemys being attacked.
             {
                 NetOutgoingMessage om = client.CreateMessage();
                 for (int i = 0; i < enemy.pawns.Length; i++)
@@ -93,6 +105,7 @@ namespace Our_Project
                     }
                 }
 
+            }
             }
 
             NetIncomingMessage msg;
@@ -118,6 +131,13 @@ namespace Our_Project
 
                         switch (data_string)
                         {
+                            case "flag":
+                                {
+                                    int taken = msg.ReadInt32();
+                                    player.chooseFlagState.taken = taken;
+                                    enemy.flag = player.chooseFlagState.flags[taken];
+                                    break;
+                                }
                             case "second":
                                 {
                                     BuildingBoardState.wait_for_other_player = false;

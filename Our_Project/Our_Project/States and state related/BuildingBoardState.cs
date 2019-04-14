@@ -63,16 +63,16 @@ namespace Our_Project.States_and_state_related
 
             //allHidenPoints = SetHidenTiles();   // set all the allHidenPoints
             allHidenPoints = SetHidenTilesFromFile();   // set all the allHidenPoints
+           
+            /* player = new Player(game)
+             {
+                 myTurn = true
+             };
 
-            player = new Player(game)
-            {
-                myTurn = true
-            };
-
-            enemy = new Player(game);
-            player.pawns = new Pawn[player.army_size];
-            enemy.pawns = new Pawn[player.army_size];
-            
+             enemy = new Player(game);
+             player.pawns = new Pawn[player.army_size];
+             enemy.pawns = new Pawn[player.army_size];
+             */
 
             remainShapesToPutOnBigEmptyBoard = 5;   // set the number of shapes we exepted on board as 5
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
@@ -310,10 +310,11 @@ namespace Our_Project.States_and_state_related
         {
 
             connection = startMenuState.connection;
-            connection.player = player;
-            connection.enemy = enemy;
+            player = connection.player;
+            enemy=connection.enemy;
             connection.Update();
-            if (!i_am_second_player) //for now assigning flags depending on player arrival.
+            flag_animation = player.flag;
+         /*   if (!i_am_second_player) //for now assigning flags depending on player arrival time.
             {
                 flag_animation = "canada";
                 player.flag = "canada";
@@ -326,7 +327,7 @@ namespace Our_Project.States_and_state_related
                 player.flag = "israel";
                 enemy_flag_animation = "canada";
                 enemy.flag = "canada";
-            }
+            }*/
 
             /*if we are the second player we have to flip the
              *board so we can view it from the same angle as first player.*/
@@ -548,8 +549,9 @@ namespace Our_Project.States_and_state_related
             }
 
             soundEffect.Play("click");
-            if (!wait_for_other_player)
+            if (!wait_for_other_player && enemy.flag!=null)
             {
+                enemy_flag_animation = enemy.flag;
                 buttons.Clear();    //destroid buttons
                 StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
             }

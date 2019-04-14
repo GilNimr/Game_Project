@@ -47,15 +47,16 @@ namespace Our_Project
             placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
             scrollingBackgroundManager = (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
-            player = placingSoldiersState.player;
+            
             teleports = new Tile[4];
-            enemy = placingSoldiersState.enemy;
+            
 
         }
 
         protected override void LoadContent()
         {
-
+            player = placingSoldiersState.player;
+            enemy = placingSoldiersState.enemy;
             //getting the connection from previous state.
             connection = placingSoldiersState.connection;
 

@@ -14,8 +14,8 @@ namespace Our_Project
         ISoundManager soundOfClick;
 
         public Connection connection;
-        Player player;
-        Player enemy;
+        public Player player;
+        public Player enemy;
         public Button local_Button;
         public Button remote_Button;
 
@@ -24,9 +24,9 @@ namespace Our_Project
         {
             game.Services.AddService(typeof(IStartMenuState), this);
             soundOfClick = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
-
            
         }
+
 
         public override void Update(GameTime gameTime)
         {
@@ -45,11 +45,12 @@ namespace Our_Project
         private void LocalButtonClick(object sender, System.EventArgs e)
         {
             Connection.local = true;
-            connection = new Connection(OurGame, ref player, ref enemy);
+           
+            connection = new Connection(OurGame, ref player,ref enemy);
             soundOfClick.Play("click");
             Game.Components.Remove(local_Button);
             Game.Components.Remove(remote_Button);
-            StateManager.ChangeState(OurGame.BuildingBoardState.Value);
+            StateManager.ChangeState(OurGame.ChooseFlagState.Value);
 
         }
         private void RemoteButtonClick(object sender, System.EventArgs e)
@@ -65,6 +66,14 @@ namespace Our_Project
 
         protected override void LoadContent()
         {
+            player = new Player(OurGame)
+            {
+                myTurn = true
+            };
+
+            enemy = new Player(OurGame);
+            player.pawns = new Pawn[player.army_size];
+            enemy.pawns = new Pawn[player.army_size];
             texture = Content.Load<Texture2D>(@"Textures\startMenu");
             font30 = OurGame.font30;
             button_texture = OurGame.button_texture;
