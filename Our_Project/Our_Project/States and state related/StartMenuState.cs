@@ -50,7 +50,7 @@ namespace Our_Project
             soundOfClick.Play("click");
             Game.Components.Remove(local_Button);
             Game.Components.Remove(remote_Button);
-            StateManager.ChangeState(OurGame.ChooseFlagState.Value);
+            StateManager.ChangeState(OurGame.BuildingBoardState.Value);
 
         }
         private void RemoteButtonClick(object sender, System.EventArgs e)
@@ -60,7 +60,7 @@ namespace Our_Project
             soundOfClick.Play("click");
             Game.Components.Remove(remote_Button);
             Game.Components.Remove(local_Button);
-            StateManager.ChangeState(OurGame.ChooseFlagState.Value);
+            StateManager.ChangeState(OurGame.BuildingBoardState.Value);
 
         }
 

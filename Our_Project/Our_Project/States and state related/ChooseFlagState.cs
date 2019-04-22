@@ -24,6 +24,7 @@ namespace Our_Project.States_and_state_related
 
         ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
+        private BuildingBoardState buildingBoardState;
         private Connection connection;
 
         public ChooseFlagState(Game game) : base(game)
@@ -37,6 +38,7 @@ namespace Our_Project.States_and_state_related
         protected override void LoadContent()
         {
             base.LoadContent();
+            buildingBoardState = (BuildingBoardState)OurGame.Services.GetService(typeof(IBuildingBoardState));
             connection = startMenuState.connection;
             flags = new string[3];
             flags[0]="jamaica";
@@ -75,12 +77,14 @@ namespace Our_Project.States_and_state_related
             if (currFlag != taken)
             {
                 connection.player.flag = flags[currFlag];
+                buildingBoardState.flag_animation = flags[currFlag];
                 connection.SendFlagChoise(currFlag);
                 OurGame.Components.Remove(left);
                 OurGame.Components.Remove(right);
                 OurGame.Components.Remove(select);
-                StateManager.ChangeState(OurGame.BuildingBoardState.Value);
-                
+               // StateManager.ChangeState(OurGame.BuildingBoardState.Value);
+                StateManager.PopState();
+
             }
         }
 
@@ -103,7 +107,7 @@ namespace Our_Project.States_and_state_related
             
             base.Update(gameTime);
             connection.Update();
-
+           
         }
         public override void Draw(GameTime gameTime)
         {
@@ -121,7 +125,7 @@ namespace Our_Project.States_and_state_related
                 celAnimationManager.Draw(gameTime, flags[i], OurGame.spriteBatch, new Rectangle((Game1.screen_width / 16) * 7 + (currFlag - i) * (Game1.screen_width / 8)/*x*/, (Game1.screen_height / 8) * 3 - ((int)  Math.Pow(Math.Abs( currFlag - i),2)*(Game1.screen_height/50)) /*y*/, (Game1.screen_width / 8)*(10 - Math.Abs(currFlag - i))/10 /*width*/, (Game1.screen_height / 4) *(10 - Math.Abs(currFlag - i)) / 10),color, SpriteEffects.None);
                 }
             }
-            celAnimationManager.Draw(gameTime, flags[currFlag], OurGame.spriteBatch, new Rectangle((Game1.screen_width/16)*7, (Game1.screen_height/8)*3, Game1.screen_width / 8, Game1.screen_height / 4), SpriteEffects.None);
+           // celAnimationManager.Draw(gameTime, flags[currFlag], OurGame.spriteBatch, new Rectangle((Game1.screen_width/16)*7, (Game1.screen_height/8)*3, Game1.screen_width / 8, Game1.screen_height / 4), SpriteEffects.None);
           
        //     OurGame.spriteBatch.Draw(main, new Rectangle(/*Game1.screen_width / 4*/0, Game1.screen_height / 4, Game1.screen_width , Game1.screen_height / 2),Color.AliceBlue);
             left.Draw(gameTime, OurGame.spriteBatch);

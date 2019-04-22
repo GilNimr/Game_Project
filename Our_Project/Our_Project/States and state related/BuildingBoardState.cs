@@ -294,6 +294,7 @@ namespace Our_Project.States_and_state_related
             SetAllContent();    // load textures
             SetAllButtons();
             BuildEmptyBoard();
+            StateManager.PushState(OurGame.ChooseFlagState.Value);
             InitializeConnection();
             LoadBG();
 
@@ -313,21 +314,9 @@ namespace Our_Project.States_and_state_related
             player = connection.player;
             enemy=connection.enemy;
             connection.Update();
+            
             flag_animation = player.flag;
-         /*   if (!i_am_second_player) //for now assigning flags depending on player arrival time.
-            {
-                flag_animation = "canada";
-                player.flag = "canada";
-                enemy_flag_animation = "israel";
-                enemy.flag = "israel";
-            }
-            else
-            {
-                flag_animation = "israel";
-                player.flag = "israel";
-                enemy_flag_animation = "canada";
-                enemy.flag = "canada";
-            }*/
+
 
             /*if we are the second player we have to flip the
              *board so we can view it from the same angle as first player.*/
