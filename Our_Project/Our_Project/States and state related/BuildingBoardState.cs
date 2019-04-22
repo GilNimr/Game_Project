@@ -547,6 +547,8 @@ namespace Our_Project.States_and_state_related
                         t.texture = null;
                 }
             }
+            if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
+                enemy.flag = "canada";
 
             soundEffect.Play("click");
             if (!wait_for_other_player && enemy.flag!=null)

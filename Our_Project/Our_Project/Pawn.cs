@@ -8,12 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGame.Extended.Particles;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XELibrary;
-
 
 namespace Our_Project
 {
@@ -51,7 +46,7 @@ namespace Our_Project
 
         private double timer_has_died = 0;
 
-    
+
 
         Rectangle mouseRec;
         public Team team;
@@ -69,7 +64,7 @@ namespace Our_Project
             this.game = (Game1)game;
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             particleService = (ParticleService)game.Services.GetService(typeof(ParticleService));
-           // particleService
+            // particleService
 
             flag_animation = _flag_animation; //setting animation.
 
@@ -98,7 +93,7 @@ namespace Our_Project
             position = new Vector2(_tile.GetCartasianRectangle().X, _tile.GetCartasianRectangle().Y);
 
             send_update = true; //initialize as true it tells the server to update this pawn for the second player.
-     
+
         }
 
         public void Update(GameTime gametime)
@@ -110,7 +105,7 @@ namespace Our_Project
                 timer_has_moved += gametime.ElapsedGameTime.TotalSeconds;
             }
 
-            if (timer_has_moved > 1.0)
+            if (timer_has_moved > 1.5)
             {
                 hasMoved = true;
                 // send_update = true;
@@ -187,16 +182,14 @@ namespace Our_Project
                     {
                         MoveORattack(current_tile.GetDown(), gametime);
                     }
-                   
+
                 }
 
             }
-            if (hasMoved && !hasDied)
+            if (hasMoved)
             {
-                
 
-
-                {
+               
                     // moving the pawn and assigning new values to related tiles.
                     current_tile.occupied = Tile.Occupied.no;
                     current_tile.SetCurrentPawn(null);
@@ -204,16 +197,14 @@ namespace Our_Project
                     current_tile.occupied = Tile.Occupied.yes_by_me;
                     current_tile.SetCurrentPawn(this);
                     send_update = true;
-                }
+                
             }
-    
+
             else if (hasDied) //if the pawn is dead we cannot move or click on him.
             {
 
-                current_tile.occupied = Tile.Occupied.no;
-                current_tile.SetCurrentPawn(null);
                 isMouseClicked = false;
-
+                
             }
             oldState = newState;
         }
@@ -269,8 +260,14 @@ namespace Our_Project
             if (timer_has_died > 0 && !hasDied)
                 timer_has_died += gameTime.ElapsedGameTime.TotalSeconds;
 
-            if (timer_has_died > 1.5)
+            if (timer_has_died > 1.5 && !hasDied)
+            {
                 hasDied = true;
+                current_tile.occupied = Tile.Occupied.no;
+                current_tile.SetCurrentPawn(null);
+                //send_update = true;
+            }
+                
 
             if (timer_tel_particle > 1.5)
             {
@@ -284,7 +281,7 @@ namespace Our_Project
                 timer_tel_particle += gameTime.ElapsedGameTime.TotalSeconds;
                 return;
             }
-           
+
 
 
             //if pawn is still alive.
@@ -398,7 +395,7 @@ namespace Our_Project
             isMouseClicked = false;
             hasMoved = true;
 
-          direction = _direction; //tile we moved to
+            direction = _direction; //tile we moved to
 
 
 
@@ -425,6 +422,7 @@ namespace Our_Project
 
                 {
                     timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
+                    
                     //hasDied = true;
                 }
                 else //if we draw the encounter with enemy
@@ -434,13 +432,14 @@ namespace Our_Project
                     // hasDied = true;
                     // direction.getCurrentPawn().hasDied = true;
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
+                    
                 }
                 else //if we won the encounter with enemy
                 {
                     // direction.getCurrentPawn().hasDied = true;
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 }
-               // send_update = true;
+                // send_update = true;
             }
 
             //checking to see if encounterd a teleport.
@@ -456,6 +455,6 @@ namespace Our_Project
             //send_update = true;
         }
 
-        
+
     }
 }
