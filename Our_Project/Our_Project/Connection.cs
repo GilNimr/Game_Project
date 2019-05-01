@@ -53,6 +53,13 @@ namespace Our_Project
             om.Write(i);
             client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
         }
+        public void SendTelParticle(int tile_id)
+        {
+            NetOutgoingMessage om = client.CreateMessage();
+            om.Write("trigger");
+            om.Write(tile_id);
+            client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+        }
 
         public void Update()
         {
@@ -131,6 +138,12 @@ namespace Our_Project
 
                         switch (data_string)
                         {
+                            case "trigger":
+                                {
+                                    int tile_id= msg.ReadInt32();
+                                    player.particleService.Trigger(Game1.TwoD2isometrix(player.Board.boardDictionaryById[tile_id].GetCartasianRectangle().Center.X, player.Board.boardDictionaryById[tile_id].GetCartasianRectangle().Center.Y));
+                                    break;
+                                }
                             case "flag":
                                 {
                                     int taken = msg.ReadInt32();
@@ -200,6 +213,9 @@ namespace Our_Project
                                         player.buildingBoardState.GetEmptyBoard().boardDictionaryById[id].SetCurrentPawn(enemy.pawns[i]);
                                         enemy.pawns[i].team = Pawn.Team.enemy_team;
                                         player.myTurn = true;
+
+                                        if (enemy.pawns[i].current_tile.teleport_tile)
+                                            enemy.pawns[i].trigger_teleport_particle = true;
                                     }
  
                                     break;

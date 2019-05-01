@@ -22,6 +22,8 @@ namespace Our_Project.States_and_state_related
         private Button select;
         private Color color;
 
+        private Texture2D bg;
+
         ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
         private BuildingBoardState buildingBoardState;
@@ -46,6 +48,7 @@ namespace Our_Project.States_and_state_related
             flags[2]="israel";
             currFlag = 1;
             
+            bg= Content.Load<Texture2D>(@"Textures\backgroundShip");
 
             main = Content.Load<Texture2D>(@"Textures\Controls\choose_flag_menu");
             left = new Button(OurGame, OurGame.button_texture, OurGame.font30)
@@ -112,6 +115,7 @@ namespace Our_Project.States_and_state_related
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
+            OurGame.spriteBatch.Draw(bg, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
             for (int i = 0; i < flags.Length; i++)
             {
                 if (i == taken)

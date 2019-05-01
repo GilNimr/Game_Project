@@ -53,9 +53,12 @@ namespace Our_Project
 
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
-            
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
+            //    graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //    graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+
+            graphics.PreferredBackBufferHeight = 1200;
+            graphics.PreferredBackBufferWidth = 1600;
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;

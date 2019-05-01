@@ -395,7 +395,7 @@ namespace Our_Project.States_and_state_related
             thirdShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton),
-                Text = "Thirth Shape",    
+                Text = "Third Shape",    
             };
 
             thirdShape.Click += ClickThirdShape;
@@ -444,7 +444,7 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-                GC.Collect();
+              //  GC.Collect();
                 hideShape = true;
             }
         }
@@ -463,7 +463,7 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-                GC.Collect();
+              //  GC.Collect();
                 hideShape = true;
             }
         }
@@ -481,7 +481,7 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-                GC.Collect();
+             //   GC.Collect();
                 hideShape = true;
             }
         }
@@ -500,7 +500,7 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-                GC.Collect();
+             //   GC.Collect();
                 hideShape = true;
             }
         }
@@ -519,7 +519,7 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-                GC.Collect();
+             //   GC.Collect();
                 hideShape = true;
             }
         }
@@ -869,7 +869,7 @@ namespace Our_Project.States_and_state_related
             soundEffect.Play("click");
             AddShapeToEmptyBoard(shape, shapeTiles, emptyTiles);
             dragingShape = null;
-            GC.Collect();
+          //  GC.Collect();
             hideShape = true;
             buttons.Remove(saveYourShapeInBoard);
             Game.Components.Remove(saveYourShapeInBoard);

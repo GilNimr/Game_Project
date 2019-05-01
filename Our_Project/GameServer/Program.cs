@@ -153,6 +153,13 @@ namespace GameServer
                             string data_string = msg.ReadString(); //reading message header
                             switch (data_string)
                             {
+                                case "trigger":
+                                    {
+                                        int tile_id = msg.ReadInt32();//reading message
+                                        int[] pos = msg.SenderConnection.Tag as int[]; //using connection TAG to save data about that client
+                                        pos[598] = tile_id;
+                                        break;
+                                    }
                                 case "flag":
                                     {
                                         int taken = msg.ReadInt32();
@@ -236,6 +243,7 @@ namespace GameServer
                                         otherPlayer.Tag = new int[602];
 
                                     int[] pos = otherPlayer.Tag as int[];
+                               
                                     if (pos[0] != -10 && pos[1] != -10) //if there is new data to write.
                                     {
                                         om.Write("move");
@@ -247,6 +255,15 @@ namespace GameServer
                                         pos[0] = -10;
                                         pos[1] = -10;
                                         
+                                    }
+                                    if (pos[598] != -10)
+                                    {
+                                        om = server.CreateMessage();
+                                        om.Write("trigger");
+                                        om.Write(pos[598]);
+                                        // send message
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[598] = -10;
                                     }
                                     if (pos[599] != -10) //if there is new data to write.
                                     {

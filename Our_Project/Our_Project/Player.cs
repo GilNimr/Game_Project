@@ -35,12 +35,14 @@ namespace Our_Project
         public BuildingBoardState buildingBoardState;
         public PlacingSoldiersState placingSoldiersState;
         public ChooseFlagState chooseFlagState;
+        public ParticleService particleService;
 
         public Player(Game game)
         {
             chooseFlagState = (ChooseFlagState)game.Services.GetService(typeof(IChooseFlagState));
             buildingBoardState = (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
+            particleService = (ParticleService)game.Services.GetService(typeof(ParticleService));
 
             army_size = 21;
         }

@@ -19,7 +19,7 @@ namespace Our_Project
 
         public Tile current_tile;  // the tile that now the pawn is in.
         private Tile direction;          // if we will move, this will get the details of the new tile.
-        private bool trigger_teleport_particle;
+        public bool trigger_teleport_particle;
         public bool the_flag;
 
         public int strength;
@@ -56,6 +56,7 @@ namespace Our_Project
         }
         ICelAnimationManager celAnimationManager;
         ParticleService particleService;
+        PlayingState playingState;
         private double timer_tel_particle;
         private double timer_has_moved;
 
@@ -64,7 +65,7 @@ namespace Our_Project
             this.game = (Game1)game;
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             particleService = (ParticleService)game.Services.GetService(typeof(ParticleService));
-            // particleService
+            playingState=(PlayingState)game.Services.GetService(typeof(IPlayingState));
 
             flag_animation = _flag_animation; //setting animation.
 
@@ -447,6 +448,7 @@ namespace Our_Project
             {
                 hasMoved = true;
                 particleService.Trigger(Game1.TwoD2isometrix(direction.GetCartasianRectangle().Center.X, direction.GetCartasianRectangle().Center.Y));
+                playingState.connection.SendTelParticle(direction.GetId());
                 direction = direction.Teleport_to_rand();
                 trigger_teleport_particle = true;
                 send_update = true;

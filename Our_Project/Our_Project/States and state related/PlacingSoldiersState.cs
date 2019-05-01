@@ -176,7 +176,7 @@ namespace Our_Project.States_and_state_related
            
             if (hideFlag)
             {
-                iso_rec = new Rectangle(new Point(500), new Point(Tile.GetTileSize()));
+                iso_rec = new Rectangle(new Point(Game1.screen_height/4,Game1.screen_width/4), new Point(Tile.GetTileSize()));
                 hideFlag = false;
             }
 

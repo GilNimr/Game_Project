@@ -15,6 +15,7 @@
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/Canada.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/Israel.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/Jamaica.png</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundShip.jpg</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundSpace.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Button.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/choose_flag_menu.png</File>
@@ -34,6 +35,7 @@
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
