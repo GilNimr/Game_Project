@@ -29,16 +29,17 @@ namespace Our_Project
         private Tile[][] board;                                     // the board
         private /*public*/ Texture2D tileIsoImg;                               // the isometric image of tile
         private Texture2D tile2dImg;                                // the 2d image of tile
-        private readonly int tileSize = Game1.screen_height / 30;   // size of tile
+        private int tileSize;   // size of tile
         private List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
         public Dictionary <int, Tile> boardDictionaryById;           // get tile by id
         private bool move;                                          // for knowing if move some shape at the moment
        
         public Board(int size, Texture2D isometricTileImage, Texture2D twoDtileImage)
         {/// full board
-
+            tileSize = Game1.screen_height / 30;
             typeOfBord = TypeOfBord.fullBoard;
             SetGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size); // set types for board or shapes
+            
         }
 
 
@@ -47,9 +48,23 @@ namespace Our_Project
             Texture2D t2d, bool _addToLeft, ContentManager content)
         {
             // shape
+            tileSize = Game1.screen_height / 30;
             typeOfBord = TypeOfBord.Shape;
             SetShapeTypes(_hidenTiles, starterX, starterY, content); //set types only in shape
             SetGeneralTypesOfBoard(ti, t2d, _height, _width);
+            
+        }
+
+        public Board(List<NodeOFHidenTiles> _hidenTiles, int _width,
+            int _height, int starterX, int starterY, Texture2D ti,
+            Texture2D t2d, bool _addToLeft, ContentManager content, int tile_size)
+        {
+            // shape with new tileSize - for draw the buttons.
+            tileSize = tile_size;
+            typeOfBord = TypeOfBord.Shape;
+            SetShapeTypes(_hidenTiles, starterX, starterY, content); //set types only in shape
+            SetGeneralTypesOfBoard(ti, t2d, _height, _width);
+            
         }
 
 
@@ -57,7 +72,12 @@ namespace Our_Project
         {
             CheckAndMoveShape(); // checking if mouse drag shape and move it
         }
-        
+       /*
+        public void SetTileSize(int new_size)
+        {
+            tileSize = new_size;
+        }*/
+
         private void CheckAndMoveShape()
         {
             // checking if mouse drag shape and move it
@@ -237,7 +257,7 @@ namespace Our_Project
             boardDictionaryById.Add(id, board[i][j]);
             id++;
         }
-
+        
         private void SetXYaxissOfFullBoard(int i, int j, out int axisXofNewTileRectangle, out int axisYofNewTileRectangle)
         {
             axisXofNewTileRectangle = i * tileSize;
