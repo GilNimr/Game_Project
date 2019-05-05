@@ -932,11 +932,11 @@ namespace Our_Project.States_and_state_related
                                                 {
                                                     emptyTile.SetColor(Color.Green);
                                                 }
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
                         }
                 }
             }
