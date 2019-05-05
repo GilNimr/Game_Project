@@ -33,13 +33,14 @@ namespace Our_Project
         private List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
         public Dictionary <int, Tile> boardDictionaryById;           // get tile by id
         private bool move;                                          // for knowing if move some shape at the moment
-       
+        private bool itsJustForDrawOnButton; // will be true just for draw the buttons
+
         public Board(int size, Texture2D isometricTileImage, Texture2D twoDtileImage)
         {/// full board
             tileSize = Game1.screen_height / 30;
             typeOfBord = TypeOfBord.fullBoard;
             SetGeneralTypesOfBoard(isometricTileImage, twoDtileImage, size, size); // set types for board or shapes
-            
+            itsJustForDrawOnButton = false;
         }
 
 
@@ -52,7 +53,7 @@ namespace Our_Project
             typeOfBord = TypeOfBord.Shape;
             SetShapeTypes(_hidenTiles, starterX, starterY, content); //set types only in shape
             SetGeneralTypesOfBoard(ti, t2d, _height, _width);
-            
+            itsJustForDrawOnButton = false;
         }
 
         public Board(List<NodeOFHidenTiles> _hidenTiles, int _width,
@@ -62,6 +63,7 @@ namespace Our_Project
             // shape with new tileSize - for draw the buttons.
             tileSize = tile_size;
             typeOfBord = TypeOfBord.Shape;
+            itsJustForDrawOnButton = true;
             SetShapeTypes(_hidenTiles, starterX, starterY, content); //set types only in shape
             SetGeneralTypesOfBoard(ti, t2d, _height, _width);
             
@@ -308,8 +310,23 @@ namespace Our_Project
 
         private void SetNewTileOfShape(int i, int j, int axisXofNewTileRectangle, int axisYofNewTileRectangle, int hidenIndex)
         {
-            Rectangle rec = new Rectangle(200 + axisXofNewTileRectangle,
-            10 + axisYofNewTileRectangle, tileSize, tileSize);
+            // set the position:
+            Rectangle rec;
+            if (!itsJustForDrawOnButton)
+            {   // set the position as isometruc
+                rec = new Rectangle(Game1.screen_height / 6 + axisXofNewTileRectangle,
+                axisYofNewTileRectangle, tileSize, tileSize);
+            }
+
+            else
+            {   // set the normal position
+                rec = new Rectangle(axisXofNewTileRectangle,
+                axisYofNewTileRectangle, tileSize, tileSize);
+            }
+
+
+
+            
 
             if (HideThisTile(hidenIndex, i, j)) // if that shape supposed to be hident
             {
@@ -325,6 +342,8 @@ namespace Our_Project
             // set tile of shape (not hiden)
             board[i][j] = new Tile(tileIsoImg, tile2dImg, rec, id);
             board[i][j].SetIsHidden(false);
+            if (itsJustForDrawOnButton)
+                board[i][j].SetItsJustForDrawOnButton(true);
         }
 
         private void SetNewHidenTile(int i, int j, Rectangle rec)

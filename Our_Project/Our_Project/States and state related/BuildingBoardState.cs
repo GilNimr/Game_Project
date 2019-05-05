@@ -376,11 +376,12 @@ namespace Our_Project.States_and_state_related
             
             firstShape = new Button(Game, OurGame.button_texture, font)
             {
-                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),                 
-                //Text = "First shape",
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),        
             };
             shapes_only_for_draw.Add(new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 
-                0, 0, fullTileIso, fullTile2d, false, this.Content, 10));
+                (xPositionOfShapeButton+firstShape.Rectangle.Width/3), 
+                (int)(yPositionOfShapeButton+((firstShape.Rectangle.Height)*0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
 
             firstShape.Click += ClickFirstShape;
 
@@ -391,8 +392,13 @@ namespace Our_Project.States_and_state_related
             secondShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + heightOfButton),
-                Text = "Second Shape",
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[1], shapesHeight[1], shapesWidth[1],
+                (int)(secondShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(secondShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             secondShape.Click += ClickSecondShape;
             buttons.Add(secondShape);
@@ -400,9 +406,14 @@ namespace Our_Project.States_and_state_related
 
             thirdShape = new Button(Game, OurGame.button_texture, font)
             {
-                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton),
-                Text = "Third Shape",    
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton), 
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[2], shapesHeight[2], shapesWidth[2],
+                (int)(thirdShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(thirdShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             thirdShape.Click += ClickThirdShape;
             buttons.Add(thirdShape);
@@ -410,8 +421,14 @@ namespace Our_Project.States_and_state_related
             forthShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 3*heightOfButton),
-                Text = "Fourth Shape",
+                
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[3], shapesHeight[3], shapesWidth[3],
+                (int)(forthShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(forthShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             forthShape.Click += ClickFourthShape;
             buttons.Add(forthShape);
@@ -419,8 +436,14 @@ namespace Our_Project.States_and_state_related
             fifthShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 4*heightOfButton),
-                Text = "Fifth Shape",
+                
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[4], shapesHeight[4], shapesWidth[4],
+                (int)(fifthShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(fifthShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             fifthShape.Click += ClickFifthShape;
             buttons.Add(fifthShape);

@@ -27,6 +27,7 @@ namespace Our_Project
         private Tile left, right, down, up;                  //  the tile's neighbors
         private Color color;
         private bool isHidden;                              // if hidden tile
+        private bool itsJustForDrawOnButton = false;
 
         public Texture2D texture;                          //the isometric tile texture
         public float Depth=0f;  //need to delete.
@@ -60,12 +61,26 @@ namespace Our_Project
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            //creating the isometric-screen rectangle where we will draw our tile.
-            Vector2 iso_location = Game1.TwoD2isometrix(cartasianRectangle.X, cartasianRectangle.Y);
-            isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, cartasianRectangle.Width *2, cartasianRectangle.Height*2);
+            if (!itsJustForDrawOnButton)
+            {
+                //creating the isometric-screen rectangle where we will draw our tile.
+                Vector2 iso_location = Game1.TwoD2isometrix(cartasianRectangle.X, cartasianRectangle.Y);
+                isoprojection_rectangle = new Rectangle((int)iso_location.X - tileSize, (int)iso_location.Y, cartasianRectangle.Width * 2, cartasianRectangle.Height * 2);
+            }
+            else
+            {
+                isoprojection_rectangle = cartasianRectangle;
+            }
+            
+
 
             if (texture!= null && isoprojection_rectangle != null) //draw not null textures
                 spriteBatch.Draw(texture, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, Depth);
+        }
+
+        public void SetItsJustForDrawOnButton(bool b)
+        {
+            itsJustForDrawOnButton = b;
         }
 
         public int GetId()
