@@ -99,7 +99,7 @@ namespace Our_Project
 
         public void Update(GameTime gametime)
         {
-            particleService.Update(gametime);
+           
 
             if (start_timer_move)
             {

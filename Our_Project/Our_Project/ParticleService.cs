@@ -44,6 +44,7 @@ namespace Our_Project
         }
         public void Trigger(Vector2 pos)
         {
+            
             _particleEffect.Trigger(pos);
         }
         private void ParticleInit(TextureRegion2D textureRegion)
@@ -53,7 +54,7 @@ namespace Our_Project
                 Position = new Vector2(400, 240),
                 Emitters = new List<ParticleEmitter>
                 {
-                    new ParticleEmitter(textureRegion, 5000, TimeSpan.FromSeconds(2.5),
+                    new ParticleEmitter(textureRegion, 5000, TimeSpan.FromSeconds(5),
                        // Profile.Ring(4f, Profile.CircleRadiation.In))
                     Profile.Line(new Vector2(0,1),Game1.screen_height/20))
                     {

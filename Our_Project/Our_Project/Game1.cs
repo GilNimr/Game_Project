@@ -54,11 +54,11 @@ namespace Our_Project
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-            //    graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //    graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+           //     graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+           //     graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
             graphics.PreferredBackBufferHeight = 1200;
-            graphics.PreferredBackBufferWidth = 1600;
+            graphics.PreferredBackBufferWidth = 2400;
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
@@ -136,6 +136,13 @@ namespace Our_Project
             celCount = new CelCount(5, 25);
             celAnimationManager.AddAnimation("jamaica", "jamaica", celCount, 10);
             celAnimationManager.ResumeAnimation("jamaica");
+
+            for (int i = 1; i <= 20; i++)
+            {
+                celCount = new CelCount(5, 25);
+                celAnimationManager.AddAnimation(i.ToString(), i.ToString(), celCount, 10);
+                celAnimationManager.ResumeAnimation(i.ToString());
+            }
 
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
             font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");
