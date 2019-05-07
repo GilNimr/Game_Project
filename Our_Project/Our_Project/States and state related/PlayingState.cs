@@ -20,6 +20,9 @@ namespace Our_Project
         public static bool i_am_second_player = false;
         public static int tileSize = Game1.screen_height / 30; //need to delete later.
 
+        private double EndGameTimer = 0f;
+        private int howManyPawnsLeft = 0;
+
         public Player player;
         public Player enemy;
         public Connection connection;
@@ -100,10 +103,16 @@ namespace Our_Project
             base.Update(gameTime);
             connection.Update();
             
+           
+
             for (int i = 0; i < player.pawns.Length; i++)
             {
                 if (player.pawns[i] != null)
                 {
+                    //checking to see if only flag left
+                    if (!player.pawns[i].hasDied && i != 20)
+                        howManyPawnsLeft++;
+
                     if (player.myTurn)
                     {
                         player.pawns[i].Update(gameTime);
@@ -127,6 +136,11 @@ namespace Our_Project
                     }           
                 }
             }
+            if(howManyPawnsLeft==0)
+            {
+                lose = true;
+            }
+            howManyPawnsLeft = 0;
         }
 
         public override void Draw(GameTime gameTime)
@@ -164,19 +178,34 @@ namespace Our_Project
                 if (enemy.pawns[i] != null)
                     enemy.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
-            
+
+
+
             //drawing strings
-            if (player.myTurn)
+            if (win)
+            {
+                EndGameTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                OurGame.spriteBatch.DrawString(font_big, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
+
+            }
+           else if (lose)
+            {
+                EndGameTimer += gameTime.ElapsedGameTime.TotalSeconds;
+                OurGame.spriteBatch.DrawString(font_big, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
+            }
+
+           else if (player.myTurn)
             {
                 OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2((Game1.screen_width / 3)*2, (Game1.screen_height*70) / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
             }
             else
                 OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
 
-            if(win)
-                OurGame.spriteBatch.DrawString(font_small, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
-            if(lose)
-                OurGame.spriteBatch.DrawString(font_small, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
+     
+
+            if(EndGameTimer>=5.0f)
+                StateManager.ChangeState(OurGame.TitleIntroState.Value);
+
         }
     }
 }

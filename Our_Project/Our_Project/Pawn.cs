@@ -30,7 +30,7 @@ namespace Our_Project
 
         public bool attacked = false;
         public Pawn attacker;
-        private bool hasDied = false;
+        public bool hasDied = false;
 
         public MouseState oldState; // mouse input old position.
         public Vector2 position;
@@ -73,7 +73,7 @@ namespace Our_Project
             if (_strength == 21)  //setting the king of flags.
                 the_flag = true;
 
-            id = _id; // pawn id (always equals strength).
+            id = _id; // pawn id (always equals strength - 1).
 
             current_tile = _tile; // the current tile we are on.
 
