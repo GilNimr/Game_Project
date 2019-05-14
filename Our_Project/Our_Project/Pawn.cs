@@ -294,6 +294,9 @@ namespace Our_Project
                     Rectangle Rec = new Rectangle(Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center) - new Point(Tile.GetTileSize() / 2), new Point(Tile.GetTileSize()));
                     celAnimationManager.Draw(gameTime, flag_animation, spriteBatch, Rec, SpriteEffects.None);
 
+                    //Aura
+                    celAnimationManager.Draw(gameTime, "Aura", spriteBatch, Rec, SpriteEffects.None);
+
                     //if king of flags.
                     if (the_flag)
                         spriteBatch.DrawString(strength_font, "flag", Game1.TwoD2isometrix(current_tile.GetCartasianRectangle().Center.X, current_tile.GetCartasianRectangle().Center.Y), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);

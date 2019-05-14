@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Our_Project.States_and_state_related;
+using System.Collections.Generic;
 using XELibrary;
 
 namespace Our_Project
@@ -45,6 +46,7 @@ namespace Our_Project
         public SpriteFont font300;
         public Texture2D button_texture;
         private ParticleService particleService;
+        public List<string> countryList;
 
         public Game1()
         {
@@ -54,11 +56,11 @@ namespace Our_Project
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-           //     graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-           //     graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+             //   graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+             //  graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
-            graphics.PreferredBackBufferHeight = 1200;
-            graphics.PreferredBackBufferWidth = 2400;
+            graphics.PreferredBackBufferHeight = 1000;
+            graphics.PreferredBackBufferWidth = 2000;
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
@@ -126,23 +128,29 @@ namespace Our_Project
             soundManager.LoadContent(musicPath, fxPath);
 
             CelCount celCount = new CelCount(5, 25);
-            celAnimationManager.AddAnimation("canada", "canada", celCount, 10);
-            celAnimationManager.ResumeAnimation("canada");
+            celAnimationManager.AddAnimation("Aura", "Aura", celCount, 10);
+            celAnimationManager.ResumeAnimation("Aura");
 
-            celCount = new CelCount(5, 25);
-            celAnimationManager.AddAnimation("israel", "israel", celCount, 10);
-            celAnimationManager.ResumeAnimation("israel");
+            countryList = new List<string>()
+           {
+               "Australia","Brazil","Canada","China","Ethiopia","France","India","Israel",
+               "Italy","Jamaica","Japan","Macedonia","North Korea","Philippines","South Africa",
+               "South Korea","Switzerland","Turkey","USA"
+           };
 
-            celCount = new CelCount(5, 25);
-            celAnimationManager.AddAnimation("jamaica", "jamaica", celCount, 10);
-            celAnimationManager.ResumeAnimation("jamaica");
+            foreach (var country in countryList)
+            {
+                //celCount = new CelCount(5, 25);
+                celAnimationManager.AddAnimation(country, country, celCount, 10);
+                celAnimationManager.ResumeAnimation(country);
+            }
 
-            for (int i = 1; i <= 20; i++)
+          /*  for (int i = 1; i <= 20; i++)
             {
                 celCount = new CelCount(5, 25);
                 celAnimationManager.AddAnimation(i.ToString(), i.ToString(), celCount, 10);
                 celAnimationManager.ResumeAnimation(i.ToString());
-            }
+            }*/
 
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
             font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");

@@ -352,9 +352,9 @@ namespace Our_Project.States_and_state_related
         private void SetAllContent()
         {   // load all textures
             fullTile2d = OurGame.Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
-            fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile_iso");
+            fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Grey Tile");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
-            emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\White_Isometric_Tile");
+            emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Clear Tile");
             font = OurGame.font30;
         }
 

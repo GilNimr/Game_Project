@@ -42,14 +42,13 @@ namespace Our_Project.States_and_state_related
             base.LoadContent();
             buildingBoardState = (BuildingBoardState)OurGame.Services.GetService(typeof(IBuildingBoardState));
             connection = startMenuState.connection;
-            flags = new string[23];
-            flags[0]="jamaica";
-            flags[1]="canada";
-            flags[2]="israel";
-            for (int i = 3; i <= 22; i++)
+            flags = new string[19];
+           
+            for (int i = 0; i <= 18; i++)
             {
-                int j = i - 2;
-                flags[i] = j.ToString();
+                
+                flags[i] = OurGame.countryList.ElementAt<string>(i);
+                
             }
             currFlag = 1;
             
@@ -121,7 +120,8 @@ namespace Our_Project.States_and_state_related
         {
             base.Draw(gameTime);
             OurGame.spriteBatch.Draw(bg, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
-            
+
+
             for (int i = 0; i < flags.Length; i++)
             {
                 int width = (Game1.screen_width / 8) * (10 - Math.Abs(currFlag - i)) / 10;

@@ -153,6 +153,12 @@ namespace GameServer
                             string data_string = msg.ReadString(); //reading message header
                             switch (data_string)
                             {
+                                case "win":
+                                    {
+                                        int[] pos = msg.SenderConnection.Tag as int[];
+                                        pos[597] = 1;
+                                        break;
+                                    }
                                 case "trigger":
                                     {
                                         int tile_id = msg.ReadInt32();//reading message
@@ -255,6 +261,14 @@ namespace GameServer
                                         pos[0] = -10;
                                         pos[1] = -10;
                                         
+                                    }
+                                    if(pos[597]==1)
+                                    {
+                                        om = server.CreateMessage();
+                                        om.Write("win");
+                                        // send message
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[597] = -10;
                                     }
                                     if (pos[598] != -10)
                                     {

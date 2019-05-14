@@ -53,6 +53,13 @@ namespace Our_Project
             om.Write(i);
             client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
         }
+        public void SendWin()
+        {
+            NetOutgoingMessage om = client.CreateMessage();
+            om.Write("win");
+            client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+        }
+
         public void SendTelParticle(int tile_id)
         {
             NetOutgoingMessage om = client.CreateMessage();
@@ -138,6 +145,11 @@ namespace Our_Project
 
                         switch (data_string)
                         {
+                            case "Win":
+                                {
+                                    PlayingState.win = true;
+                                    break;
+                                }
                             case "trigger":
                                 {
                                     int tile_id= msg.ReadInt32();

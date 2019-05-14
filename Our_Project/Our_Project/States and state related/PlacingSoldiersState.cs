@@ -158,7 +158,7 @@ namespace Our_Project.States_and_state_related
 
             /*array of all teleports (2 from player and 2 from other player)*/
             teleports = new Tile[4];
-            teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
+            teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\Teleport Tile");
 
         }
 
