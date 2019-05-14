@@ -224,14 +224,14 @@ namespace Our_Project
             }
 
             //if we lost the encounter with enemy
-            if (attacker.strength > strength)
+            if ((attacker.strength > strength || (attacker.strength==1&&strength==20)) && !(attacker.strength==20&&strength==1))
             {
                 timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 // hasDied = true;
 
             }
             //if we won the encounter with the enemy
-            else if (attacker.strength < strength)
+            else if ((attacker.strength < strength || (strength == 1 && attacker.strength == 20)) && !(strength == 20 && attacker.strength == 1))
             {
                 attacker.timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 //  attacker.hasDied = true;
@@ -422,7 +422,7 @@ namespace Our_Project
                     PlayingState.win = true;
                 }
                 //if we lost the encounter with enemy
-                else if (direction.GetCurrentPawn().strength > strength)
+                else if (direction.GetCurrentPawn().strength > strength || ( direction.GetCurrentPawn().strength==1 && strength==20) || !(direction.GetCurrentPawn().strength == 20 && strength == 1))
 
                 {
                     timer_has_died = gametime.ElapsedGameTime.TotalSeconds;

@@ -139,6 +139,7 @@ namespace Our_Project
             if(howManyPawnsLeft==0)
             {
                 lose = true;
+                connection.SendWin();
             }
             howManyPawnsLeft = 0;
         }

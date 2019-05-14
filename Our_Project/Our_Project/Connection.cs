@@ -145,7 +145,7 @@ namespace Our_Project
 
                         switch (data_string)
                         {
-                            case "Win":
+                            case "win":
                                 {
                                     PlayingState.win = true;
                                     break;
