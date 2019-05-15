@@ -73,7 +73,7 @@ namespace Our_Project
             //loading tile textures.
             Tile_texture = Content.Load<Texture2D>(@"Textures\Tiles\grass_tile_iso5");
             cartasian_texture = Content.Load<Texture2D>(@"Textures\Tiles\Gray_Tile");
-            teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\teleport");
+            teleport_texture = Content.Load<Texture2D>(@"Textures\Tiles\Teleport Tile");
 
             //updating the board 
             foreach (var tile in ourBoard.boardDictionaryById.Values)

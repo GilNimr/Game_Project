@@ -58,13 +58,13 @@ namespace Our_Project.States_and_state_related
             left = new Button(OurGame, OurGame.button_texture, OurGame.font30)
             {
                 Text = "Left",
-                Position=new Vector2(Game1.screen_width/4 , Game1.screen_height/2)
+                Position=new Vector2(Game1.screen_width/4 , Game1.screen_height - Game1.screen_height/4)
             };
             left.Click += Left_Click;
             right = new Button(OurGame, OurGame.button_texture, OurGame.font30)
             {
                 Text = "Right",
-                Position = new Vector2((Game1.screen_width / 4)*3 - left.Rectangle.Width , Game1.screen_height / 2)
+                Position = new Vector2((Game1.screen_width / 4)*3 - left.Rectangle.Width , Game1.screen_height - Game1.screen_height / 4)
             };
             right.Click += Right_Click;
             select = new Button(OurGame, OurGame.button_texture, OurGame.font30)
@@ -119,7 +119,7 @@ namespace Our_Project.States_and_state_related
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-            OurGame.spriteBatch.Draw(bg, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
+           // OurGame.spriteBatch.Draw(bg, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
 
 
             for (int i = 0; i < flags.Length; i++)
