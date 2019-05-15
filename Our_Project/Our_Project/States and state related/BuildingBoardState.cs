@@ -656,13 +656,15 @@ namespace Our_Project.States_and_state_related
 
                 if (isAllShapeOnBigEmptyBoard)
                 {
-                    // if shape is in limit, we create and show the saveYourShapeButton, for save the new place
+                    // if shape is in limit, we create and show the saveYourShapeButton, to save the new place
                     int xPositionOfShapeButton = Game1.screen_width / 5;
                     int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
 
                     saveYourShapeInBoard = new Button(Game, OurGame.button_texture, font)
                     {
-                        Position = new Vector2(Game1.screen_width / 2, (int)(Game1.screen_height / 50)),
+                        Position = Game1.TwoD2isometrix(emptyTilesToMove[0].GetCartasianRectangle().X,
+                        emptyTilesToMove[0].GetCartasianRectangle().Y)+new Vector2(0,-Game1.screen_height/10),
+                        //Position = new Vector2(Game1.screen_width / 2, (int)(Game1.screen_height / 50)),
                         Text = "Save Shape",
                     };
                     // add the button the same as we did with the shapes buttons

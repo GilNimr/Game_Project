@@ -222,7 +222,7 @@ namespace Our_Project.States_and_state_related
 
                                 curtile = tile;
                                 Game.Components.Add(save_flag_button);
-                                save_flag_button.Position = new Vector2(iso_rec.Location.X, iso_rec.Location.Y + Game1.screen_height / 10);
+                                save_flag_button.Position = new Vector2(iso_rec.Location.X, iso_rec.Location.Y - Game1.screen_height / 10);
 
                             }
                         }
