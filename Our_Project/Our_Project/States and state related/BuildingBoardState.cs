@@ -343,11 +343,6 @@ namespace Our_Project.States_and_state_related
                     
                 }
             }
-
-            
-        
-        
-     
         }
 
         private void SetAllContent()
@@ -388,18 +383,20 @@ namespace Our_Project.States_and_state_related
             buttons.Add(firstShape);
 
             int heightOfButton = firstShape.Rectangle.Height;
-            
+
             secondShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + heightOfButton),
+                //Rectangle = new Rectangle(3, 3, 550, 5500),
             };
+            
 
             shapes_only_for_draw.Add(new Board(allHidenPoints[1], shapesHeight[1], shapesWidth[1],
                 (int)(secondShape.Position.X + firstShape.Rectangle.Width / 3),
                 (int)(secondShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
                 fullTile2d, fullTile2d, false, this.Content, 10));
 
-
+            
             secondShape.Click += ClickSecondShape;
             buttons.Add(secondShape);
 

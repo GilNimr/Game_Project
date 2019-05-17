@@ -125,6 +125,18 @@
 /processorParam:TextureFormat=Color
 /build:Textures/backgroundSpace.png
 
+#begin Textures/Controls/11.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Controls/11.png
+
 #begin Textures/Controls/Button.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -136,6 +148,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Controls/Button.png
+
+#begin Textures/Controls/Button1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/Controls/Button1.png
 
 #begin Textures/Controls/choose_flag_menu.png
 /importer:TextureImporter
