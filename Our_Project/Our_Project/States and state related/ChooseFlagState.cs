@@ -119,7 +119,7 @@ namespace Our_Project.States_and_state_related
         public override void Draw(GameTime gameTime)
         {
             base.Draw(gameTime);
-           // OurGame.spriteBatch.Draw(bg, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
+            OurGame.spriteBatch.Draw(bg, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
 
 
             for (int i = 0; i < flags.Length; i++)

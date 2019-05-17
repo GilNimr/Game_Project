@@ -21,7 +21,7 @@ namespace Our_Project
 
         protected override void LoadContent()
         {
-            texture = Content.Load<Texture2D>(@"Textures\titleIntro");
+            texture = Content.Load<Texture2D>(@"Textures\bg1 (1)");
         }
 
         public override void Update(GameTime gameTime)

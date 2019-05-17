@@ -54,7 +54,14 @@
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Animations/USA.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundShip.jpg</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/backgroundSpace.png</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/bg1 (1).jpg</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/bg1 (2).jpg</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/bg1 (3).jpg</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/bg1 (4).jpg</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/bg1 (5).jpg</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/11.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Button.png</File>
+    <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Button1.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/choose_flag_menu.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/Controls/Shape1.png</File>
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/optionsMenu.png</File>
@@ -78,6 +85,13 @@
     <File>C:/Users/User/Desktop/Flags_last version/Game_Project/Our_Project/Our_Project/Content/Textures/titleIntro.jpg</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

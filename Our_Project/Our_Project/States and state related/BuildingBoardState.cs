@@ -343,11 +343,6 @@ namespace Our_Project.States_and_state_related
                     
                 }
             }
-
-            
-        
-        
-     
         }
 
         private void SetAllContent()
@@ -379,27 +374,29 @@ namespace Our_Project.States_and_state_related
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),        
             };
             shapes_only_for_draw.Add(new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 
-                (xPositionOfShapeButton+firstShape.Rectangle.Width/3), 
+                (xPositionOfShapeButton+Game1.screen_width/18), 
                 (int)(yPositionOfShapeButton+((firstShape.Rectangle.Height)*0.1)),
-                fullTile2d, fullTile2d, false, this.Content, 10));
+                fullTile2d, fullTile2d, false, this.Content, Game1.screen_height/120));
 
             firstShape.Click += ClickFirstShape;
 
             buttons.Add(firstShape);
 
             int heightOfButton = firstShape.Rectangle.Height;
-            
+
             secondShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + heightOfButton),
+                //Rectangle = new Rectangle(3, 3, 550, 5500),
             };
+            
 
             shapes_only_for_draw.Add(new Board(allHidenPoints[1], shapesHeight[1], shapesWidth[1],
-                (int)(secondShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(secondShape.Position.X + Game1.screen_width / 18),
                 (int)(secondShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
-                fullTile2d, fullTile2d, false, this.Content, 10));
+                fullTile2d, fullTile2d, false, this.Content, Game1.screen_height / 120));
 
-
+            
             secondShape.Click += ClickSecondShape;
             buttons.Add(secondShape);
 
@@ -410,9 +407,9 @@ namespace Our_Project.States_and_state_related
             };
 
             shapes_only_for_draw.Add(new Board(allHidenPoints[2], shapesHeight[2], shapesWidth[2],
-                (int)(thirdShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(thirdShape.Position.X + Game1.screen_width / 18),
                 (int)(thirdShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
-                fullTile2d, fullTile2d, false, this.Content, 10));
+                fullTile2d, fullTile2d, false, this.Content, Game1.screen_height / 120));
 
 
             thirdShape.Click += ClickThirdShape;
@@ -425,9 +422,9 @@ namespace Our_Project.States_and_state_related
             };
 
             shapes_only_for_draw.Add(new Board(allHidenPoints[3], shapesHeight[3], shapesWidth[3],
-                (int)(forthShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(forthShape.Position.X + Game1.screen_width / 18),
                 (int)(forthShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
-                fullTile2d, fullTile2d, false, this.Content, 10));
+                fullTile2d, fullTile2d, false, this.Content, Game1.screen_height / 120));
 
 
             forthShape.Click += ClickFourthShape;
@@ -440,9 +437,9 @@ namespace Our_Project.States_and_state_related
             };
 
             shapes_only_for_draw.Add(new Board(allHidenPoints[4], shapesHeight[4], shapesWidth[4],
-                (int)(fifthShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(fifthShape.Position.X + Game1.screen_width / 18),
                 (int)(fifthShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
-                fullTile2d, fullTile2d, false, this.Content, 10));
+                fullTile2d, fullTile2d, false, this.Content, Game1.screen_height / 120));
 
 
             fifthShape.Click += ClickFifthShape;

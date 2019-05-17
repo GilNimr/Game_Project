@@ -74,7 +74,7 @@ namespace Our_Project
             enemy = new Player(OurGame);
             player.pawns = new Pawn[player.army_size];
             enemy.pawns = new Pawn[player.army_size];
-            texture = Content.Load<Texture2D>(@"Textures\startMenu");
+            texture = Content.Load<Texture2D>(@"Textures\bg1 (2)");
             font30 = OurGame.font30;
             button_texture = OurGame.button_texture;
 
@@ -97,13 +97,13 @@ namespace Our_Project
 
         public override void Draw(GameTime gameTime)
         {
-            Vector2 pos = new Vector2(Game.GraphicsDevice.Viewport.Width / 2,
+           /* Vector2 pos = new Vector2(Game.GraphicsDevice.Viewport.Width / 2,
                           Game.GraphicsDevice.Viewport.Height / 2);
             Vector2 origin = new Vector2(texture.Width / 2,
                                          texture.Height / 2);
-            Vector2 currPos = new Vector2(100, pos.Y / 2);
+            Vector2 currPos = new Vector2(100, pos.Y / 2);*/
             
-            OurGame.spriteBatch.Draw(texture, pos, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White, 0.0f, origin, new Vector2(5.0f, 5.0f), SpriteEffects.None, 0.0f);
+            OurGame.spriteBatch.Draw(texture, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
             {
                 local_Button.Draw(gameTime,OurGame.spriteBatch);
                 remote_Button.Draw(gameTime, OurGame.spriteBatch);

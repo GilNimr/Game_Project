@@ -156,7 +156,7 @@ namespace Our_Project
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
             font30static = font30;
             font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");
-            button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
+            button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button1");
 
         }
 
