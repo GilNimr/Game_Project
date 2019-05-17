@@ -26,6 +26,7 @@ namespace Our_Project.States_and_state_related
         private bool hideShape;     // true if user dont see any shape
         private Board bigEmptyBoard;    // the big board we build our area on it
         private Board dragingShape;     // get the only shape the user sees
+        private List<Board> shapes_only_for_draw; // list of draws shapes for buttons.
         private readonly List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
         private List<Button> buttons;       // all the buttons:
         private List<int> shapesWidth, shapesHeight;
@@ -371,32 +372,48 @@ namespace Our_Project.States_and_state_related
             buttons = new List<Button>();
             int xPositionOfShapeButton = Game1.screen_width / 4;
             int yPositionOfShapeButton = (int)(Game1.screen_height / 50);
-
+            shapes_only_for_draw = new List<Board>();
+            
             firstShape = new Button(Game, OurGame.button_texture, font)
             {
-                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),
-                Text = "First shape",
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton),        
             };
+            shapes_only_for_draw.Add(new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 
+                (xPositionOfShapeButton+firstShape.Rectangle.Width/3), 
+                (int)(yPositionOfShapeButton+((firstShape.Rectangle.Height)*0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
 
             firstShape.Click += ClickFirstShape;
+
             buttons.Add(firstShape);
 
             int heightOfButton = firstShape.Rectangle.Height;
-
+            
             secondShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + heightOfButton),
-                Text = "Second Shape",
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[1], shapesHeight[1], shapesWidth[1],
+                (int)(secondShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(secondShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             secondShape.Click += ClickSecondShape;
             buttons.Add(secondShape);
 
+
             thirdShape = new Button(Game, OurGame.button_texture, font)
             {
-                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton),
-                Text = "Third Shape",    
+                Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 2*heightOfButton), 
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[2], shapesHeight[2], shapesWidth[2],
+                (int)(thirdShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(thirdShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             thirdShape.Click += ClickThirdShape;
             buttons.Add(thirdShape);
@@ -404,8 +421,14 @@ namespace Our_Project.States_and_state_related
             forthShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 3*heightOfButton),
-                Text = "Fourth Shape",
+                
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[3], shapesHeight[3], shapesWidth[3],
+                (int)(forthShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(forthShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             forthShape.Click += ClickFourthShape;
             buttons.Add(forthShape);
@@ -413,8 +436,14 @@ namespace Our_Project.States_and_state_related
             fifthShape = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(xPositionOfShapeButton, yPositionOfShapeButton + 4*heightOfButton),
-                Text = "Fifth Shape",
+                
             };
+
+            shapes_only_for_draw.Add(new Board(allHidenPoints[4], shapesHeight[4], shapesWidth[4],
+                (int)(fifthShape.Position.X + firstShape.Rectangle.Width / 3),
+                (int)(fifthShape.Position.Y + ((firstShape.Rectangle.Height) * 0.1)),
+                fullTile2d, fullTile2d, false, this.Content, 10));
+
 
             fifthShape.Click += ClickFifthShape;
             buttons.Add(fifthShape);
@@ -934,11 +963,11 @@ namespace Our_Project.States_and_state_related
                                                 {
                                                     emptyTile.SetColor(Color.Green);
                                                 }
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
                         }
                 }
             }
@@ -950,6 +979,11 @@ namespace Our_Project.States_and_state_related
             foreach(Button b in buttons)
                 b.Draw(gameTime, OurGame.spriteBatch);
             
+            foreach(Board b in shapes_only_for_draw)
+            {
+                b.Draw(OurGame.spriteBatch, Color.White);
+            }
+
             if(wait_for_other_player)
             {
                 OurGame.spriteBatch.DrawString(OurGame.font30, "waiting for an other player to connect", new Vector2((Game1.screen_width / 3) * 2, (Game1.screen_height * 70) / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
