@@ -42,6 +42,7 @@ namespace Our_Project
        public static int screen_width;
        public static int screen_height;
         public static  float FontScale;
+        public static SpriteFont font30static;
         public SpriteFont font30;
         public SpriteFont font300;
         public Texture2D button_texture;
@@ -56,11 +57,11 @@ namespace Our_Project
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-                graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+               graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
                graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
-           // graphics.PreferredBackBufferHeight = 1000;
-           // graphics.PreferredBackBufferWidth = 2000;
+          // graphics.PreferredBackBufferHeight = 1000;
+          // graphics.PreferredBackBufferWidth = 1600;
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
@@ -153,6 +154,7 @@ namespace Our_Project
             }*/
 
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
+            font30static = font30;
             font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");
             button_texture = Content.Load<Texture2D>(@"Textures\Controls\Button");
 
