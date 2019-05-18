@@ -913,9 +913,9 @@ namespace Our_Project.States_and_state_related
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //drawing space bg
-            scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
-            scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
-            scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
+            //scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
+            //scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
+            //scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
             // draw bigEmptyBoard
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);

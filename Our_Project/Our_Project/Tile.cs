@@ -87,7 +87,7 @@ namespace Our_Project
                 spriteBatch.Draw(texture, isoprojection_rectangle, null, color, MathHelper.ToRadians(0f), new Vector2(0), SpriteEffects.None, Depth);
 
             //for debug purposes, do not delete
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            if (Keyboard.GetState().IsKeyDown(Keys.S) && (id<=10 || id >=566) && tileSize>60)
                 spriteBatch.DrawString(Game1.font30static, id.ToString(),new Vector2(isoprojection_rectangle.Location.X, isoprojection_rectangle.Location.Y),  Color.OrangeRed,0f,new Vector2(0), Game1.FontScale,SpriteEffects.None,0);
         }
 
