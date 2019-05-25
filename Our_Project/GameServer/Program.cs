@@ -52,7 +52,8 @@ namespace GameServer
                             
 
                             NetOutgoingMessage msg_num_of_players = server.CreateMessage();
-                            if (server.ConnectionsCount % 2 != 0) //second player
+                            //  if (server.ConnectionsCount % 2 != 0) //second player
+                            if (currentGameRoom.GetFirstPlayer() != null && currentGameRoom.GetSecondPlayer()==null)
                             {
                                 msg_num_of_players.Write(1);
 
@@ -104,6 +105,7 @@ namespace GameServer
                                 //creating new game room if you are the first player.
                                 if(server.ConnectionsCount % 2 == 1)
                                 {
+                                    Console.WriteLine("new GameRoom");
                                     GameRoom tmp = new GameRoom();
                                     currentGameRoom = tmp;
                                     currentGameRoom.SetFirstPlayer(msg.SenderConnection);

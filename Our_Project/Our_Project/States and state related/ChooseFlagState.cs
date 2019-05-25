@@ -28,6 +28,7 @@ namespace Our_Project.States_and_state_related
         private StartMenuState startMenuState;
         private BuildingBoardState buildingBoardState;
         private Connection connection;
+        private int reRunCounter=0;
 
         public ChooseFlagState(Game game) : base(game)
         {
@@ -143,6 +144,30 @@ namespace Our_Project.States_and_state_related
             left.Draw(gameTime, OurGame.spriteBatch);
             right.Draw(gameTime, OurGame.spriteBatch);
             select.Draw(gameTime, OurGame.spriteBatch);
+        }
+
+        protected override void StateChanged(object sender, EventArgs e)
+        {
+            base.StateChanged(sender, e);
+
+            if (StateManager.State == this.Value)
+            {
+                Visible = Enabled = true;
+                if (!Game.Components.Contains(left))
+                {
+                    connection = startMenuState.connection;
+                    Game.Components.Add(left);
+                    Game.Components.Add(right);
+                    Game.Components.Add(select);
+                    taken = -1;
+                }
+              /*  reRunCounter++;
+                if (reRunCounter > 1)
+                {
+                    taken = -1;
+                    LoadContent();
+                }*/
+            }
         }
     }
 }

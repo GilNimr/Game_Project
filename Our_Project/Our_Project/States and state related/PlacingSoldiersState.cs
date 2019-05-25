@@ -72,6 +72,7 @@ namespace Our_Project.States_and_state_related
         public bool i_am_second_player;
       
         private int teleport_index = 0; //index that counts how many teleports we placed.
+        private int reRunCounter = 0;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
@@ -95,6 +96,7 @@ namespace Our_Project.States_and_state_related
             connection = buildingBoardState.connection;
 
             i_am_second_player = BuildingBoardState.i_am_second_player;
+            
 
             flag_animation = buildingBoardState.flag_animation;
             enemy_flag_animation = buildingBoardState.enemy_flag_animation;
@@ -329,7 +331,7 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Remove(save_flag_button);
 
             //if its time to move to next state.
-            if (pawn_index >= 3 && teleport_index==2 && !Game.Components.Contains(save_and_start_game))
+            if (pawn_index >= 1 && teleport_index>=0 && !Game.Components.Contains(save_and_start_game))
                 Game.Components.Add(save_and_start_game);
         }
 
@@ -388,6 +390,27 @@ namespace Our_Project.States_and_state_related
             // celAnimationManager.Draw(gameTime, "jamaica", OurGame.spriteBatch, cartasian_rec, SpriteEffects.None);
 
             base.Draw(gameTime);
+        }
+
+        protected override void StateChanged(object sender, EventArgs e)
+        {
+            base.StateChanged(sender, e);
+
+            if (StateManager.State == this.Value)
+            {
+                Visible = true;
+               
+                    reRunCounter++;
+                    if (reRunCounter > 1)
+                {
+                    pawn_index = 0;
+                    teleport_index = 0;
+                    LoadContent();
+                    
+                }
+                        
+            
+            }
         }
 
     }

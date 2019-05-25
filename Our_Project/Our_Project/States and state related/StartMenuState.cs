@@ -8,7 +8,7 @@ namespace Our_Project
 {
     public sealed class StartMenuState : BaseGameState, IStartMenuState
     {
-        private Texture2D texture;        
+        private Texture2D texture;
         private SpriteFont font30;
         private Texture2D button_texture;
         ISoundManager soundOfClick;
@@ -18,13 +18,14 @@ namespace Our_Project
         public Player enemy;
         public Button local_Button;
         public Button remote_Button;
+        private int reRunCounter=0;
 
         public StartMenuState(Game game)
             : base(game)
         {
             game.Services.AddService(typeof(IStartMenuState), this);
             soundOfClick = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
-           
+
         }
 
 
@@ -37,7 +38,7 @@ namespace Our_Project
                 // Go back to title screen
                 StateManager.ChangeState(OurGame.TitleIntroState.Value);
             }
-            //local_Button.Update(gameTime);
+
 
             base.Update(gameTime);
         }
@@ -45,8 +46,8 @@ namespace Our_Project
         private void LocalButtonClick(object sender, System.EventArgs e)
         {
             Connection.local = true;
-           
-            connection = new Connection(OurGame, ref player,ref enemy);
+
+            connection = new Connection(OurGame, ref player, ref enemy);
             soundOfClick.Play("click");
             Game.Components.Remove(local_Button);
             Game.Components.Remove(remote_Button);
@@ -78,9 +79,9 @@ namespace Our_Project
             font30 = OurGame.font30;
             button_texture = OurGame.button_texture;
 
-            local_Button = new Button(Game, button_texture , font30)
+            local_Button = new Button(Game, button_texture, font30)
             {
-                Position = new Vector2(Game1.screen_width/2  -  button_texture.Width, Game1.screen_height / 2 - button_texture.Height/2),
+                Position = new Vector2(Game1.screen_width / 2 - button_texture.Width, Game1.screen_height / 2 - button_texture.Height / 2),
                 Text = "play on local server",
             };
             local_Button.Click += LocalButtonClick;
@@ -88,7 +89,7 @@ namespace Our_Project
 
             remote_Button = new Button(Game, button_texture, font30)
             {
-                Position = new Vector2(local_Button.Position.X, local_Button.Position.Y-local_Button.Rectangle.Height),
+                Position = new Vector2(local_Button.Position.X, local_Button.Position.Y - local_Button.Rectangle.Height),
                 Text = "play on remote server",
             };
             remote_Button.Click += RemoteButtonClick;
@@ -97,15 +98,15 @@ namespace Our_Project
 
         public override void Draw(GameTime gameTime)
         {
-           /* Vector2 pos = new Vector2(Game.GraphicsDevice.Viewport.Width / 2,
-                          Game.GraphicsDevice.Viewport.Height / 2);
-            Vector2 origin = new Vector2(texture.Width / 2,
-                                         texture.Height / 2);
-            Vector2 currPos = new Vector2(100, pos.Y / 2);*/
-            
+            /* Vector2 pos = new Vector2(Game.GraphicsDevice.Viewport.Width / 2,
+                           Game.GraphicsDevice.Viewport.Height / 2);
+             Vector2 origin = new Vector2(texture.Width / 2,
+                                          texture.Height / 2);
+             Vector2 currPos = new Vector2(100, pos.Y / 2);*/
+
             OurGame.spriteBatch.Draw(texture, new Rectangle(0, 0, Game1.screen_width, Game1.screen_height), Color.White);
             {
-                local_Button.Draw(gameTime,OurGame.spriteBatch);
+                local_Button.Draw(gameTime, OurGame.spriteBatch);
                 remote_Button.Draw(gameTime, OurGame.spriteBatch);
             }
 
@@ -116,10 +117,24 @@ namespace Our_Project
         {
             base.StateChanged(sender, e);
 
-            // Change to visible if not at the top of the stack
-            // This way, sub menus will appear on top of this menu
-            if (StateManager.State != this.Value)
-                Visible = true;
+            if (StateManager.State == this.Value)
+            {
+                /* if (local_Button != null && !Game.Components.Contains(local_Button))
+                 {
+                     Game.Components.Add(local_Button);
+                     Game.Components.Add(remote_Button);
+                 }*/
+                reRunCounter++;
+                if (reRunCounter > 1)
+                {
+                    LoadContent();
+                }
+
+                // Change to visible if not at the top of the stack
+                // This way, sub menus will appear on top of this menu
+                if (StateManager.State != this.Value)
+                    Visible = true;
+            }
         }
     }
 }

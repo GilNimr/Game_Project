@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using XELibrary;
 
@@ -48,7 +49,8 @@ namespace Our_Project.States_and_state_related
         public Player enemy;
         public string flag_animation;
         public string enemy_flag_animation;
-        
+        private int reRunCounter=0;
+        private bool toggle =true;
 
         public BuildingBoardState(Game game) : base(game)
         {
@@ -75,7 +77,7 @@ namespace Our_Project.States_and_state_related
              enemy.pawns = new Pawn[player.army_size];
              */
 
-            remainShapesToPutOnBigEmptyBoard = 5;   // set the number of shapes we exepted on board as 5
+            remainShapesToPutOnBigEmptyBoard = 1;   // set the number of shapes we exepted on board as 5
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             isPlayBadPlaceSoundEffect = true;   // for the algorithm about activate the badPlace sound
             // we dont see any shape:
@@ -569,6 +571,10 @@ namespace Our_Project.States_and_state_related
             if (!wait_for_other_player && enemy.flag!=null)
             {
                 enemy_flag_animation = enemy.flag;
+                foreach (var b in buttons)
+                {
+                    Game.Components.Remove(b);
+                }
                 buttons.Clear();    //destroid buttons
                 StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
             }
@@ -913,9 +919,9 @@ namespace Our_Project.States_and_state_related
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //drawing space bg
-            //scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
-            //scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
-            //scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
             // draw bigEmptyBoard
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
@@ -1007,6 +1013,32 @@ namespace Our_Project.States_and_state_related
         public  Board GetEmptyBoard()
         {
             return bigEmptyBoard;
+        }
+
+        protected override void StateChanged(object sender, EventArgs e)
+        {
+            base.StateChanged(sender, e);
+
+            if (StateManager.State == this.Value)
+            {
+               
+             
+                    reRunCounter++;
+                if (toggle)
+                    toggle = false;
+              else  if (!toggle)
+                    toggle = true;
+                    if (reRunCounter > 1 && toggle)
+                {
+                    
+                    remainShapesToPutOnBigEmptyBoard = 1;
+                    Thread.Sleep(1);
+                   // connection.Update();
+                    LoadContent(); 
+                }
+                        
+
+            }
         }
     }
 }

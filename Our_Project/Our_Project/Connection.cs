@@ -16,7 +16,7 @@ namespace Our_Project
 {
     public class Connection //the client side of connection
     {
-        NetClient client;
+        public NetClient client;
 
        public   Player player;
        public   Player enemy;
@@ -43,7 +43,7 @@ namespace Our_Project
             if(local)
              client.DiscoverLocalPeers(14242);
             else
-             client.DiscoverKnownPeer("77.127.40.31", 14242); //server on gil's home for now.
+             client.DiscoverKnownPeer("80.230.57.134", 14242); //server on gil's home for now.
             
         }
         public void SendFlagChoise(int i)
@@ -133,7 +133,7 @@ namespace Our_Project
 
                         int num_of_players = msg.ReadInt32(); //reading if we are player 1 or player2
 
-                        if (num_of_players == 1)
+                        if (num_of_players  == 1)
                             BuildingBoardState.i_am_second_player = true;
                         else
                             BuildingBoardState.wait_for_other_player = true;

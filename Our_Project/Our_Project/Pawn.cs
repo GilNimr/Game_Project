@@ -422,7 +422,7 @@ namespace Our_Project
                     PlayingState.win = true;
                 }
                 //if we lost the encounter with enemy
-                else if (direction.GetCurrentPawn().strength > strength || ( direction.GetCurrentPawn().strength==1 && strength==20) || !(direction.GetCurrentPawn().strength == 20 && strength == 1))
+                else if ((direction.GetCurrentPawn().strength > strength || ( direction.GetCurrentPawn().strength==1 && strength==20)) && !(direction.GetCurrentPawn().strength == 20 && strength == 1))
 
                 {
                     timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
