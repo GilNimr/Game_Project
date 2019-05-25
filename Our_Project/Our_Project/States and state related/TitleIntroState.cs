@@ -64,8 +64,8 @@ namespace Our_Project
 
             if (StateManager.State == this.Value)
             {
-             //   soundManager.Play("backGroundPlayinState");
-             //   MediaPlayer.IsRepeating = true; // loop of sound
+                soundManager.Play("backGroundPlayinState");
+                MediaPlayer.IsRepeating = true; // loop of sound
             }
         }
     }

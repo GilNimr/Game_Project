@@ -77,7 +77,7 @@ namespace Our_Project.States_and_state_related
              enemy.pawns = new Pawn[player.army_size];
              */
 
-            remainShapesToPutOnBigEmptyBoard = 1;   // set the number of shapes we exepted on board as 5
+            remainShapesToPutOnBigEmptyBoard = 5;   // set the number of shapes we exepted on board as 5
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             isPlayBadPlaceSoundEffect = true;   // for the algorithm about activate the badPlace sound
             // we dont see any shape:
@@ -1031,7 +1031,7 @@ namespace Our_Project.States_and_state_related
                     if (reRunCounter > 1 && toggle)
                 {
                     
-                    remainShapesToPutOnBigEmptyBoard = 1;
+                    remainShapesToPutOnBigEmptyBoard = 5;
                     Thread.Sleep(1);
                    // connection.Update();
                     LoadContent(); 

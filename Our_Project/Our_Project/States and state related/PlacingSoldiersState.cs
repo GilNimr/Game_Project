@@ -331,7 +331,7 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Remove(save_flag_button);
 
             //if its time to move to next state.
-            if (pawn_index >= 1 && teleport_index>=0 && !Game.Components.Contains(save_and_start_game))
+            if (pawn_index >= 20 && teleport_index>=2 && !Game.Components.Contains(save_and_start_game))
                 Game.Components.Add(save_and_start_game);
         }
 
