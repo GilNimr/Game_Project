@@ -18,6 +18,7 @@ namespace Our_Project
         public Player enemy;
         public Button local_Button;
         public Button remote_Button;
+        public Button board_editor_button;
 
         public StartMenuState(Game game)
             : base(game)
@@ -64,6 +65,12 @@ namespace Our_Project
 
         }
 
+        private void BoardEditorButtonClick(object sender, System.EventArgs e)
+        {
+            soundOfClick.Play("click");
+            StateManager.ChangeState(OurGame.BoardEditorState.Value);
+        }
+
         protected override void LoadContent()
         {
             player = new Player(OurGame)
@@ -93,6 +100,15 @@ namespace Our_Project
             };
             remote_Button.Click += RemoteButtonClick;
             Game.Components.Add(remote_Button);
+
+            board_editor_button = new Button(Game, button_texture, font30)
+            {
+                Position = new Vector2(remote_Button.Position.X, remote_Button.Position.Y - remote_Button.Rectangle.Height),
+                Text = "Go to Level-Editor",
+            };
+            board_editor_button.Click += BoardEditorButtonClick;
+            Game.Components.Add(board_editor_button);
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -107,6 +123,7 @@ namespace Our_Project
             {
                 local_Button.Draw(gameTime,OurGame.spriteBatch);
                 remote_Button.Draw(gameTime, OurGame.spriteBatch);
+                board_editor_button.Draw(gameTime, OurGame.spriteBatch);
             }
 
             base.Draw(gameTime);

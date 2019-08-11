@@ -79,9 +79,11 @@
     <Compile Include="Player.cs" />
     <Compile Include="States and state related\BaseGameState.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="States and state related\BoardEditorState.cs" />
     <Compile Include="States and state related\BuildingBoardState.cs" />
     <Compile Include="States and state related\ChooseFlagState.cs" />
     <Compile Include="States and state related\GameStateInterfaces.cs" />
+    <Compile Include="States and state related\LevelEditorState.cs" />
     <Compile Include="States and state related\OptionsMenuState.cs" />
     <Compile Include="States and state related\PausedState.cs" />
     <Compile Include="Pawn.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="States and state related\PlayingState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="States and state related\ShapeEditorState.cs" />
     <Compile Include="States and state related\StartMenuState.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="States and state related\TitleIntroState.cs" />
