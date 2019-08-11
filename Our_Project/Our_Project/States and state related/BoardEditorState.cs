@@ -16,13 +16,13 @@ namespace Our_Project.States_and_state_related
         private ISoundManager soundEffect;
         private Board bigEmptyBoard;    // the big board we build our area on it
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
-
+        private bool color_the_tile;
 
         public BoardEditorState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBoardEditorState), this);
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
-
+            color_the_tile = false;
         }
 
         private void BuildEmptyBoard()
@@ -103,6 +103,38 @@ namespace Our_Project.States_and_state_related
         }
 
         /// <summary>
+        /// Allows the game to run logic such as updating the world,
+        /// checking for collisions, gathering input, and playing audio.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        public override void Update(GameTime gameTime)
+        {
+            foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
+            {
+                foreach (Tile t in emptyTilesLine)
+                {
+                    if (t.GetIsMouseClicked())
+                    {
+                        if (t.texture == emptyTileIso)
+                        {
+                            t.texture = fullTileIso;   // set textur
+                            t.SetIsHidden(false);      // set boolean type isHiden
+                        }
+
+                        else
+                        {
+                            t.texture = emptyTileIso;   // set textur
+                            t.SetIsHidden(true);      // set boolean type isHiden
+                        }
+                        
+                    }
+                }
+            }
+        }
+
+
+
+        /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
@@ -111,7 +143,10 @@ namespace Our_Project.States_and_state_related
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
-            base.Draw(gameTime);
+            
+
+
+                    base.Draw(gameTime);
 
 
 
