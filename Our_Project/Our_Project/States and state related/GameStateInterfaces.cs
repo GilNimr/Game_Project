@@ -15,4 +15,5 @@ namespace Our_Project
     public interface IOptionsMenuState : IGameState { }
     public interface IBuildingBoardState : IGameState { }
     public interface IPlacingSoldiersState : IGameState { }
+    public interface ILevelEditorState : IGameState { }
 }
