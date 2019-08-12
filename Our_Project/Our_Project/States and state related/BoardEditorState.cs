@@ -113,9 +113,11 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (Tile t in emptyTilesLine)
                 {
+                    t.Update();
+
                     if (t.GetIsMouseClicked())
                     {
-                        if (t.texture == emptyTileIso)
+                        if (t.GetIsHidden())
                         {
                             t.texture = fullTileIso;   // set textur
                             t.SetIsHidden(false);      // set boolean type isHiden

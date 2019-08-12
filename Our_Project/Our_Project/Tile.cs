@@ -59,7 +59,7 @@ namespace Our_Project
         }
 
 
-        protected void Update()
+        public void Update()
         {
             MouseState mouseState = Mouse.GetState(); // previous mouse position
             MouseState newState = Mouse.GetState();     // current mouse position  
@@ -244,6 +244,12 @@ namespace Our_Project
 
         public bool GetIsMouseClicked()
         {
+            if (isMouseClicked)
+            {
+                isMouseClicked = false;
+                return true;
+            }
+
             return isMouseClicked;
         }
 
