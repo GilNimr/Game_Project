@@ -133,12 +133,12 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (Tile t in emptyTilesLine)
                 {
-                    if ((!t.GetIsHidden() && t.GetId() > 264) || counter > 25 || !legalTile(t))
+                    if ((!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 || !legalTile(t))))
                     {
                         flag = false;
                     }
 
-                    else
+                    else if (!t.GetIsHidden())
                     {
                         counter++;
 
