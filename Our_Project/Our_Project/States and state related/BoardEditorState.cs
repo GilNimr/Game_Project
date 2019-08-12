@@ -90,10 +90,13 @@ namespace Our_Project.States_and_state_related
             save_and_go_placing_soldiers_state_button = new Button(Game, OurGame.button_texture, font)
             {
                 Position = new Vector2(0,0),
+                Text = "Save",
+
             };
 
             save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_click;
-            
+            Game.Components.Add(save_and_go_placing_soldiers_state_button);
+
         }
 
         private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
@@ -185,10 +188,11 @@ namespace Our_Project.States_and_state_related
             fullTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Grey Tile");
             emptyTile2d = Content.Load<Texture2D>(@"Textures\Tiles\White_2d_Tile");
             emptyTileIso = Content.Load<Texture2D>(@"Textures\Tiles\Clear Tile");
-            //font = OurGame.font30;
+            font = OurGame.font30;
             
             //build BigEmptyBoard
             BuildEmptyBoard();
+            setSaveButton();
         }
 
         /// <summary>
@@ -234,10 +238,10 @@ namespace Our_Project.States_and_state_related
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
-            
+            save_and_go_placing_soldiers_state_button.Draw(gameTime, OurGame.spriteBatch);
 
 
-                    base.Draw(gameTime);
+            base.Draw(gameTime);
 
 
 
