@@ -16,13 +16,13 @@ namespace Our_Project.States_and_state_related
         private ISoundManager soundEffect;
         private Board bigEmptyBoard;    // the big board we build our area on it
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
-        private bool color_the_tile;
+        private Button save_and_go_placing_soldiers_state_button;
+        private SpriteFont font;   // font on button
 
         public BoardEditorState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBoardEditorState), this);
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
-            color_the_tile = false;
         }
 
         private void BuildEmptyBoard()
@@ -84,6 +84,95 @@ namespace Our_Project.States_and_state_related
                 }
             }
         }
+
+        private void setSaveButton()
+        {
+            save_and_go_placing_soldiers_state_button = new Button(Game, OurGame.button_texture, font)
+            {
+                Position = new Vector2(0,0),
+            };
+
+            save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_click;
+            
+        }
+
+        private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
+        {
+            bool flag = true;
+            int counter = 0;
+            List<String> strings = new List<String>();
+            strings.Add("$");
+
+            // set each texture-tile in bigEmptyBoard that without shape as null
+            foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
+            {
+                String s = "";
+                foreach (Tile t in tileLine)
+                {
+                    if (t.GetIsHidden())
+                    {
+                        t.texture = null;
+                        s += '0';
+                    }
+
+                    else
+                    {
+                        s += '1';
+                    }
+                }
+                strings.Add(s);
+            }
+            strings.Add("$");
+            SetNeighbors(bigEmptyBoard);
+
+
+            foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
+            {
+                foreach (Tile t in emptyTilesLine)
+                {
+                    if ((!t.GetIsHidden() && t.GetId() > 264) || counter > 25 || !legalTile(t))
+                    {
+                        flag = false;
+                    }
+
+                    else
+                    {
+                        counter++;
+
+                    }
+                }
+            }
+
+            if (flag)
+            {
+                soundEffect.Play("click");
+                System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\board.txt", strings);
+
+            }
+            else
+            {
+                soundEffect.Play("badPlace");
+            }
+
+        }
+
+        private bool legalTile(Tile t)
+        {
+            if (t.GetRight() != null && (t.GetUp() == null && t.GetDown() == null))
+                return false;
+
+            else if (t.GetUp() != null && (t.GetRight() == null && t.GetLeft() == null))
+                return false;
+
+            else if (t.GetLeft() != null && (t.GetUp() == null && t.GetDown() == null))
+                return false;
+
+            else if (t.GetDown() != null && (t.GetRight() == null && t.GetLeft() == null))
+                return false;
+
+            return true;
+        }
+
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
