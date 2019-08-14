@@ -102,7 +102,7 @@ namespace Our_Project.States_and_state_related
         private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
         {
             bool flag = true;
-            int counter = 0;
+            int counter = -48;
             List<String> strings = new List<String>();
             strings.Add("$");
 
