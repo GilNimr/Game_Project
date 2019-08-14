@@ -5,6 +5,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using Lidgren.Network;
 
@@ -12,7 +14,7 @@ namespace GameServer
 {
     class Program //here we run our server.
     {
-       // private static bool no_more_tiles =false; //if we dont need to read updates on tiles anymore, to save work.
+        // private static bool no_more_tiles =false; //if we dont need to read updates on tiles anymore, to save work.
 
         static void Main(string[] args)
         {
@@ -29,13 +31,18 @@ namespace GameServer
             GameRoom currentGameRoom = new GameRoom();
             List<GameRoom> gamerooms = new List<GameRoom>(); //list of all gamerooms.
 
-            List<int> tile_list=new List<int>(); //list of tiles id's
+            List<int> tile_list = new List<int>(); //list of tiles id's
 
-                server.UPnP.ForwardPort(14242, "Flags game for school project");
+            server.UPnP.ForwardPort(14242, "Flags game for school project");
 
             // schedule initial sending of position updates
             double nextSendUpdates = NetTime.Now;
-            
+
+            //Azure service info
+            String resourcegroup = "";
+            String containergroupname = "";
+
+
             // run until escape is pressed
             while (!Console.KeyAvailable || Console.ReadKey().Key != ConsoleKey.Escape)
             {
@@ -46,20 +53,20 @@ namespace GameServer
                     switch (msg.MessageType)
                     {
                         case NetIncomingMessageType.DiscoveryRequest:
-                            
+
                             // Server received a discovery request from a client; send a discovery response
                             // with data about if its the first or second player.
-                            
+
 
                             NetOutgoingMessage msg_num_of_players = server.CreateMessage();
                             //  if (server.ConnectionsCount % 2 != 0) //second player
-                            if (currentGameRoom.GetFirstPlayer() != null && currentGameRoom.GetSecondPlayer()==null)
+                            if (currentGameRoom.GetFirstPlayer() != null && currentGameRoom.GetSecondPlayer() == null)
                             {
                                 msg_num_of_players.Write(1);
 
                                 NetOutgoingMessage msg_sec_player_connected = server.CreateMessage();
                                 msg_sec_player_connected.Write("second");
-                                server.SendMessage(msg_sec_player_connected,currentGameRoom.GetFirstPlayer(), NetDeliveryMethod.ReliableOrdered);
+                                server.SendMessage(msg_sec_player_connected, currentGameRoom.GetFirstPlayer(), NetDeliveryMethod.ReliableOrdered);
 
                             }
                             else //first player
@@ -82,6 +89,9 @@ namespace GameServer
                             break;
 
                         case NetIncomingMessageType.StatusChanged:
+                            if (resourcegroup != "")
+                                try { SetSessions(server.Connections.Count, resourcegroup, containergroupname); } catch (Exception e) { }
+
                             NetConnectionStatus status = (NetConnectionStatus)msg.ReadByte();
                             if (status == NetConnectionStatus.Connected)
                             {
@@ -103,7 +113,7 @@ namespace GameServer
                                 }
 
                                 //creating new game room if you are the first player.
-                                if(server.ConnectionsCount % 2 == 1)
+                                if (server.ConnectionsCount % 2 == 1)
                                 {
                                     Console.WriteLine("new GameRoom");
                                     GameRoom tmp = new GameRoom();
@@ -149,12 +159,20 @@ namespace GameServer
                                 }
                             }
 
-                                break;
+                            break;
 
                         case NetIncomingMessageType.Data: //reading game related data.
                             string data_string = msg.ReadString(); //reading message header
                             switch (data_string)
                             {
+
+                                case "azure":
+                                    {
+                                        resourcegroup = msg.ReadString();
+                                        containergroupname = msg.ReadString();
+                                        break;
+                                    }
+
                                 case "win":
                                     {
                                         int[] pos = msg.SenderConnection.Tag as int[];
@@ -171,30 +189,30 @@ namespace GameServer
                                 case "flag":
                                     {
                                         int taken = msg.ReadInt32();
-                                      
+
                                         int[] pos = msg.SenderConnection.Tag as int[]; //using connection TAG to save data about that client
                                         pos[599] = taken;
                                         break;
                                     }
-                                    
+
                                 case "teleport":
                                     {
                                         int tile_id = msg.ReadInt32();//reading message
                                         int[] pos = msg.SenderConnection.Tag as int[]; //using connection TAG to save data about that client
                                         if (pos[600] == -10)
                                             pos[600] = tile_id;
-                                        else pos[601 ]= tile_id;
+                                        else pos[601] = tile_id;
                                         break;
                                     }
                                 case "tile_added":
                                     {
-                                        int tile_id= msg.ReadInt32();//reading message
+                                        int tile_id = msg.ReadInt32();//reading message
                                         int[] pos = msg.SenderConnection.Tag as int[];//using connection TAG to save data about that client
                                         int i = 0;
                                         while (pos[4 + i] != -10)
                                             i++;
-                                        pos[4+i] = tile_id;
-                                        
+                                        pos[4 + i] = tile_id;
+
                                         break;
                                     }
                                 case "move":
@@ -244,14 +262,14 @@ namespace GameServer
                                 if (player != otherPlayer)
                                 {
 
-            
+
                                     NetOutgoingMessage om = server.CreateMessage();
 
                                     if (otherPlayer.Tag == null)
                                         otherPlayer.Tag = new int[602];
 
                                     int[] pos = otherPlayer.Tag as int[];
-                               
+
                                     if (pos[0] != -10 && pos[1] != -10) //if there is new data to write.
                                     {
                                         om.Write("move");
@@ -262,9 +280,9 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[0] = -10;
                                         pos[1] = -10;
-                                        
+
                                     }
-                                    if(pos[597]==1)
+                                    if (pos[597] == 1)
                                     {
                                         om = server.CreateMessage();
                                         om.Write("win");
@@ -285,7 +303,7 @@ namespace GameServer
                                     {
                                         om.Write("flag");
                                         om.Write(pos[599]);
-                                       
+
 
                                         // send message
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
@@ -294,21 +312,21 @@ namespace GameServer
                                     }
 
                                     int i = 0;
-                                        while (pos[4 + i] == -10 && 4 + i < 599)
-                                        {
+                                    while (pos[4 + i] == -10 && 4 + i < 599)
+                                    {
 
-                                            i++;
-                                        }
+                                        i++;
+                                    }
 
-                                        if (pos[4 + i] != -10) //if there is new data to write.
-                                        {
+                                    if (pos[4 + i] != -10) //if there is new data to write.
+                                    {
                                         om = server.CreateMessage();
-                                            om.Write("tile_added");
-                                            om.Write(pos[4 + i]);
-                                            server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
-                                            pos[4 + i] = -10;
-                                        }
-                           
+                                        om.Write("tile_added");
+                                        om.Write(pos[4 + i]);
+                                        server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
+                                        pos[4 + i] = -10;
+                                    }
+
 
                                     if (pos[2] != -10 && pos[3] != -10) //if there is new data to write.
                                     {
@@ -321,9 +339,9 @@ namespace GameServer
                                         server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                         pos[2] = -10;
                                         pos[3] = -10;
-                             
+
                                     }
-                                    if(pos[600]!=-10 || pos[601]!=-10) //if there is new data to write.
+                                    if (pos[600] != -10 || pos[601] != -10) //if there is new data to write.
                                     {
                                         om = server.CreateMessage();
                                         om.Write("teleport");
@@ -334,7 +352,7 @@ namespace GameServer
                                             server.SendMessage(om, player, NetDeliveryMethod.ReliableOrdered, 0);
                                             pos[600] = -10;
                                         }
-                                        else if(pos[601]!=-10)
+                                        else if (pos[601] != -10)
                                         {
                                             om.Write(pos[601]);
                                             // send message
@@ -342,7 +360,7 @@ namespace GameServer
                                             pos[601] = -10;
                                         }
                                     }
-                                 
+
 
                                 }
 
@@ -363,8 +381,42 @@ namespace GameServer
         }
 
 
+        public static async void SetSessions(int activesessions, String resourcegroup, String containergroupname)
+        {
+            //HTTP POST request to ACISetSessions function on Azure
+            var client = new HttpClient();
+            var response = await client.PostAsJsonAsync("https://herpsgodfunctions.azurewebsites.net/api/ACISetSessions?code=X7Nza24K5nr2HlyCkjG5ax/TXVUt9zbJzNPf8UW8VUfY3aRKEjiRSA==",
+            new ACISetSessionsPost[]
+            {
+                            new ACISetSessionsPost
+                            {
+                               resourceGroup = resourcegroup,
+                               containerGroupName = containergroupname,
+                               activeSessions= activesessions
+                            }
+            });
+
+
+        }
+
+
     }
 
+    [DataContract]
+    internal class ACISetSessionsPost
+    {
 
+
+        [DataMember]
+        internal string resourceGroup;
+
+        [DataMember]
+        internal string containerGroupName;
+
+
+        [DataMember]
+        internal int activeSessions;
+
+    }
 }
-   
+

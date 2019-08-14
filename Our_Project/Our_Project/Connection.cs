@@ -47,7 +47,7 @@ namespace Our_Project
                 client.DiscoverLocalPeers(14242);
             else
             {
-                try { ip = GetIP().Result; } catch (Exception e) { ip="0.0.0.0"; }
+                try { ip = GetIP().Result; } catch (Exception e) { ip = "0.0.0.0"; }
                 client.DiscoverKnownPeer(ip, 14242); //server on gil's home for now.
             }
 
@@ -67,7 +67,7 @@ namespace Our_Project
 
             aci = (ACIlistResponse[])ser.ReadObject(content);
 
-            
+
 
             for (int i = 0; i < aci.Length; i++)
             {
@@ -190,9 +190,15 @@ namespace Our_Project
                             BuildingBoardState.i_am_second_player = true;
                         else
                             BuildingBoardState.wait_for_other_player = true;
-
-                        SetSessions();
-
+                        if (!local)
+                        {
+                            //sending Azure info to server
+                            NetOutgoingMessage om = client.CreateMessage();
+                            om.Write("azure");
+                            om.Write(aci[index].ResourceGroup);
+                            om.Write(aci[index].ContainerGroupName);
+                            client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                        }
                         break;
 
                     case NetIncomingMessageType.Data: //all game related messages
