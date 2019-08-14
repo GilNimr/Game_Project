@@ -12,10 +12,13 @@
 
   <ItemGroup>
     <Reference Include="Lidgren.Network">
-      <HintPath>..\DLL's\Lidgren.Network.dll</HintPath>
+      <HintPath>Lidgren.Network.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework">
-      <HintPath>..\DLL's\MonoGame.Framework.dll</HintPath>
+      <HintPath>MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\..\..\..\..\.nuget\packages\microsoft.aspnet.webapi.client\5.2.7\lib\portable-wp8+netcore45+net45+wp81+wpa81\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
   </ItemGroup>
 

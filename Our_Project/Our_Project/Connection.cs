@@ -7,10 +7,9 @@ using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Our_Project.States_and_state_related;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization.Json;
+using System.Net.Http;
+using System.Runtime.Serialization;
 
 namespace Our_Project
 {
@@ -18,9 +17,9 @@ namespace Our_Project
     {
         public NetClient client;
 
-       public   Player player;
-       public   Player enemy;
-       public static bool local; // if this is a local connection.
+        public Player player;
+        public Player enemy;
+        public static bool local; // if this is a local connection.
 
         readonly Game game;
 
@@ -28,7 +27,11 @@ namespace Our_Project
 
         public static NetOutgoingMessage outmsg;
 
-        public Connection(Game game,ref Player _player,ref Player _enemy)
+        public String ip;
+        ACIlistResponse[] aci;
+        int index = 0;
+
+        public Connection(Game game, ref Player _player, ref Player _enemy)
         {
             this.game = game;
             enemy = _enemy;
@@ -40,12 +43,62 @@ namespace Our_Project
             client = new NetClient(config);
             client.Start(); //Binds to socket and spawns the networking thread.
 
-            if(local)
-             client.DiscoverLocalPeers(14242);
+            if (local)
+                client.DiscoverLocalPeers(14242);
             else
-             client.DiscoverKnownPeer("80.230.57.134", 14242); //server on gil's home for now.
-            
+            {
+                try { ip = GetIP().Result; } catch (Exception e) { ip="0.0.0.0"; }
+                client.DiscoverKnownPeer(ip, 14242); //server on gil's home for now.
+            }
+
         }
+
+
+        //HTTP GET request to Azure ACIList function.
+        public async System.Threading.Tasks.Task<string> GetIP()
+        {
+            var client = new HttpClient();
+
+            var resp = await client.GetAsync("https://herpsgodfunctions.azurewebsites.net/api/ACIList");
+
+            var content = await resp.Content.ReadAsStreamAsync();
+
+            DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(ACIlistResponse[]));
+
+            aci = (ACIlistResponse[])ser.ReadObject(content);
+
+            
+
+            for (int i = 0; i < aci.Length; i++)
+            {
+                if (aci[i].ActiveSessions < 10)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return aci[index].PublicIP;
+
+        }
+
+        public async void SetSessions()
+        {
+            //HTTP POST request to ACISetSessions function on Azure
+            var client = new HttpClient();
+            var response = await client.PostAsJsonAsync("https://herpsgodfunctions.azurewebsites.net/api/ACISetSessions?code=X7Nza24K5nr2HlyCkjG5ax/TXVUt9zbJzNPf8UW8VUfY3aRKEjiRSA==",
+            new ACISetSessionsPost[]
+            {
+                            new ACISetSessionsPost
+                            {
+                               resourceGroup = aci[index].ResourceGroup,
+                               containerGroupName = aci[index].ContainerGroupName,
+                               activeSessions= aci[index].ActiveSessions + 1
+                            }
+            });
+
+        }
+
         public void SendFlagChoise(int i)
         {
             NetOutgoingMessage om = client.CreateMessage();
@@ -98,28 +151,28 @@ namespace Our_Project
             if (enemy != null)
             {
 
-            
-            if(enemy.pawns!=null ) //updates on enemys being attacked.
-            {
-                NetOutgoingMessage om = client.CreateMessage();
-                for (int i = 0; i < enemy.pawns.Length; i++)
+
+                if (enemy.pawns != null) //updates on enemys being attacked.
                 {
-                    if (enemy.pawns[i] != null)
-                    { 
-                      if (enemy.pawns[i].attacked)
-                      {
-                        om.Write("attacked");
-                        om.Write(enemy.pawns[i].attacker.id);
-                        om.Write(i);
+                    NetOutgoingMessage om = client.CreateMessage();
+                    for (int i = 0; i < enemy.pawns.Length; i++)
+                    {
+                        if (enemy.pawns[i] != null)
+                        {
+                            if (enemy.pawns[i].attacked)
+                            {
+                                om.Write("attacked");
+                                om.Write(enemy.pawns[i].attacker.id);
+                                om.Write(i);
 
 
-                        client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
-                        enemy.pawns[i].attacked = false;
-                      }
+                                client.SendMessage(om, NetDeliveryMethod.ReliableOrdered);
+                                enemy.pawns[i].attacked = false;
+                            }
+                        }
                     }
-                }
 
-            }
+                }
             }
 
             NetIncomingMessage msg;
@@ -133,10 +186,13 @@ namespace Our_Project
 
                         int num_of_players = msg.ReadInt32(); //reading if we are player 1 or player2
 
-                        if (num_of_players  == 1)
+                        if (num_of_players == 1)
                             BuildingBoardState.i_am_second_player = true;
                         else
                             BuildingBoardState.wait_for_other_player = true;
+
+                        SetSessions();
+
                         break;
 
                     case NetIncomingMessageType.Data: //all game related messages
@@ -152,7 +208,7 @@ namespace Our_Project
                                 }
                             case "trigger":
                                 {
-                                    int tile_id= msg.ReadInt32();
+                                    int tile_id = msg.ReadInt32();
                                     player.particleService.Trigger(Game1.TwoD2isometrix(player.Board.boardDictionaryById[tile_id].GetCartasianRectangle().Center.X, player.Board.boardDictionaryById[tile_id].GetCartasianRectangle().Center.Y));
                                     break;
                                 }
@@ -189,21 +245,21 @@ namespace Our_Project
                                     player.Board.boardDictionaryById[tile_id].SetIsHidden(false);
                                     player.Board.boardDictionaryById[tile_id].teleport_tile = true;
 
-                                    for(int i=0; i< PlayingState.teleports.Length; i++)
+                                    for (int i = 0; i < PlayingState.teleports.Length; i++)
                                     {
                                         if (PlayingState.teleports[i] == null)
                                         {
                                             PlayingState.teleports[i] = player.Board.boardDictionaryById[tile_id];
                                             break;
                                         }
-                                            
+
                                     }
 
                                     break;
                                 }
                             case "move":
                                 {
-                                    
+
                                     int id = msg.ReadInt32();//reading message
                                     int i = msg.ReadInt32();//reading message
 
@@ -229,7 +285,7 @@ namespace Our_Project
                                         if (enemy.pawns[i].current_tile.teleport_tile)
                                             enemy.pawns[i].trigger_teleport_particle = true;
                                     }
- 
+
                                     break;
                                 }
                             case "attacked": //if we are being attacked
@@ -272,6 +328,44 @@ namespace Our_Project
 
             }
         }
+
+    }
+
+    [DataContract]
+    internal class ACIlistResponse
+    {
+
+
+        [DataMember]
+        internal string ResourceGroup;
+
+        [DataMember]
+        internal string ContainerGroupName;
+
+        [DataMember]
+        internal string PublicIP;
+
+        [DataMember]
+        internal int ActiveSessions;
+
+        [DataMember]
+        internal string Locations;
+    }
+
+    [DataContract]
+    internal class ACISetSessionsPost
+    {
+
+
+        [DataMember]
+        internal string resourceGroup;
+
+        [DataMember]
+        internal string containerGroupName;
+
+
+        [DataMember]
+        internal int activeSessions;
 
     }
 }

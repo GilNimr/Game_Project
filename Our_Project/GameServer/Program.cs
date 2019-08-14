@@ -35,7 +35,7 @@ namespace GameServer
 
             // schedule initial sending of position updates
             double nextSendUpdates = NetTime.Now;
-
+            
             // run until escape is pressed
             while (!Console.KeyAvailable || Console.ReadKey().Key != ConsoleKey.Escape)
             {
@@ -361,6 +361,10 @@ namespace GameServer
             }
             server.Shutdown("app exiting");
         }
+
+
     }
+
+
 }
    

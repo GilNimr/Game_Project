@@ -61,7 +61,7 @@ namespace Our_Project
                graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
           // graphics.PreferredBackBufferHeight = 1000;
-          // graphics.PreferredBackBufferWidth = 1600;
+           //graphics.PreferredBackBufferWidth = 1600;
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
