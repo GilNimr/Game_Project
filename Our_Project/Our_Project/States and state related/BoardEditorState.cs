@@ -102,7 +102,7 @@ namespace Our_Project.States_and_state_related
         private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
         {
             bool flag = true;
-            int counter = -48;
+            int counter = -48;  // 48 tiles of middle line. counter will be responsible about legal number of tiles
             List<String> strings = new List<String>();
             strings.Add("$");
 
@@ -149,30 +149,38 @@ namespace Our_Project.States_and_state_related
             if (flag)
             {
                 soundEffect.Play("click");
+                
                 System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\board.txt", strings);
-
+                
             }
             else
             {
                 soundEffect.Play("badPlace");
+                StateManager.ChangeState(OurGame.BoardEditorState.Value);
             }
 
         }
 
         private bool legalTile(Tile t)
         {
-            if (t.GetRight() != null && (t.GetUp() == null && t.GetDown() == null))
-                return false;
+            if (t.GetUp() != null && t.GetDown() != null)
+            {
+                if (t.GetRight() != null && t.GetRight().texture != null && t.GetUp().texture == null && t.GetDown().texture == null)
+                    return false;
 
-            else if (t.GetUp() != null && (t.GetRight() == null && t.GetLeft() == null))
-                return false;
+                else if (t.GetLeft() != null && t.GetLeft().texture != null && t.GetUp().texture == null && t.GetDown().texture == null)
+                    return false;
+            }
 
-            else if (t.GetLeft() != null && (t.GetUp() == null && t.GetDown() == null))
-                return false;
+            if (t.GetRight() != null && t.GetLeft() != null)
+            {
+                if (t.GetUp() != null && t.GetUp().texture != null && t.GetRight().texture == null && t.GetLeft().texture == null)
+                    return false;
 
-            else if (t.GetDown() != null && (t.GetRight() == null && t.GetLeft() == null))
-                return false;
-
+                else if (t.GetDown() != null && t.GetDown().texture != null && t.GetRight().texture == null && t.GetLeft().texture == null)
+                    return false;
+            }
+            
             return true;
         }
 
