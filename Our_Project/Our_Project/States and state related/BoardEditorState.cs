@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using XELibrary;
 
@@ -17,8 +18,8 @@ namespace Our_Project.States_and_state_related
         private Board bigEmptyBoard;    // the big board we build our area on it
         private Button save_and_go_placing_soldiers_state_button, reset_button, return_to_game_button;
         private SpriteFont font;   // font on button
-        public static SaveForm saveForm;
-
+        public /*static*/ SaveForm saveForm;
+        private  List<string> txtBoardForForm;
 
         public BoardEditorState(Game game) : base(game)
         {
@@ -31,7 +32,7 @@ namespace Our_Project.States_and_state_related
         {
             // set the board
             bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
-
+            txtBoardForForm = null;
             // adding a 2/24 shape wich will be the middle of the board, set the hiden tiles and call them at the next metod
             List<NodeOFHidenTiles> empty = new List<NodeOFHidenTiles>
             {
@@ -96,7 +97,7 @@ namespace Our_Project.States_and_state_related
 
             };
 
-            save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_clickAsync;
+            save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_click;
             Game.Components.Add(save_and_go_placing_soldiers_state_button);
 
             reset_button = new Button(Game, OurGame.button_texture, font)
@@ -121,7 +122,7 @@ namespace Our_Project.States_and_state_related
         private void Return_to_game_click(object sender, EventArgs e)
         {
             soundEffect.Play("click");
-            StateManager.ChangeState(OurGame.StartMenuState.Value);
+            StateManager.PushState(OurGame.StartMenuState.Value);
                         //Push
           //  StateManager.ChangeState(OurGame.BuildingBoardState.Value);
         }
@@ -133,7 +134,7 @@ namespace Our_Project.States_and_state_related
         }
 
         // Click on the save button
-        private async void Save_and_go_placing_soldiers_state_button_clickAsync(object sender, System.EventArgs e)
+        private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
         {
             bool flag = true;
             int counter = -48;  // 48 tiles of middle line. counter will be responsible about legal number of tiles
@@ -163,7 +164,9 @@ namespace Our_Project.States_and_state_related
             }
             strings.Add("$");
             SetNeighbors(bigEmptyBoard);
+            
 
+            System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\delete.txt", strings);
 
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
             {
@@ -186,18 +189,12 @@ namespace Our_Project.States_and_state_related
             if (flag)
             {
                 soundEffect.Play("click");
-
+                saveForm = new SaveForm();
                 saveForm.Show();
-                
-                while (saveForm.getName() == null)
-                { 
-                    await Task.Delay(25);
-                }
 
-                System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\" + saveForm.getName()+
-                    ".txt", strings);
-                saveForm.Hide();
                 ResetBoardEditor(); // returning bigEmptyBoard
+                saveForm = null;
+
             }
             else
             {

@@ -84,7 +84,7 @@ namespace Our_Project.States_and_state_related
                 dragingShape = null;
                 hideShape = true;
             putedBoardFromEditor = false;
-            loadForm = new LoadForm();
+            
         }
 
         private  List<List<NodeOFHidenTiles>> SetHidenTilesFromFile()
@@ -465,55 +465,58 @@ namespace Our_Project.States_and_state_related
                 Position = new Vector2(0, 0),
                 Text = "Load from desktop",
             };
-            load_from_level_editor.Click += ClickLoadButtonAsync;
+            load_from_level_editor.Click += ClickLoadButton/*Async*/;
             buttons.Add(load_from_level_editor);
 
             foreach(Button b in buttons)
                 Game.Components.Add(b);
         }
 
-        private async void ClickLoadButtonAsync(object sender, EventArgs e)
+        private /*async*/ void ClickLoadButton/*Async*/(object sender, EventArgs e)
         {
-            BoardEditorState.saveForm.Hide(); //fixed some unclear bug
-            loadForm.Show();
+            //BoardEditorState.saveForm.Hide(); //fixed some unclear bug
+            /* loadForm = new LoadForm();
+             loadForm.Show();
+             */
 
-            while (loadForm.getFilePath() == null)
-            {
-                await Task.Delay(25);
-            }
 
             //We are going to make string[] for one shape (our board from desktop) just because we want to use the same method that read shapes from txt
-                // from the beginnig of the class.
+            // from the beginnig of the class.
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
 
-            string[] tmp = System.IO.File.ReadAllLines(@loadForm.getFilePath());
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string[] tmp = System.IO.File.ReadAllLines(openFileDialog.FileName);
 
-            //keeping our shapes:
-            List<int> tmpShapeHeight = new List<int>(shapesHeight), tmpShapeWidth = new List<int>(shapesWidth);
-            List<List<NodeOFHidenTiles>> tmpHiden = new List<List<NodeOFHidenTiles>>(allHidenPoints);
+                //keeping our shapes:
+                List<int> tmpShapeHeight = new List<int>(shapesHeight), tmpShapeWidth = new List<int>(shapesWidth);
+                List<List<NodeOFHidenTiles>> tmpHiden = new List<List<NodeOFHidenTiles>>(allHidenPoints);
 
-            shapesHeight.Clear();
-            shapesWidth.Clear();
-            allHidenPoints.Clear();
+                shapesHeight.Clear();
+                shapesWidth.Clear();
+                allHidenPoints.Clear();
 
-            allHidenPoints = ReadAndCreateShapes(tmp);
+                allHidenPoints = ReadAndCreateShapes(tmp);
 
-            soundEffect.Play("click");
-            putedBoardFromEditor = true;
+                soundEffect.Play("click");
+                putedBoardFromEditor = true;
 
 
-               bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 
-                   bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().X, bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().Y,
-                   fullTileIso, fullTile2d, false, this.Content);
+                bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0],
+                    bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().X, bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().Y,
+                    fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(bigEmptyBoard);
-   
-            //returning values:
-            shapesHeight = shapesWidth = null;
-            shapesHeight = new List<int>(tmpShapeHeight);
-            shapesWidth = new List<int>(tmpShapeWidth);
-            allHidenPoints = new List<List<NodeOFHidenTiles>>(tmpHiden);
-            tmpHiden.Clear();
-            tmpShapeHeight.Clear();
-            tmpShapeWidth.Clear();
+
+                //returning values:
+                shapesHeight = shapesWidth = null;
+                shapesHeight = new List<int>(tmpShapeHeight);
+                shapesWidth = new List<int>(tmpShapeWidth);
+                allHidenPoints = new List<List<NodeOFHidenTiles>>(tmpHiden);
+                tmpHiden.Clear();
+                tmpShapeHeight.Clear();
+                tmpShapeWidth.Clear();
+            }
+            
         }
 
         /*

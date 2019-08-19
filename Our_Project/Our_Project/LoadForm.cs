@@ -15,6 +15,7 @@ namespace Our_Project
     public partial class LoadForm : Form
     {
         private string filePath;
+        public static bool lockLoad = true;
 
         public LoadForm()
         {
@@ -24,11 +25,13 @@ namespace Our_Project
 
         private void loadBtn_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+               OpenFileDialog openFileDialog = new OpenFileDialog();
+
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 filePath = openFileDialog.FileName;
             }
+
         }
 
         public string getFilePath()
