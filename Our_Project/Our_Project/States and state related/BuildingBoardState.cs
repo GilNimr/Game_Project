@@ -550,6 +550,8 @@ namespace Our_Project.States_and_state_related
 
         private void ReturnTheEmptyNewBoard()
         {
+
+            remainShapesToPutOnBigEmptyBoard = 5;
             putedBoardFromEditor = false;
             bigEmptyBoard = null;
             BuildEmptyBoard();
@@ -618,7 +620,8 @@ namespace Our_Project.States_and_state_related
         private void ClickFifthShape(object sender, EventArgs e)
         {
             if (putedBoardFromEditor)
-                ReturnTheEmptyNewBoard(); soundEffect.Play("click");
+                ReturnTheEmptyNewBoard();
+            soundEffect.Play("click");
 
             if (hideShape)
             {
@@ -639,24 +642,28 @@ namespace Our_Project.States_and_state_related
 
         private void SaveAndStartGame(object sender, EventArgs e) // if you finished build your board and click "next"
         {
-            // set each texture-tile in bigEmptyBoard that without shape as null
-            foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
+            if (remainShapesToPutOnBigEmptyBoard == 0 || putedBoardFromEditor)
             {
-                foreach (Tile t in tileLine)
-                {
-                    if (t.GetIsHidden())
-                        t.texture = null;
-                }
-            }
-            if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
-                enemy.flag = "canada";
 
-            soundEffect.Play("click");
-            if (!wait_for_other_player && enemy.flag!=null)
-            {
-                enemy_flag_animation = enemy.flag;
-                buttons.Clear();    //destroid buttons
-                StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
+                // set each texture-tile in bigEmptyBoard that without shape as null
+                foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
+                {
+                    foreach (Tile t in tileLine)
+                    {
+                        if (t.GetIsHidden())
+                            t.texture = null;
+                    }
+                }
+                if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
+                    enemy.flag = "canada";
+
+                soundEffect.Play("click");
+                if (!wait_for_other_player && enemy.flag != null)
+                {
+                    enemy_flag_animation = enemy.flag;
+                    buttons.Clear();    //destroid buttons
+                    StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
+                }
             }
         }
 
