@@ -500,10 +500,10 @@ namespace Our_Project.States_and_state_related
 
                 soundEffect.Play("click");
                 putedBoardFromEditor = true;
-
-
+                Board b = bigEmptyBoard;
+                bigEmptyBoard = null;
                 bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0],
-                    bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().X, bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().Y,
+                    b.GetBoard()[0][0].GetCartasianRectangle().X, b.GetBoard()[0][0].GetCartasianRectangle().Y,
                     fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(bigEmptyBoard);
 
