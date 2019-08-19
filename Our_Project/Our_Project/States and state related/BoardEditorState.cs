@@ -15,14 +15,16 @@ namespace Our_Project.States_and_state_related
         private Texture2D fullTile2d, fullTileIso, emptyTile2d, emptyTileIso;
         private ISoundManager soundEffect;
         private Board bigEmptyBoard;    // the big board we build our area on it
-        private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
         private Button save_and_go_placing_soldiers_state_button, reset_button;
         private SpriteFont font;   // font on button
+        private SaveForm saveForm;
+
 
         public BoardEditorState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IBoardEditorState), this);
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
+            saveForm = new SaveForm();
         }
 
         private void BuildEmptyBoard()
@@ -94,7 +96,7 @@ namespace Our_Project.States_and_state_related
 
             };
 
-            save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_click;
+            save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_clickAsync;
             Game.Components.Add(save_and_go_placing_soldiers_state_button);
 
             reset_button = new Button(Game, OurGame.button_texture, font)
@@ -114,7 +116,7 @@ namespace Our_Project.States_and_state_related
         }
 
         // Click on the save button
-        private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
+        private async void Save_and_go_placing_soldiers_state_button_clickAsync(object sender, System.EventArgs e)
         {
             bool flag = true;
             int counter = -48;  // 48 tiles of middle line. counter will be responsible about legal number of tiles
@@ -164,8 +166,16 @@ namespace Our_Project.States_and_state_related
             if (flag)
             {
                 soundEffect.Play("click");
+
+                saveForm.Show();
                 
-                System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\board.txt", strings);
+                while (saveForm.getName() == null)
+                {
+                    await Task.Delay(25);
+                }
+
+                System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\" + saveForm.getName()+
+                    ".txt", strings);
                 
             }
             else
