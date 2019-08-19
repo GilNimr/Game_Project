@@ -136,7 +136,7 @@ namespace Our_Project.States_and_state_related
         // Click on the save button
         private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
         {
-            bool flag = true;
+            bool flag = true, closeToMiddleLine = false ; // closeTo will be on if we connected to middle line
             int counter = -48;  // 48 tiles of middle line. counter will be responsible about legal number of tiles
             List<String> strings = new List<String>();
             strings.Add("$");
@@ -145,10 +145,13 @@ namespace Our_Project.States_and_state_related
             int lineNumber = -1; // for draw 0 when middle line
             foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
             {
+                
+                String s = "";   
+
                 lineNumber++;
-                String s = "";
                 foreach (Tile t in tileLine)
                 {
+
                     if (t.GetIsHidden() || lineNumber<=10)
                     {
                         t.texture = null;
@@ -158,6 +161,8 @@ namespace Our_Project.States_and_state_related
                     else
                     {
                         s += '1';
+                        if (lineNumber == 13)
+                            closeToMiddleLine = true;
                     }
                 }
                 strings.Add(s);
@@ -167,16 +172,17 @@ namespace Our_Project.States_and_state_related
             
 
             System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\delete.txt", strings);
-
+            
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
             {
                 foreach (Tile t in emptyTilesLine)
                 {
                     
-                    if ((!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 || !legalTile(t)))) 
+                    if ( !closeToMiddleLine || (!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 || !legalTile(t)))) 
                     {
                         flag = false;
                     }
+                    
 
                     else if (!t.GetIsHidden())
                     {
