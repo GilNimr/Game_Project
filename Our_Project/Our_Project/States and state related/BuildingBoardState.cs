@@ -492,11 +492,13 @@ namespace Our_Project.States_and_state_related
 
             soundEffect.Play("click");
 
-               bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], bigEmptyBoard.GetStarterX(), 
-                    bigEmptyBoard.GetStarterY(), fullTileIso, fullTile2d, false, this.Content);
+               bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 
+                   bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().X, bigEmptyBoard.GetBoard()[0][0].GetCartasianRectangle().Y,
+                   fullTileIso, fullTile2d, false, this.Content);
                 SetNeighbors(bigEmptyBoard);
-     
-
+            /*
+            new Board(empty, 2, 12, bigEmptyBoard.GetBoard()[12][0].GetCartasianRectangle().X,
+                bigEmptyBoard.GetBoard()[12][0].GetCartasianRectangle().Y, fullTileIso, null, false, this.Content))*/
 
 
             //returning values:
