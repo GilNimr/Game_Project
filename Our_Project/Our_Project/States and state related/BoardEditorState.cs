@@ -15,7 +15,7 @@ namespace Our_Project.States_and_state_related
         private Texture2D fullTile2d, fullTileIso, emptyTile2d, emptyTileIso;
         private ISoundManager soundEffect;
         private Board bigEmptyBoard;    // the big board we build our area on it
-        private Button save_and_go_placing_soldiers_state_button, reset_button;
+        private Button save_and_go_placing_soldiers_state_button, reset_button, return_to_game_button;
         private SpriteFont font;   // font on button
         private SaveForm saveForm;
 
@@ -107,6 +107,23 @@ namespace Our_Project.States_and_state_related
             };
             reset_button.Click += Reset_button_click;
             Game.Components.Add(reset_button);
+
+            return_to_game_button = new Button(Game, OurGame.button_texture, font)
+            {
+                Position = new Vector2(save_and_go_placing_soldiers_state_button.Rectangle.X, 
+                reset_button.Rectangle.Height*2),
+                Text = "Return to the game",
+            };
+            return_to_game_button.Click += Return_to_game_click;
+            Game.Components.Add(return_to_game_button);
+        }
+
+        private void Return_to_game_click(object sender, EventArgs e)
+        {
+            soundEffect.Play("click");
+            StateManager.ChangeState(OurGame.StartMenuState.Value);
+                        //Push
+          //  StateManager.ChangeState(OurGame.BuildingBoardState.Value);
         }
 
         private void Reset_button_click(object sender, EventArgs e)
@@ -176,16 +193,21 @@ namespace Our_Project.States_and_state_related
 
                 System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\" + saveForm.getName()+
                     ".txt", strings);
-                
+                ResetBoardEditor(); // returning bigEmptyBoard
             }
             else
             {
                 soundEffect.Play("badPlace");
-                bigEmptyBoard = null;
-                BuildEmptyBoard();
+                ResetBoardEditor(); // returning bigEmptyBoard
 
             }
 
+        }
+
+        private void ResetBoardEditor() // returning bigEmptyBoard
+        {
+            bigEmptyBoard = null;
+            BuildEmptyBoard();
         }
 
         private bool legalTile(Tile t) // check if all the tiles is with at least 2 legal neighburs.
@@ -275,7 +297,7 @@ namespace Our_Project.States_and_state_related
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
             save_and_go_placing_soldiers_state_button.Draw(gameTime, OurGame.spriteBatch);
             reset_button.Draw(gameTime, OurGame.spriteBatch);
-
+            return_to_game_button.Draw(gameTime, OurGame.spriteBatch);
 
             base.Draw(gameTime);
 
