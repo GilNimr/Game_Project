@@ -275,24 +275,29 @@ namespace Our_Project.States_and_state_related
                 remainShapesToPutOnBigEmptyBoard--; // subtract counter
 
 
-                if (remainShapesToPutOnBigEmptyBoard == 0 || putedBoardFromEditor==true) // if now we have max number of shapes
+                if (remainShapesToPutOnBigEmptyBoard == 0) // if now we have max number of shapes
                 {   // we will create and show the next button
-                    next = new Button(Game, OurGame.button_texture, font)
-                    {
-                        
-                        Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
-                        Text = "Next",
-                    };
-                    
-                    next.Click += SaveAndStartGame; // if we click on this button
-                    buttons.Add(next);      // we add the button to buttons list
-                    Game.Components.Add(next);  // we add the button to Compopnents 
+                    OpenNextButton();
                 }
             }
             else
             {
                 soundEffect.Play("badPlace"); // if there is no more shapes to put and user wanted to
             }
+        }
+
+        private void OpenNextButton()
+        {
+            next = new Button(Game, OurGame.button_texture, font)
+            {
+
+                Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
+                Text = "Next",
+            };
+
+            next.Click += SaveAndStartGame; // if we click on this button
+            buttons.Add(next);      // we add the button to buttons list
+            Game.Components.Add(next);  // we add the button to Compopnents 
         }
 
         /// <summary>
@@ -672,7 +677,8 @@ namespace Our_Project.States_and_state_related
                 dragingShape.Update();
             
             PutShapeAtNewPosition(); // checking and put shapes as user wants on the big board
-
+            if (putedBoardFromEditor)
+                OpenNextButton();
             connection.Update();
             base.Update(gameTime);
         }
