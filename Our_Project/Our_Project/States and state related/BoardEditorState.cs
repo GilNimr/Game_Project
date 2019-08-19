@@ -173,7 +173,7 @@ namespace Our_Project.States_and_state_related
                 foreach (Tile t in emptyTilesLine)
                 {
                     
-                    if ((!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 /*|| !legalTile(t)*/))) 
+                    if ((!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 || !legalTile(t)))) 
                     {
                         flag = false;
                     }
@@ -213,31 +213,31 @@ namespace Our_Project.States_and_state_related
 
         private bool legalTile(Tile t) // check if all the tiles is with at least 2 legal neighburs.
         {
-            
-                if (t.GetRight() != null && t.GetRight().texture != null && 
-                        t.GetUp() != null && t.GetUp().texture == null && 
-                            t.GetDown() != null && t.GetDown().texture == null)
-                    return false;
+            if (t == null || t.texture == null)
+                return true;
 
-                else if (t.GetLeft() != null && t.GetLeft().texture != null &&
-                        t.GetUp() != null && t.GetUp().texture == null &&
-                            t.GetDown() != null && t.GetDown().texture == null)
-                    return false;
-            
+            else if (t.GetUp() != null && t.GetUp().texture != null
+               && t.GetRight() != null && t.GetRight().texture == null
+                  && t.GetLeft() != null && t.GetLeft().texture == null)
+                return false;
 
-            
-                if (t.GetUp() != null && t.GetUp().texture != null && 
-                    t.GetRight() != null && t.GetRight().texture == null && 
-                        t.GetLeft() != null && t.GetLeft().texture == null)
-                    return false;
+            else if (t.GetDown() != null && t.GetDown().texture != null
+                && t.GetRight() != null && t.GetRight().texture == null
+                  && t.GetLeft() != null && t.GetLeft().texture == null)
+                return false;
 
-                else if (t.GetDown() != null && t.GetDown().texture != null &&
-                    t.GetRight() != null && t.GetRight().texture == null &&
-                        t.GetLeft() != null && t.GetLeft().texture == null)
-                    return false;
-            
-            
-            return true;
+            else if (t.GetRight() != null && t.GetRight().texture != null
+                && t.GetUp() != null && t.GetUp().texture == null
+                && t.GetDown() != null && t.GetDown().texture == null)
+                return false;
+
+            else if (t.GetLeft() != null && t.GetLeft().texture != null
+                && t.GetUp() != null && t.GetUp().texture == null
+                && t.GetDown() != null && t.GetDown().texture == null)
+                return false;
+
+            else
+                return true;
         }
         
 
