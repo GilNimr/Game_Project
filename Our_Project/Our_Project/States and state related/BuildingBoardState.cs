@@ -491,13 +491,13 @@ namespace Our_Project.States_and_state_related
             allHidenPoints = ReadAndCreateShapes(tmp);
 
             soundEffect.Play("click");
-            //Like "else" condition in creating shapes
-            dragingShape = null;
-            hideShape = true;
-            //Like the "if" before that else:
-            dragingShape = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 0, 0, fullTileIso, fullTile2d, false, this.Content);
-            SetNeighbors(dragingShape);
-            hideShape = false;
+
+               bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], bigEmptyBoard.GetStarterX(), 
+                    bigEmptyBoard.GetStarterY(), fullTileIso, fullTile2d, false, this.Content);
+                SetNeighbors(bigEmptyBoard);
+     
+
+
 
             //returning values:
             shapesHeight = shapesWidth = null;
@@ -507,7 +507,6 @@ namespace Our_Project.States_and_state_related
             tmpHiden.Clear();
             tmpShapeHeight.Clear();
             tmpShapeWidth.Clear();
-            
         }
 
         /*

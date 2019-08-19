@@ -141,12 +141,14 @@ namespace Our_Project.States_and_state_related
             strings.Add("$");
 
             // set each texture-tile in bigEmptyBoard that without shape as null
+            int lineNumber = -1; // for draw 0 when middle line
             foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
             {
+                lineNumber++;
                 String s = "";
                 foreach (Tile t in tileLine)
                 {
-                    if (t.GetIsHidden())
+                    if (t.GetIsHidden() || lineNumber<=12)
                     {
                         t.texture = null;
                         s += '0';
@@ -167,7 +169,8 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (Tile t in emptyTilesLine)
                 {
-                    if ((!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 || !legalTile(t))))
+                    
+                    if ((!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 /*|| !legalTile(t)*/))) 
                     {
                         flag = false;
                     }
@@ -212,23 +215,29 @@ namespace Our_Project.States_and_state_related
 
         private bool legalTile(Tile t) // check if all the tiles is with at least 2 legal neighburs.
         {
-            if (t.GetUp() != null && t.GetDown() != null)
-            {
-                if (t.GetRight() != null && t.GetRight().texture != null && t.GetUp().texture == null && t.GetDown().texture == null)
+            
+                if (t.GetRight() != null && t.GetRight().texture != null && 
+                        t.GetUp() != null && t.GetUp().texture == null && 
+                            t.GetDown() != null && t.GetDown().texture == null)
                     return false;
 
-                else if (t.GetLeft() != null && t.GetLeft().texture != null && t.GetUp().texture == null && t.GetDown().texture == null)
+                else if (t.GetLeft() != null && t.GetLeft().texture != null &&
+                        t.GetUp() != null && t.GetUp().texture == null &&
+                            t.GetDown() != null && t.GetDown().texture == null)
                     return false;
-            }
+            
 
-            if (t.GetRight() != null && t.GetLeft() != null)
-            {
-                if (t.GetUp() != null && t.GetUp().texture != null && t.GetRight().texture == null && t.GetLeft().texture == null)
+            
+                if (t.GetUp() != null && t.GetUp().texture != null && 
+                    t.GetRight() != null && t.GetRight().texture == null && 
+                        t.GetLeft() != null && t.GetLeft().texture == null)
                     return false;
 
-                else if (t.GetDown() != null && t.GetDown().texture != null && t.GetRight().texture == null && t.GetLeft().texture == null)
+                else if (t.GetDown() != null && t.GetDown().texture != null &&
+                    t.GetRight() != null && t.GetRight().texture == null &&
+                        t.GetLeft() != null && t.GetLeft().texture == null)
                     return false;
-            }
+            
             
             return true;
         }
