@@ -30,7 +30,8 @@ namespace Our_Project.States_and_state_related
         private readonly List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
         private List<Button> buttons;       // all the buttons:
         private List<int> shapesWidth, shapesHeight;
-        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard;
+        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard, 
+            load_from_level_editor;
         private int remainShapesToPutOnBigEmptyBoard; //counter of shapes on board
         private ISoundManager soundEffect;      
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
@@ -444,9 +445,22 @@ namespace Our_Project.States_and_state_related
 
             fifthShape.Click += ClickFifthShape;
             buttons.Add(fifthShape);
-            
+
+            load_from_level_editor = new Button(Game, OurGame.button_texture, font)
+            {
+                Position = new Vector2(0, 0),
+                Text = "Load from desktop",
+            };
+            load_from_level_editor.Click += ClickLoadButton;
+            buttons.Add(load_from_level_editor);
+
             foreach(Button b in buttons)
                 Game.Components.Add(b);
+        }
+
+        private void ClickLoadButton(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         /*
@@ -455,7 +469,7 @@ namespace Our_Project.States_and_state_related
          * if you do - it will disapear (and will be deleted), if you dont - the button will create his shape, set
          * the neighbors of it .
          * the shapes are drawed in commits in setHidenPoints metod
-         */ 
+         */
 
         private void ClickFirstShape(object sender, System.EventArgs e)
         {
