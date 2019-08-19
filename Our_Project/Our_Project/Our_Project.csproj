@@ -74,6 +74,12 @@
     <Compile Include="Board.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="Controls\Button.cs" />
+    <Compile Include="LoadForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadForm.Designer.cs">
+      <DependentUpon>LoadForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="NodeOFHidenTiles.cs" />
     <Compile Include="ParticleService.cs" />
     <Compile Include="Player.cs" />
@@ -138,6 +144,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Icon.ico" />
     <EmbeddedResource Include="Icon.bmp" />
+    <EmbeddedResource Include="LoadForm.resx">
+      <DependentUpon>LoadForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SaveForm.resx">
       <DependentUpon>SaveForm.cs</DependentUpon>
     </EmbeddedResource>

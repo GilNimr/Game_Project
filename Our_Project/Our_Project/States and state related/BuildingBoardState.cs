@@ -39,6 +39,7 @@ namespace Our_Project.States_and_state_related
         private ScrollingBackgroundManager scrollingBackgroundManager;
         private ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
+        private LoadForm loadForm;
         
         
         public SpriteFont font;   // font on button
@@ -82,6 +83,7 @@ namespace Our_Project.States_and_state_related
             // we dont see any shape:
                 dragingShape = null;
                 hideShape = true;
+            loadForm = new LoadForm();
         }
 
         private  List<List<NodeOFHidenTiles>> SetHidenTilesFromFile()
@@ -451,16 +453,23 @@ namespace Our_Project.States_and_state_related
                 Position = new Vector2(0, 0),
                 Text = "Load from desktop",
             };
-            load_from_level_editor.Click += ClickLoadButton;
+            load_from_level_editor.Click += ClickLoadButtonAsync;
             buttons.Add(load_from_level_editor);
 
             foreach(Button b in buttons)
                 Game.Components.Add(b);
         }
 
-        private void ClickLoadButton(object sender, EventArgs e)
+        private async void ClickLoadButtonAsync(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            loadForm.Show();
+
+            while (loadForm.getFilePath() == null)
+            {
+                await Task.Delay(25); // waiting for input
+            }
+                
+
         }
 
         /*
