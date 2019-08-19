@@ -12,9 +12,21 @@ namespace Our_Project
 {
     public partial class SaveForm : Form
     {
+        private string name;
+
         public SaveForm()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            name = textBox1.Text;
+        }
+
+        public string getName()
+        {
+            return name;
         }
     }
 }
