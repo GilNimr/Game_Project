@@ -40,7 +40,7 @@ namespace Our_Project.States_and_state_related
         private ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
         private LoadForm loadForm;
-        
+        private bool putedBoardFromEditor;
         
         public SpriteFont font;   // font on button
         public Connection connection;
@@ -83,6 +83,7 @@ namespace Our_Project.States_and_state_related
             // we dont see any shape:
                 dragingShape = null;
                 hideShape = true;
+            putedBoardFromEditor = false;
             loadForm = new LoadForm();
         }
 
@@ -274,7 +275,7 @@ namespace Our_Project.States_and_state_related
                 remainShapesToPutOnBigEmptyBoard--; // subtract counter
 
 
-                if (remainShapesToPutOnBigEmptyBoard == 0 ) // if now we have max number of shapes
+                if (remainShapesToPutOnBigEmptyBoard == 0 || putedBoardFromEditor==true) // if now we have max number of shapes
                 {   // we will create and show the next button
                     next = new Button(Game, OurGame.button_texture, font)
                     {
@@ -468,7 +469,7 @@ namespace Our_Project.States_and_state_related
 
         private async void ClickLoadButtonAsync(object sender, EventArgs e)
         {
-            BoardEditorState.saveForm.Hide();
+            BoardEditorState.saveForm.Hide(); //fixed some unclear bug
             loadForm.Show();
 
             while (loadForm.getFilePath() == null)
@@ -492,7 +493,7 @@ namespace Our_Project.States_and_state_related
             allHidenPoints = ReadAndCreateShapes(tmp);
 
             soundEffect.Play("click");
-
+            putedBoardFromEditor = true;
 
 
                bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 
@@ -520,6 +521,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFirstShape(object sender, System.EventArgs e)
         {
+            ReturnTheEmptyNewBoard();
+
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -531,13 +534,21 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-              //  GC.Collect();
+                //  GC.Collect();
                 hideShape = true;
             }
         }
 
+        private void ReturnTheEmptyNewBoard()
+        {
+            putedBoardFromEditor = false;
+            bigEmptyBoard = null;
+            BuildEmptyBoard();
+        }
+
         private void ClickSecondShape(object sender, EventArgs e)
         {
+            ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -557,6 +568,7 @@ namespace Our_Project.States_and_state_related
 
         private void ClickThirdShape(object sender, EventArgs e)
         {
+            ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -575,6 +587,7 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFourthShape(object sender, EventArgs e)
         {
+            ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -594,6 +607,7 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFifthShape(object sender, EventArgs e)
         {
+            ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
             if (hideShape)
             {
