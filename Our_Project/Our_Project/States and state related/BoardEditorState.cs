@@ -17,7 +17,7 @@ namespace Our_Project.States_and_state_related
         private Board bigEmptyBoard;    // the big board we build our area on it
         private Button save_and_go_placing_soldiers_state_button, reset_button, return_to_game_button;
         private SpriteFont font;   // font on button
-        private SaveForm saveForm;
+        public static SaveForm saveForm;
 
 
         public BoardEditorState(Game game) : base(game)
@@ -148,7 +148,7 @@ namespace Our_Project.States_and_state_related
                 String s = "";
                 foreach (Tile t in tileLine)
                 {
-                    if (t.GetIsHidden() || lineNumber<=12)
+                    if (t.GetIsHidden() || lineNumber<=10)
                     {
                         t.texture = null;
                         s += '0';
@@ -196,6 +196,7 @@ namespace Our_Project.States_and_state_related
 
                 System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\" + saveForm.getName()+
                     ".txt", strings);
+                saveForm.Hide();
                 ResetBoardEditor(); // returning bigEmptyBoard
             }
             else
@@ -241,7 +242,7 @@ namespace Our_Project.States_and_state_related
             
             return true;
         }
-
+        
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
