@@ -16,7 +16,7 @@ namespace Our_Project.States_and_state_related
         private ISoundManager soundEffect;
         private Board bigEmptyBoard;    // the big board we build our area on it
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
-        private Button save_and_go_placing_soldiers_state_button;
+        private Button save_and_go_placing_soldiers_state_button, reset_button;
         private SpriteFont font;   // font on button
 
         public BoardEditorState(Game game) : base(game)
@@ -85,7 +85,7 @@ namespace Our_Project.States_and_state_related
             }
         }
 
-        private void setSaveButton()
+        private void setButtons()
         {
             save_and_go_placing_soldiers_state_button = new Button(Game, OurGame.button_texture, font)
             {
@@ -97,8 +97,23 @@ namespace Our_Project.States_and_state_related
             save_and_go_placing_soldiers_state_button.Click += Save_and_go_placing_soldiers_state_button_click;
             Game.Components.Add(save_and_go_placing_soldiers_state_button);
 
+            reset_button = new Button(Game, OurGame.button_texture, font)
+            {
+                Position = new Vector2(save_and_go_placing_soldiers_state_button.Rectangle.X, 
+                save_and_go_placing_soldiers_state_button.Rectangle.Height),
+                Text = "Reset",
+            };
+            reset_button.Click += Reset_button_click;
+            Game.Components.Add(reset_button);
         }
 
+        private void Reset_button_click(object sender, EventArgs e)
+        {
+            bigEmptyBoard = null;
+            BuildEmptyBoard();
+        }
+
+        // Click on the save button
         private void Save_and_go_placing_soldiers_state_button_click(object sender, System.EventArgs e)
         {
             bool flag = true;
@@ -156,12 +171,14 @@ namespace Our_Project.States_and_state_related
             else
             {
                 soundEffect.Play("badPlace");
-                StateManager.ChangeState(OurGame.BoardEditorState.Value);
+                bigEmptyBoard = null;
+                BuildEmptyBoard();
+
             }
 
         }
 
-        private bool legalTile(Tile t)
+        private bool legalTile(Tile t) // check if all the tiles is with at least 2 legal neighburs.
         {
             if (t.GetUp() != null && t.GetDown() != null)
             {
@@ -200,7 +217,7 @@ namespace Our_Project.States_and_state_related
             
             //build BigEmptyBoard
             BuildEmptyBoard();
-            setSaveButton();
+            setButtons();
         }
 
         /// <summary>
@@ -247,6 +264,7 @@ namespace Our_Project.States_and_state_related
 
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
             save_and_go_placing_soldiers_state_button.Draw(gameTime, OurGame.spriteBatch);
+            reset_button.Draw(gameTime, OurGame.spriteBatch);
 
 
             base.Draw(gameTime);
