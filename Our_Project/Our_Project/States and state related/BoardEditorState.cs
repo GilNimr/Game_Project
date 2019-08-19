@@ -178,7 +178,7 @@ namespace Our_Project.States_and_state_related
                 foreach (Tile t in emptyTilesLine)
                 {
                     
-                    if ( !closeToMiddleLine || (!t.GetIsHidden() && (t.GetId() < 264 || counter > 25 || !legalTile(t)))) 
+                    if ( !closeToMiddleLine || (!t.GetIsHidden() && (t.GetId() < 264 || counter > 60 || !legalTile(t)))) 
                     {
                         flag = false;
                     }
@@ -272,13 +272,15 @@ namespace Our_Project.States_and_state_related
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
+            int lineNumber = -1;
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
             {
+                lineNumber++;
                 foreach (Tile t in emptyTilesLine)
                 {
                     t.Update();
 
-                    if (t.GetIsMouseClicked())
+                    if (t.GetIsMouseClicked() && lineNumber>12)
                     {
                         if (t.GetIsHidden())
                         {

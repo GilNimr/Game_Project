@@ -529,7 +529,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFirstShape(object sender, System.EventArgs e)
         {
-            ReturnTheEmptyNewBoard();
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard();
 
             soundEffect.Play("click");
             if (hideShape)
@@ -556,8 +557,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickSecondShape(object sender, EventArgs e)
         {
-            ReturnTheEmptyNewBoard();
-            soundEffect.Play("click");
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard(); soundEffect.Play("click");
             if (hideShape)
             {
                 
@@ -576,7 +577,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickThirdShape(object sender, EventArgs e)
         {
-            ReturnTheEmptyNewBoard();
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -595,8 +597,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFourthShape(object sender, EventArgs e)
         {
-            ReturnTheEmptyNewBoard();
-            soundEffect.Play("click");
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard(); soundEffect.Play("click");
             if (hideShape)
             {
 
@@ -615,8 +617,9 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFifthShape(object sender, EventArgs e)
         {
-            ReturnTheEmptyNewBoard();
-            soundEffect.Play("click");
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard(); soundEffect.Play("click");
+
             if (hideShape)
             {
 
