@@ -27,9 +27,9 @@ namespace Our_Project.States_and_state_related
         private Board bigEmptyBoard;    // the big board we build our area on it
         private Board dragingShape;     // get the only shape the user sees
         private List<Board> shapes_only_for_draw; // list of draws shapes for buttons.
-        private readonly List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
+        private /*readonly*/ List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
         private List<Button> buttons;       // all the buttons:
-        private List<int> shapesWidth, shapesHeight;
+        private List<int> shapesWidth, shapesHeight, boardFromEditorWidth, boardFromEditorHeight; //when we will create boards.
         private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard, 
             load_from_level_editor;
         private int remainShapesToPutOnBigEmptyBoard; //counter of shapes on board
@@ -90,10 +90,16 @@ namespace Our_Project.States_and_state_related
         {
             string[] text = System.IO.File.ReadAllLines(@"‪..\..\..\..\..\..\Content\Files\shapes.txt");
 
+            List<List<NodeOFHidenTiles>> allHidenPoints = ReadAndCreateShapes(text);
+            return allHidenPoints;
+        }
+
+        private List<List<NodeOFHidenTiles>> ReadAndCreateShapes(string[] text)
+        {
             List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>();
             shapesHeight = new List<int>();
             shapesWidth = new List<int>();
-            int lastWidth=0;
+            int lastWidth = 0;
             int numberOfShapes, height, width;
             numberOfShapes = height = width = 0;
             bool readingShape = false;
@@ -116,7 +122,7 @@ namespace Our_Project.States_and_state_related
                         else
                         {
                             shapesHeight.Add(height);
-                            shapesWidth.Add(lastWidth-1);
+                            shapesWidth.Add(lastWidth - 1);
                             readingShape = false;
                         }
                         break;
@@ -124,7 +130,7 @@ namespace Our_Project.States_and_state_related
 
                     if (c == '0')
                     {
-                        allHidenPoints[numberOfShapes-1].Add(new NodeOFHidenTiles(height, width-1));
+                        allHidenPoints[numberOfShapes - 1].Add(new NodeOFHidenTiles(height, width - 1));
                     }
                     width++;
                 }
@@ -132,9 +138,9 @@ namespace Our_Project.States_and_state_related
                 lastWidth = width;
                 width = 1;
             }
+
             return allHidenPoints;
         }
-
 
         private static List<List<NodeOFHidenTiles>> SetHidenTiles() // set the hide tiles at each shape as list of lists
         {
@@ -466,10 +472,42 @@ namespace Our_Project.States_and_state_related
 
             while (loadForm.getFilePath() == null)
             {
-                await Task.Delay(25); // waiting for input
+                await Task.Delay(25);
             }
-                
 
+            //We are going to make string[] for one shape (our board from desktop) just because we want to use the same method that read shapes from txt
+                // from the beginnig of the class.
+
+            string[] tmp = System.IO.File.ReadAllLines(@loadForm.getFilePath());
+
+            //keeping our shapes:
+            List<int> tmpShapeHeight = new List<int>(shapesHeight), tmpShapeWidth = new List<int>(shapesWidth);
+            List<List<NodeOFHidenTiles>> tmpHiden = new List<List<NodeOFHidenTiles>>(allHidenPoints);
+
+            shapesHeight.Clear();
+            shapesWidth.Clear();
+            allHidenPoints.Clear();
+
+            allHidenPoints = ReadAndCreateShapes(tmp);
+
+            soundEffect.Play("click");
+            //Like "else" condition in creating shapes
+            dragingShape = null;
+            hideShape = true;
+            //Like the "if" before that else:
+            dragingShape = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0], 0, 0, fullTileIso, fullTile2d, false, this.Content);
+            SetNeighbors(dragingShape);
+            hideShape = false;
+
+            //returning values:
+            shapesHeight = shapesWidth = null;
+            shapesHeight = new List<int>(tmpShapeHeight);
+            shapesWidth = new List<int>(tmpShapeWidth);
+            allHidenPoints = new List<List<NodeOFHidenTiles>>(tmpHiden);
+            tmpHiden.Clear();
+            tmpShapeHeight.Clear();
+            tmpShapeWidth.Clear();
+            
         }
 
         /*
