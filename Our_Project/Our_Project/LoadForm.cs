@@ -1,4 +1,10 @@
-﻿using System;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ * This class is for future featurs.
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -24,7 +30,7 @@ namespace Our_Project
         }
 
         private void loadBtn_Click(object sender, EventArgs e)
-        {
+        { //if cllicking on load button, open the load dialog and choose file
                OpenFileDialog openFileDialog = new OpenFileDialog();
 
             if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)

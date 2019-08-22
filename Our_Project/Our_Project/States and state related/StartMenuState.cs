@@ -1,4 +1,9 @@
-﻿using System;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +21,7 @@ namespace Our_Project
         public Connection connection;
         public Player player;
         public Player enemy;
+        //button for decided if we goes to levelEditor or starting game by choosing kind of connection
         public Button local_Button;
         public Button remote_Button;
         public Button board_editor_button;
@@ -44,7 +50,7 @@ namespace Our_Project
         }
 
         private void LocalButtonClick(object sender, System.EventArgs e)
-        {
+        {// local connection 
             Connection.local = true;
            
             connection = new Connection(OurGame, ref player,ref enemy);
@@ -83,6 +89,8 @@ namespace Our_Project
             enemy.pawns = new Pawn[player.army_size];
             texture = Content.Load<Texture2D>(@"Textures\bg1 (2)");
             font30 = OurGame.font30;
+
+            //buttons:
             button_texture = OurGame.button_texture;
 
             local_Button = new Button(Game, button_texture , font30)

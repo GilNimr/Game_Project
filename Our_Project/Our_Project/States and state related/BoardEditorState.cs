@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -18,7 +23,7 @@ namespace Our_Project.States_and_state_related
         private Board bigEmptyBoard;    // the big board we build our area on it
         private Button save_and_go_placing_soldiers_state_button, reset_button, return_to_game_button;
         private SpriteFont font;   // font on button
-        public /*static*/ SaveForm saveForm;
+        public /*static*/ SaveForm saveForm; // "save as" board.
         private  List<string> txtBoardForForm;
 
         public BoardEditorState(Game game) : base(game)
@@ -28,7 +33,7 @@ namespace Our_Project.States_and_state_related
             saveForm = new SaveForm();
         }
 
-        private void BuildEmptyBoard()
+        private void BuildEmptyBoard() // same like BuildingBoardState
         {
             // set the board
             bigEmptyBoard = new Board(24, emptyTileIso, emptyTile2d);
@@ -150,16 +155,16 @@ namespace Our_Project.States_and_state_related
 
                 lineNumber++;
                 foreach (Tile t in tileLine)
-                {
+                {  // These loops will write te strings of boards by legal places only.
 
                     if (t.GetIsHidden() || lineNumber<=10)
-                    {
+                    { // if there is no tile here
                         t.texture = null;
-                        s += '0';
+                        s += '0'; 
                     }
 
                     else
-                    {
+                    { // if there is tile here
                         s += '1';
                         if (lineNumber == 13)
                             closeToMiddleLine = true;
@@ -168,9 +173,9 @@ namespace Our_Project.States_and_state_related
                 strings.Add(s);
             }
             strings.Add("$");
-            SetNeighbors(bigEmptyBoard);
+            SetNeighbors(bigEmptyBoard); // set neighburs for this board
             
-
+            // write to file
             System.IO.File.WriteAllLines(@"‪..\..\..\..\..\..\Content\Files\delete.txt", strings);
             
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
@@ -179,7 +184,7 @@ namespace Our_Project.States_and_state_related
                 {
                     
                     if ( !closeToMiddleLine || (!t.GetIsHidden() && (t.GetId() < 264 || counter > 60 || !legalTile(t)))) 
-                    {
+                    { // if something unlegal in the new board
                         flag = false;
                     }
                     
@@ -193,7 +198,8 @@ namespace Our_Project.States_and_state_related
             }
 
             if (flag)
-            {
+            { 
+                // if the board is legal and we going to save it 
                 soundEffect.Play("click");
                 saveForm = new SaveForm();
                 saveForm.Show();
@@ -203,7 +209,7 @@ namespace Our_Project.States_and_state_related
 
             }
             else
-            {
+            { // this board is ilegal
                 soundEffect.Play("badPlace");
                 ResetBoardEditor(); // returning bigEmptyBoard
 
@@ -274,7 +280,7 @@ namespace Our_Project.States_and_state_related
         {
             int lineNumber = -1;
             foreach (Tile[] emptyTilesLine in bigEmptyBoard.GetBoard())
-            {
+            { // click in the mouse for creating tiles
                 lineNumber++;
                 foreach (Tile t in emptyTilesLine)
                 {
@@ -308,16 +314,14 @@ namespace Our_Project.States_and_state_related
         public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
+            // draw board and buttons
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
             save_and_go_placing_soldiers_state_button.Draw(gameTime, OurGame.spriteBatch);
             reset_button.Draw(gameTime, OurGame.spriteBatch);
             return_to_game_button.Draw(gameTime, OurGame.spriteBatch);
 
             base.Draw(gameTime);
-
-
-
+            
         }
     }
 }

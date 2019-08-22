@@ -39,8 +39,8 @@ namespace Our_Project.States_and_state_related
         private ScrollingBackgroundManager scrollingBackgroundManager;
         private ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
-        private LoadForm loadForm;
-        private bool putedBoardFromEditor;
+        private LoadForm loadForm; // a windows form class for upload
+        private bool putedBoardFromEditor; // s flag for knowing if the user puted now a board from windows
         
         public SpriteFont font;   // font on button
         public Connection connection;
@@ -52,7 +52,7 @@ namespace Our_Project.States_and_state_related
         public string enemy_flag_animation;
         
 
-        public BuildingBoardState(Game game) : base(game)
+        public BuildingBoardState(Game game) : base(game)  //c'tor
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
             scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
@@ -81,8 +81,9 @@ namespace Our_Project.States_and_state_related
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             isPlayBadPlaceSoundEffect = true;   // for the algorithm about activate the badPlace sound
             // we dont see any shape:
-                dragingShape = null;
+                dragingShape = null; 
                 hideShape = true;
+            // we are whithout any real board now:
             putedBoardFromEditor = false;
             
         }
@@ -109,7 +110,7 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (char c in line)
                 {
-                    if (c == '$')
+                    if (c == '$') //starting or finishing read shape means '$'
                     {
                         if (!readingShape)
                         {
@@ -142,7 +143,7 @@ namespace Our_Project.States_and_state_related
 
             return allHidenPoints;
         }
-
+        // this method not in use, it is a temp method about creating shapes manualy with code
         private static List<List<NodeOFHidenTiles>> SetHidenTiles() // set the hide tiles at each shape as list of lists
         {
             List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>
@@ -471,7 +472,7 @@ namespace Our_Project.States_and_state_related
             foreach(Button b in buttons)
                 Game.Components.Add(b);
         }
-
+        // This is the method about loading the txt file for making board from Level Editor:
         private /*async*/ void ClickLoadButton/*Async*/(object sender, EventArgs e)
         {
             //BoardEditorState.saveForm.Hide(); //fixed some unclear bug
@@ -525,6 +526,7 @@ namespace Our_Project.States_and_state_related
          * if you do - it will disapear (and will be deleted), if you dont - the button will create his shape, set
          * the neighbors of it .
          * the shapes are drawed in commits in setHidenPoints metod
+         * 
          */
 
         private void ClickFirstShape(object sender, System.EventArgs e)
@@ -549,7 +551,7 @@ namespace Our_Project.States_and_state_related
         }
 
         private void ReturnTheEmptyNewBoard()
-        {
+        {   // if we doing kind of restart
 
             remainShapesToPutOnBigEmptyBoard = 5;
             putedBoardFromEditor = false;

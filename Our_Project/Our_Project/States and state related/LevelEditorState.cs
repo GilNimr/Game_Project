@@ -1,4 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ * 
+ * This class is not in use now.
+ */
+
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -11,7 +19,7 @@ namespace Our_Project.States_and_state_related
 {
     public sealed class LevelEditorState : BaseGameState, ILevelEditorState
     {
-        // This class will br the first state for Level editor
+        // This class will br the first state for Level editor. not in use now
 
 
         private SpriteFont font30;
@@ -31,13 +39,13 @@ namespace Our_Project.States_and_state_related
         }
 
         private void ShapeButtonClick(object sender, System.EventArgs e)
-        {
+        { // go the shape editor
             soundOfClick.Play("click");
             StateManager.ChangeState(OurGame.ShapeEditorState.Value);
         }
 
         private void BoardButtonClick(object sender, System.EventArgs e)
-        {
+        { // will take you to board editor
             soundOfClick.Play("click");
             StateManager.ChangeState(OurGame.BoardEditorState.Value);
         }

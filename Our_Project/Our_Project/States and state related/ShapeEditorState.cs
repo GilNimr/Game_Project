@@ -1,4 +1,11 @@
-﻿using Microsoft.Xna.Framework;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ * This class is for future features
+ */
+ 
+ 
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
