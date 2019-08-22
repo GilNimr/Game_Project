@@ -127,9 +127,9 @@ namespace Our_Project.States_and_state_related
         private void Return_to_game_click(object sender, EventArgs e)
         {
             soundEffect.Play("click");
-            StateManager.PushState(OurGame.StartMenuState.Value);
+          //  StateManager.PushState(OurGame.StartMenuState.Value);
                         //Push
-          //  StateManager.ChangeState(OurGame.BuildingBoardState.Value);
+            StateManager.ChangeState(OurGame.BuildingBoardState.Value);
         }
 
         private void Reset_button_click(object sender, EventArgs e)

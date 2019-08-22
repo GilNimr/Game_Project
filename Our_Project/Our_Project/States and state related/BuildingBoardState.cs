@@ -661,18 +661,7 @@ namespace Our_Project.States_and_state_related
                 if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
                     enemy.flag = "canada";
 
-<<<<<<< HEAD
-            soundEffect.Play("click");
-            if (!wait_for_other_player && enemy.flag!=null)
-            {
-                enemy_flag_animation = enemy.flag;
-                foreach (var b in buttons)
-                {
-                    Game.Components.Remove(b);
-                }
-                buttons.Clear();    //destroid buttons
-                StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
-=======
+
                 soundEffect.Play("click");
                 if (!wait_for_other_player && enemy.flag != null)
                 {
@@ -680,7 +669,7 @@ namespace Our_Project.States_and_state_related
                     buttons.Clear();    //destroid buttons
                     StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
                 }
->>>>>>> 0fa84d7d4d3c46dc6444c8fa06f43b0ef2417255
+
             }
         }
 

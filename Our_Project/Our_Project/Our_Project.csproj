@@ -137,16 +137,16 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-<<<<<<< HEAD
+
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization" />
-=======
+
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
->>>>>>> 0fa84d7d4d3c46dc6444c8fa06f43b0ef2417255
+
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>

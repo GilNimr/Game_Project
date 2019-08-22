@@ -24,11 +24,11 @@ namespace Our_Project
         //button for decided if we goes to levelEditor or starting game by choosing kind of connection
         public Button local_Button;
         public Button remote_Button;
-<<<<<<< HEAD
-        private int reRunCounter=0;
-=======
+
+        private int reRunCounter = 0;
+
         public Button board_editor_button;
->>>>>>> 0fa84d7d4d3c46dc6444c8fa06f43b0ef2417255
+
 
         public StartMenuState(Game game)
             : base(game)
