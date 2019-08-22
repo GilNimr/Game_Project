@@ -34,6 +34,9 @@ namespace Our_Project
         public IPausedState PausedState;  // not implemented
         public IOptionsMenuState OptionsMenuState; // not implemented
         public IBuildingBoardState BuildingBoardState;
+        public ILevelEditorState LevelEditorState;
+        public IShapeEditorState ShapeEditorState;
+        public IBoardEditorState BoardEditorState;
 
 
         public bool EnableSoundFx { get; set; }
@@ -90,6 +93,9 @@ namespace Our_Project
             BuildingBoardState = new BuildingBoardState(this);
             PlacingSoldiersState = new PlacingSoldiersState(this);
             PlayingState = new PlayingState(this);
+            LevelEditorState = new LevelEditorState(this);
+            ShapeEditorState = new ShapeEditorState(this);
+            BoardEditorState = new BoardEditorState(this);
             
             EnableSoundFx = true;
             EnableMusic = true;

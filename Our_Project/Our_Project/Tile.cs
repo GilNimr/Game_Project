@@ -29,6 +29,9 @@ namespace Our_Project
         private Color color;
         private bool isHidden;                              // if hidden tile
         private bool itsJustForDrawOnButton = false;
+        private Rectangle mouseRec;
+        private MouseState oldState; // mouse input old position.
+        private bool isMouseClicked;
 
         public Texture2D texture;                          //the isometric tile texture
         public float Depth=0f;  //need to delete.
@@ -52,12 +55,35 @@ namespace Our_Project
             occupied = Occupied.no;
             color = Color.White;
             isHidden = true;
+            isMouseClicked = false;
         }
 
 
-        protected void Update()
+        public void Update()
         {
+            MouseState mouseState = Mouse.GetState(); // previous mouse position
+            MouseState newState = Mouse.GetState();     // current mouse position  
 
+            //the location of the world mouse.
+            Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
+
+            //rectangle of the world mouse.
+            mouseRec = new Rectangle((int)CartasianMouseLocation.X, (int)CartasianMouseLocation.Y, 1, 1);
+
+            //rectangle of the screen mouse.
+            // mouseRec = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
+
+            // clicking on pawn.
+            if ((newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released) &&
+                        (mouseRec.Intersects(this.GetCartasianRectangle())))
+            {
+                if (!isMouseClicked) // if we want to move
+                    isMouseClicked = true;
+                else                 // if we want to cancel moving
+                    isMouseClicked = false;
+            }
+
+            oldState = newState; // set the mouse old position to be the current position.
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -216,7 +242,16 @@ namespace Our_Project
             return isHidden;
         }
 
-        
+        public bool GetIsMouseClicked()
+        {
+            if (isMouseClicked)
+            {
+                isMouseClicked = false;
+                return true;
+            }
+
+            return isMouseClicked;
+        }
 
 
 

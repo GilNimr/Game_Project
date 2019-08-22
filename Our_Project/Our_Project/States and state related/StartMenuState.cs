@@ -1,4 +1,9 @@
-﻿using System;
+﻿
+/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,9 +21,14 @@ namespace Our_Project
         public Connection connection;
         public Player player;
         public Player enemy;
+        //button for decided if we goes to levelEditor or starting game by choosing kind of connection
         public Button local_Button;
         public Button remote_Button;
+<<<<<<< HEAD
         private int reRunCounter=0;
+=======
+        public Button board_editor_button;
+>>>>>>> 0fa84d7d4d3c46dc6444c8fa06f43b0ef2417255
 
         public StartMenuState(Game game)
             : base(game)
@@ -44,7 +54,7 @@ namespace Our_Project
         }
 
         private void LocalButtonClick(object sender, System.EventArgs e)
-        {
+        {// local connection 
             Connection.local = true;
 
             connection = new Connection(OurGame, ref player, ref enemy);
@@ -65,6 +75,12 @@ namespace Our_Project
 
         }
 
+        private void BoardEditorButtonClick(object sender, System.EventArgs e)
+        {
+            soundOfClick.Play("click");
+            StateManager.ChangeState(OurGame.BoardEditorState.Value);
+        }
+
         protected override void LoadContent()
         {
             player = new Player(OurGame)
@@ -77,6 +93,8 @@ namespace Our_Project
             enemy.pawns = new Pawn[player.army_size];
             texture = Content.Load<Texture2D>(@"Textures\bg1 (2)");
             font30 = OurGame.font30;
+
+            //buttons:
             button_texture = OurGame.button_texture;
 
             local_Button = new Button(Game, button_texture, font30)
@@ -94,6 +112,15 @@ namespace Our_Project
             };
             remote_Button.Click += RemoteButtonClick;
             Game.Components.Add(remote_Button);
+
+            board_editor_button = new Button(Game, button_texture, font30)
+            {
+                Position = new Vector2(remote_Button.Position.X, remote_Button.Position.Y - remote_Button.Rectangle.Height),
+                Text = "Go to Level-Editor",
+            };
+            board_editor_button.Click += BoardEditorButtonClick;
+            Game.Components.Add(board_editor_button);
+
         }
 
         public override void Draw(GameTime gameTime)
@@ -108,6 +135,7 @@ namespace Our_Project
             {
                 local_Button.Draw(gameTime, OurGame.spriteBatch);
                 remote_Button.Draw(gameTime, OurGame.spriteBatch);
+                board_editor_button.Draw(gameTime, OurGame.spriteBatch);
             }
 
             base.Draw(gameTime);

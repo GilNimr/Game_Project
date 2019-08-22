@@ -28,10 +28,11 @@ namespace Our_Project.States_and_state_related
         private Board bigEmptyBoard;    // the big board we build our area on it
         private Board dragingShape;     // get the only shape the user sees
         private List<Board> shapes_only_for_draw; // list of draws shapes for buttons.
-        private readonly List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
+        private /*readonly*/ List<List<NodeOFHidenTiles>> allHidenPoints; // all the hiden tile at each shape
         private List<Button> buttons;       // all the buttons:
-        private List<int> shapesWidth, shapesHeight;
-        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard;
+        private List<int> shapesWidth, shapesHeight, boardFromEditorWidth, boardFromEditorHeight; //when we will create boards.
+        private Button firstShape, secondShape, thirdShape, forthShape, fifthShape, next, saveYourShapeInBoard, 
+            load_from_level_editor;
         private int remainShapesToPutOnBigEmptyBoard; //counter of shapes on board
         private ISoundManager soundEffect;      
         private bool isPlayBadPlaceSoundEffect;     // boolean for checking if turn on the bad place sound
@@ -39,7 +40,8 @@ namespace Our_Project.States_and_state_related
         private ScrollingBackgroundManager scrollingBackgroundManager;
         private ICelAnimationManager celAnimationManager;
         private StartMenuState startMenuState;
-        
+        private LoadForm loadForm; // a windows form class for upload
+        private bool putedBoardFromEditor; // s flag for knowing if the user puted now a board from windows
         
         public SpriteFont font;   // font on button
         public Connection connection;
@@ -52,7 +54,7 @@ namespace Our_Project.States_and_state_related
         private int reRunCounter=0;
         private bool toggle =true;
 
-        public BuildingBoardState(Game game) : base(game)
+        public BuildingBoardState(Game game) : base(game)  //c'tor
         {
             game.Services.AddService(typeof(IBuildingBoardState), this);
             scrollingBackgroundManager = new ScrollingBackgroundManager(game, "Textures\\");
@@ -81,18 +83,27 @@ namespace Our_Project.States_and_state_related
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));
             isPlayBadPlaceSoundEffect = true;   // for the algorithm about activate the badPlace sound
             // we dont see any shape:
-                dragingShape = null;
+                dragingShape = null; 
                 hideShape = true;
+            // we are whithout any real board now:
+            putedBoardFromEditor = false;
+            
         }
 
         private  List<List<NodeOFHidenTiles>> SetHidenTilesFromFile()
         {
             string[] text = System.IO.File.ReadAllLines(@"‪..\..\..\..\..\..\Content\Files\shapes.txt");
 
+            List<List<NodeOFHidenTiles>> allHidenPoints = ReadAndCreateShapes(text);
+            return allHidenPoints;
+        }
+
+        private List<List<NodeOFHidenTiles>> ReadAndCreateShapes(string[] text)
+        {
             List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>();
             shapesHeight = new List<int>();
             shapesWidth = new List<int>();
-            int lastWidth=0;
+            int lastWidth = 0;
             int numberOfShapes, height, width;
             numberOfShapes = height = width = 0;
             bool readingShape = false;
@@ -101,7 +112,7 @@ namespace Our_Project.States_and_state_related
             {
                 foreach (char c in line)
                 {
-                    if (c == '$')
+                    if (c == '$') //starting or finishing read shape means '$'
                     {
                         if (!readingShape)
                         {
@@ -115,7 +126,7 @@ namespace Our_Project.States_and_state_related
                         else
                         {
                             shapesHeight.Add(height);
-                            shapesWidth.Add(lastWidth-1);
+                            shapesWidth.Add(lastWidth - 1);
                             readingShape = false;
                         }
                         break;
@@ -123,7 +134,7 @@ namespace Our_Project.States_and_state_related
 
                     if (c == '0')
                     {
-                        allHidenPoints[numberOfShapes-1].Add(new NodeOFHidenTiles(height, width-1));
+                        allHidenPoints[numberOfShapes - 1].Add(new NodeOFHidenTiles(height, width - 1));
                     }
                     width++;
                 }
@@ -131,10 +142,10 @@ namespace Our_Project.States_and_state_related
                 lastWidth = width;
                 width = 1;
             }
+
             return allHidenPoints;
         }
-
-
+        // this method not in use, it is a temp method about creating shapes manualy with code
         private static List<List<NodeOFHidenTiles>> SetHidenTiles() // set the hide tiles at each shape as list of lists
         {
             List<List<NodeOFHidenTiles>> allHidenPoints = new List<List<NodeOFHidenTiles>>
@@ -267,24 +278,29 @@ namespace Our_Project.States_and_state_related
                 remainShapesToPutOnBigEmptyBoard--; // subtract counter
 
 
-                if (remainShapesToPutOnBigEmptyBoard == 0 ) // if now we have max number of shapes
+                if (remainShapesToPutOnBigEmptyBoard == 0) // if now we have max number of shapes
                 {   // we will create and show the next button
-                    next = new Button(Game, OurGame.button_texture, font)
-                    {
-                        
-                        Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
-                        Text = "Next",
-                    };
-                    
-                    next.Click += SaveAndStartGame; // if we click on this button
-                    buttons.Add(next);      // we add the button to buttons list
-                    Game.Components.Add(next);  // we add the button to Compopnents 
+                    OpenNextButton();
                 }
             }
             else
             {
                 soundEffect.Play("badPlace"); // if there is no more shapes to put and user wanted to
             }
+        }
+
+        private void OpenNextButton()
+        {
+            next = new Button(Game, OurGame.button_texture, font)
+            {
+
+                Position = new Vector2((int)(Game1.screen_width / 1.2), (int)(Game1.screen_height / 50)),
+                Text = "Next",
+            };
+
+            next.Click += SaveAndStartGame; // if we click on this button
+            buttons.Add(next);      // we add the button to buttons list
+            Game.Components.Add(next);  // we add the button to Compopnents 
         }
 
         /// <summary>
@@ -446,9 +462,64 @@ namespace Our_Project.States_and_state_related
 
             fifthShape.Click += ClickFifthShape;
             buttons.Add(fifthShape);
-            
+
+            load_from_level_editor = new Button(Game, OurGame.button_texture, font)
+            {
+                Position = new Vector2(0, 0),
+                Text = "Load from desktop",
+            };
+            load_from_level_editor.Click += ClickLoadButton/*Async*/;
+            buttons.Add(load_from_level_editor);
+
             foreach(Button b in buttons)
                 Game.Components.Add(b);
+        }
+        // This is the method about loading the txt file for making board from Level Editor:
+        private /*async*/ void ClickLoadButton/*Async*/(object sender, EventArgs e)
+        {
+            //BoardEditorState.saveForm.Hide(); //fixed some unclear bug
+            /* loadForm = new LoadForm();
+             loadForm.Show();
+             */
+
+
+            //We are going to make string[] for one shape (our board from desktop) just because we want to use the same method that read shapes from txt
+            // from the beginnig of the class.
+            System.Windows.Forms.OpenFileDialog openFileDialog = new System.Windows.Forms.OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string[] tmp = System.IO.File.ReadAllLines(openFileDialog.FileName);
+
+                //keeping our shapes:
+                List<int> tmpShapeHeight = new List<int>(shapesHeight), tmpShapeWidth = new List<int>(shapesWidth);
+                List<List<NodeOFHidenTiles>> tmpHiden = new List<List<NodeOFHidenTiles>>(allHidenPoints);
+
+                shapesHeight.Clear();
+                shapesWidth.Clear();
+                allHidenPoints.Clear();
+
+                allHidenPoints = ReadAndCreateShapes(tmp);
+
+                soundEffect.Play("click");
+                putedBoardFromEditor = true;
+                Board b = bigEmptyBoard;
+                bigEmptyBoard = null;
+                bigEmptyBoard = new Board(allHidenPoints[0], shapesHeight[0], shapesWidth[0],
+                    b.GetBoard()[0][0].GetCartasianRectangle().X, b.GetBoard()[0][0].GetCartasianRectangle().Y,
+                    fullTileIso, fullTile2d, false, this.Content);
+                SetNeighbors(bigEmptyBoard);
+
+                //returning values:
+                shapesHeight = shapesWidth = null;
+                shapesHeight = new List<int>(tmpShapeHeight);
+                shapesWidth = new List<int>(tmpShapeWidth);
+                allHidenPoints = new List<List<NodeOFHidenTiles>>(tmpHiden);
+                tmpHiden.Clear();
+                tmpShapeHeight.Clear();
+                tmpShapeWidth.Clear();
+            }
+            
         }
 
         /*
@@ -457,10 +528,14 @@ namespace Our_Project.States_and_state_related
          * if you do - it will disapear (and will be deleted), if you dont - the button will create his shape, set
          * the neighbors of it .
          * the shapes are drawed in commits in setHidenPoints metod
-         */ 
+         * 
+         */
 
         private void ClickFirstShape(object sender, System.EventArgs e)
         {
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard();
+
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -472,14 +547,24 @@ namespace Our_Project.States_and_state_related
             else
             {
                 dragingShape = null;
-              //  GC.Collect();
+                //  GC.Collect();
                 hideShape = true;
             }
         }
 
+        private void ReturnTheEmptyNewBoard()
+        {   // if we doing kind of restart
+
+            remainShapesToPutOnBigEmptyBoard = 5;
+            putedBoardFromEditor = false;
+            bigEmptyBoard = null;
+            BuildEmptyBoard();
+        }
+
         private void ClickSecondShape(object sender, EventArgs e)
         {
-            soundEffect.Play("click");
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard(); soundEffect.Play("click");
             if (hideShape)
             {
                 
@@ -498,6 +583,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickThirdShape(object sender, EventArgs e)
         {
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
             if (hideShape)
             {
@@ -516,7 +603,8 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFourthShape(object sender, EventArgs e)
         {
-            soundEffect.Play("click");
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard(); soundEffect.Play("click");
             if (hideShape)
             {
 
@@ -535,7 +623,10 @@ namespace Our_Project.States_and_state_related
 
         private void ClickFifthShape(object sender, EventArgs e)
         {
+            if (putedBoardFromEditor)
+                ReturnTheEmptyNewBoard();
             soundEffect.Play("click");
+
             if (hideShape)
             {
 
@@ -555,18 +646,22 @@ namespace Our_Project.States_and_state_related
 
         private void SaveAndStartGame(object sender, EventArgs e) // if you finished build your board and click "next"
         {
-            // set each texture-tile in bigEmptyBoard that without shape as null
-            foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
+            if (remainShapesToPutOnBigEmptyBoard == 0 || putedBoardFromEditor)
             {
-                foreach (Tile t in tileLine)
-                {
-                    if (t.GetIsHidden())
-                        t.texture = null;
-                }
-            }
-            if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
-                enemy.flag = "canada";
 
+                // set each texture-tile in bigEmptyBoard that without shape as null
+                foreach (Tile[] tileLine in bigEmptyBoard.GetBoard())
+                {
+                    foreach (Tile t in tileLine)
+                    {
+                        if (t.GetIsHidden())
+                            t.texture = null;
+                    }
+                }
+                if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
+                    enemy.flag = "canada";
+
+<<<<<<< HEAD
             soundEffect.Play("click");
             if (!wait_for_other_player && enemy.flag!=null)
             {
@@ -577,6 +672,15 @@ namespace Our_Project.States_and_state_related
                 }
                 buttons.Clear();    //destroid buttons
                 StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
+=======
+                soundEffect.Play("click");
+                if (!wait_for_other_player && enemy.flag != null)
+                {
+                    enemy_flag_animation = enemy.flag;
+                    buttons.Clear();    //destroid buttons
+                    StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
+                }
+>>>>>>> 0fa84d7d4d3c46dc6444c8fa06f43b0ef2417255
             }
         }
 
@@ -603,7 +707,8 @@ namespace Our_Project.States_and_state_related
                 dragingShape.Update();
             
             PutShapeAtNewPosition(); // checking and put shapes as user wants on the big board
-
+            if (putedBoardFromEditor)
+                OpenNextButton();
             connection.Update();
             base.Update(gameTime);
         }
