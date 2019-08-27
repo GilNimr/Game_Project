@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿/* Gil Nevo 310021654
+ * Shachar Bartal 305262016
+ */
+
+
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,18 +38,18 @@ namespace Our_Project
         public override void Update(GameTime gameTime)
         {
             var deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-         
+
 
             _particleEffect.Update(deltaTime);
-           
 
-           
+
+
 
             base.Update(gameTime);
         }
         public void Trigger(Vector2 pos)
         {
-            
+
             _particleEffect.Trigger(pos);
         }
         private void ParticleInit(TextureRegion2D textureRegion)

@@ -55,12 +55,15 @@ namespace Our_Project
 
 
             Content.RootDirectory = "Content";
-            this.IsMouseVisible = true;
+            IsMouseVisible = true;
 
+            //full screen.
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
-            // graphics.PreferredBackBufferHeight = 1000;
+            //windowed screen.
+
+            //graphics.PreferredBackBufferHeight = 1000;
             //graphics.PreferredBackBufferWidth = 1600;
 
             screen_height = graphics.PreferredBackBufferHeight;
@@ -129,8 +132,9 @@ namespace Our_Project
             soundManager.LoadContent(musicPath, fxPath);
 
             CelCount celCount = new CelCount(5, 25);
-            celAnimationManager.AddAnimation("Aura", "Aura", celCount, 10);
-            celAnimationManager.ResumeAnimation("Aura");
+
+           /* celAnimationManager.AddAnimation("Aura", "Aura", celCount, 10);
+            celAnimationManager.ResumeAnimation("Aura");*/
 
             countryList = new List<string>()
            {
@@ -141,18 +145,12 @@ namespace Our_Project
 
             foreach (var country in countryList)
             {
-                //celCount = new CelCount(5, 25);
+                celCount = new CelCount(5, 25);
                 celAnimationManager.AddAnimation(country, country, celCount, 10);
                 celAnimationManager.ResumeAnimation(country);
             }
 
-            /*  for (int i = 1; i <= 20; i++)
-              {
-                  celCount = new CelCount(5, 25);
-                  celAnimationManager.AddAnimation(i.ToString(), i.ToString(), celCount, 10);
-                  celAnimationManager.ResumeAnimation(i.ToString());
-              }*/
-
+         
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
             font30static = font30;
             font300 = Content.Load<SpriteFont>(@"Fonts\KaushanScript300");

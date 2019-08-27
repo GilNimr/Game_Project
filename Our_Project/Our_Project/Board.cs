@@ -27,7 +27,7 @@ namespace Our_Project
         private int hidenIndex;
         private int iIndexOfTileToMove, jIndexOfTileToMove;         // maybe not supposed to be here but here its work
         private Tile[][] board;                                     // the board
-        private /*public*/ Texture2D tileIsoImg;                               // the isometric image of tile
+        private Texture2D tileIsoImg;                               // the isometric image of tile
         private Texture2D tile2dImg;                                // the 2d image of tile
         private int tileSize;   // size of tile
         private List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
@@ -74,11 +74,7 @@ namespace Our_Project
         {
             CheckAndMoveShape(); // checking if mouse drag shape and move it
         }
-       /*
-        public void SetTileSize(int new_size)
-        {
-            tileSize = new_size;
-        }*/
+ 
 
         private void CheckAndMoveShape()
         {

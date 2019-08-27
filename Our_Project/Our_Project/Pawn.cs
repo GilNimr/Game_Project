@@ -37,7 +37,7 @@ namespace Our_Project
 
         private readonly SpriteFont strength_font;
 
-        public String flag_animation;
+        public string flag_animation;
 
         private double timer_atk_num_display = 0; // timer for displaying attack.
 
@@ -60,12 +60,12 @@ namespace Our_Project
         private double timer_tel_particle;
         private double timer_has_moved;
 
-        public Pawn(Game game, String _flag_animation, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
+        public Pawn(Game game, string _flag_animation, Tile _tile, int _strength, Team _team, int _id, SpriteFont _strength_font)
         {
             this.game = (Game1)game;
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             particleService = (ParticleService)game.Services.GetService(typeof(ParticleService));
-            playingState=(PlayingState)game.Services.GetService(typeof(IPlayingState));
+            playingState = (PlayingState)game.Services.GetService(typeof(IPlayingState));
 
             flag_animation = _flag_animation; //setting animation.
 
@@ -99,7 +99,7 @@ namespace Our_Project
 
         public void Update(GameTime gametime)
         {
-           
+
 
             if (start_timer_move)
             {
@@ -109,7 +109,7 @@ namespace Our_Project
             if (timer_has_moved > 1.5)
             {
                 hasMoved = true;
-                // send_update = true;
+
                 timer_has_moved = 0;
                 start_timer_move = false;
             }
@@ -190,24 +190,24 @@ namespace Our_Project
             if (hasMoved)
             {
 
-                    // moving the pawn and assigning new values to related tiles.
-                    current_tile.occupied = Tile.Occupied.no;
-                    current_tile.SetCurrentPawn(null);
+                // moving the pawn and assigning new values to related tiles.
+                current_tile.occupied = Tile.Occupied.no;
+                current_tile.SetCurrentPawn(null);
                 if (direction != current_tile)
                 {
                     current_tile = direction;
                     current_tile.occupied = Tile.Occupied.yes_by_me;
                     current_tile.SetCurrentPawn(this);
                 }
-                    send_update = true;
-                
+                send_update = true;
+
             }
 
             else if (hasDied) //if the pawn is dead we cannot move or click on him.
             {
 
                 isMouseClicked = false;
-                
+
             }
             oldState = newState;
         }
@@ -216,7 +216,7 @@ namespace Our_Project
         public void GettingAttacked(GameTime gametime)
         {
             timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; //timer to display attack number on screen.
-            attacker.timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; ;
+            attacker.timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; 
             draw_atk_font = true;
             attacker.draw_atk_font = true;
 
@@ -226,17 +226,16 @@ namespace Our_Project
             }
 
             //if we lost the encounter with enemy
-            if ((attacker.strength > strength || (attacker.strength==1&&strength==20)) && !(attacker.strength==20&&strength==1))
+            if ((attacker.strength > strength || (attacker.strength == 1 && strength == 20)) && !(attacker.strength == 20 && strength == 1))
             {
                 timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                // hasDied = true;
-
+  
             }
             //if we won the encounter with the enemy
             else if ((attacker.strength < strength || (strength == 1 && attacker.strength == 20)) && !(strength == 20 && attacker.strength == 1))
             {
                 attacker.timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                //  attacker.hasDied = true;
+               
 
             }
             //if we draw in the encounter with the enemy.
@@ -244,9 +243,7 @@ namespace Our_Project
             {
                 timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 attacker.timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                //  hasDied = true;
-                //  attacker.hasDied = true;
-
+        
             }
             attacked = false; //resetting value
         }
@@ -272,7 +269,7 @@ namespace Our_Project
             {
                 if (team == Team.enemy_team)
                 {
-                    if (current_tile.occupied == Tile.Occupied.yes_by_enemy && current_tile.GetCurrentPawn()==this)
+                    if (current_tile.occupied == Tile.Occupied.yes_by_enemy && current_tile.GetCurrentPawn() == this)
                     {
                         current_tile.occupied = Tile.Occupied.no;
                         current_tile.SetCurrentPawn(null);
@@ -333,7 +330,7 @@ namespace Our_Project
                     {
                         draw_atk_font = false;
                         timer_atk_num_display = 0;
-                        
+
                     }
                 }
                 else //pawn of the enemy's team
@@ -393,10 +390,10 @@ namespace Our_Project
             {
 
 
-                if ((current_tile.GetLeft() != null) )
+                if ((current_tile.GetLeft() != null))
                     current_tile.GetLeft().SetColor(Color.White);
 
-                if ((current_tile.GetRight() != null) )
+                if ((current_tile.GetRight() != null))
                     current_tile.GetRight().SetColor(Color.White);
 
                 if ((current_tile.GetUp() != null))
@@ -420,7 +417,7 @@ namespace Our_Project
         {
             isMouseClicked = false;
             hasMoved = true;
-            
+
             direction = _direction; //tile we moved to
 
 
@@ -435,18 +432,18 @@ namespace Our_Project
 
                 //setting timers for display
                 timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; //timer to display attack number on screen.
-                direction.GetCurrentPawn().timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; 
+                direction.GetCurrentPawn().timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds;
 
                 draw_atk_font = true;
                 direction.GetCurrentPawn().draw_atk_font = true;
 
                 if (direction.GetCurrentPawn().the_flag == true) //if we found the enemy's king of flags,
                 {
-                    
+
                     PlayingState.win = true;
                 }
                 //if we lost the encounter with enemy
-                else if ((direction.GetCurrentPawn().strength > strength || ( direction.GetCurrentPawn().strength==1 && strength==20)) && !(direction.GetCurrentPawn().strength == 20 && strength == 1))
+                else if ((direction.GetCurrentPawn().strength > strength || (direction.GetCurrentPawn().strength == 1 && strength == 20)) && !(direction.GetCurrentPawn().strength == 20 && strength == 1))
 
                 {
                     timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
@@ -457,19 +454,17 @@ namespace Our_Project
                 if (direction.GetCurrentPawn().strength == strength)
                 {
                     timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                    // hasDied = true;
-                    // direction.getCurrentPawn().hasDied = true;
+
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                  direction = current_tile;
+                    direction = current_tile;
 
                 }
                 else //if we won the encounter with enemy
                 {
-                    
-                    // direction.getCurrentPawn().hasDied = true;
+
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 }
-                // send_update = true;
+                
             }
 
             if (direction != null)
@@ -486,7 +481,7 @@ namespace Our_Project
 
                 }
             }
-            //send_update = true;
+            
         }
 
 

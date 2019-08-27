@@ -26,7 +26,7 @@ namespace Our_Project.States_and_state_related
         public List<Button> buttons;
         public Board ourBoard;
         BuildingBoardState buildingBoardState;
-        private bool hideFlag = true; 
+        private bool hideFlag = true;
 
         IInputHandler inputHandler;
         ICelAnimationManager celAnimationManager;
@@ -47,7 +47,7 @@ namespace Our_Project.States_and_state_related
         public string flag_animation;
         public string enemy_flag_animation;
 
-        private String strength= ""; //string that represents strength of pawn.
+        private String strength = ""; //string that represents strength of pawn.
 
         private bool draggin;
         Point flag_size = new Point(Tile.GetTileSize());
@@ -70,19 +70,19 @@ namespace Our_Project.States_and_state_related
         private Tile curtile;        // the current tile we are hovering over.
         public Connection connection;
         public bool i_am_second_player;
-      
+
         private int teleport_index = 0; //index that counts how many teleports we placed.
         private int reRunCounter = 0;
 
         public PlacingSoldiersState(Game game) : base(game)
         {
             game.Services.AddService(typeof(IPlacingSoldiersState), this);
-            buildingBoardState= (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
+            buildingBoardState = (BuildingBoardState)game.Services.GetService(typeof(IBuildingBoardState));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
             scrollingBackgroundManager = (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
             inputHandler = (IInputHandler)game.Services.GetService(typeof(IInputHandler));
 
-   
+
         }
 
         protected override void LoadContent()
@@ -96,7 +96,7 @@ namespace Our_Project.States_and_state_related
             connection = buildingBoardState.connection;
 
             i_am_second_player = BuildingBoardState.i_am_second_player;
-            
+
 
             flag_animation = buildingBoardState.flag_animation;
             enemy_flag_animation = buildingBoardState.enemy_flag_animation;
@@ -120,7 +120,7 @@ namespace Our_Project.States_and_state_related
             save_flag_button = new Button(Game, button_texture, font)
             {
                 //Position = new Vector2(save_and_start_game.Rectangle.X - save_and_start_game.Rectangle.Width, (int)(Game1.screen_height / 50)),
-                Position=new Vector2(iso_rec.Location.X,iso_rec.Location.Y),
+                Position = new Vector2(iso_rec.Location.X, iso_rec.Location.Y),
                 Text = "Save here?",
             };
 
@@ -140,15 +140,22 @@ namespace Our_Project.States_and_state_related
             };
 
             /*a loop that generates all the pawn buttons (20)*/
-            for (int i=0; i<= 20; i++)
+            for (int i = 0; i <= 20; i++)
             {
-               
-                if(i!=20)
-                buttons.Add(new Button(OurGame, button_texture, font) {Position=new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i*heightOfButton)
-                    ,Text=(i+1).ToString() });
+
+                if (i != 20)
+                    buttons.Add(new Button(OurGame, button_texture, font)
+                    {
+                        Position = new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i * heightOfButton)
+                        ,
+                        Text = (i + 1).ToString()
+                    });
                 else
-                    buttons.Add(new Button(OurGame, button_texture, font) { Position = new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i*heightOfButton),
-                        Text = "flag" });
+                    buttons.Add(new Button(OurGame, button_texture, font)
+                    {
+                        Position = new Vector2(xPositionOfShapeButton, /*yPositionOfShapeButton +*/ i * heightOfButton),
+                        Text = "flag"
+                    });
             }
             buttons.Add(teleport_button);
 
@@ -168,7 +175,7 @@ namespace Our_Project.States_and_state_related
         //method of creating a flag or teleport to drag.
         private void CreateFlag(object sender, System.EventArgs e)
         {
-            foreach(Button button in buttons)
+            foreach (Button button in buttons)
             {
                 if (button.Clicked)
                 {
@@ -176,16 +183,16 @@ namespace Our_Project.States_and_state_related
                 }
 
             }
-           
+
             if (hideFlag)
             {
-                iso_rec = new Rectangle(new Point(Game1.screen_height/4,Game1.screen_width/4), new Point(Tile.GetTileSize()));
+                iso_rec = new Rectangle(new Point(Game1.screen_height / 4, Game1.screen_width / 4), new Point(Tile.GetTileSize()));
                 hideFlag = false;
             }
 
             else
             {
-                iso_rec = new Rectangle(-100,-100,0,0);
+                iso_rec = new Rectangle(-100, -100, 0, 0);
                 hideFlag = true;
             }
 
@@ -195,32 +202,32 @@ namespace Our_Project.States_and_state_related
         {
             iso_rec.X = difference.X - iso_rec.Width / 2;
             iso_rec.Y = difference.Y - iso_rec.Height / 2;
-            
+
         }
         /*a function that's in charge of dragging and calling saveflag if it's in a legal place currently.*/
         private void PlaceFlag()
         {
-            
+
             foreach (Tile tile in ourBoard.boardDictionaryById.Values)
             {
                 if (tile.GetCartasianRectangle().Intersects(Cartasian_rec))
                 {
-                    if(Cartasian_rec.Center.X>tile.GetCartasianRectangle().Center.X &&
+                    if (Cartasian_rec.Center.X > tile.GetCartasianRectangle().Center.X &&
                         Cartasian_rec.Center.Y > tile.GetCartasianRectangle().Center.Y)
                     {
 
-                        if (((!i_am_second_player&& tile.GetId() >= 288 ) || (i_am_second_player && tile.GetId() < 288 )) && !tile.GetIsHidden()
-                            &&tile.occupied==Tile.Occupied.no && !tile.teleport_tile)
+                        if (((!i_am_second_player && tile.GetId() >= 288) || (i_am_second_player && tile.GetId() < 288)) && !tile.GetIsHidden()
+                            && tile.occupied == Tile.Occupied.no && !tile.teleport_tile)
 
                         {
-                            if(!resting)
-                            tile.SetColor(Color.Green);
+                            if (!resting)
+                                tile.SetColor(Color.Green);
 
-                            if(!draggin && !resting)
+                            if (!draggin && !resting)
                             {
                                 resting = true;
 
-                                iso_rec = new Rectangle( Game1.TwoD2isometrix(tile.GetCartasianRectangle().Center) - new Point(Tile.GetTileSize() / 2), new Point(Tile.GetTileSize()));
+                                iso_rec = new Rectangle(Game1.TwoD2isometrix(tile.GetCartasianRectangle().Center) - new Point(Tile.GetTileSize() / 2), new Point(Tile.GetTileSize()));
 
                                 curtile = tile;
                                 Game.Components.Add(save_flag_button);
@@ -228,7 +235,7 @@ namespace Our_Project.States_and_state_related
 
                             }
                         }
-                        else if(draggin) tile.SetColor(Color.Red);
+                        else if (draggin) tile.SetColor(Color.Red);
                     }
                 }
             }
@@ -251,7 +258,7 @@ namespace Our_Project.States_and_state_related
                         buttons.Remove(button);
                         Game.Components.Remove(button);
                     }
-                       
+
             }
             Game.Components.Remove(save_flag_button);
 
@@ -291,8 +298,8 @@ namespace Our_Project.States_and_state_related
             //if just a regular pawn.
             else
             {
-                    player.pawns[int.Parse(strength) - 1] = new Pawn(OurGame, flag_animation, tile, int.Parse(strength), Pawn.Team.my_team, int.Parse(strength) - 1, font);
-                    pawn_index++;
+                player.pawns[int.Parse(strength) - 1] = new Pawn(OurGame, flag_animation, tile, int.Parse(strength), Pawn.Team.my_team, int.Parse(strength) - 1, font);
+                pawn_index++;
 
             }
 
@@ -308,7 +315,7 @@ namespace Our_Project.States_and_state_related
             }
         }
 
-        
+
 
         public override void Update(GameTime gameTime)
         {
@@ -331,7 +338,7 @@ namespace Our_Project.States_and_state_related
                 Game.Components.Remove(save_flag_button);
 
             //if its time to move to next state.
-            if (pawn_index >= 20 && teleport_index>=2 && !Game.Components.Contains(save_and_start_game))
+            if (pawn_index >= 20 && teleport_index >= 2 && !Game.Components.Contains(save_and_start_game))
                 Game.Components.Add(save_and_start_game);
         }
 
@@ -359,14 +366,14 @@ namespace Our_Project.States_and_state_related
                 OurGame.spriteBatch.Draw(teleport_texture, iso_rec, Color.White);
 
             //debug view of flag
-           // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
+            // celAnimationManager.Draw(gameTime, "canada", OurGame.spriteBatch, new Rectangle(200,200,500,500), SpriteEffects.None); 
 
             //drawing info near pawn or teleport.
             OurGame.spriteBatch.DrawString(font, strength, new Vector2(iso_rec.X, iso_rec.Y), Color.Black, 0, new Vector2(0), scaleOfFone, SpriteEffects.None, 0);
-                save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
+            save_and_start_game.Draw(gameTime, OurGame.spriteBatch);
 
             //drawing button
-            if(Game.Components.Contains(save_flag_button))
+            if (Game.Components.Contains(save_flag_button))
                 save_flag_button.Draw(gameTime, OurGame.spriteBatch);
 
             //drawing button
@@ -379,11 +386,7 @@ namespace Our_Project.States_and_state_related
                 if (player.pawns[i] != null)
                     player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
-         /*   for (int i = 0; i < enemy.army_size; i++)
-            {
-                if (enemy.pawns[i] != null)
-                    enemy.pawns[i].Draw(OurGame.spriteBatch, gameTime);
-            }*/
+
 
 
             //debug view.
@@ -399,17 +402,17 @@ namespace Our_Project.States_and_state_related
             if (StateManager.State == this.Value)
             {
                 Visible = true;
-               
-                    reRunCounter++;
-                    if (reRunCounter > 1)
+
+                reRunCounter++;
+                if (reRunCounter > 1)
                 {
                     pawn_index = 0;
                     teleport_index = 0;
                     LoadContent();
-                    
+
                 }
-                        
-            
+
+
             }
         }
 

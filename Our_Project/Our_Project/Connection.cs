@@ -19,6 +19,7 @@ namespace Our_Project
 
         public Player player;
         public Player enemy;
+
         public static bool local; // if this is a local connection.
 
         readonly Game game;
@@ -27,7 +28,7 @@ namespace Our_Project
 
         public static NetOutgoingMessage outmsg;
 
-        public String ip;
+        public string ip;
         ACIlistResponse[] aci;
         int index = 0;
 
@@ -48,13 +49,14 @@ namespace Our_Project
             else
             {
                 try { ip = GetIP().Result; } catch (Exception e) { ip = "0.0.0.0"; }
-                client.DiscoverKnownPeer(ip, 14242); //server on gil's home for now.
+                client.DiscoverKnownPeer(ip, 14242); 
             }
 
         }
 
 
-        //HTTP GET request to Azure ACIList function.
+        //HTTP GET request to Azure ACIList function which return Json that contains Array of ACIlistResponse[]
+        //that contains IP.
         public async System.Threading.Tasks.Task<string> GetIP()
         {
             var client = new HttpClient();
@@ -337,11 +339,11 @@ namespace Our_Project
 
     }
 
+
+    //the Json we recieve from HTTP function ACIList that in our Azure project.
     [DataContract]
     internal class ACIlistResponse
     {
-
-
         [DataMember]
         internal string ResourceGroup;
 
@@ -358,17 +360,16 @@ namespace Our_Project
         internal string Locations;
     }
 
+
     [DataContract]
     internal class ACISetSessionsPost
     {
-
 
         [DataMember]
         internal string resourceGroup;
 
         [DataMember]
         internal string containerGroupName;
-
 
         [DataMember]
         internal int activeSessions;

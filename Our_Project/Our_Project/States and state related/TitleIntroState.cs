@@ -29,7 +29,7 @@ namespace Our_Project
             if (Input.KeyboardHandler.WasKeyPressed(Keys.Escape))
                 Game.Exit();
 
-            if(Input.MouseHandler.WasLeftButtonClicked())
+            if (Input.MouseHandler.WasLeftButtonClicked())
             {
                 // Push our start menu into the stack.
                 StateManager.PushState(OurGame.StartMenuState.Value);
@@ -38,7 +38,7 @@ namespace Our_Project
             {
                 // Push our start menu into the stack.
                 StateManager.PushState(OurGame.StartMenuState.Value);
-  
+
             }
 
             base.Update(gameTime);
@@ -46,6 +46,8 @@ namespace Our_Project
 
         public override void Draw(GameTime gameTime)
         {
+
+            //variables for drawing background picture ecxactly on screen size.
             Vector2 pos = new Vector2(Game.GraphicsDevice.Viewport.Width / 2,
                                       Game.GraphicsDevice.Viewport.Height / 2);
             Vector2 origin = new Vector2(texture.Width / 2,

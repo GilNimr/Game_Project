@@ -67,15 +67,7 @@ namespace Our_Project.States_and_state_related
             //allHidenPoints = SetHidenTiles();   // set all the allHidenPoints
             allHidenPoints = SetHidenTilesFromFile();   // set all the allHidenPoints
            
-            /* player = new Player(game)
-             {
-                 myTurn = true
-             };
-
-             enemy = new Player(game);
-             player.pawns = new Pawn[player.army_size];
-             enemy.pawns = new Pawn[player.army_size];
-             */
+        
 
             remainShapesToPutOnBigEmptyBoard = 5;   // set the number of shapes we exepted on board as 5
             soundEffect = (ISoundManager)game.Services.GetService(typeof(ISoundManager));

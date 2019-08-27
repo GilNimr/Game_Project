@@ -161,12 +161,7 @@ namespace Our_Project.States_and_state_related
                     Game.Components.Add(select);
                     taken = -1;
                 }
-              /*  reRunCounter++;
-                if (reRunCounter > 1)
-                {
-                    taken = -1;
-                    LoadContent();
-                }*/
+        
             }
         }
     }
