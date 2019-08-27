@@ -3,7 +3,7 @@
  * Shachar Bartal 305262016
  */
  
- using System;
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;

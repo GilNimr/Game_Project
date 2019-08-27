@@ -74,7 +74,7 @@ namespace Our_Project
         private void BoardEditorButtonClick(object sender, System.EventArgs e)
         {
             soundOfClick.Play("click");
-            StateManager.ChangeState(OurGame.BoardEditorState.Value);
+            StateManager.PushState(OurGame.BoardEditorState.Value);
         }
 
         protected override void LoadContent()

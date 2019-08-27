@@ -2,7 +2,7 @@
 /* Gil Nevo 310021654
  * Shachar Bartal 305262016
  * 
- * This class is not in use now.
+ * This class is for future fetures
  */
 
 
