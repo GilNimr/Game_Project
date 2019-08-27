@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using XELibrary;
 
@@ -50,7 +51,8 @@ namespace Our_Project.States_and_state_related
         public Player enemy;
         public string flag_animation;
         public string enemy_flag_animation;
-        
+        private int reRunCounter=0;
+        private bool toggle =true;
 
         public BuildingBoardState(Game game) : base(game)  //c'tor
         {
@@ -659,6 +661,7 @@ namespace Our_Project.States_and_state_related
                 if (enemy.flag == null)          //just for now!!!!! delete later!!!!!! 
                     enemy.flag = "canada";
 
+
                 soundEffect.Play("click");
                 if (!wait_for_other_player && enemy.flag != null)
                 {
@@ -666,6 +669,7 @@ namespace Our_Project.States_and_state_related
                     buttons.Clear();    //destroid buttons
                     StateManager.ChangeState(OurGame.PlacingSoldiersState.Value); // change state
                 }
+
             }
         }
 
@@ -1009,9 +1013,9 @@ namespace Our_Project.States_and_state_related
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //drawing space bg
-            //scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
-            //scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
-            //scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space2", OurGame.spriteBatch);
+            scrollingBackgroundManager.Draw("space3", OurGame.spriteBatch);
 
             // draw bigEmptyBoard
             bigEmptyBoard.Draw(OurGame.spriteBatch, Color.White);
@@ -1103,6 +1107,32 @@ namespace Our_Project.States_and_state_related
         public  Board GetEmptyBoard()
         {
             return bigEmptyBoard;
+        }
+
+        protected override void StateChanged(object sender, EventArgs e)
+        {
+            base.StateChanged(sender, e);
+
+            if (StateManager.State == this.Value)
+            {
+               
+             
+                    reRunCounter++;
+                if (toggle)
+                    toggle = false;
+              else  if (!toggle)
+                    toggle = true;
+                    if (reRunCounter > 1 && toggle)
+                {
+                    
+                    remainShapesToPutOnBigEmptyBoard = 5;
+                    Thread.Sleep(1);
+                   // connection.Update();
+                    LoadContent(); 
+                }
+                        
+
+            }
         }
     }
 }

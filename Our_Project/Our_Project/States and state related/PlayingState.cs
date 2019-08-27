@@ -32,8 +32,8 @@ namespace Our_Project
         public Player enemy;
         public Connection connection;
 
-        private Texture2D Tile_texture;            
-        private Texture2D cartasian_texture;       
+        private Texture2D Tile_texture;
+        private Texture2D cartasian_texture;
         private Texture2D Pawn_texture; // need to delete later. since we are using animations.
         private Board ourBoard;
 
@@ -46,18 +46,19 @@ namespace Our_Project
 
         IScrollingBackgroundManager scrollingBackgroundManager;
         ICelAnimationManager celAnimationManager;
-        
+        private int reRunCounter = 0;
+
         public PlayingState(Game game)
            : base(game)
         {
-  
+
             game.Services.AddService(typeof(IPlayingState), this);
             placingSoldiersState = (PlacingSoldiersState)game.Services.GetService(typeof(IPlacingSoldiersState));
             scrollingBackgroundManager = (IScrollingBackgroundManager)game.Services.GetService(typeof(IScrollingBackgroundManager));
             celAnimationManager = (ICelAnimationManager)game.Services.GetService(typeof(ICelAnimationManager));
-            
+
             teleports = new Tile[4];
-            
+
 
         }
 
@@ -89,7 +90,7 @@ namespace Our_Project
                     tile.texture = teleport_texture;
                 else
                     tile.texture = Tile_texture;
-            }         
+            }
 
             //pawn texture.
             Pawn_texture = Content.Load<Texture2D>(@"Textures\Pawns\death");
@@ -97,18 +98,18 @@ namespace Our_Project
             //setting animations.
             flag = placingSoldiersState.flag_animation;
             enemy_flag = placingSoldiersState.enemy_flag_animation;
-            
+
             i_am_second_player = placingSoldiersState.i_am_second_player;
             if (!i_am_second_player)
                 player.myTurn = true;
         }
-        
+
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
             connection.Update();
-            
-           
+
+
 
             for (int i = 0; i < player.pawns.Length; i++)
             {
@@ -127,9 +128,9 @@ namespace Our_Project
                             for (int j = 0; j < player.pawns.Length; j++)
                             {
                                 if (player.pawns[j] != null)
-                                { 
-                                if (i != j) // unclick all the other pawns.
-                                    player.pawns[j].isMouseClicked = false;
+                                {
+                                    if (i != j) // unclick all the other pawns.
+                                        player.pawns[j].isMouseClicked = false;
                                 }
                             }
                         }
@@ -138,10 +139,10 @@ namespace Our_Project
                     else if (player.pawns[i].attacked)
                     {
                         player.pawns[i].GettingAttacked(gameTime);
-                    }           
+                    }
                 }
             }
-            if(howManyPawnsLeft==0)
+            if (howManyPawnsLeft == 0)
             {
                 lose = true;
                 connection.SendWin();
@@ -164,20 +165,20 @@ namespace Our_Project
             ourBoard.Draw(OurGame.spriteBatch, Color.White);
 
             //drawing our giant flag 
-            Rectangle Rec = new Rectangle(Game1.screen_width*8/10,Game1.screen_height*7/10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
-            celAnimationManager.Draw(gameTime, flag, OurGame. spriteBatch, Rec, SpriteEffects.None);
+            Rectangle Rec = new Rectangle(Game1.screen_width * 8 / 10, Game1.screen_height * 7 / 10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
+            celAnimationManager.Draw(gameTime, flag, OurGame.spriteBatch, Rec, SpriteEffects.None);
 
             //drawing our enemys giant flag 
             Rec = new Rectangle(Game1.screen_width * 1 / 10, Game1.screen_height * 1 / 10, Game1.screen_width * 1 / 10, Game1.screen_height * 2 / 10);
             celAnimationManager.Draw(gameTime, enemy_flag, OurGame.spriteBatch, Rec, SpriteEffects.None);
-            
+
             //drawing player pawns.
             for (int i = 0; i < player.pawns.Length; i++)
             {
-                if(player.pawns[i]!=null)
-                player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
+                if (player.pawns[i] != null)
+                    player.pawns[i].Draw(OurGame.spriteBatch, gameTime);
             }
-            
+
             //drawing enemy pawns.
             for (int i = 0; i < enemy.pawns.Length; i++)
             {
@@ -194,23 +195,52 @@ namespace Our_Project
                 OurGame.spriteBatch.DrawString(font_big, "You win", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
 
             }
-           else if (lose)
+            else if (lose)
             {
                 EndGameTimer += gameTime.ElapsedGameTime.TotalSeconds;
                 OurGame.spriteBatch.DrawString(font_big, "You lose", new Vector2(Game1.screen_width / 3, Game1.screen_height / 10), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
             }
 
-           else if (player.myTurn)
+            else if (player.myTurn)
             {
-                OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2((Game1.screen_width / 3)*2, (Game1.screen_height*70) / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
+                OurGame.spriteBatch.DrawString(font_small, "your turn", new Vector2((Game1.screen_width / 3) * 2, (Game1.screen_height * 70) / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
             }
             else
                 OurGame.spriteBatch.DrawString(font_small, "opponent's turn", new Vector2(Game1.screen_width / 3, Game1.screen_height / 80), Color.White, 0, Vector2.Zero, Game1.FontScale, SpriteEffects.None, 0);
 
-     
 
-            if(EndGameTimer>=5.0f)
+
+            if (EndGameTimer >= 5.0f)
+            {
+                connection.client.Disconnect("");
+                BuildingBoardState.i_am_second_player = false;
                 StateManager.ChangeState(OurGame.TitleIntroState.Value);
+            }
+                
+
+        }
+
+        protected override void StateChanged(object sender, EventArgs e)
+        {
+            base.StateChanged(sender, e);
+
+            if (StateManager.State == this.Value)
+            {
+                Visible = true;
+                
+                reRunCounter++;
+                if (reRunCounter > 1)
+                {
+                     EndGameTimer = 0f;
+                      howManyPawnsLeft = 0;
+                    win = false;
+                    lose = false;
+                    teleports = new Tile[4];
+                    LoadContent();
+                }
+                    
+            }
+
 
         }
     }

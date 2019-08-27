@@ -36,7 +36,7 @@ namespace GameServer
         public NetConnection GetFirstPlayer()
         {
             if (firstPlayer == null)
-                throw new Exception("null value");
+                return null;
 
             return firstPlayer;
 
@@ -45,7 +45,7 @@ namespace GameServer
         public NetConnection GetSecondPlayer()
         {
             if (secondPlayer == null)
-                throw new Exception("null value");
+                return null;
 
             return secondPlayer;
 

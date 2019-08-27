@@ -190,13 +190,15 @@ namespace Our_Project
             if (hasMoved)
             {
 
-               
                     // moving the pawn and assigning new values to related tiles.
                     current_tile.occupied = Tile.Occupied.no;
                     current_tile.SetCurrentPawn(null);
+                if (direction != current_tile)
+                {
                     current_tile = direction;
                     current_tile.occupied = Tile.Occupied.yes_by_me;
                     current_tile.SetCurrentPawn(this);
+                }
                     send_update = true;
                 
             }
@@ -264,11 +266,30 @@ namespace Our_Project
             if (timer_has_died > 1.5 && !hasDied)
             {
                 hasDied = true;
-                current_tile.occupied = Tile.Occupied.no;
-                current_tile.SetCurrentPawn(null);
-                //send_update = true;
+
             }
-                
+            if (hasDied)
+            {
+                if (team == Team.enemy_team)
+                {
+                    if (current_tile.occupied == Tile.Occupied.yes_by_enemy && current_tile.GetCurrentPawn()==this)
+                    {
+                        current_tile.occupied = Tile.Occupied.no;
+                        current_tile.SetCurrentPawn(null);
+                    }
+                }
+
+
+                if (team == Team.my_team)
+                {
+                    if (current_tile.occupied == Tile.Occupied.yes_by_me && current_tile.GetCurrentPawn() == this)
+                    {
+                        current_tile.occupied = Tile.Occupied.no;
+                        current_tile.SetCurrentPawn(null);
+                    }
+
+                }
+            }
 
             if (timer_tel_particle > 1.5)
             {
@@ -312,6 +333,7 @@ namespace Our_Project
                     {
                         draw_atk_font = false;
                         timer_atk_num_display = 0;
+                        
                     }
                 }
                 else //pawn of the enemy's team
@@ -352,17 +374,17 @@ namespace Our_Project
             //drawing adjecant tiles if clicked
             if (isMouseClicked)
             {
-                if ((current_tile.GetLeft() != null) && (current_tile.GetLeft().occupied == Tile.Occupied.no))
+                if ((current_tile.GetLeft() != null) && (current_tile.GetLeft().occupied != Tile.Occupied.yes_by_me))
                     current_tile.GetLeft().SetColor(Color.Red);
 
 
-                if ((current_tile.GetRight() != null) && (current_tile.GetRight().occupied == Tile.Occupied.no))
+                if ((current_tile.GetRight() != null) && (current_tile.GetRight().occupied != Tile.Occupied.yes_by_me))
                     current_tile.GetRight().SetColor(Color.Red);
 
-                if ((current_tile.GetUp() != null) && (current_tile.GetUp().occupied == Tile.Occupied.no))
+                if ((current_tile.GetUp() != null) && (current_tile.GetUp().occupied != Tile.Occupied.yes_by_me))
                     current_tile.GetUp().SetColor(Color.Red);
 
-                if ((current_tile.GetDown() != null) && (current_tile.GetDown().occupied == Tile.Occupied.no))
+                if ((current_tile.GetDown() != null) && (current_tile.GetDown().occupied != Tile.Occupied.yes_by_me))
                     current_tile.GetDown().SetColor(Color.Red);
 
             }
@@ -371,21 +393,21 @@ namespace Our_Project
             {
 
 
-                if ((current_tile.GetLeft() != null) && (current_tile.GetLeft().occupied == Tile.Occupied.no))
+                if ((current_tile.GetLeft() != null) )
                     current_tile.GetLeft().SetColor(Color.White);
 
-                if ((current_tile.GetRight() != null) && (current_tile.GetRight().occupied == Tile.Occupied.no))
+                if ((current_tile.GetRight() != null) )
                     current_tile.GetRight().SetColor(Color.White);
 
-                if ((current_tile.GetUp() != null) && (current_tile.GetUp().occupied == Tile.Occupied.no))
+                if ((current_tile.GetUp() != null))
                     current_tile.GetUp().SetColor(Color.White);
 
-                if ((current_tile.GetDown() != null) && (current_tile.GetDown().occupied == Tile.Occupied.no))
+                if ((current_tile.GetDown() != null))
                     current_tile.GetDown().SetColor(Color.White);
 
                 //isMouseClicked = false;
                 hasMoved = false;
-                direction = null;
+                //direction = null;
             }
 
             //drawing the world mouse for debug purposes.
@@ -398,7 +420,7 @@ namespace Our_Project
         {
             isMouseClicked = false;
             hasMoved = true;
-
+            
             direction = _direction; //tile we moved to
 
 
@@ -407,26 +429,28 @@ namespace Our_Project
             {
                 hasMoved = false;
                 start_timer_move = true;
+
                 direction.GetCurrentPawn().attacked = true;
                 direction.GetCurrentPawn().attacker = this;
 
                 //setting timers for display
                 timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; //timer to display attack number on screen.
-                direction.GetCurrentPawn().timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; ;
+                direction.GetCurrentPawn().timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; 
 
                 draw_atk_font = true;
                 direction.GetCurrentPawn().draw_atk_font = true;
 
                 if (direction.GetCurrentPawn().the_flag == true) //if we found the enemy's king of flags,
                 {
+                    
                     PlayingState.win = true;
                 }
                 //if we lost the encounter with enemy
-                else if (direction.GetCurrentPawn().strength > strength || ( direction.GetCurrentPawn().strength==1 && strength==20) || !(direction.GetCurrentPawn().strength == 20 && strength == 1))
+                else if ((direction.GetCurrentPawn().strength > strength || ( direction.GetCurrentPawn().strength==1 && strength==20)) && !(direction.GetCurrentPawn().strength == 20 && strength == 1))
 
                 {
                     timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                    
+                    direction = current_tile;
                     //hasDied = true;
                 }
                 else //if we draw the encounter with enemy
@@ -436,26 +460,31 @@ namespace Our_Project
                     // hasDied = true;
                     // direction.getCurrentPawn().hasDied = true;
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-                    
+                  direction = current_tile;
+
                 }
                 else //if we won the encounter with enemy
                 {
+                    
                     // direction.getCurrentPawn().hasDied = true;
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 }
                 // send_update = true;
             }
 
-            //checking to see if encounterd a teleport.
-            if (direction.teleport_tile && timer_has_died == 0)
+            if (direction != null)
             {
-                hasMoved = true;
-                particleService.Trigger(Game1.TwoD2isometrix(direction.GetCartasianRectangle().Center.X, direction.GetCartasianRectangle().Center.Y));
-                playingState.connection.SendTelParticle(direction.GetId());
-                direction = direction.Teleport_to_rand();
-                trigger_teleport_particle = true;
-                send_update = true;
+                //checking to see if encounterd a teleport.
+                if (direction.teleport_tile && timer_has_died == 0)
+                {
+                    hasMoved = true;
+                    particleService.Trigger(Game1.TwoD2isometrix(direction.GetCartasianRectangle().Center.X, direction.GetCartasianRectangle().Center.Y));
+                    playingState.connection.SendTelParticle(direction.GetId());
+                    direction = direction.Teleport_to_rand();
+                    trigger_teleport_particle = true;
+                    send_update = true;
 
+                }
             }
             //send_update = true;
         }
