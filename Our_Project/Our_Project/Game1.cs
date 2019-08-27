@@ -39,9 +39,9 @@ namespace Our_Project
         public bool EnableSoundFx { get; set; }
         public bool EnableMusic { get; set; }
 
-       public static int screen_width;
-       public static int screen_height;
-        public static  float FontScale;
+        public static int screen_width;
+        public static int screen_height;
+        public static float FontScale;
         public static SpriteFont font30static;
         public SpriteFont font30;
         public SpriteFont font300;
@@ -52,16 +52,16 @@ namespace Our_Project
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            
+
 
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
 
-               graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-               graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
-          // graphics.PreferredBackBufferHeight = 1000;
-           //graphics.PreferredBackBufferWidth = 1600;
+            // graphics.PreferredBackBufferHeight = 1000;
+            //graphics.PreferredBackBufferWidth = 1600;
 
             screen_height = graphics.PreferredBackBufferHeight;
             screen_width = graphics.PreferredBackBufferWidth;
@@ -80,7 +80,7 @@ namespace Our_Project
             stateManager = new GameStateManager(this);
             Components.Add(stateManager);
 
-            
+
 
             TitleIntroState = new TitleIntroState(this);
             StartMenuState = new StartMenuState(this);
@@ -90,7 +90,7 @@ namespace Our_Project
             BuildingBoardState = new BuildingBoardState(this);
             PlacingSoldiersState = new PlacingSoldiersState(this);
             PlayingState = new PlayingState(this);
-            
+
             EnableSoundFx = true;
             EnableMusic = true;
         }
@@ -146,12 +146,12 @@ namespace Our_Project
                 celAnimationManager.ResumeAnimation(country);
             }
 
-          /*  for (int i = 1; i <= 20; i++)
-            {
-                celCount = new CelCount(5, 25);
-                celAnimationManager.AddAnimation(i.ToString(), i.ToString(), celCount, 10);
-                celAnimationManager.ResumeAnimation(i.ToString());
-            }*/
+            /*  for (int i = 1; i <= 20; i++)
+              {
+                  celCount = new CelCount(5, 25);
+                  celAnimationManager.AddAnimation(i.ToString(), i.ToString(), celCount, 10);
+                  celAnimationManager.ResumeAnimation(i.ToString());
+              }*/
 
             font30 = Content.Load<SpriteFont>(@"Fonts\KaushanScript30");
             font30static = font30;
@@ -178,9 +178,9 @@ namespace Our_Project
         protected override void Update(GameTime gameTime)
         {
 
-           if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-            
+
             base.Update(gameTime);
         }
 
@@ -216,7 +216,7 @@ namespace Our_Project
         //translates isometric screen coordiantes to 2d world coordinates
         public static Vector2 Isometrix2twoD(int x, int y)
         {
-            int tmpx = (2*y+x)/2;
+            int tmpx = (2 * y + x) / 2;
             int tmpy = (2 * y - x) / 2;
             return new Vector2(tmpx, tmpy);
         }
