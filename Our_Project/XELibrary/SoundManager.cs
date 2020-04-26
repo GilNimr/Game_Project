@@ -23,13 +23,15 @@ namespace XELibrary
         private string[] playList;
         private bool playListPlaying = false;
         private int currentSong;
-        
-        public SoundManager(Game game)
+        private int _platform;
+
+        public SoundManager(Game game, int platform)
             : base(game)
         {
+            _platform = platform;
             game.Services.AddService(typeof(ISoundManager), this);
         }
-        
+
         public override void Initialize()
         {
             base.Initialize();
@@ -37,18 +39,36 @@ namespace XELibrary
 
         public void LoadContent(string musicPath, string fxPath)
         {
-            songs = Directory.EnumerateFiles(Path.Combine(Game.Content.RootDirectory, musicPath))
-                .Where(f => Path.GetExtension(f).Equals(".xnb"))
-                .Select(f => Path.GetFileNameWithoutExtension(f))
-                .ToDictionary(f => f, f => Game.Content.Load<Song>(Path.Combine(musicPath, f)));
+            if (_platform == 1) //Windows
+            {
+                songs = Directory.EnumerateFiles(Path.Combine(Game.Content.RootDirectory, musicPath))
+               .Where(f => Path.GetExtension(f).Equals(".xnb"))
+               .Select(f => Path.GetFileNameWithoutExtension(f))
+               .ToDictionary(f => f, f => Game.Content.Load<Song>(Path.Combine(musicPath, f)));
 
-            soundEffects = Directory.EnumerateFiles(Path.Combine(Game.Content.RootDirectory, fxPath))
-                .Where(f => Path.GetExtension(f).Equals(".xnb"))
-                .Select(f => Path.GetFileNameWithoutExtension(f))
-                .ToDictionary(f => f, f => Game.Content.Load<SoundEffect>(Path.Combine(fxPath, f)));
+                soundEffects = Directory.EnumerateFiles(Path.Combine(Game.Content.RootDirectory, fxPath))
+                    .Where(f => Path.GetExtension(f).Equals(".xnb"))
+                    .Select(f => Path.GetFileNameWithoutExtension(f))
+                    .ToDictionary(f => f, f => Game.Content.Load<SoundEffect>(Path.Combine(fxPath, f)));
+            }
+            else if (_platform == 2) //Android
+            {
+
+
+                songs = Android.App.Application.Context.Assets.List(Game.Content.RootDirectory + "/" + musicPath)
+                 .Where(f => Path.GetExtension(f).Equals(".xnb"))
+                 .Select(f => Path.GetFileNameWithoutExtension(f))
+                 .ToDictionary(f => f, f => Game.Content.Load<Song>(musicPath + "/" + f));
+
+                soundEffects = Android.App.Application.Context.Assets.List(Game.Content.RootDirectory + "/" + fxPath)
+                 .Where(f => Path.GetExtension(f).Equals(".xnb"))
+                 .Select(f => Path.GetFileNameWithoutExtension(f))
+                 .ToDictionary(f => f, f => Game.Content.Load<SoundEffect>(fxPath + "/" + f));
+            }
+
         }
-        
-        
+
+
         public override void Update(GameTime gameTime)
         {
             if (playListPlaying && MediaPlayer.State == MediaState.Stopped)
@@ -64,7 +84,7 @@ namespace XELibrary
                 }
             }
 
-            foreach(SoundEffectInstance instance in playingInstances)
+            foreach (SoundEffectInstance instance in playingInstances)
             {
                 if (instance.State == SoundState.Stopped)
                 {
@@ -76,7 +96,7 @@ namespace XELibrary
 
             base.Update(gameTime);
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             foreach (Song song in songs.Values)
@@ -102,7 +122,7 @@ namespace XELibrary
 
             base.Dispose(disposing);
         }
-                        
+
         public bool IsSongPlaying(string soundName)
         {
             Song song;
@@ -114,7 +134,7 @@ namespace XELibrary
 
             return false;
         }
-        
+
         public void Play(string soundName)
         {
             switch (GetSoundType(soundName))
@@ -131,17 +151,17 @@ namespace XELibrary
                     break;
             }
         }
-        
+
         public void PauseSong()
         {
             MediaPlayer.Pause();
         }
-        
+
         public void ResumeSong()
         {
             MediaPlayer.Resume();
         }
-        
+
         public void StopAll()
         {
             StopSong();
@@ -153,12 +173,12 @@ namespace XELibrary
             }
             playingInstances.Clear();
         }
-        
+
         public void StopSong()
         {
             MediaPlayer.Stop();
         }
-        
+
         public void StartPlayList(string[] playList, int startIndex = 0)
         {
             this.playList = playList;
@@ -186,9 +206,9 @@ namespace XELibrary
 
         private SoundType GetSoundType(string soundName)
         {
-            if (songs.ContainsKey(soundName))
+            if (songs != null && songs.ContainsKey(soundName))
                 return SoundType.Song;
-            else if (soundEffects.ContainsKey(soundName))
+            else if (soundEffects != null && soundEffects.ContainsKey(soundName))
                 return SoundType.SoundEffect;
             else return SoundType.None;
         }

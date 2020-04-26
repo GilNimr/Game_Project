@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Android.Support.Annotations</id>
+    <version>28.0.0.3</version>
+    <title>Xamarin Android Support Library - support-annotations</title>
+    <authors>Microsoft</authors>
+    <owners>Microsoft</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://go.microsoft.com/fwlink/?linkid=865381</licenseUrl>
+    <projectUrl>https://go.microsoft.com/fwlink/?linkid=865352</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/xamarin/AndroidSupportComponents/master/icons/support-annotations_128x128.png</iconUrl>
+    <description>Xamarin.Android bindings for Android Support Library - support-annotations</description>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <tags>Xamarin Android Xamarin.Android Support</tags>
+    <dependencies>
+      <group targetFramework="MonoAndroid6.0" />
+      <group targetFramework="MonoAndroid7.0" />
+      <group targetFramework="MonoAndroid7.1" />
+      <group targetFramework="MonoAndroid8.0" />
+      <group targetFramework="MonoAndroid8.1" />
+      <group targetFramework="MonoAndroid9.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Java.Interop" targetFramework="MonoAndroid9.0" />
+    </frameworkAssemblies>
+  </metadata>
+</package>

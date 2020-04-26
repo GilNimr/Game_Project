@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,8 +15,8 @@ namespace XELibrary
             : base(game)
         {
             this.contentPath = contentPath;
-            if (this.contentPath.LastIndexOf("\\") < this.contentPath.Length - 1)
-                this.contentPath += "\\";
+            //if (this.contentPath.LastIndexOf("\\") < this.contentPath.Length - 1)
+            //    this.contentPath += "\\";
 
             game.Services.AddService(typeof(ICelAnimationManager), this);
         }
@@ -40,13 +41,15 @@ namespace XELibrary
         {
             if (!textures.ContainsKey(textureName))
             {
+
                 textures.Add(textureName, Game.Content.Load<Texture2D>(
-                contentPath + textureName));
+            contentPath + textureName));
+
             }
             int celWidth = (int)(textures[textureName].Width / celCount.NumberOfColumns);
             int celHeight = (int)(textures[textureName].Height / celCount.NumberOfRows);
             int numberOfCels = celCount.NumberOfColumns * celCount.NumberOfRows;
-            AddAnimation(animationKey, textureName, new CelRange(1, 1, celCount.NumberOfColumns, celCount.NumberOfRows), celWidth, celHeight,125 /*numberOfCels*/, framesPerSecond);
+            AddAnimation(animationKey, textureName, new CelRange(1, 1, celCount.NumberOfColumns, celCount.NumberOfRows), celWidth, celHeight, 125 /*numberOfCels*/, framesPerSecond);
         }
 
         public void AddAnimation(string animationKey, string textureName, CelRange celRange, int celWidth, int celHeight, int numberOfCels, int framesPerSecond)
@@ -101,24 +104,24 @@ namespace XELibrary
                 if (ca.TotalElapsedTime > ca.TimePerFrame)
                 {
                     ca.Frame++;
-                    
+
                     //min: 0, max: total cels
                     ca.Frame = ca.Frame % (ca.NumberOfCels);
-                    
+
                     //reset our timer
                     ca.TotalElapsedTime -= ca.TimePerFrame;
                 }
             }
             base.Update(gameTime);
         }
-        
+
         public void Draw(GameTime gameTime, string animationKey,
         SpriteBatch batch, Vector2 position, SpriteEffects effects)
         {
             Draw(gameTime, animationKey, batch,
             position, Color.White, effects);
         }
-        
+
         public void Draw(GameTime gameTime, string animationKey,
         SpriteBatch batch, Vector2 position, Color color, SpriteEffects effects)
         {
@@ -128,18 +131,18 @@ namespace XELibrary
             //first get our x increase amount
             //(add our offset-1 to our current frame)
             int xincrease = (ca.Frame + ca.CelRange.FirstCelX - 1);
-            
+
             //now we need to wrap the value so it will loop to the next row
             int xwrapped = xincrease % ca.CelsPerRow;
-            
+
             //finally we need to take the product of our wrapped value
             //and a cel’s width
             int x = xwrapped * ca.CelWidth;
-            
+
             //to determine how much we should increase y, we need to look
             //at how much we increased x and do an integer divide
             int yincrease = xincrease / ca.CelsPerRow;
-            
+
             //now we can take this increase and add it to
             //our Y offset-1 and multiply the sum by our cel height
             int y = (yincrease + ca.CelRange.FirstCelY - 1) * ca.CelHeight;
@@ -180,7 +183,7 @@ namespace XELibrary
             //our Y offset-1 and multiply the sum by our cel height
             int y = (yincrease + ca.CelRange.FirstCelY - 1) * ca.CelHeight;
             Rectangle cel = new Rectangle(x, y, ca.CelWidth, ca.CelHeight);
-           
+
             batch.Draw(textures[ca.TextureName], position, cel, color, 0.0f, Vector2.Zero, effects, 0.0f);
         }
     }
