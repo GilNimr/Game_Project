@@ -45,6 +45,9 @@ namespace MonoGame.Shared1
             }
             // get;  set;
         }
+        Rectangle touchRectangle = new Rectangle();
+
+        TouchCollection touchCollection;
 
 
         public string Text { get; set; }
@@ -97,25 +100,28 @@ namespace MonoGame.Shared1
 
         public override void Update(GameTime gameTime)
         {
-            var touchRectangle = new Rectangle();
 
-            TouchCollection touchCollection = TouchPanel.GetState();
+            touchCollection = TouchPanel.GetState();
             if (touchCollection.Count > 0)
             {
                 //Only Fire Select Once it's been released
                 if (touchCollection[0].State == TouchLocationState.Moved || touchCollection[0].State == TouchLocationState.Pressed)
                 {
-                    touchRectangle = new Rectangle((int)touchCollection[0].Position.X,(int) touchCollection[0].Position.Y, 1, 1);
+                    touchRectangle = new Rectangle((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y, 1, 1);
                 }
             }
             if (touchRectangle.Intersects(Rectangle))
             {
-                Clicked = true;
-                Click?.Invoke(this, new EventArgs());
-            }
-            else
-            {
-                Clicked = false;
+                if (touchCollection.Count == 0)
+                {
+                    Clicked = true;
+                    Click?.Invoke(this, new EventArgs());
+                    touchRectangle = new Rectangle();
+                }
+                else
+                {
+                    Clicked = false;
+                }
             }
 
             var mouseRectangle = new Rectangle(Input.MouseHandler.MouseState.X, Input.MouseHandler.MouseState.Y, 1, 1);
@@ -152,3 +158,4 @@ namespace MonoGame.Shared1
         #endregion
     }
 }
+

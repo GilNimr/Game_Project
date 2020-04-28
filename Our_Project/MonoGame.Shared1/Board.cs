@@ -13,10 +13,11 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using MonoGame.Shared1.States_and_state_related;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace MonoGame.Shared1
 {
-   public class Board
+    public class Board
     {
         private enum TypeOfBord { fullBoard, Shape }
         private readonly TypeOfBord typeOfBord;
@@ -31,9 +32,12 @@ namespace MonoGame.Shared1
         private Texture2D tile2dImg;                                // the 2d image of tile
         private int tileSize;   // size of tile
         private List<NodeOFHidenTiles> hidenTiles;                                 // hiden tiles to shape
-        public Dictionary <int, Tile> boardDictionaryById;           // get tile by id
+        public Dictionary<int, Tile> boardDictionaryById;           // get tile by id
         private bool move;                                          // for knowing if move some shape at the moment
         private bool itsJustForDrawOnButton; // will be true just for draw the buttons
+        public Vector2 location;
+        TouchCollection touchCollection;
+        MouseState mouseState;
 
         public Board(int size, Texture2D isometricTileImage, Texture2D twoDtileImage)
         {/// full board
@@ -66,7 +70,7 @@ namespace MonoGame.Shared1
             itsJustForDrawOnButton = true;
             SetShapeTypes(_hidenTiles, starterX, starterY, content); //set types only in shape
             SetGeneralTypesOfBoard(ti, t2d, _height, _width);
-            
+
         }
 
 
@@ -74,14 +78,29 @@ namespace MonoGame.Shared1
         {
             CheckAndMoveShape(); // checking if mouse drag shape and move it
         }
- 
 
-        private void CheckAndMoveShape()
+
+        private void CheckAndMoveShape() // checking if mouse drag shape and move it
         {
-            // checking if mouse drag shape and move it
 
-            MouseState mouseState = Mouse.GetState();
-            Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y); //we always need to convert to isometric before draw:
+            if (Game1.platform == Platform.ANDROID)
+            {
+                touchCollection = TouchPanel.GetState();
+                if (touchCollection.Count > 0)
+                {
+                    location.X = touchCollection[0].Position.X;
+                    location.Y = touchCollection[0].Position.Y;
+                }
+
+            }
+            else if (Game1.platform == Platform.WINDOWS)
+            {
+                mouseState = Mouse.GetState();
+                location.X = mouseState.X;
+                location.Y = mouseState.Y;
+            }
+
+            Vector2 CartasianMouseLocation = Game1.Isometrix2twoD((int)location.X, (int)location.Y); //we always need to convert to isometric before draw:
             Rectangle mouseRectangle = new Rectangle((int)CartasianMouseLocation.X,
                 (int)CartasianMouseLocation.Y, 1, 1);
 
@@ -90,7 +109,7 @@ namespace MonoGame.Shared1
                 Vector2 difference; // save the difference between position of mouse to last position of shape (for draw the drag)
                 for (int j = 0; j < board[i].Length; j++)
                 {
-                    if (ClickedShapeAndMove(ref mouseState, ref mouseRectangle, i, j)) // if click on shape
+                    if (ClickedShapeAndMove(ref mouseState, ref touchCollection, ref mouseRectangle, i, j)) // if click on shape
                     {
                         move = true; // and algorithm will set the differnce and move
                         SetIndexesOfTilesWeMoves(out iIndexOfTileToMove, out jIndexOfTileToMove, i, j);
@@ -98,15 +117,24 @@ namespace MonoGame.Shared1
 
                     if (move)
                     {
-                        difference = SetDifference(iIndexOfTileToMove, jIndexOfTileToMove, ref mouseState);
+                        difference = SetDifference(iIndexOfTileToMove, jIndexOfTileToMove, location);
                         MoveTheShape(difference); // drag the shape up to difference
                     }
-
-                    if (mouseState.LeftButton == ButtonState.Released)
-                    {   
-                        // if releas the mouse, bool move is false
-                        move = false;
+                    if (Game1.platform == Platform.WINDOWS)
+                    {
+                        if (mouseState.LeftButton == ButtonState.Released)
+                        {
+                            // if releas the mouse, bool move is false
+                            move = false;
+                        }
                     }
+                    else if (Game1.platform == Platform.ANDROID)
+                    {
+                        if (touchCollection.Count == 0)
+                            move = false;
+                    }
+
+
                 }
             }
         }
@@ -127,22 +155,36 @@ namespace MonoGame.Shared1
             Texture isometricTextureOfTile = shapeToDrow.tileIsoImg;
         }*/
 
-        private Vector2 SetDifference(int iIndexOfTileToMove, int jIndexOfTileToMove, ref MouseState mouseState)
+        private Vector2 SetDifference(int iIndexOfTileToMove, int jIndexOfTileToMove, Vector2 location)
         {
             // set the differnce between the position of shape when dragging for draw better
             Vector2 getRectangleIsometric = Game1.TwoD2isometrix(
                                             board[iIndexOfTileToMove][jIndexOfTileToMove].GetCartasianRectangle().X,
                                             board[iIndexOfTileToMove][jIndexOfTileToMove].GetCartasianRectangle().Y);
-            Vector2 ret = new Vector2((mouseState.X - getRectangleIsometric.X), (mouseState.Y -
+            Vector2 ret = new Vector2((location.X - getRectangleIsometric.X), (location.Y -
                                            getRectangleIsometric.Y));
             return ret;
         }
 
-        private bool ClickedShapeAndMove(ref MouseState mouseState, ref Rectangle mouseRectangle, int i, int j)
+        private bool ClickedShapeAndMove(ref MouseState mouseState, ref TouchCollection touchcollection, ref Rectangle mouseRectangle, int i, int j)
         {
-            // return true if mouse click on shape 
-            return (mouseState.LeftButton == ButtonState.Pressed) &&
-                                        (mouseRectangle.Intersects(board[i][j].GetCartasianRectangle()));
+            if (Game1.platform == Platform.WINDOWS)
+            {
+                // return true if mouse click on shape 
+                return (mouseState.LeftButton == ButtonState.Pressed) &&
+                                            (mouseRectangle.Intersects(board[i][j].GetCartasianRectangle()));
+            }
+            else if (Game1.platform == Platform.ANDROID)
+            {
+                if (touchcollection.Count > 0)
+                {
+                    return (touchCollection[0].State == TouchLocationState.Moved || touchCollection[0].State == TouchLocationState.Pressed) &&
+                                            (mouseRectangle.Intersects(board[i][j].GetCartasianRectangle()));
+                }
+                return false;
+            }
+            else return false;
+
         }
 
         private static void SetIndexesOfTilesWeMoves(out int iIndexOfTileToMove, out int jIndexOfTileToMove, int i, int j)
@@ -198,11 +240,11 @@ namespace MonoGame.Shared1
         private void SetHidenTiles(List<NodeOFHidenTiles> _hidenTiles)
         {
             // set hiden tiles in shape
-                hidenTiles = new List<NodeOFHidenTiles>();
-                for (int i = 0; i < _hidenTiles.Count; i++)
-                {
-                    hidenTiles.Add(_hidenTiles[i]);
-                }
+            hidenTiles = new List<NodeOFHidenTiles>();
+            for (int i = 0; i < _hidenTiles.Count; i++)
+            {
+                hidenTiles.Add(_hidenTiles[i]);
+            }
         }
 
         void SetBoard()
@@ -255,7 +297,7 @@ namespace MonoGame.Shared1
             boardDictionaryById.Add(id, board[i][j]);
             id++;
         }
-        
+
         private void SetXYaxissOfFullBoard(int i, int j, out int axisXofNewTileRectangle, out int axisYofNewTileRectangle)
         {
             axisXofNewTileRectangle = i * tileSize;
@@ -322,7 +364,7 @@ namespace MonoGame.Shared1
 
 
 
-            
+
 
             if (HideThisTile(hidenIndex, i, j)) // if that shape supposed to be hident
             {
@@ -351,7 +393,7 @@ namespace MonoGame.Shared1
 
         /*
          * getters and setters:
-         */ 
+         */
 
         public int GetStarterX()
         {
@@ -395,23 +437,23 @@ namespace MonoGame.Shared1
 
         public void Draw(SpriteBatch spriteBatch, Color color)
         {
-            if (!BuildingBoardState.i_am_second_player || this.height<10)  //if we are second player there is different draw order
-                                                                           //to big emty board only!   
-           {
-              for (int i = 0; i < width; i++)
-              {
-                for (int j = 0; j < height; j++)
+            if (!BuildingBoardState.i_am_second_player || this.height < 10)  //if we are second player there is different draw order
+                                                                             //to big emty board only!   
+            {
+                for (int i = 0; i < width; i++)
                 {
-                    board[i][j].Draw(spriteBatch);
-                    board[i][j].SetColor(Color.White); //returning to default color in case it was changed.
+                    for (int j = 0; j < height; j++)
+                    {
+                        board[i][j].Draw(spriteBatch);
+                        board[i][j].SetColor(Color.White); //returning to default color in case it was changed.
+                    }
                 }
-              }
-           }
+            }
             else
             {
-                for (int i = width-1; i >= 0 ; i--)
+                for (int i = width - 1; i >= 0; i--)
                 {
-                    for (int j = height-1; j >=0 ; j--)
+                    for (int j = height - 1; j >= 0; j--)
                     {
                         board[i][j].Draw(spriteBatch);
                         board[i][j].SetColor(Color.White); //returning to default color in case it was changed.
@@ -419,5 +461,5 @@ namespace MonoGame.Shared1
                 }
             }
         }
-   }
+    }
 }

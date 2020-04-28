@@ -135,11 +135,6 @@
     <None Include="Assests\Fonts\KaushanScript30.xnb" />
     <None Include="Assests\Fonts\KaushanScript300.xnb" />
     <None Include="Assests\Fonts\KaushanScript60.xnb" />
-    <None Include="Assests\Sounds\Music\backGroundPlayinState.xnb" />
-    <None Include="Assests\Sounds\Music\titleSound.xnb" />
-    <None Include="Assests\Sounds\SoundFX\badPlace.xnb" />
-    <None Include="Assests\Sounds\SoundFX\click.xnb" />
-    <None Include="Assests\Sounds\SoundFX\Jump.xnb" />
     <None Include="Assests\Textures\Animations\Aura.xnb" />
     <None Include="Assests\Textures\Animations\Australia.xnb" />
     <None Include="Assests\Textures\Animations\Brazil.xnb" />
@@ -191,6 +186,11 @@
   <ItemGroup>
     <Content Include="Assests\AboutAssets.txt" />
     <Content Include="Assests\Files\shapes.txt" />
+    <Content Include="Assests\Sounds\Music\backGroundPlayinState.mp3" />
+    <Content Include="Assests\Sounds\Music\titleSound.wav" />
+    <Content Include="Assests\Sounds\SoundFX\badPlace.mp3" />
+    <Content Include="Assests\Sounds\SoundFX\click.mp3" />
+    <Content Include="Assests\Sounds\SoundFX\Jump.wav" />
     <Content Include="Assests\Textures\backgroundShip.jpg" />
     <Content Include="Assests\Textures\backgroundSpace.png" />
     <Content Include="Assests\Textures\bg1 %281%29.jpg" />

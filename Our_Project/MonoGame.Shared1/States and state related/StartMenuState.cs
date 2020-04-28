@@ -69,6 +69,7 @@ namespace MonoGame.Shared1
         {
             Game1.screen_height = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             Game1.screen_width = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            Game1.FontScale = Game1.screen_height * 0.00055f;
             player = new Player(OurGame)
             {
                 myTurn = true

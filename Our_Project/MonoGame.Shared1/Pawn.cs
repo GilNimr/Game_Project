@@ -6,6 +6,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using MonoGame.Extended.Particles;
 using System;
 using XELibrary;
@@ -46,7 +47,12 @@ namespace MonoGame.Shared1
 
         private double timer_has_died = 0;
 
+        Vector2 CartasianMouseLocation = new Vector2();
+        MouseState mouseState;
+        MouseState newState;
+        TouchCollection touchCollection;
 
+        bool clickedAgain;
 
         Rectangle mouseRec;
         public Team team;
@@ -113,30 +119,66 @@ namespace MonoGame.Shared1
                 timer_has_moved = 0;
                 start_timer_move = false;
             }
+            if (Game1.platform == Platform.WINDOWS)
+            {
+                mouseState = Mouse.GetState(); // previous mouse position
+                newState = Mouse.GetState();     // current mouse position  
 
-            MouseState mouseState = Mouse.GetState(); // previous mouse position
-            MouseState newState = Mouse.GetState();     // current mouse position  
+                //the location of the world mouse.
+                CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
 
-            //the location of the world mouse.
-            Vector2 CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
+                //rectangle of the world mouse.
+                mouseRec = new Rectangle((int)CartasianMouseLocation.X, (int)CartasianMouseLocation.Y, 1, 1);
 
-            //rectangle of the world mouse.
-            mouseRec = new Rectangle((int)CartasianMouseLocation.X, (int)CartasianMouseLocation.Y, 1, 1);
+                // clicking on pawn.
+                if ((newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released) &&
+                            (mouseRec.Intersects(current_tile.GetCartasianRectangle())))
+                {
+                    if (!isMouseClicked) // if we want to move
+                        isMouseClicked = true;
+                    else                 // if we want to cancel moving
+                        isMouseClicked = false;
+                }
+
+                oldState = newState; // set the mouse old position to be the current position.
+            }
+            else if (Game1.platform == Platform.ANDROID)
+            {
+                touchCollection = TouchPanel.GetState();
+                if (touchCollection.Count > 0)
+                {
+                    //the location of the world mouse.
+                    CartasianMouseLocation = Game1.Isometrix2twoD((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y);
+                }
+                //else
+                //{
+                //    CartasianMouseLocation = new Vector2(0, 0);
+                //}
+                //rectangle of the world mouse.
+                mouseRec = new Rectangle((int)CartasianMouseLocation.X, (int)CartasianMouseLocation.Y, 1, 1);
+
+                // clicking on pawn.
+                if (mouseRec.Intersects(current_tile.GetCartasianRectangle()))
+                {
+                    if (touchCollection.Count == 0)
+                    {
+                        if (!isMouseClicked) // if we want to move
+                        {
+                            isMouseClicked = true;
+                        }
+                        else
+                        {                // if we want to cancel moving
+                            isMouseClicked = false;
+                        }
+                        CartasianMouseLocation = new Vector2(0, 0);
+                    }
+                }
+            }
 
             //rectangle of the screen mouse.
             // mouseRec = new Rectangle(mouseState.X, mouseState.Y, 1, 1);
 
-            // clicking on pawn.
-            if ((newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Released) &&
-                        (mouseRec.Intersects(current_tile.GetCartasianRectangle())))
-            {
-                if (!isMouseClicked) // if we want to move
-                    isMouseClicked = true;
-                else                 // if we want to cancel moving
-                    isMouseClicked = false;
-            }
 
-            oldState = newState; // set the mouse old position to be the current position.
 
             if (attacked)
             {
@@ -146,13 +188,36 @@ namespace MonoGame.Shared1
             if (isMouseClicked && !hasDied && !the_flag) //if the pawn didnt die and he is not the king of flags and was clicked on.
             {
                 // getting the newe details of the  mouse position
-                newState = Mouse.GetState();
-                CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
-                mouseRec.X = (int)CartasianMouseLocation.X;
-                mouseRec.Y = (int)CartasianMouseLocation.Y;
+                if (Game1.platform == Platform.WINDOWS)
+                {
+                    newState = Mouse.GetState();
+                    CartasianMouseLocation = Game1.Isometrix2twoD(mouseState.X, mouseState.Y);
+                    mouseRec.X = (int)CartasianMouseLocation.X;
+                    mouseRec.Y = (int)CartasianMouseLocation.Y;
+
+                    clickedAgain = newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Pressed;
+                }
+                else if (Game1.platform == Platform.ANDROID)
+                {
+                    touchCollection = TouchPanel.GetState();
+                    if (touchCollection.Count > 0)
+                    {
+                        //the location of the world mouse.
+                        CartasianMouseLocation = Game1.Isometrix2twoD((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y);
+                        mouseRec.X = (int)CartasianMouseLocation.X;
+                        mouseRec.Y = (int)CartasianMouseLocation.Y;
+
+                        clickedAgain = touchCollection[0].State == TouchLocationState.Moved || touchCollection[0].State == TouchLocationState.Pressed;
+                    }
+                    else
+                    {
+                        clickedAgain = false;
+                    }
+                }
+
 
                 // if there is another click, that means we want to move to a new direction.
-                if (newState.LeftButton == ButtonState.Pressed && oldState.LeftButton == ButtonState.Pressed)
+                if (clickedAgain)
                 {
                     // checking if the direction is legal:
                     if ((current_tile.GetLeft() != null) && (!current_tile.GetLeft().GetIsHidden()) &&
@@ -216,7 +281,7 @@ namespace MonoGame.Shared1
         public void GettingAttacked(GameTime gametime)
         {
             timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; //timer to display attack number on screen.
-            attacker.timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds; 
+            attacker.timer_atk_num_display += gametime.ElapsedGameTime.TotalSeconds;
             draw_atk_font = true;
             attacker.draw_atk_font = true;
 
@@ -229,13 +294,13 @@ namespace MonoGame.Shared1
             if ((attacker.strength > strength || (attacker.strength == 1 && strength == 20)) && !(attacker.strength == 20 && strength == 1))
             {
                 timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-  
+
             }
             //if we won the encounter with the enemy
             else if ((attacker.strength < strength || (strength == 1 && attacker.strength == 20)) && !(strength == 20 && attacker.strength == 1))
             {
                 attacker.timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-               
+
 
             }
             //if we draw in the encounter with the enemy.
@@ -243,7 +308,7 @@ namespace MonoGame.Shared1
             {
                 timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 attacker.timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
-        
+
             }
             attacked = false; //resetting value
         }
@@ -464,7 +529,7 @@ namespace MonoGame.Shared1
 
                     direction.GetCurrentPawn().timer_has_died = gametime.ElapsedGameTime.TotalSeconds;
                 }
-                
+
             }
 
             if (direction != null)
@@ -481,7 +546,7 @@ namespace MonoGame.Shared1
 
                 }
             }
-            
+
         }
 
 

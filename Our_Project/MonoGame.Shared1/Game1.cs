@@ -60,7 +60,7 @@ namespace MonoGame.Shared1
         public List<string> countryList;
         public List<string> countryList2;
         public List<string> countryList3;
-        public Platform platform;
+        public static Platform platform;
 
 
 
@@ -76,21 +76,18 @@ namespace MonoGame.Shared1
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
 
+            screen_height = graphics.PreferredBackBufferHeight;
+            screen_width = graphics.PreferredBackBufferWidth;
+            //windowed screen.
+            // graphics.PreferredBackBufferHeight = 1000;
+            // graphics.PreferredBackBufferWidth = 1600;
+
+            FontScale = Game1.screen_height * 0.00055f; // for scaling our fonts to different screens.
 
             if (platform == Platform.ANDROID)
             {
                 graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
             }
-
-
-            //windowed screen.
-            // graphics.PreferredBackBufferHeight = 1000;
-            // graphics.PreferredBackBufferWidth = 1600;
-
-            screen_height = graphics.PreferredBackBufferHeight;
-            screen_width = graphics.PreferredBackBufferWidth;
-
-            FontScale = Game1.screen_height * 0.00055f; // for scaling our fonts to different screens.
 
             inputHandler = new InputHandler(this);
             Components.Add(inputHandler);

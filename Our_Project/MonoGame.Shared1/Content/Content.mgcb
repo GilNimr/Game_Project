@@ -39,34 +39,19 @@
 /build:Fonts/KaushanScript60.spritefont
 
 #begin Sounds/Music/backGroundPlayinState.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/Music/backGroundPlayinState.mp3
+/copy:Sounds/Music/backGroundPlayinState.mp3
 
 #begin Sounds/Music/titleSound.wav
-/importer:WavImporter
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Sounds/Music/titleSound.wav
+/copy:Sounds/Music/titleSound.wav
 
 #begin Sounds/SoundFX/badPlace.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/badPlace.mp3
+/copy:Sounds/SoundFX/badPlace.mp3
 
 #begin Sounds/SoundFX/click.mp3
-/importer:Mp3Importer
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/click.mp3
+/copy:Sounds/SoundFX/click.mp3
 
 #begin Sounds/SoundFX/Jump.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:Sounds/SoundFX/Jump.wav
+/copy:Sounds/SoundFX/Jump.wav
 
 #begin Textures/Animations/1.png
 /importer:TextureImporter

@@ -5,6 +5,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,12 +52,22 @@ namespace MonoGame.Shared1.States_and_state_related
 
         private bool draggin;
         Point flag_size = new Point(Tile.GetTileSize());
+        TouchCollection touchCollection;
 
         Rectangle MouseRec  //mouse rectangle.
         {
             get
             {
-                return new Rectangle(inputHandler.MouseHandler.MouseState.Position.X, inputHandler.MouseHandler.MouseState.Position.Y, 1, 1);
+                if (Game1.platform == Platform.ANDROID) //Android
+                {
+                    touchCollection = TouchPanel.GetState();
+                    if (touchCollection.Count > 0)
+                        return new Rectangle((int)touchCollection[0].Position.X, (int)touchCollection[0].Position.Y, 1, 1);
+                    else
+                        return new Rectangle();
+                }
+                else //Windows
+                    return new Rectangle(inputHandler.MouseHandler.MouseState.Position.X, inputHandler.MouseHandler.MouseState.Position.Y, 1, 1);
             }
         }
 
@@ -324,13 +335,30 @@ namespace MonoGame.Shared1.States_and_state_related
             connection.Update(); //calling connection.
 
             resting = !draggin;
-
-            if (inputHandler.MouseHandler.IsHoldingLeftButton() && (MouseRec.Intersects(iso_rec) || draggin))
+            if (Game1.platform == Platform.WINDOWS)
             {
-                DragFlag(new Point(MouseRec.X, MouseRec.Y));
-                draggin = true;
+                if (inputHandler.MouseHandler.IsHoldingLeftButton() && (MouseRec.Intersects(iso_rec) || draggin))
+                {
+                    DragFlag(new Point(MouseRec.X, MouseRec.Y));
+                    draggin = true;
+                }
+                else draggin = false;
             }
-            else draggin = false;
+            else if (Game1.platform == Platform.ANDROID)
+            {
+                touchCollection = TouchPanel.GetState();
+                if (touchCollection.Count > 0)
+                {
+                    if ((touchCollection[0].State == TouchLocationState.Moved || touchCollection[0].State == TouchLocationState.Pressed) && (MouseRec.Intersects(iso_rec) || draggin))
+                    {
+                        DragFlag(new Point(MouseRec.X, MouseRec.Y));
+                        draggin = true;
+                    }
+                    else draggin = false;
+                }
+                
+                else draggin = false;
+            }
 
             PlaceFlag();
 
